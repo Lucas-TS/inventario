@@ -1,0 +1,326 @@
+html, body, #container
+{
+   width: 100%;
+   height: 100%;
+}
+body
+{
+   background-size: 100vw;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   padding: 0;
+}
+#FlexContainer1
+{
+   display: flex;
+   width: 100%;
+   position: relative;
+   padding: 10px 10px 10px 10px;
+   flex-direction: row-reverse;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   align-items: center;
+   align-content: flex-start;
+   margin: 0;
+   background-color: #000000;
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0px;
+   box-sizing: border-box;
+   font-size: 0;
+}
+#content
+{
+   display: flex;
+   position: relative;
+   min-height: 75vh;
+   padding: 10px 10px 10px 10px;
+   flex-direction: row;
+   flex-wrap: nowrap;
+   justify-content: center;
+   align-items: center;
+   align-content: center;
+   margin: 0;
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0px;
+   box-sizing: border-box;
+   font-size: 0;
+}
+#wb_Heading
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   margin: 0;
+   padding: 0;
+   text-align: right;
+   flex-grow: 0;
+   flex-shrink: 0;
+   align-self: auto;
+}
+#Heading
+{
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: bold;
+   font-style: normal;
+   font-size: 32px;
+   margin: 0;
+   text-align: right;
+   text-transform: none;
+}
+#wb_Text1 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   flex-grow: 1;
+   flex-shrink: 1;
+   align-self: auto;
+   padding: 0;
+   margin: 0;
+   text-align: center;
+}
+#wb_Text1
+{
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: 400;
+   font-size: 13px;
+   line-height: 16px;
+}
+#wb_Text1 p, #wb_Text1 ul
+{
+   margin: 0;
+   padding: 0;
+}
+#wb_Login1
+{
+   display: inline-block;
+   width: 345px;
+   height: 250px;
+   z-index: 1;
+}
+#Login1
+{
+   background-color: #FFFFFF;
+   border: 0px solid #DEE2E6;
+   border-radius: 15px;
+   color: #222222;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   font-style: normal;
+   text-align: left;
+   text-decoration: none;
+   border-spacing: 6px;
+   width: 100%;
+   height: 214px;
+   padding: 10px;
+   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.3);
+}
+#Login1 td
+{
+   padding: 0;
+}
+#Login1 .row
+{
+   height: 45px;
+   text-align: left;
+}
+#Login1 .input
+{
+   background-color: #FFFFFF;
+   border: 1px solid #DEE2E6;
+   border-radius: 20px;
+   color: #222222;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 20px;
+   font-style: normal;
+   text-decoration: none;
+   width: 100%;
+   height: 45px;
+   box-sizing: border-box;
+   margin-top: 6px;
+   padding: 6px 4px 6px 20px;
+}
+#Login1 .input:focus 
+{
+   border-color: #66AFE9;
+   outline: 0;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+}
+#Login1 .button
+{
+   background-color: #158CBA;
+   border: 1px solid #158CBA;
+   border-radius: 20px;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 20px;
+   height: 40px;
+   font-style: normal;
+   text-decoration: none;
+   padding: 4px 14px 4px 14px;
+}
+#Login1 .button:hover
+{
+   background-color: #58B0E0;
+   border: 1px solid #58B0E0;
+   cursor: pointer;
+}
+#Login1 .button:focus
+{
+   border-color: #58B0E0;
+   outline: 0;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+}
+#wb_Login1
+{
+   flex-grow: 0;
+   flex-shrink: 0;
+   align-self: auto;
+}
+#FlexContainer2
+{
+   display: flex;
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   z-index: 7777;
+   padding: 10px 10px 10px 10px;
+   flex-direction: row-reverse;
+   flex-wrap: nowrap;
+   justify-content: flex-end;
+   align-items: center;
+   align-content: flex-end;
+   margin: 0;
+   background-color: #58B0E0;
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0px;
+   box-sizing: border-box;
+   font-size: 0;
+}
+#Login1 a
+{
+   margin-left: 5px;
+   text-decoration: none;
+   color: #158CBA;
+}
+body
+{
+    width: auto !important;
+}
+#container, #page
+{
+    width: 100%;
+    height: 100%;
+}
+svg
+{
+    overflow-clip-margin: content-box;
+    overflow: visible;
+}
+#wb_FlipSwitch1
+{
+   position: relative;
+   margin: 5px;
+   display: inline-flex;
+   width: 100%;
+   height: 16px;
+}
+#FlipSwitch1
+{
+   display: none;
+}
+#FlipSwitch1-label
+{
+   display: block;
+   overflow: hidden;
+   cursor: pointer;
+   border: 0px solid #DEE2E6;
+   border-radius: 12px;
+   box-sizing: border-box;
+   max-width: 32px;
+   height: 12px;
+   transition: border-color 100ms ease-in 0s;
+   margin-top: 2px;
+}
+#FlipSwitch1-inner
+{
+   box-sizing: border-box;
+   display: block;
+   width: 200%;
+   margin-left: -100%;
+   transition: margin 100ms ease-in 0s;
+}
+#FlipSwitch1-inner:before, #FlipSwitch1-inner:after
+{
+   display: block;
+   float: left;
+   width: 50%;
+   height: 12px;
+   padding: 0;
+   line-height: 12px;
+   color: #222222;
+   font-family: Arial;
+   font-weight: normal;
+   font-style: normal;
+   font-size: 13px;
+   box-sizing: border-box;
+   border-radius: 12px;
+   text-align: center;
+}
+#FlipSwitch1-inner:before
+{
+   content: "";
+   padding-right: 12px;
+   background-color: #158CBA;
+   color: #DEE2E6;
+   border-radius: 12px 0 0 12px;
+}
+#FlipSwitch1-inner:after
+{
+   content: "";
+   padding-left: 12px;
+   background-color: #DEE2E6;
+   color: #222222;
+   border-radius: 0 12px 12px 0;
+}
+#FlipSwitch1-switch
+{
+   display: block;
+   width: 12px;
+   margin: 0;
+   background: #FFFFFF;
+   border: 2px solid #FFFFFF;
+   border-radius: 12px;
+   box-shadow: 0px 0px 5px rgba(0,0,0,0.30);
+   position: absolute;
+   top: 2px;
+   bottom: 1px;
+   transition: all 100ms ease-in 0s;
+   box-sizing: border-box;
+}
+#FlipSwitch1:checked + #FlipSwitch1-label #FlipSwitch1-inner
+{
+   margin-left: 0;
+}
+#FlipSwitch1:checked + #FlipSwitch1-label #FlipSwitch1-switch
+{
+   left: 14px;
+   background: #FFFFFF;
+   border-color: #FFFFFF;
+}

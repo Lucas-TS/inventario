@@ -1,0 +1,1248 @@
+a.style1 {
+   color: #158CBA;
+   text-decoration: none;
+}
+
+a.style1:visited {
+   color: #158CBA;
+   text-decoration: none;
+}
+
+a.style1:active {
+   color: #158CBA;
+   text-decoration: none;
+}
+
+a.style1:hover {
+   color: #117095;
+   text-decoration: none;
+}
+
+html, body, #container {
+   width: 100%;
+   height: 100%;
+}
+
+body {
+   background-color: #dfdfdf;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   padding: 0;
+}
+
+#FlexContainer1 {
+   display: flex;
+   width: 100%;
+   position: fixed;
+   top: 0px;
+   z-index: 1000;
+   padding: 10px 10px 10px 10px;
+   flex-direction: row-reverse;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   align-items: center;
+   align-content: flex-start;
+   margin: 0;
+   background-color: #000000;
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0px;
+   box-sizing: border-box;
+   font-size: 0;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(0, 0, 0, 0.60);
+}
+
+#content {
+   display: flex;
+   position: relative;
+   top: 68px;
+   padding: 10px 10px 46px 10px;
+   flex-direction: row;
+   flex-wrap: wrap;
+   justify-content: center;
+   align-items: center;
+   align-content: center;
+   margin: 0;
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0px;
+   box-sizing: border-box;
+   font-size: 0;
+}
+
+#wb_Heading {
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   margin: 0;
+   padding: 0;
+   text-align: right;
+   flex-grow: 0;
+   flex-shrink: 0;
+   align-self: auto;
+}
+
+#Heading {
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: bold;
+   font-style: normal;
+   font-size: 32px;
+   margin: 0;
+   text-align: right;
+   text-transform: none;
+}
+
+#wb_Text1 {
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   flex-grow: 1;
+   flex-shrink: 1;
+   align-self: auto;
+   padding: 0;
+   margin: 0;
+   text-align: center;
+}
+
+#wb_Text1 {
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: 400;
+   font-size: 13px;
+   line-height: 16px;
+}
+
+#wb_Text1 p, #wb_Text1 ul {
+   margin: 0;
+   padding: 0;
+}
+
+#wb_PanelMenu1 a, #PanelMenu1_markup li a {
+   display: block;
+   text-align: left;
+}
+
+#wb_PanelMenu1 {
+   margin: 0;
+   flex-grow: 0;
+   flex-shrink: 0;
+   align-self: auto;
+}
+
+#PanelMenu1_markup {
+   display: none;
+   margin: 0;
+   padding: 8px 8px 8px 8px;
+}
+
+#PanelMenu1_panel #PanelMenu1_markup {
+   display: block;
+}
+
+#PanelMenu1_markup ul {
+   list-style: none;
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+}
+
+#PanelMenu1_markup li a, #PanelMenu1_markup li a:hover {
+   padding: 10px 10px 10px 10px;
+   box-shadow: none;
+}
+
+#PanelMenu1_markup .divider {
+   height: 1px;
+   margin: 9px 0;
+   overflow: hidden;
+   background-color: #158CBA;
+}
+
+#PanelMenu1_panel {
+   display: none;
+   position: fixed;
+   top: 0;
+   height: 100%;
+   width: 200px;
+   z-index: 9999;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(0, 0, 0, 0.60);
+}
+
+#PanelMenu1_markup li a {
+   color: #FFFFFF;
+   border: 0px solid #158CBA;
+   background-color: #158CBA;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 16px;
+   font-style: normal;
+   text-decoration: none;
+   text-transform: none;
+}
+
+#wb_PanelMenu1 a {
+   color: #FFFFFF;
+   border: 0px solid #158CBA;
+   border-radius: 0px;
+   background-color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 16px;
+   font-style: normal;
+   text-decoration: none;
+   text-align: center;
+   text-transform: none;
+}
+
+#PanelMenu1_markup li a:hover {
+   color: #FFFFFF;
+   background-color: #12779E;
+   border: 0px solid #117095;
+}
+
+#PanelMenu1_markup li a .icon {
+   fill: currentColor;
+   margin-right: 4px;
+   height: 16px;
+   width: 16px;
+   vertical-align: middle;
+}
+
+
+#PanelMenu1_markup li a .icon.seta, #PanelMenu1_markup li a .icon.sub {
+   position: absolute;
+   right: 10px;
+}
+
+#PanelMenu1 .button-icon {
+   fill: currentColor;
+}
+
+#PanelMenu1:hover .button-icon {
+   fill: currentColor;
+}
+
+#wb_PanelMenu1 a:hover {
+   color: #12779E;
+   background-color: #000000;
+   border: 0px solid #117095;
+}
+
+#PanelMenu1_panel {
+   background-color: #158CBA;
+   overflow-y: auto;
+}
+
+#PanelMenu1 {
+   padding-left: 56px;
+}
+
+#PanelMenu1 .button-icon {
+   position: absolute;
+   top: 50%;
+   left: 8px;
+   width: 48px;
+   height: 48px;
+   margin-top: -24px;
+}
+
+#PanelMenu1 {
+   line-height: 48px;
+   width: 8px;
+   height: 48px;
+   position: absolute;
+   z-index: 999;
+}
+
+#PanelMenu1-logo {
+   border-width: 0;
+   padding: 10px 10px 10px 10px;
+   text-align: center;
+}
+
+#PanelMenu1-logo img {
+   border-width: 0;
+   height: auto;
+   max-width: 100%;
+}
+
+.PanelMenu1-effect {
+   transition: all 300ms linear;
+}
+
+#overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   flex-direction: row;
+   flex-wrap: nowrap;
+   justify-content: center;
+   align-items: center;
+   align-content: center;
+   display: flex;
+   visibility: hidden;
+   background-color: rgba(0, 0, 0, 0.75);
+   cursor: pointer;
+   z-index: 10000;
+}
+
+#confirm_logout {
+   width: 300px;
+   height: 118px;
+   background-color: #FFFFFF;
+   display: inline-block;
+   border-radius: 10px;
+   cursor: default;
+   z-index: 10001;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(0, 0, 0, 0.60);
+}
+
+#logout_box {
+   border-radius: 0px;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 20px;
+   font-style: normal;
+   text-align: center;
+   text-decoration: none;
+   border-spacing: 6px;
+   width: 100%;
+   height: 100%;
+}
+
+#logout_box td {
+   padding: 0;
+}
+
+#logout_box .row {
+   height: 45px;
+   text-align: center;
+}
+
+#logout_box .button {
+   background-color: transparent;
+   border-radius: 20px;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 20px;
+   height: 40px;
+   font-style: normal;
+   text-decoration: none;
+   padding: 4px 14px 4px 14px;
+   margin: 0px 10px 0px 10px;
+   cursor: pointer;
+}
+
+#logout_box #sim {
+   border: 1px solid green;
+   color: green;
+}
+
+#logout_box #sim:hover {
+   background-color: green;
+   border: 1px solid green;
+   color: white;
+   cursor: pointer;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(0, 128, 0, 0.60);
+}
+
+#logout_box #sim:focus {
+   border-color: green;
+   outline: 0;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(0, 128, 0, 0.60);
+}
+
+#logout_box #nao {
+   border: 1px solid #D50000;
+   color: #D50000;
+}
+
+#logout_box #nao:hover {
+   background-color: #D50000;
+   border: 1px solid #D50000;
+   color: white;
+   cursor: pointer;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(255, 0, 0, 0.60);
+}
+
+#logout_box #nao:focus {
+   border-color: #D50000;
+   outline: 0;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(255, 0, 0, 0.60);
+}
+
+#PanelMenu1_markup li a .icon {
+   vertical-align: text-top !important;
+}
+
+#PanelMenu1_panel .submenu li a .icon {
+   margin-right: 4px;
+}
+
+#PanelMenu1_panel .submenu .button-icon {
+   fill: currentColor;
+}
+
+#PanelMenu1_panel .submenu li a {
+   font-size: 14px;
+   padding: 0px 10px 0px 10px;
+}
+
+#PanelMenu1_panel .submenu .guia {
+   font-size: 20px;
+}
+
+#FlexContainer2 {
+   display: flex;
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   z-index: 7777;
+   padding: 10px 10px 10px 10px;
+   flex-direction: row-reverse;
+   flex-wrap: nowrap;
+   justify-content: flex-end;
+   align-items: center;
+   align-content: flex-end;
+   margin: 0;
+   background-color: #58B0E0;
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0px;
+   box-sizing: border-box;
+   font-size: 0;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(0, 0, 0, 0.60);
+}
+
+body {
+   width: auto !important;
+}
+
+#container, #page {
+   width: 100%;
+   height: 100%;
+}
+
+svg {
+   overflow-clip-margin: content-box;
+   overflow: visible;
+}
+
+#bloco {
+   background-color: #FFFFFF;
+   border-radius: 15px;
+   width: 100%;
+   box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+   transition: all 300ms ease;
+}
+
+#bloco-ocultavel {
+   background-color: #FFFFFF;
+   border-radius: 15px;
+   width: 100%;
+   box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+   height: 136px;
+   transition: all 300ms ease;
+   overflow: hidden;
+}
+
+#bloco-ocultavel.visivel {
+   height: 254px;
+   transition: all 300ms ease;
+}
+
+.tabela-lista {
+   font-size: 18px;
+   width: 100%;
+   padding: 10px;
+   overflow-x: auto;
+}
+
+.head-lista {
+   background-color: transparent;
+   padding: 5px;
+   border: 1px;
+   border-color: #AAA;
+   border-bottom-style: solid;
+}
+
+.tabela-lista td {
+   font-size: 16px;
+   padding: 5px;
+   color: #555555;
+   background-color: transparent;
+   border-bottom: 1px solid #DFDFDF;
+}
+
+.tabela-lista tr:hover td {
+   background-color: #ebf6fd;
+   border-bottom: 1px solid #58B0E0;
+   transition: all 0.3s ease;
+}
+
+#icone svg {
+   width: 16px;
+   height: 16px;
+   vertical-align: text-top;
+}
+
+.situacao {
+   text-align: left;
+   width: 150px;
+}
+
+#icone span {
+   padding-left: 5px;
+   font-size: 14px;
+}
+
+.tabela-filtro {
+   font-size: 18px;
+   width: 100%;
+   padding: 10px;
+   overflow-x: auto;
+}
+
+.head-filtro, .head-icone {
+   background-color: transparent;
+   padding: 5px;
+   border: 1px;
+   border-color: #AAA;
+   border-bottom-style: solid;
+   text-align: left;
+}
+
+.tabela-filtro td {
+   vertical-align: text-top;
+   font-size: 16px;
+   padding: 5px 5px 0px 5px;
+   color: #555555;
+   width: 10%;
+   max-width: 25%;
+   
+}
+
+.round {
+   display: block;
+   position: relative;
+   padding-left: 20px;
+   cursor: pointer;
+   font-size: 15px;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+.round input {
+   position: absolute;
+   opacity: 0;
+   cursor: pointer;
+   height: 0;
+   width: 0;
+}
+
+.checkmark {
+   position: absolute;
+   top: 0;
+   left: 0;
+   height: 15px;
+   width: 15px;
+   background-color: #eee;
+   border-radius: 50%;
+}
+
+.round:hover input~.checkmark {
+   background-color: #ccc;
+}
+
+.round input:checked~.checkmark {
+   background-color: #158CBA;
+}
+
+.round .checkmark:after {
+   content: "";
+   position: absolute;
+   display: none;
+   left: 6px;
+   top: 3px;
+   width: 3px;
+   height: 6px;
+   border: solid white;
+   border-width: 0 2px 2px 0;
+   transform: rotate(45deg);
+}
+
+.round input:checked~.checkmark:after {
+   display: block;
+}
+
+label#text {
+   position: relative;
+   font-size: 15px;
+   border: 0px
+}
+
+#filtro .input {
+   height: 25px;
+   padding: 6px 4px 6px 10px;
+}
+
+label {
+   text-align: left
+}
+
+#filtro .combo {
+   height: 25px;
+   padding: 3px 4px 5px 4px;
+}
+
+#filtro .combomulti {
+   padding: 4px 4px 4px 4px;
+   margin-bottom: 0px;
+   box-sizing: content-box;
+   height: 98px;
+}
+
+#filtro .combo option:checked {
+   background-color: #12779E;
+}
+
+#filtro input::placeholder {
+   color: #CDCDCD;
+}
+
+#filtro .input, #filtro .combo, #filtro .combomulti {
+   width: 100%;
+   background-color: transparent;
+   border: 1px solid #AAAAAA;
+   border-radius: 5px;
+   color: #555555;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 15px;
+   font-style: normal;
+   text-decoration: none;
+   box-sizing: border-box;
+}
+
+#filtro .input:focus, #filtro .combo:focus, #filtro .combomulti:focus, #filtro #input-busca:focus{
+   border-color: #66AFE9;
+   outline: 0;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(102, 175, 233, 0.60);
+}
+
+#filtro .input:hover, #filtro .combo:hover, #filtro .combomulti:hover,  #filtro #input-busca:hover{
+   border-color: #66AFE9;
+}
+
+#filtro .botao {
+   background-color: #158CBA;
+   border: 1px solid #158CBA;
+   border-radius: 20px;
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 20px;
+   height: auto;
+   font-style: normal;
+   text-decoration: none;
+   padding: 4px 14px 4px 14px;
+}
+
+#filtro #limpar.botao{
+   background-color: #AAAAAA;
+   border: 1px solid #AAAAAA;
+   display: none;
+   opacity: 0;
+}
+
+#filtro #limpar.visivel{
+   background-color: #AAAAAA;
+   border: 1px solid #AAAAAA;
+   opacity: 1;
+   display: inline-block;
+   transition: opacity 0.3s ease;
+}
+
+#filtro #limpar.visivel:hover {
+   background-color: #58B0E0;
+   border: 1px solid #58B0E0;
+   cursor: pointer;
+}
+
+#filtro .botao:hover {
+   background-color: #58B0E0;
+   border: 1px solid #58B0E0;
+   cursor: pointer;
+}
+
+#spacer {
+   height: 10px;
+   width: 100%;
+}
+
+#icone-seta {
+   fill: currentColor;
+   margin-right: 4px;
+   height: 16px;
+   width: 16px;
+   vertical-align: middle;
+}
+
+#filtro svg {
+   position: relative;
+
+}
+
+.ocultavel {
+   opacity: 0;
+   display: none;
+}
+
+.visivel.ocultavel {
+   display: table-row-group;
+   opacity: 1;
+   transition: opacity 0.3s ease;
+}
+
+.submenu {
+   opacity: 0;
+   display: none;
+   transition: all 0.3s linear;
+}
+
+.visivel.submenu {
+   display: block;
+   opacity: 1;
+   transition: all 0.3s linear;
+}
+
+.visivel.icon.seta, .visivel.icon.sub{
+   transform: rotate(180deg);
+   transition: transform 300ms linear;
+}
+
+.icon.seta, .icon.sub {
+   transform: rotate(0deg);
+   transition: transform 300ms linear;
+}
+
+.head-icone {
+   text-align: right;
+   width: 16px;
+}
+
+#th-flex {
+   display: flex;
+   justify-content: space-between;
+}
+
+#filtro #input-busca {
+   border-color:#555555;
+}
+
+#paginas {
+   display: flex;
+   justify-content: center;
+   padding: 0px 10px 10px 10px;
+   height: 24px;
+}
+
+#paginas a {
+   color: #117095;
+   text-decoration: none;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   height: 100%;
+}
+
+#paginas .botao-atual {
+   font-weight: bold;
+}
+
+#paginas .botao-paginas, .botao-atual, .botao-seta {
+   height: 24px;
+   width: 24px;
+   font-size: 16px;
+   border-radius: 5px;
+   text-align: center;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin: 2px;
+}
+
+#paginas .botao-atual {
+
+   background: #158CBA;
+   color: #FFFFFF;
+   border: 1px solid #158CBA;
+   cursor: default;
+}
+
+#paginas .botao-paginas, .botao-seta {
+   background: transparent;
+   color: #117095;
+   border: 1px solid #E6E6E6;
+   cursor: pointer;
+}
+
+#paginas .botao-paginas:hover, .botao-seta:hover {
+   background: #E6E6E6;
+}
+
+#paginas .botao-paginas a:focus {
+   border-color: #66AFE9;
+   outline: 0;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(102, 175, 233, 0.60);
+}
+
+#seta-pagina {
+   fill: #117095;
+   width: 16px;
+   height: 16px;
+   vertical-align: text-bottom
+}
+
+#seta-pagina.proxima {
+   transform: rotate(270deg);
+}
+
+#seta-pagina.anterior {
+   transform: rotate(90deg);
+}
+
+#icone.ordem {
+   display: flex;
+   justify-content: center;
+   align-items: baseline;
+}
+
+#icone.ordem svg{
+   width: 12px;
+   height: 12px;
+   padding-right: 2px;
+}
+
+#adicionar.balao {
+   width: 48px;
+   height: 48px;
+   box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3);
+   background-color: #158CBA;
+   border-radius: 50%;
+   color: #FFFFFF;
+   position: absolute;
+   bottom: 50px;
+   right: 15px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition: all 300ms ease;
+}
+
+#adicionar.balao:hover {
+   transform: scale(1.2);
+   background-color: #58B0E0;
+   transition: all 300ms linear;
+}
+
+#adicionar.balao svg {
+   fill: #FFFFFF;
+   width: 28px;
+   height: 28px;
+}
+
+#icone svg path#primary:hover, #icone svg path#secondary:hover {
+   fill:#158CBA !important;
+}
+
+#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor {
+   display: flex;
+   align-items: center;
+   vertical-align: middle;
+   justify-content: center;
+   margin: 11px 0px 0px 5px;
+}
+
+#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #mais, #menos {
+   width: 26px;
+   height: 26px;
+   border-radius: 50%;
+   border: none;
+   background-color: transparent;
+   color: #117095;
+   transition: all 300ms linear;
+}
+
+#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover {
+   background-color: #158CBA;
+}
+
+#removerDsk:hover {
+   background-color: #EEEEEE;
+}
+
+#mais:hover, #mais:hover svg, #menos:hover, #menos:hover svg, #removerDsk:hover, #removerDsk:hover svg {
+   cursor: pointer;
+}
+
+#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarProc:hover svg, #adicionarDsk:hover svg, #adicionarMonitor:hover svg {
+   fill: #FFFFFF;
+   cursor: pointer;
+}
+
+#adicionarProc svg, #adicionarDsk svg, #removerDsk svg, #adicionarMonitor svg, #mais svg, #menos svg {
+   width: 16px;
+   height: 16px;
+   fill: #158CBA;
+   position: relative;
+   top: 2px;
+   left: 0px;
+}
+
+#mais:disabled svg, #menos:disabled svg, #maisdsk:disabled svg, #menosdsk:disabled svg {
+   fill: #555555;
+}
+
+#removerDsk svg {
+   transform: rotate(45deg);
+}
+
+#num:disabled {
+   width: 25px;
+   height: 25px;
+   text-align: center;
+   border: none;
+   border-radius: 5px;
+   color: #555555;
+   font-size: 16px;
+   box-sizing: border-box;
+   background-color: transparent;
+}
+
+#processador {
+   width: 400px;
+}
+
+.suggestions-box {
+   border: 1px solid #ccc;
+   max-height: 150px;
+   overflow-y: auto;
+   position: fixed;
+   background-color: #FFFFFF;
+   z-index: 1000;
+   display: none;
+
+   border-radius: 5px;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 1px 1px 3px rgba(0, 0, 0, 0.30);
+}
+
+.suggestions-box.processador {
+   width: 395px;
+   margin-top: 64px;
+   margin-left: 68px;
+}
+
+.suggestions-box.op {
+   width: 245px;
+   margin-top: 64px;
+   margin-left: 83px;
+}
+
+.suggestions-box.tipo-mem {
+   width: 185px;
+   margin-top: 64px;
+   margin-left: 313px;
+}
+
+.suggestions-box.tam-hd, .suggestions-box.tam-ssd {
+   width: 95px;
+   margin-top: 40px;
+   margin-left: 81px;
+}
+
+.suggestions-box.visivel {
+   display: block;
+}
+
+.suggestions-box p {
+   margin: 0;
+   margin: 5px;
+   cursor: pointer;
+   padding: 2px 5px 2px 5px;
+}
+
+.suggestions-box p:hover {
+   background-color: #158CBA;
+   color: #FFFFFF;
+   border-radius: 3px;
+}
+
+#add-pc {
+   width: 100%;
+   font-size: 16px;
+}
+
+#add-pc .header {
+   font-size: 18px;
+   padding: 5px;
+   border-bottom: #AAAAAA 1px solid;
+}
+
+#add-pc .label {
+   padding: 5px;
+   color: #555555;
+   text-align: right;
+   white-space: nowrap;
+}
+
+#add-pc .input {
+   padding: 5px 10px 5px 10px;
+   border: none;
+   border-bottom: #555555 1px solid;
+   box-sizing: border-box;
+   font-size: 16px;
+}
+
+#add-pc .input:focus {
+   border-color: #66AFE9;
+   outline: 0;
+   transition: all 0.3s ease;
+}
+
+#base-pc {
+   padding: 10px;
+}
+
+#linha {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   font-size: 16px;
+   padding: 10px;
+   border-bottom: #DFDFDF 1px solid;
+}
+
+.h-line {
+   width: 100%;
+   color: #555555;
+   font-weight: bold;
+   padding-top: 5px;
+}
+
+.b-line {
+   padding-top: 10px;
+   display: flex;
+   align-items: baseline;
+}
+#b-line-5 {
+   color: #555555;
+   font-size: 12px;
+   flex: 1;
+}
+
+#h-spacer {
+   width: 20px;
+}
+
+/* Estilo para os botões de rádio do primeiro grupo */
+input[type="radio"].tipo-dsk {
+   display: none;
+}
+
+input[type="radio"].tipo-dsk + label {
+   display: inline-block;
+   position: relative;
+   padding-left: 25px; /* Aproximar o texto do botão */
+   cursor: pointer;
+   color: #555555; /* Cor inicial do texto */
+   margin-right: 15px; /* Adicionar margem entre os botões */
+}
+
+input[type="radio"].tipo-dsk + label span {
+   position: absolute;
+   left: 0;
+   top: 50%;
+   transform: translateY(-50%);
+   width: 20px;
+   height: 20px;
+   border: 2px solid #555555; /* Cor inicial da borda */
+   border-radius: 50%;
+   box-sizing: border-box;
+}
+
+input[type="radio"].tipo-dsk:checked + label {
+   color: #158CBA; /* Cor do texto quando selecionado */
+}
+
+input[type="radio"].tipo-dsk:checked + label span {
+   border-color: #158CBA; /* Cor da borda quando selecionado */
+}
+
+input[type="radio"].tipo-dsk:checked + label span::before {
+   content: '';
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   width: 10px;
+   height: 10px;
+   background-color: #158CBA; /* Cor do círculo interno quando selecionado */
+   border-radius: 50%;
+}
+
+input[type="radio"].tipo-dsk:not(:checked) + label {
+   color: #AAAAAA; /* Cor do texto quando não selecionado */
+}
+
+input[type="radio"].tipo-dsk:not(:checked) + label span {
+   border-color: #AAAAAA; /* Cor da borda quando não selecionado */
+}
+
+/* Estilo para os botões de rádio do HD */
+input[type="radio"].tipo-hd {
+   display: none;
+}
+
+input[type="radio"].tipo-hd + label {
+   display: inline-block;
+   position: relative;
+   padding-left: 25px; /* Aproximar o texto do botão */
+   cursor: pointer;
+   color: #555555; /* Cor inicial do texto */
+   margin-right: 15px; /* Adicionar margem entre os botões */
+}
+
+input[type="radio"].tipo-hd + label span {
+   position: absolute;
+   left: 0;
+   top: 50%;
+   transform: translateY(-50%);
+   width: 20px;
+   height: 20px;
+   border: 2px solid #555555; /* Cor inicial da borda */
+   border-radius: 50%;
+   box-sizing: border-box;
+}
+
+input[type="radio"].tipo-hd:checked + label {
+   color: #158CBA; /* Cor do texto quando selecionado */
+}
+
+input[type="radio"].tipo-hd:checked + label span {
+   border-color: #158CBA; /* Cor da borda quando selecionado */
+}
+
+input[type="radio"].tipo-hd:checked + label span::before {
+   content: '';
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   width: 10px;
+   height: 10px;
+   background-color: #158CBA; /* Cor do círculo interno quando selecionado */
+   border-radius: 50%;
+}
+
+input[type="radio"].tipo-hd:not(:checked) + label {
+   color: #AAAAAA; /* Cor do texto quando não selecionado */
+}
+
+input[type="radio"].tipo-hd:not(:checked) + label span {
+   border-color: #AAAAAA; /* Cor da borda quando não selecionado */
+}
+
+/* Estilo para os botões de rádio do SSD */
+input[type="radio"].tipo-ssd {
+   display: none;
+}
+
+input[type="radio"].tipo-ssd + label {
+   display: inline-block;
+   position: relative;
+   padding-left: 25px; /* Aproximar o texto do botão */
+   cursor: pointer;
+   color: #555555; /* Cor inicial do texto */
+   margin-right: 15px; /* Adicionar margem entre os botões */
+}
+
+input[type="radio"].tipo-ssd + label span {
+   position: absolute;
+   left: 0;
+   top: 50%;
+   transform: translateY(-50%);
+   width: 20px;
+   height: 20px;
+   border: 2px solid #555555; /* Cor inicial da borda */
+   border-radius: 50%;
+   box-sizing: border-box;
+}
+
+input[type="radio"].tipo-ssd:checked + label {
+   color: #158CBA; /* Cor do texto quando selecionado */
+}
+
+input[type="radio"].tipo-ssd:checked + label span {
+   border-color: #158CBA; /* Cor da borda quando selecionado */
+}
+
+input[type="radio"].tipo-ssd:checked + label span::before {
+   content: '';
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   width: 10px;
+   height: 10px;
+   background-color: #158CBA; /* Cor do círculo interno quando selecionado */
+   border-radius: 50%;
+}
+
+input[type="radio"].tipo-ssd:not(:checked) + label {
+   color: #AAAAAA; /* Cor do texto quando não selecionado */
+}
+
+input[type="radio"].tipo-ssd:not(:checked) + label span {
+   border-color: #AAAAAA; /* Cor da borda quando não selecionado */
+}
+
+.armazenamento, .monitor, .formulario {
+   display: flex;
+}
+
+.armazenamento, .monitor {
+   height: 50px;
+   width: auto;
+   padding: 5px;
+   border-bottom: #AAAAAA 1px dashed;
+   align-items: baseline;
+}
+
+.fichaProc {
+   border-collapse: collapse;
+}
+
+.fichaProc td {
+   padding: 0px 25px 0px 25px;
+}
+
+.fichaProc td:nth-child(even) {
+   border-width: 0px 1px 0px 1px;
+   border-style: solid;
+   border-color: #AAAAAA;
+}

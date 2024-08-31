@@ -1,0 +1,285 @@
+<script>
+    let numero = 1;
+    function less() {
+        if (numero > 1) {
+            numero--;
+            setValue(numero);
+        }
+        toggleButtons();
+    }
+    function more() {
+        if (numero < 4) {
+            numero++;
+            setValue(numero);
+        }
+        toggleButtons();
+    }
+    function setValue(value) {
+        document.getElementById('num').value = value;
+    }
+    function toggleButtons() {
+        document.getElementById('menos').disabled = (numero === 1);
+        document.getElementById('mais').disabled = (numero === 4);
+    }
+    setValue(numero);
+    toggleButtons();
+
+    function showSuggestions(str) {
+        const $suggestions = $('#suggestions');
+        if (str.length === 0) {
+            $suggestions.html("").removeClass('visivel');
+            return;
+        }
+        if (!$suggestions.hasClass("visivel")) {
+            $suggestions.addClass('visivel');
+        }
+        $.ajax({
+            url: "./includes/auto_complete.php",
+            method: "GET",
+            data: { q: str },
+            success: function(response) {
+                $suggestions.html(response);
+            }
+        });
+                // Fecha o submenu quando clicar fora do menu
+    }
+
+    function passarValor(nr) {
+        var valor = $("#p" + nr).text();
+        $("#processador").val(valor);
+        $('#suggestions').removeClass('visivel');
+    }
+</script>
+
+<table id="formulario" class="tabela-formulario" cellspacing="0" cellpadding="0">
+    <thead>
+        <tr>
+            <th colspan="10" class="head-filtro">
+                <div id="th-flex"><span>Adicionar Computador</span>
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td id="hardware">
+            Processador:<br>
+            <div style="display:flex">
+            <input  id="processador" type="text" name="proc" placeholder="Escolha um modelo na lista" required class="input" onkeyup="showSuggestions(this.value)">
+            <div id="suggestions" class="suggestions-box"></div>
+            <div id="adicionarProc"><a title="Adicionar processador" href="#"><?php include './images/add.svg'; ?></a></div></div>
+        </td>
+        <td id="qtde">
+            Quantidade:<br>
+            <button title="Diminuir" type="button" id="menos" disabled onclick="less()"><?php include './images/menos.svg'; ?></button>
+            <input type="text" name="numero" id="num" value="1" disabled>
+            <button title="Aumentar" type="button" id="mais" onclick="more()"><?php include './images/add.svg'; ?></button>
+        </td>
+        <td id="obs">
+            Observações:<br>
+            <input id="procObs" type="text" name="procObs" class="input">
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    $(document).click(function(event) {
+        const $suggestions = $('#suggestions');
+        if (!$suggestions.is(event.target) && $suggestions.has(event.target).length === 0) {
+            $suggestions.removeClass('visivel');
+        }
+    });
+
+    $(document).ready(function() {
+        $('#processador').on('click', function(event) {
+            event.stopPropagation(); // Impede a propagação do evento para o documento
+            const valor = $(this).val();
+            let valorExiste = false;
+            // Verifica se o valor do campo é idêntico a algum dos itens da lista
+            $('#suggestions p').each(function() {
+                if ($(this).text() === valor) {
+                    valorExiste = true;
+                    return false; // Sai do loop each
+                }
+            });
+            if (!valorExiste && valor !== "") {
+                $('#suggestions').addClass('visivel');
+            }
+        });
+    });
+</script>
+
+.head-filtro, .head-icone, .head-formulario {
+   background-color: transparent;
+   padding: 5px;
+   border: 1px;
+   border-color: #AAA;
+   border-bottom-style: solid;
+   text-align: left;
+}
+
+
+#formulario {
+   padding: 10px;
+}
+
+.tabela-formulario {
+   font-size: 18px;
+   padding: 10px;
+   overflow-x: auto;
+   vertical-align: middle;
+}
+
+.tabela-formulario td {
+   vertical-align: text-top;
+   font-size: 16px;
+   padding: 10px;
+   color: #555555;
+   width: 50px;
+}
+
+.hidden {
+   display: none;
+}
+
+#label {
+   width: 50px;
+}
+
+#input {
+   width: 150px;
+   border-right: #DFDFDF dashed 1px;
+}
+
+#qtde {
+   border-right: #DFDFDF dashed 1px;
+   text-align: center;
+}
+
+#obs {
+   width: 300px;
+}
+
+#formulario input::placeholder {
+   color: #CDCDCD;
+}
+
+#formulario .input, #formulario .combo, #formulario .combomulti {
+   background-color: transparent;
+   border: 1px solid #AAAAAA;
+   border-radius: 5px;
+   color: #555555;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 15px;
+   font-style: normal;
+   text-decoration: none;
+   box-sizing: border-box;
+   padding: 5px
+}
+
+#formulario .input:focus, #formulario .combo:focus, #formulario .combomulti:focus {
+   border-color: #66AFE9;
+   outline: 0;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(102, 175, 233, 0.60);
+}
+
+#formulario .input:hover, #formulario .combo:hover, #formulario .combomulti:hover {
+   border-color: #66AFE9;
+}
+
+#adicionarProc {
+   width: 29px;
+   height: 29px;
+   display: flex;
+   align-items: center;
+   vertical-align: middle;
+   justify-content: center;
+   margin-left: 5px;
+}
+
+#adicionarProc, #mais, #menos {
+   width: 29px;
+   height: 29px;
+   border-radius: 50%;
+   border: none;
+   background-color: transparent;
+   color: #117095;
+   transition: all 300ms linear;
+}
+
+#adicionarProc:hover {
+   background-color: #158CBA;
+}
+
+#mais:hover, #mais:hover svg, #menos:hover, #menos:hover svg {
+   cursor: pointer;
+}
+
+#adicionarProc:hover, #adicionarProc:hover svg {
+   fill: #FFFFFF;
+   cursor: pointer;
+}
+
+#adicionarProc svg, #mais svg, #menos svg {
+   width: 16px;
+   height: 16px;
+   fill: #158CBA;
+   position: relative;
+   top: 1px
+}
+
+#mais:disabled svg, #menos:disabled svg {
+   fill: #AAAAAA;
+}
+
+#num:disabled {
+   width: 29px;
+   height: 29px;
+   text-align: center;
+   border: none;
+   border-radius: 5px;
+   color: #AAAAAA;
+   font-size: 16px;
+   box-sizing: border-box;
+   background-color: transparent;
+}
+
+#procObs {
+   width: 100%;
+}
+
+#processador {
+   width: 400px;
+}
+
+.suggestions-box {
+   border: 1px solid #ccc;
+   max-height: 150px;
+   overflow-y: auto;
+   position: fixed;
+   background-color: #FFFFFF;
+   z-index: 1000;
+   display: none;
+   width: 390px;
+   margin-top: 30px;
+   margin-left: 5px;
+   border-radius: 5px;
+   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(0, 0, 0, 0.60);
+}
+
+.suggestions-box.visivel {
+   display: block;
+}
+
+.suggestions-box p {
+   margin: 0;
+   margin: 5px;
+   cursor: pointer;
+}
+.suggestions-box p:hover {
+   background-color: #158CBA;
+   color: #FFFFFF;
+}
+
