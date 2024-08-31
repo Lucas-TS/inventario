@@ -94,7 +94,7 @@ if (isset($_GET['ativo'])) {
    <script src="javascript/jquery.mask.min.js"></script>
    <script src="javascript/panel.min.js"></script>
    <script src="javascript/wwb19.min.js"></script>
-   <script src="javascript/desktops.js"></script>
+   <script src="javascript/load.effect.js"></script>
    <script>
       function clearPlaceholder(input)
       {

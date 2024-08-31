@@ -47,7 +47,7 @@ if (isset($_SESSION['expires_by']))
 <script src="javascript/jquery-ui.min.js"></script>
 <script src="javascript/panel.min.js"></script>
 <script src="javascript/wwb19.min.js"></script>
-<script src="javascript/secoes.js"></script>
+<script src="javascript/load.effect.js"></script>
 </head>
 <body>
    <?php include 'includes/logout_overlay.html' ?>
