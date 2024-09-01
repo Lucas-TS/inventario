@@ -1,5 +1,5 @@
 let contadorDsk = 0;
-let contadorbDsk = 7; // Início em 7 para evitar conflitos
+let contadorbDsk = 0; // Início em 7 para evitar conflitos
 const maxArmazenamentos = 4;
 
 function adicionarArmazenamento() {
@@ -14,7 +14,7 @@ function adicionarArmazenamento() {
     novoArmazenamento.id = `armazenamento-${contadorDsk}`;
     novoArmazenamento.classList.add('armazenamento');
     novoArmazenamento.innerHTML = `
-        <div id="b-line-${contadorbDsk}" class="b-line">
+        <div id="b-line-dsk-${contadorbDsk}" class="b-line">
             <div id="removerDsk"><a title="Remover armazenamento" href="#" onclick="removerArmazenamento(${contadorDsk})">${maisSVG}</a></div>
             <span style="font-weight:bold;padding-left:5px;color:#AAAAAA;"> Armazenamento ${contadorDsk} »   </span>        
             <span class="label" style="padding-left:15px;">Tipo:</span>
@@ -27,9 +27,7 @@ function adicionarArmazenamento() {
         <div id="h-spacer"></div>
     `;
     container.appendChild(novoArmazenamento);
-    if (contadorDsk >= maxArmazenamentos) {
-        document.getElementById('adicionarDsk').style.display = 'none';
-    }
+    document.getElementById('adicionarDsk').style.display = 'none';
 }
 
 function removerArmazenamento(id) {
@@ -99,11 +97,14 @@ function mostrarFormulario(contadorDsk, tipo) {
 }
 
 function gerarFormulario(contadorDsk, tipo) {
+    if (contadorDsk < maxArmazenamentos) {
+        document.getElementById('adicionarDsk').style.display = 'flex';
+    }
     if (tipo === 'HD') {
         return `
-            <div id="b-line-${contadorbDsk++}" class="b-line">
+            <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="tam-hd-${contadorDsk}">Tamanho:</label>
-                <input id="tam-hd-${contadorDsk}" class="input" type="text" name="tam-hd-${contadorDsk}" placeholder="Escolha" required style="width:100px" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)" onkeyup="showSuggestionsDsk('hd', ${contadorDsk})">
+                <input id="tam-hd-${contadorDsk}" class="input" type="text" name="tam-hd-${contadorDsk}" placeholder="Escolha" required style="width:100px" onkeyup="showSuggestionsDsk('hd', ${contadorDsk})">
             </div>
             <div id="suggestions-tam-hd-${contadorDsk}" class="suggestions-box tam-hd">
                 <p>1 TB</p>
@@ -113,7 +114,7 @@ function gerarFormulario(contadorDsk, tipo) {
                 <p>160 GB</p>
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-${contadorbDsk}" class="b-line">
+            <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <span class="label">Interface:</span>
                 <input type="radio" id="IDE-${contadorDsk}" name="tipo-hd-${contadorDsk}" class="tipo-hd" value="IDE">
                 <label for="IDE-${contadorDsk}"><span></span>IDE</label>
@@ -121,7 +122,7 @@ function gerarFormulario(contadorDsk, tipo) {
                 <label for="SATA-${contadorDsk}"><span></span>SATA</label>
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-${contadorbDsk}" class="b-line">
+            <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="saude-hd-${contadorDsk}">Saúde:</label>
                 <button title="Diminuir" type="button" id="menos" class="menos" onclick="less(this, 'saude')">${menosSVG}</button>
                 <input type="text" name="saude-hd-${contadorDsk}" class="saude-hd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
@@ -130,9 +131,9 @@ function gerarFormulario(contadorDsk, tipo) {
         `;
     } else if (tipo === 'SSD') {
         return `
-            <div id="b-line-${contadorbDsk}" class="b-line">
+            <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="tam-ssd-${contadorDsk}">Tamanho:</label>
-                <input id="tam-ssd-${contadorDsk}" class="input" type="text" name="tam-ssd-${contadorDsk}" placeholder="Escolha" required style="width:100px" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)" onkeyup="showSuggestionsDsk('ssd', ${contadorDsk})">
+                <input id="tam-ssd-${contadorDsk}" class="input" type="text" name="tam-ssd-${contadorDsk}" placeholder="Escolha" required style="width:100px" onkeyup="showSuggestionsDsk('ssd', ${contadorDsk})">
             </div>
             <div id="suggestions-tam-ssd-${contadorDsk}" class="suggestions-box tam-ssd">
                 <p>512 GB</p>
@@ -142,7 +143,7 @@ function gerarFormulario(contadorDsk, tipo) {
                 <p>240 GB</p>
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-${contadorbDsk}" class="b-line">
+            <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <span class="label">Interface:</span>
                 <input type="radio" id="SATA-${contadorDsk}" name="tipo-ssd-${contadorDsk}" class="tipo-ssd" value="SATA">
                 <label for="SATA-${contadorDsk}"><span></span>SATA 2,5"</label>
@@ -152,7 +153,7 @@ function gerarFormulario(contadorDsk, tipo) {
                 <label for="NVME-${contadorDsk}"><span></span>NVME</label>
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-${contadorbDsk}" class="b-line">
+            <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="saude-ssd-${contadorDsk}">Saúde:</label>
                 <button title="Diminuir" type="button" id="menos" class="menos" onclick="less(this, 'saude')">${menosSVG}</button>
                 <input type="text" name="saude-ssd-${contadorDsk}" class="saude-ssd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>

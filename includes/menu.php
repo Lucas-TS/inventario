@@ -1,23 +1,4 @@
-<script>
-function exibirSubmenu(item) {
-            // Oculta todos os submenus
-            $('.submenu').removeClass('visivel');
-            $('.icon.sub').removeClass('visivel');
-
-            // Exibe o submenu correspondente ao item clicado
-            $('#submenu_' + item).addClass('visivel');
-            $('#expandir_' + item).addClass('visivel');
-        }
-
-        // Fecha o submenu quando clicar fora do menu
-        $(document).on('click', function (event) {
-            if (!$(event.target).closest('.menuitem').length) {
-                $('.submenu').removeClass('visivel');
-                $('.icon.sub').removeClass('visivel');
-            }
-        });
-</script>
-   <nav id="wb_PanelMenu1" style="display:inline-block;width:64px;height:48px;text-align:center;z-index:1;">
+<nav id="wb_PanelMenu1" style="display:inline-block;width:64px;height:48px;text-align:center;z-index:1;">
     <!-- BOTÃO MENU -->
     <a href="#PanelMenu1_markup" id="PanelMenu1">
         <svg class="button-icon" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg">

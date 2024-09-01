@@ -870,7 +870,7 @@ label {
    fill:#158CBA !important;
 }
 
-#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor {
+#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor {
    display: flex;
    align-items: center;
    vertical-align: middle;
@@ -878,7 +878,7 @@ label {
    margin: 11px 0px 0px 5px;
 }
 
-#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #mais, #menos {
+#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos {
    width: 26px;
    height: 26px;
    border-radius: 50%;
@@ -892,11 +892,11 @@ label {
    background-color: #158CBA;
 }
 
-#removerDsk:hover {
+#removerDsk:hover, #removerMonitor:hover {
    background-color: #EEEEEE;
 }
 
-#mais:hover, #mais:hover svg, #menos:hover, #menos:hover svg, #removerDsk:hover, #removerDsk:hover svg {
+#mais:hover, #mais:hover svg, #menos:hover, #menos:hover svg, #removerDsk:hover, #removerDsk:hover svg, #removerMonitor:hover, #removerMonitor:hover svg {
    cursor: pointer;
 }
 
@@ -905,7 +905,7 @@ label {
    cursor: pointer;
 }
 
-#adicionarProc svg, #adicionarDsk svg, #removerDsk svg, #adicionarMonitor svg, #mais svg, #menos svg {
+#adicionarProc svg, #adicionarDsk svg, #removerDsk svg, #adicionarMonitor svg, #removerMonitor svg, #mais svg, #menos svg {
    width: 16px;
    height: 16px;
    fill: #158CBA;
@@ -918,7 +918,7 @@ label {
    fill: #555555;
 }
 
-#removerDsk svg {
+#removerDsk svg, #removerMonitor svg {
    transform: rotate(45deg);
 }
 
@@ -946,7 +946,6 @@ label {
    background-color: #FFFFFF;
    z-index: 1000;
    display: none;
-
    border-radius: 5px;
    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 1px 1px 3px rgba(0, 0, 0, 0.30);
 }
@@ -966,13 +965,25 @@ label {
 .suggestions-box.tipo-mem {
    width: 185px;
    margin-top: 64px;
-   margin-left: 313px;
+   margin-left: 302px;
 }
 
 .suggestions-box.tam-hd, .suggestions-box.tam-ssd {
    width: 95px;
    margin-top: 40px;
    margin-left: 81px;
+}
+
+.suggestions-box.marca-monitor {
+   width: 185px;
+   margin-top: 50px;
+   margin-left: 192px;
+}
+
+.suggestions-box.modelo-monitor {
+   width: 285px;
+   margin-top: 50px;
+   margin-left: 468px;
 }
 
 .suggestions-box.visivel {
@@ -1024,6 +1035,10 @@ label {
    transition: all 0.3s ease;
 }
 
+#add-pc .input:disabled {
+   background-color: transparent;
+}
+
 #base-pc {
    padding: 10px;
 }
@@ -1050,8 +1065,6 @@ label {
    align-items: baseline;
 }
 #b-line-5 {
-   color: #555555;
-   font-size: 12px;
    flex: 1;
 }
 
@@ -1060,119 +1073,13 @@ label {
 }
 
 /* Estilo para os botões de rádio do primeiro grupo */
-input[type="radio"].tipo-dsk {
-   display: none;
-}
-
-input[type="radio"].tipo-dsk + label {
-   display: inline-block;
-   position: relative;
-   padding-left: 25px; /* Aproximar o texto do botão */
-   cursor: pointer;
-   color: #555555; /* Cor inicial do texto */
-   margin-right: 15px; /* Adicionar margem entre os botões */
-}
-
-input[type="radio"].tipo-dsk + label span {
-   position: absolute;
-   left: 0;
-   top: 50%;
-   transform: translateY(-50%);
-   width: 20px;
-   height: 20px;
-   border: 2px solid #555555; /* Cor inicial da borda */
-   border-radius: 50%;
-   box-sizing: border-box;
-}
-
-input[type="radio"].tipo-dsk:checked + label {
-   color: #158CBA; /* Cor do texto quando selecionado */
-}
-
-input[type="radio"].tipo-dsk:checked + label span {
-   border-color: #158CBA; /* Cor da borda quando selecionado */
-}
-
-input[type="radio"].tipo-dsk:checked + label span::before {
-   content: '';
-   position: absolute;
-   left: 50%;
-   top: 50%;
-   transform: translate(-50%, -50%);
-   width: 10px;
-   height: 10px;
-   background-color: #158CBA; /* Cor do círculo interno quando selecionado */
-   border-radius: 50%;
-}
-
-input[type="radio"].tipo-dsk:not(:checked) + label {
-   color: #AAAAAA; /* Cor do texto quando não selecionado */
-}
-
-input[type="radio"].tipo-dsk:not(:checked) + label span {
-   border-color: #AAAAAA; /* Cor da borda quando não selecionado */
-}
-
 /* Estilo para os botões de rádio do HD */
-input[type="radio"].tipo-hd {
-   display: none;
-}
-
-input[type="radio"].tipo-hd + label {
-   display: inline-block;
-   position: relative;
-   padding-left: 25px; /* Aproximar o texto do botão */
-   cursor: pointer;
-   color: #555555; /* Cor inicial do texto */
-   margin-right: 15px; /* Adicionar margem entre os botões */
-}
-
-input[type="radio"].tipo-hd + label span {
-   position: absolute;
-   left: 0;
-   top: 50%;
-   transform: translateY(-50%);
-   width: 20px;
-   height: 20px;
-   border: 2px solid #555555; /* Cor inicial da borda */
-   border-radius: 50%;
-   box-sizing: border-box;
-}
-
-input[type="radio"].tipo-hd:checked + label {
-   color: #158CBA; /* Cor do texto quando selecionado */
-}
-
-input[type="radio"].tipo-hd:checked + label span {
-   border-color: #158CBA; /* Cor da borda quando selecionado */
-}
-
-input[type="radio"].tipo-hd:checked + label span::before {
-   content: '';
-   position: absolute;
-   left: 50%;
-   top: 50%;
-   transform: translate(-50%, -50%);
-   width: 10px;
-   height: 10px;
-   background-color: #158CBA; /* Cor do círculo interno quando selecionado */
-   border-radius: 50%;
-}
-
-input[type="radio"].tipo-hd:not(:checked) + label {
-   color: #AAAAAA; /* Cor do texto quando não selecionado */
-}
-
-input[type="radio"].tipo-hd:not(:checked) + label span {
-   border-color: #AAAAAA; /* Cor da borda quando não selecionado */
-}
-
 /* Estilo para os botões de rádio do SSD */
-input[type="radio"].tipo-ssd {
+input[type="radio"].tipo-dsk, input[type="radio"].tipo-hd, input[type="radio"].tipo-ssd, input[type="radio"].con-monitor {
    display: none;
 }
 
-input[type="radio"].tipo-ssd + label {
+input[type="radio"].tipo-dsk + label, input[type="radio"].tipo-hd + label, input[type="radio"].tipo-ssd + label, input[type="radio"].con-monitor + label {
    display: inline-block;
    position: relative;
    padding-left: 25px; /* Aproximar o texto do botão */
@@ -1181,7 +1088,7 @@ input[type="radio"].tipo-ssd + label {
    margin-right: 15px; /* Adicionar margem entre os botões */
 }
 
-input[type="radio"].tipo-ssd + label span {
+input[type="radio"].tipo-dsk + label span, input[type="radio"].tipo-hd + label span, input[type="radio"].tipo-ssd + label span, input[type="radio"].con-monitor + label span {
    position: absolute;
    left: 0;
    top: 50%;
@@ -1193,15 +1100,15 @@ input[type="radio"].tipo-ssd + label span {
    box-sizing: border-box;
 }
 
-input[type="radio"].tipo-ssd:checked + label {
+input[type="radio"].tipo-dsk:checked + label, input[type="radio"].tipo-hd:checked + label, input[type="radio"].tipo-ssd:checked + label, input[type="radio"].con-monitor:checked + label {
    color: #158CBA; /* Cor do texto quando selecionado */
 }
 
-input[type="radio"].tipo-ssd:checked + label span {
+input[type="radio"].tipo-dsk:checked + label span, input[type="radio"].tipo-hd:checked + label span, input[type="radio"].tipo-ssd:checked + label span, input[type="radio"].con-monitor:checked + label span {
    border-color: #158CBA; /* Cor da borda quando selecionado */
 }
 
-input[type="radio"].tipo-ssd:checked + label span::before {
+input[type="radio"].tipo-dsk:checked + label span::before, input[type="radio"].tipo-hd:checked + label span::before, input[type="radio"].tipo-ssd:checked + label span::before, input[type="radio"].con-monitor:checked + label span::before {
    content: '';
    position: absolute;
    left: 50%;
@@ -1213,11 +1120,11 @@ input[type="radio"].tipo-ssd:checked + label span::before {
    border-radius: 50%;
 }
 
-input[type="radio"].tipo-ssd:not(:checked) + label {
+input[type="radio"].tipo-dsk:not(:checked) + label, input[type="radio"].tipo-hd:not(:checked) + label, input[type="radio"].tipo-ssd:not(:checked) + label, input[type="radio"].con-monitor:not(:checked) + label {
    color: #AAAAAA; /* Cor do texto quando não selecionado */
 }
 
-input[type="radio"].tipo-ssd:not(:checked) + label span {
+input[type="radio"].tipo-dsk:not(:checked) + label span, input[type="radio"].tipo-hd:not(:checked) + label span, input[type="radio"].tipo-ssd:not(:checked) + label span, input[type="radio"].con-monitor:not(:checked) + label span {
    border-color: #AAAAAA; /* Cor da borda quando não selecionado */
 }
 
@@ -1233,15 +1140,19 @@ input[type="radio"].tipo-ssd:not(:checked) + label span {
    align-items: baseline;
 }
 
-.fichaProc {
+.fichaProc, .fichaMon {
    border-collapse: collapse;
+   color: #555555;
+   font-size: 12px;
+   position: relative;
+   bottom: 3px;
 }
 
-.fichaProc td {
+.fichaProc td, .fichaMon td {
    padding: 0px 25px 0px 25px;
 }
 
-.fichaProc td:nth-child(even) {
+.fichaProc td:nth-child(even), .fichaMon td:nth-child(even) {
    border-width: 0px 1px 0px 1px;
    border-style: solid;
    border-color: #AAAAAA;

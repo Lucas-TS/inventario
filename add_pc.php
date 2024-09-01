@@ -95,86 +95,7 @@ if (isset($_GET['ativo'])) {
    <script src="javascript/panel.min.js"></script>
    <script src="javascript/wwb19.min.js"></script>
    <script src="javascript/load.effect.js"></script>
-   <script>
-      function clearPlaceholder(input)
-      {
-         input.dataset.placeholder = input.placeholder;
-         input.placeholder = '';
-      }
-      function restorePlaceholder(input)
-      {
-         input.placeholder = input.dataset.placeholder;
-      }
-
-      function showSuggestions(str1, str2) {
-         const $suggestions = $('#suggestions-' + str2);
-         if (!$suggestions.hasClass("visivel")) {
-            $suggestions.addClass('visivel');
-         }
-         $.ajax({
-            url: "./includes/auto_complete.php",
-            method: "GET",
-            data: { q: str1, n: str2 },
-            success: function(response) {
-               $suggestions.html(response);
-            }
-         });
-      }
-
-      function fichaProcessador(str1) {
-         var div = document.getElementById('b-line-5');
-         div.innerHTML = '';
-         $.ajax({
-            url: "./includes/auto_complete.php",
-            method: "GET",
-            data: { fp: str1 },
-            success: function(response) {
-               var dados = JSON.parse(response);
-               var output = '<table class="fichaProc"><tr>';
-               
-               if (dados.geracao) output += "<td><b>Geração:</b> " + dados.geracao + "</td>";
-               if (dados.pcores) {
-                  if (dados.ecores) {
-                     output += "<td><b>P-Cores / E-Cores / Threads:</b> " + dados.pcores + " / " + dados.ecores + " / " + dados.threads + "</td>";
-                  } else {
-                     output += "<td><b>Cores / Threads:</b> " + dados.pcores + " / " + dados.threads + "</td>";
-                  }
-               }
-               if (dados.memoria) output += "<td><b>Memória:</b> " + dados.memoria + "</td>";
-               
-               output += "</tr><tr>";
-               
-               if (dados.socket) output += "<td><b>Socket:</b> " + dados.socket + "</td>";
-               if (dados.clock && dados.turbo) {
-                  output += "<td><b>Clock / Turbo (Ghz):</b> " + dados.clock + " / " + dados.turbo + "</td>";
-               } else {
-                  if (dados.clock) output += "<td><b>Clock:</b> " + dados.clock + "</td>";
-                  if (dados.turbo) output += "<td><b>Turbo:</b> " + dados.turbo + "</td>";
-               }
-               
-               if (dados.clock) {
-                  output += "<td><b>iGPU:</b> " + (dados.igpu ? dados.igpu : "N/A") + "</td>";
-               }
-               
-               output += "</tr></table>";
-               
-               div.innerHTML = output;
-            }
-         });
-      }
-
-      function passarValor(nr, input, id) {
-      var valor = $("#p" + nr).text();
-      $(input).val(valor);
-      $('#suggestions-' + $(input).attr('id')).removeClass('visivel');
-    
-      var hiddenElement = document.getElementById('hidden-' + $(input).attr('id'));
-      if (hiddenElement) {
-         hiddenElement.value = id;
-      }
-   }
-
-   </script>
+   <script src="javascript/fichas.js"></script>
 </head>
 <body>
    <?php include 'includes/logout_overlay.html' ?>
@@ -193,32 +114,32 @@ if (isset($_GET['ativo'])) {
                </div>
                <div id="linha">
                   <div id="h-line-1" class="h-line">Informações básicas:</div>
-                  <div id="b-line-1" class="b-line"><label class="label" for="op">Operador:</label><input id="op" name="op" type="text" class="input" placeholder="Digite um nome" required style="width:250px" onkeyup="showSuggestions(this.value, this.id)" onclick="showSuggestions(this.value, this.id)" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)"></div>
+                  <div id="b-line-1" class="b-line"><label class="label" for="op">Operador:</label><input id="op" name="op" type="text" class="input box" placeholder="Digite um nome" required style="width:250px"></div>
                   <input id="hidden-op" name="hidden-op" type="hidden" value="">
                   <div id="suggestions-op" class="suggestions-box op"></div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-2"class="b-line"><label class="label" for="marca">Marca:</label><input id="marca" name="marca" type="text" class="input" placeholder="Digite uma marca (Opcional)" style="width:250px" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)"></div>
+                  <div id="b-line-2"class="b-line"><label class="label" for="marca">Marca:</label><input id="marca" name="marca" type="text" class="input" placeholder="Digite uma marca (Opcional)" style="width:250px"></div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-3"class="b-line"><label class="label" for="modelo">Modelo:</label><input id="modelo" name="modelo" type="text" class="input" placeholder="Digite um modelo (Opcional)" style="width:250px" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)"></div>
+                  <div id="b-line-3"class="b-line"><label class="label" for="modelo">Modelo:</label><input id="modelo" name="modelo" type="text" class="input" placeholder="Digite um modelo (Opcional)" style="width:250px"></div>
                </div>
                <div id="linha">
                   <div id="h-line-2" class="h-line">Processador:</div>
-                  <div id="b-line-4"class="b-line"><label class="label" for="processador">Modelo:</label><input id="processador" class="input" type="text" name="processador" class="input" placeholder="Escolha um modelo na lista" required onkeyup="showSuggestions(this.value, this.id); fichaProcessador(this.value)" onclick="showSuggestions(this.value, this.id)" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)"></div>
+                  <div id="b-line-proc-1"class="b-line"><label class="label" for="processador">Modelo:</label><input id="processador" class="input box" type="text" name="processador" class="input" placeholder="Escolha um modelo na lista" required o></div>
                   <input id="hidden-processador" name="hidden-processador" type="hidden" value="">
                   <div id="suggestions-processador" class="suggestions-box processador"></div>
                   <div id="adicionarProc"><a title="Adicionar novo processador" href="#"><?php include './images/add.svg'; ?></a></div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-5"class="b-line"></div>
+                  <div id="b-line-proc-2"class="b-line"></div>
                </div>
                <div id="linha">
                   <div id="h-line-3" class="h-line">Memória RAM:</div>
-                  <div id="b-line-6"class="b-line"><label class="label" for="qtde-mem-1">Quantidade:</label>
+                  <div id="b-line-mem-1"class="b-line"><label class="label" for="qtde-mem-1">Quantidade:</label>
                      <button title="Diminuir" type="button" id="menos" class="menos" disabled onclick="less(this, 'mem')"><?php include './images/menos.svg'; ?></button>
                      <input type="text" name="qtde-mem" class="qtde-mem input" value="1" style="width:59px;text-align:center;"><span style="color:#AAAAAA">&nbsp;GB</span>
                      <button title="Aumentar" type="button" id="mais" class="mais" onclick="more(this, 'mem')"><?php include './images/add.svg'; ?></button>
                   </div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-7" class="b-line"><label class="label" for="tipo-mem">Tipo:</label><input id="tipo-mem" class="input" type="text" name="tipo-mem" class="input" placeholder="Escolha um tipo na lista" required style="width:190px" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)"></div>
+                  <div id="b-line-mem-2" class="b-line"><label class="label" for="tipo-mem">Tipo:</label><input id="tipo-mem" class="input" type="text" name="tipo-mem" class="input" placeholder="Escolha um tipo na lista" required readonly style="width:190px"></div>
                   <div id="suggestions-tipo-mem" class="suggestions-box tipo-mem">
                      <p>DDR5</p>
                      <p>DDR4</p>
@@ -262,6 +183,7 @@ if (isset($_GET['ativo'])) {
 <script src="javascript/load.svg.js"></script>
 <script src="javascript/add.dsk.js"></script>
 <script src="javascript/add.monitor.js"></script>
+<script src="javascript/placeholder.js"></script>
 <?php
 // Fecha a conexão MySQL
 $conn->close();

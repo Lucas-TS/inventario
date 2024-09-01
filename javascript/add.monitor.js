@@ -1,59 +1,56 @@
-let contador = 0;
-let contadorb = 11; // Início em 11 para evitar conflitos
+let contadorMonitor = 0;
+let contadorbMonitor = 0; // Início em 24 para evitar conflitos
 const maxMonitores = 4;
 
 function adicionarMonitor() {
-    if (contador >= maxMonitores) {
+    if (contadorMonitor >= maxMonitores) {
         document.getElementById('adicionarMonitor').style.display = 'none';
         return;
     }
-    contador++;
-    contadorb++;
+    contadorMonitor++;
+    contadorbMonitor++;
     const container = document.getElementById('monitores-container');
     const novoMonitor = document.createElement('div');
-    novoMonitor.id = `monitor-${contador}`;
+    novoMonitor.id = `monitor-${contadorMonitor}`;
     novoMonitor.classList.add('monitor');
     novoMonitor.innerHTML = `
-        <div id="b-line-${contadorb}" class="b-line">
-            <div id="removerMonitor"><a title="Remover monitor" href="#" onclick="removerMonitor(${contador})">${maisSVG}</a></div>
-            <span style="font-weight:bold;padding-left:5px;color:#AAAAAA;"> Monitor ${contador} »   </span>        
-            <span class="label" style="padding-left:15px;">Tipo:</span>
-            <input type="radio" id="hd-${contador}" name="tipo-monitor-${contador}" class="tipo-monitor" value="HD">
-            <label for="hd-${contador}"><span></span>HD</label>
-            <input type="radio" id="ssd-${contador}" name="tipo-monitor-${contador}" class="tipo-monitor" value="SSD" >
-            <label for="ssd-${contador}"><span></span>SSD</label>
+        <div id="b-line-mon-${contadorbMonitor}" class="b-line">
+            <div id="removerMonitor"><a title="Remover monitor" href="#" onclick="removerMonitor(${contadorMonitor})">${maisSVG}</a></div>
+            <span style="font-weight:bold;padding-left:5px;color:#AAAAAA;"> Monitor ${contadorMonitor} »   </span>        
+            <span class="label" style="padding-left:15px;">Marca:</span>
+            <input id="marca-monitor-${contadorMonitor}" class="input box" type="text" name="marca-monitor-${contadorMonitor}" placeholder="Escolha" required style="width:190px" onkeyup="disableModelo(${contadorMonitor})">
+            <input id="hidden-marca-monitor-${contadorMonitor}" name="hidden-marca-monitor-${contadorMonitor}" type="hidden" value="">
+            </div>
+            <div id="suggestions-marca-monitor-${contadorMonitor}" class="suggestions-box marca-monitor">
+            </div>
         </div>
-        <div id="formulario-${contador}" class="formulario"></div>
         <div id="h-spacer"></div>
-        <div id="b-line-${contadorb}" class="b-line">
-                <label class="label" for="tam-hd-${contador}">Tamanho:</label>
-                <input id="tam-hd-${contador}" class="input" type="text" name="tam-hd-${contador}" placeholder="Escolha" required style="width:100px" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)" onkeyup="showSuggestionsMonitor('hd', ${contador})">
-            </div>
-            <div id="suggestions-tam-hd-${contador}" class="suggestions-box tam-hd">
-                <p>1 TB</p>
-                <p>500 GB</p>
-                <p>320 GB</p>
-                <p>250 GB</p>
-                <p>160 GB</p>
-            </div>
-            <div id="h-spacer"></div>
-            <div id="b-line-${contadorb}" class="b-line">
-                <span class="label">Interface:</span>
-                <input type="radio" id="IDE-${contador}" name="tipo-hd-${contador}" class="tipo-hd" value="IDE">
-                <label for="IDE-${contador}"><span></span>IDE</label>
-                <input type="radio" id="SATA-${contador}" name="tipo-hd-${contador}" class="tipo-hd" value="SATA">
-                <label for="SATA-${contador}"><span></span>SATA</label>
-            </div>
-            <div id="h-spacer"></div>
-            <div id="b-line-${contadorb}" class="b-line">
-                <label class="label" for="saude-hd-${contador}">Saúde:</label>
-                <button title="Diminuir" type="button" id="menos" class="menos" onclick="less(this, 'saude')">${menosSVG}</button>
-                <input type="text" name="saude-hd-${contador}" class="saude-hd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
-                <button title="Aumentar" type="button" id="mais" class="mais" disabled onclick="more(this, 'saude')">${maisSVG}</button>
-            </div>
+        <div id="b-line-mon-${++contadorbMonitor}" class="b-line">
+            <label class="label" for="modelo-monitor-${contadorMonitor}">Modelo:</label>
+            <input id="modelo-monitor-${contadorMonitor}" class="input box openSug" type="text" name="modelo-monitor-${contadorMonitor}" placeholder="Escolha uma marca" required disabled style="width:290px">
+        </div>
+        <div id="suggestions-modelo-monitor-${contadorMonitor}" class="suggestions-box modelo-monitor">
+        </div>
+        <div id="h-spacer"></div>
+        <div id="b-line-mon-${++contadorbMonitor}" class="b-line">
+            <span class="label">Conexão:</span>
+            <input type="radio" id="HDMI-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="con-monitor" value="HDMI">
+            <label for="HDMI-${contadorMonitor}"><span></span>HDMI</label>
+            <input type="radio" id="DP-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="con-monitor" value="DP">
+            <label for="DP-${contadorMonitor}"><span></span>DisplayPort</label>
+            <input type="radio" id="DVI-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="con-monitor" value="DVI">
+            <label for="DVI-${contadorMonitor}"><span></span>DVI</label>
+            <input type="radio" id="VGA-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="con-monitor" value="VGA">
+            <label for="VGA-${contadorMonitor}"><span></span>VGA</label>
+        </div>
+        <div id="h-spacer"></div>    
+        <div id="b-line-mon-${++contadorbMonitor}" class="b-line fichaMon" style="flex:1">
+        <table id="fichaMon-${contadorMonitor}" class="fichaMon">
+        </table>
+        </div>
     `;
     container.appendChild(novoMonitor);
-    if (contador >= maxMonitores) {
+    if (contadorMonitor >= maxMonitores) {
         document.getElementById('adicionarMonitor').style.display = 'none';
     }
 }
@@ -64,7 +61,7 @@ function removerMonitor(id) {
     container.removeChild(monitor);
 
     // Renumerar os monitores restantes
-    contador--;
+    contadorMonitor--;
     let monitores = container.getElementsByClassName('monitor');
     for (let i = 0; i < monitores.length; i++) {
         monitores[i].id = `monitor-${i + 1}`;
@@ -82,7 +79,7 @@ function removerMonitor(id) {
     }
 
     // Mostrar o botão de adicionar monitor se houver menos de 4 monitores
-    if (contador < maxMonitores) {
+    if (contadorMonitor < maxMonitores) {
         document.getElementById('adicionarMonitor').style.display = 'flex';
     }
 
@@ -95,7 +92,6 @@ function removerMonitor(id) {
 
         input.addEventListener('input', function() {
             let value = parseInt(this.value);
-            console.log(`Input event: ${value}, Tipo: ${tipo}`);
             if (isNaN(value) || value < getMinValue(tipo)) {
                 value = getMinValue(tipo);
             } else if (value > getMaxValue(tipo)) {
@@ -107,7 +103,6 @@ function removerMonitor(id) {
 
         input.addEventListener('blur', function() {
             let value = parseInt(this.value);
-            console.log(`Blur event: ${value}, Tipo: ${tipo}`);
             if (isNaN(value) || value < getMinValue(tipo)) {
                 value = getMinValue(tipo);
             } else if (value > getMaxValue(tipo)) {
@@ -119,71 +114,16 @@ function removerMonitor(id) {
     });
 }
 
-function mostrarFormulario(contador, tipo) {
-    const formulario = document.getElementById(`formulario-${contador}`);
-    formulario.innerHTML = gerarFormulario(contador, tipo);
+function mostrarModelo(n) {
+    const campo = document.getElementById(`modelo-monitor-${n}`);
+    campo.removeAttribute('disabled');
+    campo.setAttribute('placeholder', 'Escolha');
+    const campoModelo = `modelo-monitor-${n}`;
+    showSuggestions('', campoModelo);
 }
 
-function gerarFormulario(contador, tipo) {
-    if (tipo === 'HD') {
-        return `
-            <div id="b-line-${contadorb}" class="b-line">
-                <label class="label" for="tam-hd-${contador}">Tamanho:</label>
-                <input id="tam-hd-${contador}" class="input" type="text" name="tam-hd-${contador}" placeholder="Escolha" required style="width:100px" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)" onkeyup="showSuggestionsMonitor('hd', ${contador})">
-            </div>
-            <div id="suggestions-tam-hd-${contador}" class="suggestions-box tam-hd">
-                <p>1 TB</p>
-                <p>500 GB</p>
-                <p>320 GB</p>
-                <p>250 GB</p>
-                <p>160 GB</p>
-            </div>
-            <div id="h-spacer"></div>
-            <div id="b-line-${contadorb}" class="b-line">
-                <span class="label">Interface:</span>
-                <input type="radio" id="IDE-${contador}" name="tipo-hd-${contador}" class="tipo-hd" value="IDE">
-                <label for="IDE-${contador}"><span></span>IDE</label>
-                <input type="radio" id="SATA-${contador}" name="tipo-hd-${contador}" class="tipo-hd" value="SATA">
-                <label for="SATA-${contador}"><span></span>SATA</label>
-            </div>
-            <div id="h-spacer"></div>
-            <div id="b-line-${contadorb}" class="b-line">
-                <label class="label" for="saude-hd-${contador}">Saúde:</label>
-                <button title="Diminuir" type="button" id="menos" class="menos" onclick="less(this, 'saude')">${menosSVG}</button>
-                <input type="text" name="saude-hd-${contador}" class="saude-hd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
-                <button title="Aumentar" type="button" id="mais" class="mais" disabled onclick="more(this, 'saude')">${maisSVG}</button>
-            </div>
-        `;
-    } else if (tipo === 'SSD') {
-        return `
-            <div id="b-line-${contadorb}" class="b-line">
-                <label class="label" for="tam-ssd-${contador}">Tamanho:</label>
-                <input id="tam-ssd-${contador}" class="input" type="text" name="tam-ssd-${contador}" placeholder="Escolha" required style="width:100px" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)" onkeyup="showSuggestionsMonitor('ssd', ${contador})">
-            </div>
-            <div id="suggestions-tam-ssd-${contador}" class="suggestions-box tam-ssd">
-                <p>512 GB</p>
-                <p>500 GB</p>
-                <p>480 GB</p>
-                <p>250 GB</p>
-                <p>240 GB</p>
-            </div>
-            <div id="h-spacer"></div>
-            <div id="b-line-${contadorb}" class="b-line">
-                <span class="label">Interface:</span>
-                <input type="radio" id="SATA-${contador}" name="tipo-ssd-${contador}" class="tipo-ssd" value="SATA">
-                <label for="SATA-${contador}"><span></span>SATA 2,5"</label>
-                <input type="radio" id="M2SATA-${contador}" name="tipo-ssd-${contador}" class="tipo-ssd" value="M2SATA">
-                <label for="M2SATA-${contador}"><span></span>M.2 SATA</label>
-                <input type="radio" id="NVME-${contador}" name="tipo-ssd-${contador}" class="tipo-ssd" value="NVME">
-                <label for="NVME-${contador}"><span></span>NVME</label>
-            </div>
-            <div id="h-spacer"></div>
-            <div id="b-line-${contadorb}" class="b-line">
-                <label class="label" for="saude-ssd-${contador}">Saúde:</label>
-                <button title="Diminuir" type="button" id="menos" class="menos" onclick="less(this, 'saude')">${menosSVG}</button>
-                <input type="text" name="saude-ssd-${contador}" class="saude-ssd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
-                <button title="Aumentar" type="button" id="mais" class="mais" disabled onclick="more(this, 'saude')">${maisSVG}</button>
-            </div>
-        `;
-    }
+function disableModelo(n) {
+    var campo = document.getElementById(`modelo-monitor-${n}`);
+    campo.disabled = true;
+    campo.setAttribute('placeholder', 'Escolha uma marca');
 }
