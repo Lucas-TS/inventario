@@ -95,35 +95,10 @@ if (isset($_GET['ativo'])) {
    <script src="javascript/panel.min.js"></script>
    <script src="javascript/wwb19.min.js"></script>
    <script src="javascript/load.effect.js"></script>
+   <script src="javascript/placeholder.js"></script>
+   <script src="javascript/ocultar.bloco.js"></script>
 </head>
-
 <body>
-   <script>
-   function clearPlaceholder(input)
-   {
-      input.dataset.placeholder = input.placeholder;
-      input.placeholder = '';
-   }
-   function changePlaceholder(input)
-   {
-      input.dataset.placeholder = input.placeholder;
-      input.placeholder = '__:__:__:__:__:__';
-   }
-   function restorePlaceholder(input)
-   {
-      input.placeholder = input.dataset.placeholder;
-   }
-   function alternarVisibilidade() {
-      const corpoTabela = document.getElementById('ocultavel');
-      corpoTabela.classList.toggle('visivel');
-      const iconeSeta = document.getElementById('icone-seta');
-      iconeSeta.classList.toggle('visivel');
-      const blocoOcultavel = document.getElementById('bloco-ocultavel');
-      blocoOcultavel.classList.toggle('visivel');
-      const botaoLimpar = document.getElementById('limpar');
-      botaoLimpar.classList.toggle('visivel');
-   }
-   </script>
    <?php include 'includes/logout_overlay.html' ?>
    <header id="FlexContainer1" style="visibility:hidden;">
       <div id="wb_Heading" style="display:block;width:886px;z-index:0;">
@@ -173,9 +148,9 @@ if (isset($_GET['ativo'])) {
                            ?>
                         </select>
                      </td>
-                     <td colspan="2" rowspan="1" id="filtro-operador" class="input-filtro"><label for="input-operador">Operador:</label><input id="input-op" class="input" name="op" placeholder="Digite um nome" value="<?php echo $op; ?>" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)">
+                     <td colspan="2" rowspan="1" id="filtro-operador" class="input-filtro"><label for="input-operador">Operador:</label><input id="input-op" class="input" name="op" placeholder="Digite um nome" value="<?php echo $op; ?>">
                      </td>
-                     <td colspan="2" rowspan="1" id="filtro-ip" class="input-filtro"><label for="input-ip">IP:</label><input id="input-ip" class="input" name="ip" placeholder="Digite somente números" value="<?php echo $ip; ?>" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)">
+                     <td colspan="2" rowspan="1" id="filtro-ip" class="input-filtro"><label for="input-ip">IP:</label><input id="input-ip" class="input" name="ip" placeholder="Digite somente números" value="<?php echo $ip; ?>">
                      </td>
                      <td colspan="2" rowspan="2" id="filtro-situacao" class="combo-filtro"><label for="combo-situacao">Situação:</label><select name="situacao[]" id="combo-situacao" class="combomulti" multiple>
                            <option value="" <?php if (empty($situacao_arr)) { echo 'selected'; }?> >Todas</option>
@@ -193,9 +168,9 @@ if (isset($_GET['ativo'])) {
                      </td>
                   </tr>
                   <tr>
-                     <td colspan="2" rowspan="1" id="filtro-host" class="input-filtro"><label for="input-host">Host Name:</label><input id="input-host" class="input" name="hn" placeholder="Digite um nome" value="<?php echo $hn; ?>" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)" oninput="this.value = this.value.toUpperCase();">
+                     <td colspan="2" rowspan="1" id="filtro-host" class="input-filtro"><label for="input-host">Host Name:</label><input id="input-host" class="input" name="hn" placeholder="Digite um nome" value="<?php echo $hn; ?>" oninput="this.value = this.value.toUpperCase();">
                      </td>
-                     <td colspan="2" rowspan="1" id="filtro-mac" class="input-filtro"><label for="input-mac">MAC:</label><input id="input-mac" class="input" name="mac" placeholder="Digite somente números" value="<?php echo $mac; ?>" onfocus="changePlaceholder(this)" onblur="restorePlaceholder(this)" oninput="this.value = this.value.toUpperCase();">
+                     <td colspan="2" rowspan="1" id="filtro-mac" class="input-filtro"><label for="input-mac">MAC:</label><input id="input-mac" class="input mac" name="mac" placeholder="Digite somente números" value="<?php echo $mac; ?>" oninput="this.value = this.value.toUpperCase();">
                      </td>
                      <td style="vertical-align:bottom"><div style="display:contents;"><label for="qtde" style="width:52px">Linhas:</label>
                      <select id="combo-qtde" class="combo" name="qtde" style="margin-bottom:12px;width:calc(100% - 57px);">
@@ -505,15 +480,6 @@ if (isset($_GET['ativo'])) {
                ?>
             </tbody>
          </table>
-         <script>
-         $("#input-mac").mask("AA:AA:AA:AA:AA:AA",
-         {
-            translation:
-            {
-               'A': { pattern: /[A-Fa-f0-9]/ }
-            }
-         });
-         </script>
          <div id="paginas" class="div-paginas" style="font-size:15px">
          <?php
          // Calculos da paginação
@@ -579,6 +545,7 @@ if (isset($_GET['ativo'])) {
       </div>
    </footer>
 </body>
+<script src="javascript/masks.js"></script>
 <?php
 // Fecha a conexão MySQL
 $conn->close();

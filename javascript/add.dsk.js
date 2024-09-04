@@ -18,9 +18,9 @@ function adicionarArmazenamento() {
             <div id="removerDsk"><a title="Remover armazenamento" href="#" onclick="removerArmazenamento(${contadorDsk})">${maisSVG}</a></div>
             <span style="font-weight:bold;padding-left:5px;color:#AAAAAA;"> Armazenamento ${contadorDsk} »   </span>        
             <span class="label" style="padding-left:15px;">Tipo:</span>
-            <input type="radio" id="hd-${contadorDsk}" name="tipo-dsk-${contadorDsk}" class="tipo-dsk" value="HD" onclick="mostrarFormulario(${contadorDsk}, 'HD')">
+            <input type="radio" id="hd-${contadorDsk}" name="tipo-dsk-${contadorDsk}" class="radio" value="HD" onclick="mostrarFormulario(${contadorDsk}, 'HD')">
             <label for="hd-${contadorDsk}"><span></span>HD</label>
-            <input type="radio" id="ssd-${contadorDsk}" name="tipo-dsk-${contadorDsk}" class="tipo-dsk" value="SSD" onclick="mostrarFormulario(${contadorDsk}, 'SSD')">
+            <input type="radio" id="ssd-${contadorDsk}" name="tipo-dsk-${contadorDsk}" class="radio" value="SSD" onclick="mostrarFormulario(${contadorDsk}, 'SSD')">
             <label for="ssd-${contadorDsk}"><span></span>SSD</label>
         </div>
         <div id="formulario-${contadorDsk}" class="formulario"></div>
@@ -116,9 +116,9 @@ function gerarFormulario(contadorDsk, tipo) {
             <div id="h-spacer"></div>
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <span class="label">Interface:</span>
-                <input type="radio" id="IDE-${contadorDsk}" name="tipo-hd-${contadorDsk}" class="tipo-hd" value="IDE">
+                <input type="radio" id="IDE-${contadorDsk}" name="tipo-hd-${contadorDsk}" class="radio" value="IDE">
                 <label for="IDE-${contadorDsk}"><span></span>IDE</label>
-                <input type="radio" id="SATA-${contadorDsk}" name="tipo-hd-${contadorDsk}" class="tipo-hd" value="SATA">
+                <input type="radio" id="SATA-${contadorDsk}" name="tipo-hd-${contadorDsk}" class="radio" value="SATA">
                 <label for="SATA-${contadorDsk}"><span></span>SATA</label>
             </div>
             <div id="h-spacer"></div>
@@ -145,11 +145,11 @@ function gerarFormulario(contadorDsk, tipo) {
             <div id="h-spacer"></div>
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <span class="label">Interface:</span>
-                <input type="radio" id="SATA-${contadorDsk}" name="tipo-ssd-${contadorDsk}" class="tipo-ssd" value="SATA">
+                <input type="radio" id="SATA-${contadorDsk}" name="tipo-ssd-${contadorDsk}" class="radio" value="SATA">
                 <label for="SATA-${contadorDsk}"><span></span>SATA 2,5"</label>
-                <input type="radio" id="M2SATA-${contadorDsk}" name="tipo-ssd-${contadorDsk}" class="tipo-ssd" value="M2SATA">
+                <input type="radio" id="M2SATA-${contadorDsk}" name="tipo-ssd-${contadorDsk}" class="radio" value="M2SATA">
                 <label for="M2SATA-${contadorDsk}"><span></span>M.2 SATA</label>
-                <input type="radio" id="NVME-${contadorDsk}" name="tipo-ssd-${contadorDsk}" class="tipo-ssd" value="NVME">
+                <input type="radio" id="NVME-${contadorDsk}" name="tipo-ssd-${contadorDsk}" class="radio" value="NVME">
                 <label for="NVME-${contadorDsk}"><span></span>NVME</label>
             </div>
             <div id="h-spacer"></div>

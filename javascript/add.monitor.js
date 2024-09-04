@@ -18,7 +18,7 @@ function adicionarMonitor() {
             <div id="removerMonitor"><a title="Remover monitor" href="#" onclick="removerMonitor(${contadorMonitor})">${maisSVG}</a></div>
             <span style="font-weight:bold;padding-left:5px;color:#AAAAAA;"> Monitor ${contadorMonitor} »   </span>        
             <span class="label" style="padding-left:15px;">Marca:</span>
-            <input id="marca-monitor-${contadorMonitor}" class="input box" type="text" name="marca-monitor-${contadorMonitor}" placeholder="Escolha" required style="width:190px" onkeyup="disableModelo(${contadorMonitor})">
+            <input id="marca-monitor-${contadorMonitor}" class="input box" type="text" name="marca-monitor-${contadorMonitor}" placeholder="Escolha" required style="width:140px" onkeyup="disableModelo(${contadorMonitor})">
             <input id="hidden-marca-monitor-${contadorMonitor}" name="hidden-marca-monitor-${contadorMonitor}" type="hidden" value="">
             </div>
             <div id="suggestions-marca-monitor-${contadorMonitor}" class="suggestions-box marca-monitor">
@@ -27,25 +27,26 @@ function adicionarMonitor() {
         <div id="h-spacer"></div>
         <div id="b-line-mon-${++contadorbMonitor}" class="b-line">
             <label class="label" for="modelo-monitor-${contadorMonitor}">Modelo:</label>
-            <input id="modelo-monitor-${contadorMonitor}" class="input box openSug" type="text" name="modelo-monitor-${contadorMonitor}" placeholder="Escolha uma marca" required disabled style="width:290px">
+            <input id="modelo-monitor-${contadorMonitor}" class="input box openSug" type="text" name="modelo-monitor-${contadorMonitor}" placeholder="Escolha uma marca" required disabled style="width:190px" onkeyup="verificarTecla(event, ${contadorMonitor})">
         </div>
         <div id="suggestions-modelo-monitor-${contadorMonitor}" class="suggestions-box modelo-monitor">
         </div>
         <div id="h-spacer"></div>
         <div id="b-line-mon-${++contadorbMonitor}" class="b-line">
             <span class="label">Conexão:</span>
-            <input type="radio" id="HDMI-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="con-monitor" value="HDMI">
+            <input type="radio" id="HDMI-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="radio" value="HDMI">
             <label for="HDMI-${contadorMonitor}"><span></span>HDMI</label>
-            <input type="radio" id="DP-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="con-monitor" value="DP">
-            <label for="DP-${contadorMonitor}"><span></span>DisplayPort</label>
-            <input type="radio" id="DVI-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="con-monitor" value="DVI">
+            <input type="radio" id="DP-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="radio" value="DP">
+            <label for="DP-${contadorMonitor}"><span></span>DP</label>
+            <input type="radio" id="DVI-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="radio" value="DVI">
             <label for="DVI-${contadorMonitor}"><span></span>DVI</label>
-            <input type="radio" id="VGA-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="con-monitor" value="VGA">
+            <input type="radio" id="VGA-${contadorMonitor}" name="con-monitor-${contadorMonitor}" class="radio" value="VGA">
             <label for="VGA-${contadorMonitor}"><span></span>VGA</label>
         </div>
         <div id="h-spacer"></div>    
         <div id="b-line-mon-${++contadorbMonitor}" class="b-line fichaMon" style="flex:1">
         <table id="fichaMon-${contadorMonitor}" class="fichaMon">
+            <tr><td>&nbsp;</td></tr><tr><td><span>Escolha um modelo para carregar a ficha técnica</span></td></tr>
         </table>
         </div>
     `;
@@ -76,6 +77,14 @@ function removerMonitor(id) {
             label.htmlFor = label.htmlFor.replace(/\d+$/, i + 1);
         });
         monitores[i].querySelector('a').setAttribute('onclick', `removerMonitor(${i + 1})`);
+        monitores[i].querySelectorAll('.suggestions-box').forEach(box => {
+            if (box.id.startsWith('suggestions-modelo-monitor-')) {
+                box.id = `suggestions-modelo-monitor-${i + 1}`;
+            } else if (box.id.startsWith('suggestions-marca-monitor-')) {
+                box.id = `suggestions-marca-monitor-${i + 1}`;
+            }
+        });
+    }
     }
 
     // Mostrar o botão de adicionar monitor se houver menos de 4 monitores
@@ -83,36 +92,7 @@ function removerMonitor(id) {
         document.getElementById('adicionarMonitor').style.display = 'flex';
     }
 
-    // Ajustar valores e adicionar eventos
-    document.querySelectorAll('.saude-hd, .saude-ssd').forEach(input => {
-        let tipo = 'saude';
-
-        setValue(input, parseInt(input.value), tipo);
-        toggleButtons(input, tipo);
-
-        input.addEventListener('input', function() {
-            let value = parseInt(this.value);
-            if (isNaN(value) || value < getMinValue(tipo)) {
-                value = getMinValue(tipo);
-            } else if (value > getMaxValue(tipo)) {
-                value = getMaxValue(tipo);
-            }
-            setValue(this, value, tipo);
-            toggleButtons(this, tipo);
-        });
-
-        input.addEventListener('blur', function() {
-            let value = parseInt(this.value);
-            if (isNaN(value) || value < getMinValue(tipo)) {
-                value = getMinValue(tipo);
-            } else if (value > getMaxValue(tipo)) {
-                value = getMaxValue(tipo);
-            }
-            setValue(this, value, tipo);
-            toggleButtons(this, tipo);
-        });
-    });
-}
+    
 
 function mostrarModelo(n) {
     const campo = document.getElementById(`modelo-monitor-${n}`);
@@ -126,4 +106,8 @@ function disableModelo(n) {
     var campo = document.getElementById(`modelo-monitor-${n}`);
     campo.disabled = true;
     campo.setAttribute('placeholder', 'Escolha uma marca');
+}
+
+function limparFicha(n) {
+    document.getElementById(`fichaMon-${n}`).innerHTML = ``;
 }

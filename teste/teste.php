@@ -26,5 +26,4 @@ while (true) {
 
     $n++; // Incrementa o índice para o próximo conjunto de parâmetros
 }
-
 ?>

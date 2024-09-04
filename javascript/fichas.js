@@ -1,5 +1,5 @@
 function fichaProcessador(str1) {
-    var div = document.getElementById('b-line-proc-2');
+    var div = document.getElementById('fichaProc');
     div.innerHTML = '';
     $.ajax({
         url: "./includes/auto_complete.php",
@@ -7,7 +7,7 @@ function fichaProcessador(str1) {
         data: { fp: str1 },
         success: function (response) {
             var dados = JSON.parse(response);
-            var output = '<table class="fichaProc"><tr>';
+            var output = '<tr>';
 
             output += "<td><b>Geração:</b> " + dados.geracao + "</td>";
             if (dados.ecores) {
@@ -27,7 +27,7 @@ function fichaProcessador(str1) {
             }
             output += "<td><b>iGPU:</b> " + (dados.igpu ? dados.igpu : "N/A") + "</td>";
 
-            output += "</tr></table>";
+            output += "</tr>";
 
             div.innerHTML = output;
         }
@@ -42,7 +42,6 @@ function fichaMonitor(str1, str2) {
         method: "GET",
         data: { fm: str1 },
         success: function (response) {
-            console.log(response);
             var dados = JSON.parse(response);
             var output = '<tr>';
 
@@ -64,3 +63,29 @@ function fichaMonitor(str1, str2) {
         }
     });
 }
+
+function limparFichaMon(n) {
+    document.getElementById(`fichaMon-${n}`).innerHTML = `<tr><td>&nbsp;</td></tr><tr><td><span>Escolha um modelo da lista para carregar a ficha técnica</span></td></tr>`;
+}
+
+function limparFichaProc() {
+    document.getElementById(`fichaProc`).innerHTML = `<tr><td>&nbsp;</td></tr><tr><td><span>Escolha um modelo da lista para carregar a ficha técnica</span></td></tr>`;
+}
+
+function verificarTecla(event, n) {
+    console.log(event, n);
+    const teclasValidas = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~áéíóúÁÉÍÓÚãõÃÕâêîôûÂÊÎÔÛçÇ°ºª§¹²³£¢¬]$/;
+    const teclasIgnoradas = ['End', 'Home', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Tab', 'Escape'];
+
+    if (teclasValidas.test(event.key) || event.key === 'Backspace' || event.key === 'Delete') {
+        if (n && n !== '') {
+            limparFichaMon(n);
+        } else {
+            limparFichaProc();
+        }
+    } else if (!teclasIgnoradas.includes(event.key)) {
+        event.preventDefault();
+    }
+}
+
+
