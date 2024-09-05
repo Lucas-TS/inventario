@@ -227,6 +227,7 @@ if (isset($_GET['ativo'])) {
 <script src="javascript/placeholder.js"></script>
 <script src="javascript/formulario.so.js"></script>
 <script src="javascript/events.js"></script>
+<script src="javascript/masks.js"></script>
 <?php
 // Fecha a conexão MySQL
 $conn->close();

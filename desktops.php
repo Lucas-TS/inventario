@@ -168,9 +168,9 @@ if (isset($_GET['ativo'])) {
                      </td>
                   </tr>
                   <tr>
-                     <td colspan="2" rowspan="1" id="filtro-host" class="input-filtro"><label for="input-host">Host Name:</label><input id="input-host" class="input" name="hn" placeholder="Digite um nome" value="<?php echo $hn; ?>" oninput="this.value = this.value.toUpperCase();">
+                     <td colspan="2" rowspan="1" id="filtro-hn" class="input-filtro"><label for="input-hn">Host Name:</label><input id="input-hn" class="input" name="hn" placeholder="Digite um nome" value="<?php echo $hn; ?>">
                      </td>
-                     <td colspan="2" rowspan="1" id="filtro-mac" class="input-filtro"><label for="input-mac">MAC:</label><input id="input-mac" class="input mac" name="mac" placeholder="Digite somente números" value="<?php echo $mac; ?>" oninput="this.value = this.value.toUpperCase();">
+                     <td colspan="2" rowspan="1" id="filtro-mac" class="input-filtro"><label for="input-mac">MAC:</label><input id="input-mac" class="input mac" name="mac" placeholder="Digite somente números" value="<?php echo $mac; ?>">
                      </td>
                      <td style="vertical-align:bottom"><div style="display:contents;"><label for="qtde" style="width:52px">Linhas:</label>
                      <select id="combo-qtde" class="combo" name="qtde" style="margin-bottom:12px;width:calc(100% - 57px);">
