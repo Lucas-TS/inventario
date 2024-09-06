@@ -992,6 +992,18 @@ label {
    margin-left: 418px;
 }
 
+.suggestions-box.ver-so.win {
+   width: 185px;
+   margin-top: 40px;
+   margin-left: 65px;
+}
+
+.suggestions-box.distro-so.linux {
+   width: 185px;
+   margin-top: 40px;
+   margin-left: 99px;
+}
+
 .suggestions-box.visivel {
    display: block;
 }
@@ -1075,6 +1087,10 @@ label {
 #b-line-5 {
    flex: 1;
 }
+
+/*.oculto {
+   display: none;
+}*/
 
 #h-spacer {
    width: 20px;

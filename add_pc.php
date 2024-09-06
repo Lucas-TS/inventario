@@ -114,17 +114,17 @@ if (isset($_GET['ativo'])) {
                </div>
                <div id="linha-1" class="linha">
                   <div id="h-line-1" class="h-line">Informações básicas:</div>
-                  <div id="b-line-1" class="b-line"><label class="label" for="op">Operador:</label><input id="op" name="op" type="text" class="input box" placeholder="Digite um nome" required style="width:250px"></div>
+                  <div id="b-line-1" class="b-line"><label class="label" for="op">Operador:</label><input id="op" name="op" type="text" class="input box" placeholder="Digite o nome" required style="width:250px"></div>
                   <input id="hidden-op" name="hidden-op" type="hidden" value="">
                   <div id="suggestions-op" class="suggestions-box op"></div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-2"class="b-line"><label class="label" for="marca">Marca:</label><input id="marca" name="marca" type="text" class="input" placeholder="Digite uma marca (Opcional)" style="width:250px"></div>
+                  <div id="b-line-2"class="b-line"><label class="label" for="marca">Marca:</label><input id="marca" name="marca" type="text" class="input" placeholder="Digite a marca (Opcional)" style="width:250px"></div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-3"class="b-line"><label class="label" for="modelo">Modelo:</label><input id="modelo" name="modelo" type="text" class="input" placeholder="Digite um modelo (Opcional)" style="width:250px"></div>
+                  <div id="b-line-3"class="b-line"><label class="label" for="modelo">Modelo:</label><input id="modelo" name="modelo" type="text" class="input" placeholder="Digite o modelo (Opcional)" style="width:250px"></div>
                </div>
                <div id="linha-2" class="linha">
                   <div id="h-line-2" class="h-line">Processador:</div>
-                  <div id="b-line-proc-1"class="b-line"><label class="label" for="processador">Modelo:</label><input id="processador" class="input box" type="text" name="processador" class="input" placeholder="Escolha um modelo na lista" required onkeyup="verificarTecla(event)"></div>
+                  <div id="b-line-proc-1"class="b-line"><label class="label" for="processador">Modelo:</label><input id="processador" class="input box" type="text" name="processador" class="input" placeholder="Digite o modelo" required onkeyup="verificarTecla(event)"></div>
                   <input id="hidden-processador" name="hidden-processador" type="hidden" value="">
                   <div id="suggestions-processador" class="suggestions-box processador"></div>
                   <div id="adicionarProc"><a title="Adicionar novo processador" href="#"><?php include './images/add.svg'; ?></a></div>
@@ -143,7 +143,7 @@ if (isset($_GET['ativo'])) {
                      <button title="Aumentar" type="button" id="mais" class="mais" onclick="more(this, 'mem')"><?php include './images/add.svg'; ?></button>
                   </div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-mem-2" class="b-line"><label class="label" for="tipo-mem">Tipo:</label><input id="tipo-mem" class="input" type="text" name="tipo-mem" placeholder="Escolha um tipo" required readonly style="width:190px"></div>
+                  <div id="b-line-mem-2" class="b-line"><label class="label" for="tipo-mem">Tipo:</label><input id="tipo-mem" class="input" type="text" name="tipo-mem" placeholder="Escolha" required readonly style="width:190px"></div>
                   <div id="suggestions-tipo-mem" class="suggestions-box tipo-mem">
                      <p>DDR5</p>
                      <p>DDR4</p>

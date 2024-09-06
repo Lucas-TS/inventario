@@ -18,7 +18,7 @@ function adicionarMonitor() {
             <div id="removerMonitor"><a title="Remover monitor" href="#" onclick="removerMonitor(${contadorMonitor})">${maisSVG}</a></div>
             <span style="font-weight:bold;padding-left:5px;color:#AAAAAA;"> Monitor ${contadorMonitor} »   </span>        
             <span class="label" style="padding-left:15px;">Marca:</span>
-            <input id="marca-monitor-${contadorMonitor}" class="input box" type="text" name="marca-monitor-${contadorMonitor}" placeholder="Escolha" required style="width:140px" onkeyup="disableModelo(${contadorMonitor})">
+            <input id="marca-monitor-${contadorMonitor}" class="input box" type="text" name="marca-monitor-${contadorMonitor}" placeholder="Digite a marca" required style="width:140px" onkeyup="disableModelo(${contadorMonitor})">
             <input id="hidden-marca-monitor-${contadorMonitor}" name="hidden-marca-monitor-${contadorMonitor}" type="hidden" value="">
             </div>
             <div id="suggestions-marca-monitor-${contadorMonitor}" class="suggestions-box marca-monitor">
@@ -27,7 +27,7 @@ function adicionarMonitor() {
         <div id="h-spacer"></div>
         <div id="b-line-mon-${++contadorbMonitor}" class="b-line">
             <label class="label" for="modelo-monitor-${contadorMonitor}">Modelo:</label>
-            <input id="modelo-monitor-${contadorMonitor}" class="input box openSug" type="text" name="modelo-monitor-${contadorMonitor}" placeholder="Escolha uma marca" required disabled style="width:190px" onkeyup="verificarTecla(event, ${contadorMonitor})">
+            <input id="modelo-monitor-${contadorMonitor}" class="input box openBox" type="text" name="modelo-monitor-${contadorMonitor}" placeholder="Digite o modelo" required disabled style="width:190px" onkeyup="verificarTecla(event, ${contadorMonitor})">
         </div>
         <div id="suggestions-modelo-monitor-${contadorMonitor}" class="suggestions-box modelo-monitor">
         </div>
@@ -85,14 +85,12 @@ function removerMonitor(id) {
             }
         });
     }
-    }
+}
 
-    // Mostrar o botão de adicionar monitor se houver menos de 4 monitores
-    if (contadorMonitor < maxMonitores) {
-        document.getElementById('adicionarMonitor').style.display = 'flex';
-    }
-
-    
+// Mostrar o botão de adicionar monitor se houver menos de 4 monitores
+if (contadorMonitor < maxMonitores) {
+    document.getElementById('adicionarMonitor').style.display = 'flex';
+}
 
 function mostrarModelo(n) {
     const campo = document.getElementById(`modelo-monitor-${n}`);

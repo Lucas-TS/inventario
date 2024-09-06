@@ -31,6 +31,7 @@ function showSuggestions(str1, str2) {
         $suggestions.addClass('visivel');
     }
     let marca = '';
+    let auto = '';
     // Verifica se o campo que chamou a função é do tipo modelo-monitor-#
     if (str2.startsWith('modelo-monitor-')) {
         // Extrai o número do ID do campo atual
@@ -42,6 +43,23 @@ function showSuggestions(str1, str2) {
         // Define a constante marca com o valor obtido
         marca = marcaMonitorValue;
     }
+    if (str2 == 'ver-win' || str2 == 'distro-linux') {
+        let os = document.querySelector('input[name="so"]:checked').value;
+        marca = os;
+    }
+    if (str2 == 'ver-linux') {
+        let os = document.querySelector('input[name="so"]:checked').value;
+        let os2 = document.getElementById(`distro-linux`).value;
+        marca = os + ' ' + os2;
+        auto = "1";
+    }
+    if (str2 == 'ed-win') {
+        let os = document.querySelector('input[name="so"]:checked').value;
+        let os2 = document.getElementById(`ver-win`).value;
+        marca = os + ' ' + os2;
+        auto = "1";
+    }
+    console.log(str1, str2, marca);
     $.ajax({
         url: "./includes/auto_complete.php",
         method: "GET",
