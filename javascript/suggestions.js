@@ -31,7 +31,6 @@ function showSuggestions(str1, str2) {
         $suggestions.addClass('visivel');
     }
     let marca = '';
-    let auto = '';
     // Verifica se o campo que chamou a função é do tipo modelo-monitor-#
     if (str2.startsWith('modelo-monitor-')) {
         // Extrai o número do ID do campo atual
@@ -44,21 +43,39 @@ function showSuggestions(str1, str2) {
         marca = marcaMonitorValue;
     }
     if (str2 == 'ver-win' || str2 == 'distro-linux') {
-        let os = document.querySelector('input[name="so"]:checked').value;
-        marca = os;
+        let so = document.querySelector('input[name="so"]:checked').value;
+        marca = so;
     }
     if (str2 == 'ver-linux') {
-        let os = document.querySelector('input[name="so"]:checked').value;
-        let os2 = document.getElementById(`distro-linux`).value;
-        marca = os + ' ' + os2;
-        auto = "1";
+        let so = document.querySelector('input[name="so"]:checked').value;
+        let so2 = document.getElementById(`distro-linux`).value;
+        marca = so + ' ' + so2;
     }
     if (str2 == 'ed-win') {
-        let os = document.querySelector('input[name="so"]:checked').value;
-        let os2 = document.getElementById(`ver-win`).value;
-        marca = os + ' ' + os2;
-        auto = "1";
+        let so = document.querySelector('input[name="so"]:checked').value;
+        let so2 = document.getElementById(`ver-win`).value;
+        marca = so + ' ' + so2;
     }
+    if (str2 == 'if-linux') {
+        let so = document.querySelector('input[name="so"]:checked').value;
+        let so2 = document.getElementById(`distro-linux`).value;
+        let so3 = document.getElementById(`ver-linux`).value;
+        marca = so + ' ' + so2 + ' ' + so3;
+    }
+    if (str2 == 'ver-ms' || str2 == 'nome-free') {
+        let office = document.querySelector('input[name="office"]:checked').value;
+        marca = office;
+    }
+    if (str2 == 'ed-ms') {
+        let office = document.querySelector('input[name="office"]:checked').value;
+        let office2 = document.getElementById(`ver-ms`).value;
+        marca = office + ' ' + office2;
+    }
+    if (str2 == 'ver-free') {
+        let office2 = document.getElementById(`nome-free`).value;
+        marca = office2;
+    }
+
     console.log(str1, str2, marca);
     $.ajax({
         url: "./includes/auto_complete.php",
@@ -71,11 +88,11 @@ function showSuggestions(str1, str2) {
 }
 
 function passarValor(nr, input, id) {
-    var valor = $("#p" + nr).text();
+    let valor = $("#p" + nr).text();
     $(input).val(valor);
     $('#suggestions-' + $(input).attr('id')).removeClass('visivel');
 
-    var hiddenElement = document.getElementById('hidden-' + $(input).attr('id'));
+    let hiddenElement = document.getElementById('hidden-' + $(input).attr('id'));
     if (hiddenElement) {
         hiddenElement.value = id;
     }

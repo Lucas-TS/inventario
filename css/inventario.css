@@ -1004,6 +1004,24 @@ label {
    margin-left: 99px;
 }
 
+.suggestions-box.ed-so.win {
+   width: 185px;
+   margin-top: 40px;
+   margin-left: 339px;
+}
+
+.suggestions-box.ver-so.linux {
+   width: 185px;
+   margin-top: 40px;
+   margin-left: 374px;
+}
+
+.suggestions-box.if-so.linux {
+   width: 185px;
+   margin-top: 40px;
+   margin-left: 660px;
+}
+
 .suggestions-box.visivel {
    display: block;
 }
@@ -1088,9 +1106,9 @@ label {
    flex: 1;
 }
 
-/*.oculto {
+.oculto {
    display: none;
-}*/
+}
 
 #h-spacer {
    width: 20px;
@@ -1104,7 +1122,6 @@ input[type="radio"].radio {
 }
 
 input[type="radio"].radio + label {
-   display: inline-block;
    position: relative;
    padding-left: 25px; /* Aproximar o texto do botão */
    cursor: pointer;

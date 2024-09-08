@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulação de Clique</title>
+</head>
+<body>
+    <button id="meuBotao">Clique em mim</button>
+
+    <script>
+        // Função para ser chamada quando o botão for clicado
+        function aoClicar() {
+            alert('Botão clicado!');
+        }
+
+        // Adiciona um evento de clique ao botão
+        document.getElementById('meuBotao').addEventListener('click', aoClicar);
+
+        // Simula um clique no botão após 2 segundos
+        setTimeout(() => {
+            document.getElementById('meuBotao').click();
+        }, 2000);
+    </script>
+</body>
+</html>

@@ -182,10 +182,13 @@ if (isset($_GET['ativo'])) {
                <div id="linha-8" class="linha">
                <div id="h-line-9" class="h-line">Pacote Office:</div>
                <div id="b-line-office-1" class="b-line">
-                     <input type="radio" id="ms" name="office" class="radio" value="1">
+                     <span class="label">Pacote:</span>
+                     <input type="radio" id="ms" name="office" class="radio" value="Office" onclick="formularioOffice(this.value)">
                      <label for="ms"><span></span>Microsoft Office</label>
-                     <input type="radio" id="free" name="office" class="radio" value="0">
+                     <input type="radio" id="free" name="office" class="radio" value="Free" onclick="formularioOffice(this.value)">
                      <label for="free"><span></span>Gratuito</label>
+                  </div>
+                  <div id="formulario-office-1" class="formulario">
                   </div>
                </div>
                <div id="linha-9" class="linha">
@@ -226,6 +229,7 @@ if (isset($_GET['ativo'])) {
 <script src="javascript/add.monitor.js"></script>
 <script src="javascript/placeholder.js"></script>
 <script src="javascript/formulario.so.js"></script>
+<script src="javascript/formulario.office.js"></script>
 <script src="javascript/events.js"></script>
 <script src="javascript/masks.js"></script>
 <?php
