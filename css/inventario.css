@@ -876,14 +876,14 @@ label {
    fill:#158CBA !important;
 }
 
-#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor {
+#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #adicionarGpu {
    display: flex;
    align-items: center;
    vertical-align: middle;
    justify-content: center;
 }
 
-#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos {
+#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos, #adicionarGpu {
    width: 26px;
    height: 26px;
    border-radius: 50%;
@@ -894,7 +894,7 @@ label {
    margin-bottom: 10px;
 }
 
-#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover {
+#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover {
    background-color: #158CBA;
 }
 
@@ -906,12 +906,12 @@ label {
    cursor: pointer;
 }
 
-#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarProc:hover svg, #adicionarDsk:hover svg, #adicionarMonitor:hover svg {
+#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover, #adicionarProc:hover svg, #adicionarDsk:hover svg, #adicionarMonitor:hover svg, #adicionarGpu:hover svg {
    fill: #FFFFFF;
    cursor: pointer;
 }
 
-#adicionarProc svg, #adicionarDsk svg, #removerDsk svg, #adicionarMonitor svg, #removerMonitor svg, #mais svg, #menos svg {
+#adicionarProc svg, #adicionarDsk svg, #removerDsk svg, #adicionarGpu svg, #adicionarMonitor svg, #removerMonitor svg, #mais svg, #menos svg {
    width: 16px;
    height: 16px;
    fill: #158CBA;
@@ -954,72 +954,109 @@ label {
    display: none;
    border-radius: 5px;
    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 1px 1px 3px rgba(0, 0, 0, 0.30);
+   margin-top: 30px;
 }
 
 .suggestions-box.processador {
    width: 395px;
-   margin-top: 64px;
    margin-left: 68px;
+   margin-top: 30px;
 }
 
 .suggestions-box.op {
    width: 245px;
-   margin-top: 64px;
    margin-left: 83px;
+   margin-top: 30px;
 }
 
 .suggestions-box.tipo-mem {
    width: 185px;
-   margin-top: 64px;
-   margin-left: 302px;
+   margin-left: 46px;
+   margin-top: 30px;
 }
 
 .suggestions-box.tam-hd, .suggestions-box.tam-ssd {
    width: 95px;
-   margin-top: 40px;
    margin-left: 81px;
+   margin-top: 40px;
+}
+
+.suggestions-box.gpu-pv {
+   width: 240px;
+   margin-left: 70px;
+   margin-top: 30px;
+}
+
+.suggestions-box.marca-pv {
+   width: 240px;
+   margin-left: 91px;
+   margin-top: 30px;
+}
+
+.suggestions-box.modelo-pv {
+   width: 240px;
+   margin-left: 186px;
+   margin-top: 30px;
+}
+
+.suggestions-box.mem-pv {
+   width: 140px;
+   margin-left: 186px;
+   margin-top: 30px;
 }
 
 .suggestions-box.marca-monitor {
    width: 135px;
-   margin-top: 50px;
-   margin-left: 192px;
+   margin-left: 186px;
+   margin-top: 40px;
 }
 
 .suggestions-box.modelo-monitor {
-   width: 285px;
-   margin-top: 50px;
-   margin-left: 418px;
+   width: 185px;
+   margin-left: 413px;
+   margin-top: 40px;
 }
 
-.suggestions-box.ver-so.win {
+.suggestions-box.ver-so.win, .suggestions-box.ver-office.ms {
    width: 185px;
-   margin-top: 40px;
    margin-left: 65px;
+   margin-top: 40px;
 }
 
 .suggestions-box.distro-so.linux {
    width: 185px;
-   margin-top: 40px;
    margin-left: 99px;
+   margin-top: 40px;
 }
 
-.suggestions-box.ed-so.win {
+.suggestions-box.ed-so.win, .suggestions-box.ed-office.ms  {
    width: 185px;
-   margin-top: 40px;
    margin-left: 339px;
+   margin-top: 40px;
 }
 
 .suggestions-box.ver-so.linux {
    width: 185px;
-   margin-top: 40px;
    margin-left: 374px;
+   margin-top: 40px;
 }
 
 .suggestions-box.if-so.linux {
    width: 185px;
-   margin-top: 40px;
    margin-left: 660px;
+   margin-top: 40px;
+}
+
+.suggestions-box.nome-office.free {
+   width: 185px;
+   margin-left: 58px;
+   margin-top: 40px;
+}
+
+.suggestions-box.ver-office.free {
+   width: 185px;
+   margin-left: 332px;
+   margin-top: 40px;
 }
 
 .suggestions-box.visivel {

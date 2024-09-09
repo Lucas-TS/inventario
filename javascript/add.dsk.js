@@ -1,6 +1,6 @@
 let contadorDsk = 0;
 let contadorbDsk = 0; // Início em 7 para evitar conflitos
-const maxArmazenamentos = 4;
+let maxArmazenamentos = 4;
 
 function adicionarArmazenamento() {
     if (contadorDsk >= maxArmazenamentos) {
@@ -9,8 +9,8 @@ function adicionarArmazenamento() {
     }
     contadorDsk++;
     contadorbDsk++;
-    const container = document.getElementById('armazenamentos-container');
-    const novoArmazenamento = document.createElement('div');
+    let container = document.getElementById('armazenamentos-container');
+    let novoArmazenamento = document.createElement('div');
     novoArmazenamento.id = `armazenamento-${contadorDsk}`;
     novoArmazenamento.classList.add('armazenamento');
     novoArmazenamento.innerHTML = `
@@ -31,8 +31,8 @@ function adicionarArmazenamento() {
 }
 
 function removerArmazenamento(id) {
-    const container = document.getElementById('armazenamentos-container');
-    const armazenamento = document.getElementById(`armazenamento-${id}`);
+    let container = document.getElementById('armazenamentos-container');
+    let armazenamento = document.getElementById(`armazenamento-${id}`);
     container.removeChild(armazenamento);
 
     // Renumerar os armazenamentos restantes
@@ -92,7 +92,7 @@ function removerArmazenamento(id) {
 }
 
 function mostrarFormulario(contadorDsk, tipo) {
-    const formulario = document.getElementById(`formulario-${contadorDsk}`);
+    let formulario = document.getElementById(`formulario-${contadorDsk}`);
     formulario.innerHTML = gerarFormulario(contadorDsk, tipo);
 }
 
@@ -104,14 +104,9 @@ function gerarFormulario(contadorDsk, tipo) {
         return `
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="tam-hd-${contadorDsk}">Tamanho:</label>
-                <input id="tam-hd-${contadorDsk}" class="input" type="text" name="tam-hd-${contadorDsk}" placeholder="Escolha" required style="width:100px" onkeyup="showSuggestionsDsk('hd', ${contadorDsk})">
+                <input id="tam-hd-${contadorDsk}" class="input box" type="text" name="tam-hd-${contadorDsk}" placeholder="Escolha" required style="width:100px">
             </div>
             <div id="suggestions-tam-hd-${contadorDsk}" class="suggestions-box tam-hd">
-                <p>1 TB</p>
-                <p>500 GB</p>
-                <p>320 GB</p>
-                <p>250 GB</p>
-                <p>160 GB</p>
             </div>
             <div id="h-spacer"></div>
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
@@ -128,19 +123,15 @@ function gerarFormulario(contadorDsk, tipo) {
                 <input type="text" name="saude-hd-${contadorDsk}" class="saude-hd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
                 <button title="Aumentar" type="button" id="mais" class="mais" disabled onclick="more(this, 'saude')">${maisSVG}</button>
             </div>
+            <input id="hidden-tam-hd-${contadorDsk}" name="hidden-tam-hd-${contadorDsk}" type="hidden" value="">
         `;
     } else if (tipo === 'SSD') {
         return `
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="tam-ssd-${contadorDsk}">Tamanho:</label>
-                <input id="tam-ssd-${contadorDsk}" class="input" type="text" name="tam-ssd-${contadorDsk}" placeholder="Escolha" required style="width:100px" onkeyup="showSuggestionsDsk('ssd', ${contadorDsk})">
+                <input id="tam-ssd-${contadorDsk}" class="input box" type="text" name="tam-ssd-${contadorDsk}" placeholder="Escolha" required style="width:100px">
             </div>
             <div id="suggestions-tam-ssd-${contadorDsk}" class="suggestions-box tam-ssd">
-                <p>512 GB</p>
-                <p>500 GB</p>
-                <p>480 GB</p>
-                <p>250 GB</p>
-                <p>240 GB</p>
             </div>
             <div id="h-spacer"></div>
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
@@ -159,6 +150,7 @@ function gerarFormulario(contadorDsk, tipo) {
                 <input type="text" name="saude-ssd-${contadorDsk}" class="saude-ssd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
                 <button title="Aumentar" type="button" id="mais" class="mais" disabled onclick="more(this, 'saude')">${maisSVG}</button>
             </div>
+            <input id="hidden-tam-ssd-${contadorDsk}" name="hidden-tam-ssd-${contadorDsk}" type="hidden" value="">
         `;
     }
 }

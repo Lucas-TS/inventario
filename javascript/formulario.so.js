@@ -240,8 +240,8 @@ function mostrarArq(so4) {
     });
 }
 function passarIdSo(id) {
-    let hiddenElement = document.getElementById('hidden-so');
-    if (hiddenElement) {
-        hiddenElement.value = id;
+    let hiddenSo = document.getElementById('hidden-so');
+    if (hiddenSo) {
+        hiddenSo.value = id;
     }
 }

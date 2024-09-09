@@ -1,6 +1,6 @@
 let contadorMonitor = 0;
 let contadorbMonitor = 0; // Início em 24 para evitar conflitos
-const maxMonitores = 4;
+let maxMonitores = 4;
 
 function adicionarMonitor() {
     if (contadorMonitor >= maxMonitores) {
@@ -9,8 +9,8 @@ function adicionarMonitor() {
     }
     contadorMonitor++;
     contadorbMonitor++;
-    const container = document.getElementById('monitores-container');
-    const novoMonitor = document.createElement('div');
+    let container = document.getElementById('monitores-container');
+    let novoMonitor = document.createElement('div');
     novoMonitor.id = `monitor-${contadorMonitor}`;
     novoMonitor.classList.add('monitor');
     novoMonitor.innerHTML = `
@@ -18,8 +18,7 @@ function adicionarMonitor() {
             <div id="removerMonitor"><a title="Remover monitor" href="#" onclick="removerMonitor(${contadorMonitor})">${maisSVG}</a></div>
             <span style="font-weight:bold;padding-left:5px;color:#AAAAAA;"> Monitor ${contadorMonitor} »   </span>        
             <span class="label" style="padding-left:15px;">Marca:</span>
-            <input id="marca-monitor-${contadorMonitor}" class="input box" type="text" name="marca-monitor-${contadorMonitor}" placeholder="Digite a marca" required style="width:140px" onkeyup="disableModelo(${contadorMonitor})">
-            <input id="hidden-marca-monitor-${contadorMonitor}" name="hidden-marca-monitor-${contadorMonitor}" type="hidden" value="">
+            <input id="marca-monitor-${contadorMonitor}" class="input box" type="text" name="marca-monitor-${contadorMonitor}" placeholder="Escolha a marca" required style="width:140px" onkeyup="disableModelo(${contadorMonitor})">
             </div>
             <div id="suggestions-marca-monitor-${contadorMonitor}" class="suggestions-box marca-monitor">
             </div>
@@ -27,10 +26,11 @@ function adicionarMonitor() {
         <div id="h-spacer"></div>
         <div id="b-line-mon-${++contadorbMonitor}" class="b-line">
             <label class="label" for="modelo-monitor-${contadorMonitor}">Modelo:</label>
-            <input id="modelo-monitor-${contadorMonitor}" class="input box openBox" type="text" name="modelo-monitor-${contadorMonitor}" placeholder="Digite o modelo" required disabled style="width:190px" onkeyup="verificarTecla(event, ${contadorMonitor})">
+            <input id="modelo-monitor-${contadorMonitor}" class="input box openBox" type="text" name="modelo-monitor-${contadorMonitor}" placeholder="Escolha a marca" required disabled style="width:190px" onkeyup="verificarTecla(event, ${contadorMonitor})">
         </div>
         <div id="suggestions-modelo-monitor-${contadorMonitor}" class="suggestions-box modelo-monitor">
         </div>
+        <input id="hidden-modelo-monitor-${contadorMonitor}" name="hidden-modelo-monitor-${contadorMonitor}" type="hidden" value="">
         <div id="h-spacer"></div>
         <div id="b-line-mon-${++contadorbMonitor}" class="b-line">
             <span class="label">Conexão:</span>
@@ -57,8 +57,8 @@ function adicionarMonitor() {
 }
 
 function removerMonitor(id) {
-    const container = document.getElementById('monitores-container');
-    const monitor = document.getElementById(`monitor-${id}`);
+    let container = document.getElementById('monitores-container');
+    let monitor = document.getElementById(`monitor-${id}`);
     container.removeChild(monitor);
 
     // Renumerar os monitores restantes
@@ -93,17 +93,21 @@ if (contadorMonitor < maxMonitores) {
 }
 
 function mostrarModelo(n) {
-    const campo = document.getElementById(`modelo-monitor-${n}`);
+    let campo = document.getElementById(`modelo-monitor-${n}`);
     campo.removeAttribute('disabled');
     campo.setAttribute('placeholder', 'Escolha');
-    const campoModelo = `modelo-monitor-${n}`;
+    let campoModelo = `modelo-monitor-${n}`;
     showSuggestions('', campoModelo);
 }
 
 function disableModelo(n) {
-    var campo = document.getElementById(`modelo-monitor-${n}`);
+    let campo = document.getElementById(`modelo-monitor-${n}`);
+    let hiddenMon = document.getElementById(`hidden-modelo-monitor-${n}`);
     campo.disabled = true;
-    campo.setAttribute('placeholder', 'Escolha uma marca');
+    campo.value = '';
+    campo.setAttribute('placeholder', 'Escolha a marca');
+    hiddenMon.value = '';
+
 }
 
 function limparFicha(n) {

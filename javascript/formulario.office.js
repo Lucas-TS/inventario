@@ -44,20 +44,20 @@ function liberarCampo2(str1) {
         let campo = document.getElementById('ed-ms');
         campo.setAttribute('placeholder', 'Escolha a edição');
         campo.disabled = false;
-        document.getElementById('ed-ms').value = '';
+        campo.value = '';
     }
     if (str1 === 'Free') {
         let campo = document.getElementById('ver-free');
         campo.setAttribute('placeholder', 'Escolha a versão');
         campo.disabled = false;
-        document.getElementById('ver-free').value = '';
+        campo.value = '';
     }
     document.getElementById('hidden-office').value = '';
 }
 
 function passarIdOffice(id) {
-    let hiddenElement = document.getElementById('hidden-office');
-    if (hiddenElement) {
-        hiddenElement.value = id;
+    let hiddenOffice = document.getElementById('hidden-office');
+    if (hiddenOffice) {
+        hiddenOffice.value = id;
     }
 }

@@ -73,7 +73,6 @@ function limparFichaProc() {
 }
 
 function verificarTecla(event, n) {
-    console.log(event, n);
     const teclasValidas = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~áéíóúÁÉÍÓÚãõÃÕâêîôûÂÊÎÔÛçÇ°ºª§¹²³£¢¬]$/;
     const teclasIgnoradas = ['End', 'Home', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Tab', 'Escape'];
 

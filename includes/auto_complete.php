@@ -15,6 +15,14 @@ if (isset($_GET['n']) && $_GET['n'] == 'op')
 {
     $sql = "SELECT militares.id, CONCAT(pg.abreviatura, ' ', militares.nome_guerra, ' - ', secao.sigla) AS lista FROM militares LEFT JOIN pg ON militares.id_pg = pg.id LEFT JOIN secao ON militares.id_secao = secao.id WHERE CONCAT(pg.abreviatura, ' ', militares.nome_guerra, ' - ', secao.sigla) LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
 }
+if (isset($_GET['n']) && $_GET['n'] == 'gpu-pv')
+{
+    $sql = "SELECT DISTINCT gpu AS lista FROM lista_placa_video WHERE gpu LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
+}
+if (isset($_GET['n']) && $_GET['n'] == 'marca-pv')
+{
+    $sql = "SELECT DISTINCT marca AS lista FROM lista_placa_video WHERE marca LIKE '%$q%' AND gpu LIKE '$mm' ORDER BY lista ASC LIMIT 5";
+}
 if (isset($_GET['n']) && ($_GET['n'] == 'ver-win' || $_GET['n'] == 'distro-linux'))
 {
     if ($mm == "Windows") {
@@ -56,13 +64,23 @@ if (isset($_GET['n']) && ($_GET['n'] == 'ver-free' || $_GET['n'] == 'ed-ms'))
         $sql = "SELECT id, versao AS lista FROM lista_office WHERE versao LIKE '%$q%' AND nome LIKE '$mm' ORDER BY lista ASC LIMIT 5";
     }
 }
+if (isset($_GET['n']) && strpos($n, 'tam-hd-') === 0) {
+    preg_match_all('!\d+!', $n, $a);
+    $id_campo = $a[0][0];
+    $sql = "SELECT DISTINCT id, tamanho AS lista FROM lista_hd WHERE tamanho LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
+}
 
-if (isset($_GET['n']) && strpos($n, 'marca-monitor-') !== false) {
+if (isset($_GET['n']) && strpos($n, 'tam-ssd-') === 0) {
+    preg_match_all('!\d+!', $n, $a);
+    $id_campo = $a[0][0];
+    $sql = "SELECT DISTINCT id, tamanho AS lista FROM lista_ssd WHERE tamanho LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
+}
+if (isset($_GET['n']) && strpos($n, 'marca-monitor-') === 0) {
     preg_match_all('!\d+!', $n, $a);
     $id_campo = $a[0][0];
     $sql = "SELECT DISTINCT id, marca AS lista FROM lista_monitor WHERE marca LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
 }
-if (isset($_GET['n']) && strpos($n, 'modelo-monitor-') !== false) {
+if (isset($_GET['n']) && strpos($n, 'modelo-monitor-') === 0) {
     preg_match_all('!\d+!', $n, $a);
     $id_campo = $a[0][0];
     $sql = "SELECT DISTINCT id, marca, modelo AS lista FROM lista_monitor WHERE marca LIKE '$mm' AND modelo LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
@@ -122,7 +140,7 @@ if ($result->num_rows > 0)
         if ($n == 'processador')
         {
             $memoria = $row['memoria'];
-            echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ", " . $n . ", " . $row['id'] . '); suggestionsMem(\'' . $memoria . '\'); fichaProcessador(\'' . $row['lista'] . '\');">' . $row['lista'] . "</p>";
+            echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ',\'' . $n . '\',' . $row['id'] . '); suggestionsMem(\'' . $memoria . '\'); fichaProcessador(\'' . $row['lista'] . '\');">' . $row['lista'] . "</p>";
         }
         elseif (strpos($n, 'marca-monitor-') !== false)
         {
@@ -151,6 +169,14 @@ if ($result->num_rows > 0)
         elseif ($n == 'ver-free' || $n == 'ed-ms')
         {
             echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . '); passarIdOffice(\'' . $row['id'] . '\')">' . $row['lista'] . "</p>";
+        }
+        elseif ($n == 'gpu-pv')
+        {
+            echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . '); liberarCampo2Pv()">' . $row['lista'] . "</p>";
+        }
+        elseif ($n == 'marca-pv')
+        {
+            echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . '); liberarCampo3Pv()">' . $row['lista'] . "</p>";
         }
         else
         {

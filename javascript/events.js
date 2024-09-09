@@ -1,3 +1,13 @@
+function handleEvent(event) {
+    const isBoxWithValue = event.target.classList.contains('box') && event.target.value;
+    const isOpenBox = event.target.classList.contains('openBox');
+
+    if (isBoxWithValue || isOpenBox) {
+        console.log(event.target.value, event.target.id);
+        showSuggestions(event.target.value, event.target.id);
+    }
+}
+
 $(document).ready(function () {
     $('input').on('click', function (event) {
         event.stopPropagation();
@@ -26,12 +36,6 @@ $(document).ready(function () {
         $input.val($(this).text());
         $('[id^="suggestions"]').removeClass('visivel');
     });
-
-    function handleEvent(event) {
-        if (event.target.classList.contains('box') && event.target.value || event.target.classList.contains('openBox')) {
-            showSuggestions(event.target.value, event.target.id);
-        }
-    }
 
     document.addEventListener('click', handleEvent);
     document.addEventListener('keyup', handleEvent);

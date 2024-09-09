@@ -1,18 +1,13 @@
-function showSuggestionsDsk(tipo, num) {
-    var suggestionsDiv = document.getElementById("suggestions-tam-" + tipo + "-" + num);
-    suggestionsDiv.classList.add("visivel");
-}
-
 function suggestionsMem(valores) {
-    // Dividir a string em uma array
+
     var arrayValores = valores.split(',');
-    // Limpar a div
+
     var div = document.getElementById('suggestions-tipo-mem');
     div.innerHTML = '';
-    // Limpar o valor do input
+
     var input = document.getElementById('tipo-mem');
     input.value = '';
-    // Criar tags <p> e adicionar à div
+
     for (var i = 0; i < arrayValores.length; i++) {
         var p = document.createElement('p');
         p.textContent = arrayValores[i];
@@ -26,54 +21,48 @@ function suggestionsMem(valores) {
 }
 
 function showSuggestions(str1, str2) {
-    const $suggestions = $('#suggestions-' + str2);
+    const $suggestions = $(`#suggestions-${str2}`);
     if (!$suggestions.hasClass("visivel")) {
         $suggestions.addClass('visivel');
     }
+
     let marca = '';
-    // Verifica se o campo que chamou a função é do tipo modelo-monitor-#
-    if (str2.startsWith('modelo-monitor-')) {
-        // Extrai o número do ID do campo atual
-        let numero = str2.split('-').pop();
-        // Constrói o ID do campo correspondente
-        let marcaMonitorId = 'marca-monitor-' + numero;
-        // Obtém o valor do campo correspondente
-        let marcaMonitorValue = document.getElementById(marcaMonitorId).value;
-        // Define a constante marca com o valor obtido
-        marca = marcaMonitorValue;
-    }
-    if (str2 == 'ver-win' || str2 == 'distro-linux') {
-        let so = document.querySelector('input[name="so"]:checked').value;
-        marca = so;
-    }
-    if (str2 == 'ver-linux') {
-        let so = document.querySelector('input[name="so"]:checked').value;
-        let so2 = document.getElementById(`distro-linux`).value;
-        marca = so + ' ' + so2;
-    }
-    if (str2 == 'ed-win') {
-        let so = document.querySelector('input[name="so"]:checked').value;
-        let so2 = document.getElementById(`ver-win`).value;
-        marca = so + ' ' + so2;
-    }
-    if (str2 == 'if-linux') {
-        let so = document.querySelector('input[name="so"]:checked').value;
-        let so2 = document.getElementById(`distro-linux`).value;
-        let so3 = document.getElementById(`ver-linux`).value;
-        marca = so + ' ' + so2 + ' ' + so3;
-    }
-    if (str2 == 'ver-ms' || str2 == 'nome-free') {
-        let office = document.querySelector('input[name="office"]:checked').value;
-        marca = office;
-    }
-    if (str2 == 'ed-ms') {
-        let office = document.querySelector('input[name="office"]:checked').value;
-        let office2 = document.getElementById(`ver-ms`).value;
-        marca = office + ' ' + office2;
-    }
-    if (str2 == 'ver-free') {
-        let office2 = document.getElementById(`nome-free`).value;
-        marca = office2;
+    const so = document.querySelector('input[name="so"]:checked')?.value;
+    const office = document.querySelector('input[name="office"]:checked')?.value;
+
+    switch (str2) {
+        case 'ver-win':
+        case 'distro-linux':
+            marca = so;
+            break;
+        case 'ver-linux':
+            marca = `${so} ${document.getElementById('distro-linux').value}`;
+            break;
+        case 'ed-win':
+            marca = `${so} ${document.getElementById('ver-win').value}`;
+            break;
+        case 'if-linux':
+            marca = `${so} ${document.getElementById('distro-linux').value} ${document.getElementById('ver-linux').value}`;
+            break;
+        case 'ver-ms':
+        case 'nome-free':
+            marca = office;
+            break;
+        case 'ed-ms':
+            marca = `${office} ${document.getElementById('ver-ms').value}`;
+            break;
+        case 'ver-free':
+            marca = document.getElementById('nome-free').value;
+            break;
+        case 'marca-pv':
+            marca = document.getElementById('gpu-pv').value;
+            break;
+        default:
+            if (str2.startsWith('modelo-monitor-')) {
+                const numero = str2.split('-').pop();
+                marca = document.getElementById(`marca-monitor-${numero}`).value;
+            }
+            break;
     }
 
     console.log(str1, str2, marca);
@@ -87,12 +76,15 @@ function showSuggestions(str1, str2) {
     });
 }
 
+
 function passarValor(nr, input, id) {
     let valor = $("#p" + nr).text();
     $(input).val(valor);
-    $('#suggestions-' + $(input).attr('id')).removeClass('visivel');
 
-    let hiddenElement = document.getElementById('hidden-' + $(input).attr('id'));
+    let suggestions = document.getElementById('suggestions-' + input);
+    suggestions.classList.remove('visivel');
+
+    let hiddenElement = document.getElementById('hidden-' + input);
     if (hiddenElement) {
         hiddenElement.value = id;
     }
