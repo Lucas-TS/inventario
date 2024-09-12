@@ -21,7 +21,7 @@ if (isset($_POST['form_name']) && $_POST['form_name'] == 'loginform')
    $db_email = '';
    $db_fullname = '';
    $db_username = '';
-   $session_timeout = 600;
+   $session_timeout = 3600;
    $db = mysqli_connect($mysql_server, $mysql_username, $mysql_password);
    if (!$db)
    {
@@ -39,6 +39,7 @@ if (isset($_POST['form_name']) && $_POST['form_name'] == 'loginform')
          $db_email = $data['email'];
          $db_fullname = $data['fullname'];
          $db_username = $data['username'];
+         $db_id = $data['id'];
          if ($data['avatar'] != NULL)
          {
             $avatar = $data['avatar'];
@@ -60,6 +61,7 @@ if (isset($_POST['form_name']) && $_POST['form_name'] == 'loginform')
       $_SESSION['email'] = $db_email;
       $_SESSION['fullname'] = $db_fullname;
       $_SESSION['username'] = $db_username;
+      $_SESSION['id'] = $db_id;
       $_SESSION['avatar'] = $avatar;
       $_SESSION['expires_by'] = time() + $session_timeout;
       $_SESSION['expires_timeout'] = $session_timeout;

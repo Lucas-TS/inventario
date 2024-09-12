@@ -20,7 +20,15 @@ function formularioSO(str1) {
             </div>
             <input id="hidden-so" name="hidden-so" type="hidden" value="">
             <div id="h-spacer"></div>
-            <div id="b-line-so-4" class="b-line"><label class="label" for="serial-win">Serial:</label><input id="serial-so" class="input" type="text" maxlength="29" name="serial-so" placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" style="width:420px" onkeyup="applyMasks()"></div>
+            <div id="b-line-so-4" class="b-line">
+                <input type="radio" id="pirata-rd-win" name="licenca" class="radio" value="0" onclick="desativaSerial()">
+                <label for="pirata-rd-win"><span></span>Sem licença</label>
+                <input type="radio" id="digital-rd-win" name="licenca" class="radio" value="1" onclick="desativaSerial()">
+                <label for="digital-rd-win"><span></span>Licença digital</label>
+                <input type="radio" id="serial-rd-win" name="licenca" class="radio" value="serial" onclick="liberaSerial()">
+                <label for="serial-rd-win"><span></span>Serial:
+                <input id="serial-so" class="input" type="text" maxlength="29" name="serial-so" disabled placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" style="width:420px" onkeyup="applyMasks()"></label>
+            </div>
             <div id="h-spacer" style="flex-basis: 100%;"></div>
             <div id="b-line-so-6" class="b-line"><label class="label" for="user-win">Usuário:</label><input id="user-so" class="input" type="text" name="user-so" placeholder="Usuário" required style="width:190px"></div>
             <div id="h-spacer"></div>
@@ -170,9 +178,7 @@ function mostrarArq(so4) {
             let hiddenSO = document.getElementById('hidden-so');
        
             if (hasX86 && hasX64) {
-                // Ambos resultados recebidos
-                console.log('Recebeu ambos x86 e x64');
-                
+                                                
                 x86.disabled = false;
                 x86.checked = false;
                 x86.classList.remove('oculto');
@@ -195,9 +201,7 @@ function mostrarArq(so4) {
 
                 // Coloque aqui o código a ser executado quando ambos resultados são recebidos
             } else if (hasX86) {
-                // Apenas x86 recebido
-                console.log('Recebeu apenas x86');
-
+                                
                 x86.disabled = true;
                 x86.checked = true;
                 x86.classList.remove('oculto');
@@ -211,9 +215,7 @@ function mostrarArq(so4) {
 
                 // Coloque aqui o código a ser executado quando apenas x86 é recebido
             } else if (hasX64) {
-                // Apenas x64 recebido
-                console.log('Recebeu apenas x64');
-
+                                
                 x86.disabled = true;
                 x86.classList.add('oculto');
                 labelX86.classList.add('oculto');
@@ -244,4 +246,15 @@ function passarIdSo(id) {
     if (hiddenSo) {
         hiddenSo.value = id;
     }
+}
+
+function liberaSerial() {
+    let serial = document.getElementById('serial-so');
+    serial.disabled = false;
+}
+
+function desativaSerial() {
+    let serial = document.getElementById('serial-so');
+    serial.value = '';
+    serial.disabled = true;
 }

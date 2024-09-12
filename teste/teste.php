@@ -29,6 +29,8 @@ while (true) {
     $dsk++; // Incrementa o índice para o próximo conjunto de parâmetros
 }
 
+echo 'Placa de Vídeo = Chipset:' . $_GET['gpu-pv'] . " | Fabricante: " . $_GET['marca-pv'] . " | Modelo: " . $_GET['modelo-pv'] . " " . $_GET['mem-pv'] . "<br>";
+
 $mon = 1;
 
 while (true) {
@@ -62,4 +64,13 @@ if (isset($_GET['av']) && $_GET['av'] == "1") {
 if (isset($_GET['av']) && $_GET['av'] == "0") {
     echo 'Antivirus = Não | ID: ' . $_GET['av'] . "<br>";
 }
+
+echo 'Hostname:' . $_GET['hn'] . "<br>";
+if (isset($_GET['rede']) && $_GET['rede'] == "0") {
+    echo 'Rede: Onboard | ID: ' . $_GET['hn'] . "<br>";
+}
+if (isset($_GET['rede']) && $_GET['rede'] == "1") {
+    echo 'Rede: Offboard | ID: ' . $_GET['hn'] . "<br>";
+}
+echo 'MAC:' . $_GET['mac'] . "<br>";
 ?>

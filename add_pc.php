@@ -106,11 +106,20 @@ if (isset($_GET['ativo'])) {
       <?php include 'includes/menu.php'; ?>
    </header>
    <div id="content" style="visibility:hidden;">
-      <form name="add-pc" id="add-pc" method="get" accept-charset="UTF-8" action="teste/teste.php">
+      <form name="add-pc" id="add-pc" method="get" accept-charset="UTF-8" action="includes/insert_pc.php">
          <div id="bloco">
             <div id="base-pc">
                <div class="header">
                   <span>Adicionar Computador</span>
+                  <div id="botoes">
+                     <div id="b-line-fim-1"class="b-line">
+                        <button id="limpar" type="reset"><?php include './images/erase.svg'; ?></button>
+                     </div>
+                     <div id="h-spacer"></div>
+                     <div id="b-line-fim-2"class="b-line">
+                        <button id="enviar" type="submit"><?php include './images/ok.svg'; ?></button>
+                     </div>
+                  </div>
                </div>
                <div id="linha-1" class="linha">
                   <div id="h-line-1" class="h-line">Informações básicas:</div>
@@ -120,22 +129,31 @@ if (isset($_GET['ativo'])) {
                      <div id="suggestions-op" class="suggestions-box op"></div>
                   </div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-2"class="b-line"><label class="label" for="marca">Marca:</label>
+                  <div id="b-line-2"class="b-line"><label class="label" for="lacre">Lacre:</label>
+                     <input id="lacre" name="lacre" type="number" class="input" placeholder="Digite o número" required style="width:250px">
+                  </div>
+                  <div id="h-spacer" style="flex-basis: 100%;"></div>
+                  <div id="b-line-3"class="b-line"><label class="label" for="marca">Marca:</label>
                      <input id="marca" name="marca" type="text" class="input" placeholder="Digite a marca (Opcional)" style="width:250px">
                   </div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-3"class="b-line"><label class="label" for="modelo">Modelo:</label>
+                  <div id="b-line-4"class="b-line"><label class="label" for="modelo">Modelo:</label>
                      <input id="modelo" name="modelo" type="text" class="input" placeholder="Digite o modelo (Opcional)" style="width:250px">
+                  </div>
+                  <div id="h-spacer"></div>
+                  <div id="b-line-5"class="b-line"><label class="label" for="garantia">Garantia:</label>
+                     <input id="garantia" name="garantia" type="number" class="input" placeholder=""  style="width:100px">
+                     <span style="color:#AAAAAA">&nbsp;meses</span>
                   </div>
                </div>
                <div id="linha-2" class="linha">
-                  <div id="h-line-2" class="h-line">Processador:</div>
+                  <div id="h-line-2" class="h-line">Processador:<div id="adicionarProc"><a title="Adicionar novo processador" href="#"><?php include './images/new.svg'; ?></a></div></div>
                   <div id="b-line-proc-1"class="b-line"><label class="label" for="processador">Modelo:</label>
                      <input id="processador" class="input box" type="text" name="processador" class="input" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
                      <div id="suggestions-processador" class="suggestions-box processador"></div>
                      <input id="hidden-processador" name="hidden-processador" type="hidden" value="">
                   </div>
-                  <div id="adicionarProc"><a title="Adicionar novo processador" href="#"><?php include './images/add.svg'; ?></a></div>
+                  
                   <div id="h-spacer"></div>
                   <div id="b-line-proc-2"class="b-line">
                      <table id="fichaProc" class="fichaProc">
@@ -147,7 +165,7 @@ if (isset($_GET['ativo'])) {
                   <div id="h-line-3" class="h-line">Memória RAM:</div>
                   <div id="b-line-mem-1"class="b-line"><label class="label" for="qtde-mem-1">Quantidade:</label>
                      <button title="Diminuir" type="button" id="menos" class="menos" disabled onclick="less(this, 'mem')"><?php include './images/menos.svg'; ?></button>
-                     <input type="text" name="qtde-mem" class="qtde-mem input" value="1" style="width:59px;text-align:center;"><span style="color:#AAAAAA">&nbsp;GB</span>
+                     <input type="number" name="qtde-mem" class="qtde-mem input" value="1" style="width:59px;text-align:center;"><span style="color:#AAAAAA">&nbsp;GB</span>
                      <button title="Aumentar" type="button" id="mais" class="mais" onclick="more(this, 'mem')"><?php include './images/add.svg'; ?></button>
                   </div>
                   <div id="h-spacer"></div>
@@ -167,38 +185,37 @@ if (isset($_GET['ativo'])) {
                   <div id="armazenamentos-container">
                      <!-- Armazenamentos serão adicionados aqui -->
                   </div>
-                  <div id="h-line-5" class="h-line"><div id="adicionarDsk"><a title="Adicionar armazenamento" href="#" onclick="adicionarArmazenamento()"><?php include './images/add.svg'; ?></a></div></div>
+                  <div id="h-line-5" class="h-line"><div id="adicionarDsk"><a title="Adicionar armazenamento" href="#" onclick="adicionarArmazenamento()"><?php include './images/list.add.svg'; ?></a></div></div>
                </div>
                <div id="linha-5" class="linha">
-                  <div id="h-line-6" class="h-line">Placa de vídeo:</div>
+                  <div id="h-line-6" class="h-line">Placa de vídeo:<div id="adicionarGpu"><a title="Adicionar nova placa de vídeo" href="#"><?php include './images/new.svg'; ?></a></div></div>
                   <div id="b-line-pv-1"class="b-line"><label class="label" for="gpu-pv">Chipset:</label>
-                     <input id="gpu-pv" class="input box" type="text" name="gpu-pv" class="input" placeholder="Escolha o chipset" required style="width:245px;">
+                     <input id="gpu-pv" class="input box" type="text" name="gpu-pv" class="input" placeholder="Escolha o chipset" required style="width:245px;" onkeyup="disableCampo2Pv()">
                      <div id="suggestions-gpu-pv" class="suggestions-box gpu-pv"></div>
                   </div>
                   <div id="h-spacer"></div>
                   <div id="b-line-pv-2"class="b-line"><label class="label" for="marca-pv">Fabricante:</label>
-                     <input id="marca-pv" class="input openBox" type="text" name="marca-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:245px;">
+                     <input id="marca-pv" class="input openBox" type="text" name="marca-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:245px;" onkeyup="disableCampo3Pv()">
                      <div id="suggestions-marca-pv" class="suggestions-box marca-pv"></div>
                   </div>
                   <div id="h-spacer"></div>
                   <div id="b-line-pv-3"class="b-line"><label class="label" for="modelo-pv">Modelo:</label>
-                     <input id="modelo-pv" class="input box" type="text" name="modelo-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:245px;">
+                     <input id="modelo-pv" class="input openBox" type="text" name="modelo-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:245px;" onkeyup="disableCampo4Pv()">
                      <div id="suggestions-modelo-pv" class="suggestions-box modelo-pv"></div>
                   </div>
                   <div id="h-spacer"></div>
                   <div id="b-line-pv-4"class="b-line"><label class="label" for="mem-pv">Memória:</label>
-                     <input id="mem-pv" class="input box" type="text" name="mem-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:145px;">
+                     <input id="mem-pv" class="input openBox" type="text" name="mem-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:145px;">
                      <div id="suggestions-mem-pv" class="suggestions-box mem-pv"></div>
                   </div>
-                  <div id="adicionarGpu"><a title="Adicionar nova placa de vídeo" href="#"><?php include './images/add.svg'; ?></a></div>
-                  <input id="hidden-pv" name="hidden-pv" type="hidden" value="">
+                  <input id="hidden-mem-pv" name="hidden-mem-pv" type="hidden" value="">
                </div>
                <div id="linha-6" class="linha">
                   <div id="h-line-7" class="h-line">Monitor:</div>
                   <div id="monitores-container">
                      <!-- Monitores serão adicionados aqui -->
                   </div>
-                  <div id="h-line-8" class="h-line"><div id="adicionarMonitor"><a title="Adicionar monitor" href="#" onclick="adicionarMonitor()"><?php include './images/add.svg'; ?></a></div></div>
+                  <div id="h-line-8" class="h-line"><div id="adicionarMonitor"><a title="Adicionar monitor" href="#" onclick="adicionarMonitor()"><?php include './images/list.add.svg'; ?></a></div></div>
                </div>
                <div id="linha-7" class="linha">
                   <div id="h-line-9" class="h-line">Sistema Operacional:</div>
@@ -214,8 +231,8 @@ if (isset($_GET['ativo'])) {
                   <div id="h-spacer"></div>
                </div>
                <div id="linha-8" class="linha">
-               <div id="h-line10" class="h-line">Pacote Office:</div>
-               <div id="b-line-office-1" class="b-line">
+                  <div id="h-line10" class="h-line">Pacote Office:</div>
+                  <div id="b-line-office-1" class="b-line">
                      <span class="label">Pacote:</span>
                      <input type="radio" id="ms" name="office" class="radio" value="Office" onclick="formularioOffice(this.value)">
                      <label for="ms"><span></span>Microsoft Office</label>
@@ -227,7 +244,7 @@ if (isset($_GET['ativo'])) {
                </div>
                <div id="linha-9" class="linha">
                <div id="h-line-11" class="h-line">Antivírus:</div>
-               <div id="b-line-av-1" class="b-line">
+                  <div id="b-line-av-1" class="b-line">
                      <span class="label">Kaspersky Endpoint Security (KES):</span>
                      <input type="radio" id="av-sim" name="av" class="radio" value="1">
                      <label for="av-sim"><span></span>Sim</label>
@@ -235,22 +252,33 @@ if (isset($_GET['ativo'])) {
                      <label for="av-nao"><span></span>Não</label>
                   </div>
                </div>
-               <div id="linha-10" class="linha">
-
-               </div>
-               <div id="linha-11" class="linha">
-                  
-               </div>
-               <div id="linha-12" class="linha">
-                  
-               </div>
-               <div id="linha-13" class="linha">
-                  <button type="submit">TESTE</button>
+               <div id="linha-10" class="linha fim">
+                  <div id="h-line-12" class="h-line">Rede:</div>
+                  <div id="b-line-rede-1"class="b-line"><label class="label" for="hn">Hostname:</label>
+                     <input id="input-hn" name="hn" type="text" class="input" placeholder="Digite o nome" required style="width:250px">
+                  </div>
+                  <div id="h-spacer"></div>
+                  <div id="b-line-rede-2" class="b-line">
+                     <span class="label">Placa de rede:</span>
+                     <input type="radio" id="rede-on" name="rede" class="radio" value="0">
+                     <label for="rede-on"><span></span>Onboard</label>
+                     <input type="radio" id="rede-off" name="rede" class="radio" value="1">
+                     <label for="rede-off"><span></span>Offboard</label>
+                  </div>
+                  <div id="h-spacer"></div>
+                  <div id="b-line-rede-3"class="b-line"><label class="label" for="mac">MAC:</label>
+                     <input id="input-mac" name="mac" type="text" class="input mac" placeholder="Digite o MAC" required style="width:250px">
+                  </div>
+                  <div id="h-spacer"></div>
+                  <div id="b-line-rede-4"class="b-line" style="display:none"><label class="label" for="ip">IP:</label>
+                     <input id="ip" name="ip" type="text" class="input" placeholder="Digite o IP" disabled style="width:250px">
+                  </div>
                </div>
             </div>
          </div>
       </form> 
    </div>
+   <a href="#" title="Voltar ao topo"><div id="topo" class="topo oculto"><?php include './images/seta.svg'; ?></div></a>
    <footer id="FlexContainer2" style="visibility:hidden;">
       <div id="wb_Text1">
          <p>Desenvolvido por Lucas Trindade Silveira © 2024 - v1.0</p>

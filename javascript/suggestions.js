@@ -57,6 +57,12 @@ function showSuggestions(str1, str2) {
         case 'marca-pv':
             marca = document.getElementById('gpu-pv').value;
             break;
+        case 'modelo-pv':
+            marca = `${document.getElementById('gpu-pv').value} ${document.getElementById('marca-pv').value}`;
+            break;
+        case 'mem-pv':
+            marca = `${document.getElementById('gpu-pv').value} ${document.getElementById('marca-pv').value} ${document.getElementById('modelo-pv').value}`;
+            break;
         default:
             if (str2.startsWith('modelo-monitor-')) {
                 const numero = str2.split('-').pop();

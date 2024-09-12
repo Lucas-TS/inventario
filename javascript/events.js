@@ -2,10 +2,19 @@ function handleEvent(event) {
     const isBoxWithValue = event.target.classList.contains('box') && event.target.value;
     const isOpenBox = event.target.classList.contains('openBox');
 
-    if (isBoxWithValue || isOpenBox) {
+    if (isBoxWithValue || (isOpenBox && event.target.value !== verificarValor(event.target.id))) {
         console.log(event.target.value, event.target.id);
         showSuggestions(event.target.value, event.target.id);
     }
+}
+
+// Add a new function to get the matching suggestion value
+function verificarValor(inputId) {
+    const $suggestions = $('#suggestions-' + inputId);
+    const suggestionValues = $suggestions.find('p').map(function() {
+        return $(this).text();
+    }).toArray();
+    return suggestionValues.find(value => value === $('#' + inputId).val());
 }
 
 $(document).ready(function () {
@@ -39,4 +48,21 @@ $(document).ready(function () {
 
     document.addEventListener('click', handleEvent);
     document.addEventListener('keyup', handleEvent);
+});
+
+const topoButton = document.getElementById('topo');
+const addButton = document.getElementById('adicionar');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+        topoButton.classList.remove('oculto');
+        if (addButton) {
+            addButton.style.bottom = '113px';
+        }
+    } else {
+        topoButton.classList.add('oculto');
+        if (addButton) {
+            addButton.style.bottom = '50px';
+        }
+    }
 });

@@ -1,3 +1,14 @@
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
+}
+
+input[type="number"] {
+   -moz-appearance: textfield;
+   appearance: textfield;
+}
+
 a.style1 {
    color: #158CBA;
    text-decoration: none;
@@ -653,7 +664,7 @@ label {
    border-color: #66AFE9;
 }
 
-#filtro .botao {
+.botao {
    background-color: #158CBA;
    border: 1px solid #158CBA;
    border-radius: 20px;
@@ -667,7 +678,7 @@ label {
    padding: 4px 14px 4px 14px;
 }
 
-#filtro #limpar.botao{
+.botao.limpar {
    background-color: #AAAAAA;
    border: 1px solid #AAAAAA;
    display: none;
@@ -688,7 +699,7 @@ label {
    cursor: pointer;
 }
 
-#filtro .botao:hover {
+.botao:hover {
    background-color: #58B0E0;
    border: 1px solid #58B0E0;
    cursor: pointer;
@@ -776,11 +787,11 @@ label {
    height: 100%;
 }
 
-#paginas .botao-atual {
+.botao-atual {
    font-weight: bold;
 }
 
-#paginas .botao-paginas, .botao-atual, .botao-seta {
+.botao-paginas, .botao-atual, .botao-seta {
    height: 24px;
    width: 24px;
    font-size: 16px;
@@ -792,7 +803,7 @@ label {
    margin: 2px;
 }
 
-#paginas .botao-atual {
+.botao-atual {
 
    background: #158CBA;
    color: #FFFFFF;
@@ -800,18 +811,18 @@ label {
    cursor: default;
 }
 
-#paginas .botao-paginas, .botao-seta {
+.botao-paginas, .botao-seta {
    background: transparent;
    color: #117095;
    border: 1px solid #E6E6E6;
    cursor: pointer;
 }
 
-#paginas .botao-paginas:hover, .botao-seta:hover {
+.botao-paginas:hover, .botao-seta:hover {
    background: #E6E6E6;
 }
 
-#paginas .botao-paginas a:focus {
+.botao-paginas a:focus {
    border-color: #66AFE9;
    outline: 0;
    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(102, 175, 233, 0.60);
@@ -844,14 +855,12 @@ label {
    padding-right: 2px;
 }
 
-#adicionar.balao {
+.balao, .topo {
    width: 48px;
    height: 48px;
    box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3);
-   background-color: #158CBA;
    border-radius: 50%;
-   color: #FFFFFF;
-   position: absolute;
+   position: fixed;
    bottom: 50px;
    right: 15px;
    display: flex;
@@ -860,30 +869,56 @@ label {
    transition: all 300ms ease;
 }
 
-#adicionar.balao:hover {
+.balao {
+   background-color: #158CBA;
+}
+
+.topo {
+   background-color: #EEEEEE;
+}
+
+.balao:hover, .topo:hover {
    transform: scale(1.2);
-   background-color: #58B0E0;
    transition: all 300ms linear;
 }
 
-#adicionar.balao svg {
-   fill: #FFFFFF;
+.topo:hover {
+   background-color: #EEEEEE;
+}
+
+.balao:hover {
+   background-color: #58B0E0;
+}
+
+.balao svg, .topo svg {
    width: 28px;
    height: 28px;
+}
+
+.balao svg {
+   fill: #FFFFFF;
+}
+
+.topo svg {
+   fill: #158CBA;
 }
 
 #icone svg path#primary:hover, #icone svg path#secondary:hover {
    fill:#158CBA !important;
 }
 
-#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #adicionarGpu {
+#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #adicionarGpu, #enviar, #limpar {
    display: flex;
    align-items: center;
    vertical-align: middle;
    justify-content: center;
 }
 
-#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos, #adicionarGpu {
+#adicionarProc, #adicionarGpu {
+   margin-left: 5px;
+}
+
+#adicionarProc, #adicionarGpu, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos {
    width: 26px;
    height: 26px;
    border-radius: 50%;
@@ -891,23 +926,19 @@ label {
    background-color: transparent;
    color: #117095;
    transition: all 300ms linear;
+}
+
+#adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos {
    margin-bottom: 10px;
 }
 
-#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover {
-   background-color: #158CBA;
-}
-
-#removerDsk:hover, #removerMonitor:hover {
+#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover, #removerDsk:hover, #removerMonitor:hover {
    background-color: #EEEEEE;
 }
 
-#mais:hover, #mais:hover svg, #menos:hover, #menos:hover svg, #removerDsk:hover, #removerDsk:hover svg, #removerMonitor:hover, #removerMonitor:hover svg {
-   cursor: pointer;
-}
-
-#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover, #adicionarProc:hover svg, #adicionarDsk:hover svg, #adicionarMonitor:hover svg, #adicionarGpu:hover svg {
-   fill: #FFFFFF;
+#mais:hover, #mais:hover svg, #menos:hover, #menos:hover svg, #removerDsk:hover, #removerDsk:hover svg, #removerMonitor:hover, #removerMonitor:hover svg,
+#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover, #enviar:hover, #limpar:hover, #adicionarProc:hover svg, #adicionarDsk:hover svg,
+#adicionarMonitor:hover svg, #adicionarGpu:hover svg, #enviar:hover svg, #limpar:hover svg {
    cursor: pointer;
 }
 
@@ -918,6 +949,29 @@ label {
    position: relative;
    top: 2px;
    left: 0px;
+}
+
+#enviar, #limpar {
+   width: 32px;
+   height: 32px;
+   border-radius: 50%;
+   border: none;
+   background-color: #158CBA;
+}
+
+#enviar svg, #limpar svg {
+   width: 40px;
+   height: 40px;
+   position: relative;
+   fill: #FFFFFF;
+}
+
+#enviar:hover, #limpar:hover {
+   background-color: #FFFFFF;
+}
+
+#enviar:hover svg, #limpar:hover svg {
+   fill: #158CBA;
 }
 
 #mais:disabled svg, #menos:disabled svg, #maisdsk:disabled svg, #menosdsk:disabled svg {
@@ -995,13 +1049,13 @@ label {
 
 .suggestions-box.modelo-pv {
    width: 240px;
-   margin-left: 186px;
+   margin-left: 68px;
    margin-top: 30px;
 }
 
 .suggestions-box.mem-pv {
    width: 140px;
-   margin-left: 186px;
+   margin-left: 77px;
    margin-top: 30px;
 }
 
@@ -1082,9 +1136,16 @@ label {
 }
 
 #add-pc .header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
    font-size: 18px;
-   padding: 5px;
+   padding: 0px 5px 0px 5px;
    border-bottom: #AAAAAA 1px solid;
+}
+
+#botoes {
+   display: flex;
 }
 
 #add-pc .label {
@@ -1126,7 +1187,12 @@ label {
    align-items: baseline;
 }
 
+.linha.fim {
+   border: none;
+}
+
 .h-line {
+   display: flex;
    width: 100%;
    color: #555555;
    font-weight: bold;

@@ -186,7 +186,7 @@ if (isset($_GET['ativo'])) {
                <tbody>
                   <tr style="vertical-align: middle;">
                      <td>
-                        <button type="reset" id="limpar" class="botao">Limpar</button>
+                        <button type="reset" id="limpar" class="botao limpar">Limpar</button>
                      </td>
                      <td onclick="alternarVisibilidade()">
                      </td>
@@ -219,8 +219,8 @@ if (isset($_GET['ativo'])) {
       $sc_desc = ($por == "DESC" && $ordem == "sigla") ? "#117095" : "#AAAAAA";
       $op_asc = ($por == "ASC" && $ordem == "operador") ? "#117095" : "#AAAAAA";
       $op_desc = ($por == "DESC" && $ordem == "operador") ? "#117095" : "#AAAAAA";
-      $hn_asc = ($por == "ASC" && $ordem == "host_name") ? "#117095" : "#AAAAAA";
-      $hn_desc = ($por == "DESC" && $ordem == "host_name") ? "#117095" : "#AAAAAA";
+      $hn_asc = ($por == "ASC" && $ordem == "hostname") ? "#117095" : "#AAAAAA";
+      $hn_desc = ($por == "DESC" && $ordem == "hostname") ? "#117095" : "#AAAAAA";
       $ip_asc = ($por == "ASC" && $ordem == "ip") ? "#117095" : "#AAAAAA";
       $ip_desc = ($por == "DESC" && $ordem == "ip") ? "#117095" : "#AAAAAA";
       $mac_asc = ($por == "ASC" && $ordem == "mac") ? "#117095" : "#AAAAAA";
@@ -253,8 +253,8 @@ if (isset($_GET['ativo'])) {
                   </th>
                   <th id="hn" class="head-lista"><div id="icone" class="ordem">
                   <svg class="icon" fill="#000000" viewBox="0 0 12 24" id="scroll-up-down" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
-                     <a title="Ordem crescente" href="<?php $por = "ASC"; $ordem = "host_name"; montarURLget(); echo $pagina . "?" . $get; ?>"><path id="secondary" d="M 4.461298,0.73682249 0.27817068,6.8551356 A 1.9547326,1.9547326 0 0 0 1.6269362,9.7872345 H 9.993192 A 1.9547326,1.9547326 0 0 0 11.341957,6.8551356 L 7.15883,0.73682249 a 1.6028807,1.6028807 0 0 0 -2.697532,0 z" style="fill: <?php echo $hn_asc; ?>;"></path></a>
-                     <a title="Ordem decrescente" href="<?php $por = "DESC"; $ordem = "host_name"; montarURLget(); echo $pagina . "?" . $get; ?>"><path id="primary" d="m 7.15883,22.713998 4.183127,-6.098766 A 1.9547326,1.9547326 0 0 0 9.993192,13.683133 H 1.6269362 A 1.9547326,1.9547326 0 0 0 0.27817068,16.615232 L 4.461298,22.713998 a 1.6028807,1.6028807 0 0 0 2.697532,0 z" style="fill: <?php echo $hn_desc; ?>;"></path></a>
+                     <a title="Ordem crescente" href="<?php $por = "ASC"; $ordem = "hostname"; montarURLget(); echo $pagina . "?" . $get; ?>"><path id="secondary" d="M 4.461298,0.73682249 0.27817068,6.8551356 A 1.9547326,1.9547326 0 0 0 1.6269362,9.7872345 H 9.993192 A 1.9547326,1.9547326 0 0 0 11.341957,6.8551356 L 7.15883,0.73682249 a 1.6028807,1.6028807 0 0 0 -2.697532,0 z" style="fill: <?php echo $hn_asc; ?>;"></path></a>
+                     <a title="Ordem decrescente" href="<?php $por = "DESC"; $ordem = "hostname"; montarURLget(); echo $pagina . "?" . $get; ?>"><path id="primary" d="m 7.15883,22.713998 4.183127,-6.098766 A 1.9547326,1.9547326 0 0 0 9.993192,13.683133 H 1.6269362 A 1.9547326,1.9547326 0 0 0 0.27817068,16.615232 L 4.461298,22.713998 a 1.6028807,1.6028807 0 0 0 2.697532,0 z" style="fill: <?php echo $hn_desc; ?>;"></path></a>
                   </svg>Host Name</div>
                   </th>
                   <th id="ip" class="head-lista"><div id="icone" class="ordem">
@@ -305,7 +305,7 @@ if (isset($_GET['ativo'])) {
                $filtro_busca = "";
                if (isset($_GET['busca']) && !empty($_GET['busca']))
                {
-                  $filtro_busca = " AND (computadores.id LIKE '%".$_GET['busca']."%' OR computadores.host_name LIKE '%".$_GET['busca']."%' OR computadores.ip LIKE '%".$_GET['busca']."%' OR computadores.mac LIKE '%".$_GET['busca']."%' OR CONCAT(pg.abreviatura,' ',militares.nome_guerra) LIKE '%".$_GET['busca']."%')";
+                  $filtro_busca = " AND (computadores.id LIKE '%".$_GET['busca']."%' OR computadores.hostname LIKE '%".$_GET['busca']."%' OR computadores.ip LIKE '%".$_GET['busca']."%' OR computadores.mac LIKE '%".$_GET['busca']."%' OR CONCAT(pg.abreviatura,' ',militares.nome_guerra) LIKE '%".$_GET['busca']."%')";
                }
                $filtro_op = "";
                if (isset($_GET['op']) && !empty($_GET['op']))
@@ -320,7 +320,7 @@ if (isset($_GET['ativo'])) {
                $filtro_hn = "";
                if (isset($_GET['hn']) && !empty($_GET['hn']))
                {
-                  $filtro_hn = " AND computadores.host_name LIKE '%".$_GET['hn']."%'";
+                  $filtro_hn = " AND computadores.hostname LIKE '%".$_GET['hn']."%'";
                }
                $filtro_mac = "";
                if (isset($_GET['mac']) && !empty($_GET['mac']))
@@ -370,7 +370,7 @@ if (isset($_GET['ativo'])) {
                $inicio = $inicio * $qtde;
 
                // Consulta SQL para selecionar os dados da tabela
-               $sql = "SELECT computadores.id, computadores.ativo, computadores.host_name, computadores.ip, computadores.mac, computadores.situacao, secao.sigla, CONCAT(pg.abreviatura,' ',militares.nome_guerra) AS operador FROM computadores
+               $sql = "SELECT computadores.id, computadores.ativo, computadores.hostname, computadores.ip, computadores.mac, computadores.situacao, secao.sigla, CONCAT(pg.abreviatura,' ',militares.nome_guerra) AS operador FROM computadores
                LEFT JOIN militares ON computadores.id_operador=militares.id
                LEFT JOIN secao ON militares.id_secao=secao.id
                LEFT JOIN pg ON militares.id_pg=pg.id " . $filtro_ativo . $filtro_busca . $filtro_op . $filtro_ip . $filtro_hn . $filtro_mac . $filtro_secao . $filtro_situacao . " ORDER BY " . $ordem . " " . $por;
@@ -456,7 +456,7 @@ if (isset($_GET['ativo'])) {
                      <td id="coluna_id" headers="id">' . $row["id"] . '</td>
                      <td id="coluna_secao" headers="sc">' . $row["sigla"] . '</td>
                      <td id="coluna_operador" headers="op">' . $row["operador"] . '</td>
-                     <td id="coluna_host" headers="hn">' . $row["host_name"] . '</td>
+                     <td id="coluna_host" headers="hn">' . $row["hostname"] . '</td>
                      <td id="coluna_ip" headers="ip">' . $row["ip"] . '</td>
                      <td id="coluna_mac" headers="mac">' . $mac_masked . '</td>
                      <td id="icone" class="situacao" headers="sit">';
@@ -538,7 +538,8 @@ if (isset($_GET['ativo'])) {
          </div>
       </div>
    </div>
-   <a href="./add_pc.php"><div id="adicionar" class="balao"><?php include './images/add.svg'; ?></div></a>
+   <a href="./add_pc.php" title="Adicionar novo PC"><div id="adicionar" class="balao"><?php include './images/add.svg'; ?></div></a>
+   <a href="#" title="Voltar ao topo"><div id="topo" class="topo oculto"><?php include './images/seta.svg'; ?></div></a>
    <footer id="FlexContainer2" style="visibility:hidden;">
       <div id="wb_Text1">
          <p>Desenvolvido por Lucas Trindade Silveira © 2024 - v1.0</p>
@@ -546,6 +547,7 @@ if (isset($_GET['ativo'])) {
    </footer>
 </body>
 <script src="javascript/masks.js"></script>
+<script src="javascript/events.js"></script>
 <?php
 // Fecha a conexão MySQL
 $conn->close();

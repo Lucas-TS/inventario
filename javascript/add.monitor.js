@@ -3,6 +3,8 @@ let contadorbMonitor = 0; // Início em 24 para evitar conflitos
 let maxMonitores = 4;
 
 function adicionarMonitor() {
+    const scrollPos = window.scrollY;
+
     if (contadorMonitor >= maxMonitores) {
         document.getElementById('adicionarMonitor').style.display = 'none';
         return;
@@ -26,7 +28,7 @@ function adicionarMonitor() {
         <div id="h-spacer"></div>
         <div id="b-line-mon-${++contadorbMonitor}" class="b-line">
             <label class="label" for="modelo-monitor-${contadorMonitor}">Modelo:</label>
-            <input id="modelo-monitor-${contadorMonitor}" class="input box openBox" type="text" name="modelo-monitor-${contadorMonitor}" placeholder="Escolha a marca" required disabled style="width:190px" onkeyup="verificarTecla(event, ${contadorMonitor})">
+            <input id="modelo-monitor-${contadorMonitor}" class="input box openBox" type="text" name="modelo-monitor-${contadorMonitor}" placeholder="Escolha a marca" required disabled style="width:190px" onkeyup="verificarTecla(event, monitor, ${contadorMonitor})">
         </div>
         <div id="suggestions-modelo-monitor-${contadorMonitor}" class="suggestions-box modelo-monitor">
         </div>
@@ -51,6 +53,11 @@ function adicionarMonitor() {
         </div>
     `;
     container.appendChild(novoMonitor);
+
+    requestAnimationFrame(() => {
+        window.scrollTo(0, scrollPos);
+    });
+
     if (contadorMonitor >= maxMonitores) {
         document.getElementById('adicionarMonitor').style.display = 'none';
     }
@@ -60,6 +67,8 @@ function removerMonitor(id) {
     let container = document.getElementById('monitores-container');
     let monitor = document.getElementById(`monitor-${id}`);
     container.removeChild(monitor);
+
+    const scrollPos = window.scrollY;
 
     // Renumerar os monitores restantes
     contadorMonitor--;
@@ -85,11 +94,14 @@ function removerMonitor(id) {
             }
         });
     }
-}
 
-// Mostrar o botão de adicionar monitor se houver menos de 4 monitores
-if (contadorMonitor < maxMonitores) {
-    document.getElementById('adicionarMonitor').style.display = 'flex';
+    requestAnimationFrame(() => {
+        window.scrollTo(0, scrollPos);
+    });
+
+    if (contadorMonitor < maxMonitores) {
+        document.getElementById('adicionarMonitor').style.display = 'flex';
+    }
 }
 
 function mostrarModelo(n) {
