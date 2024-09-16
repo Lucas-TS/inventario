@@ -1,18 +1,18 @@
-<div id="overlay" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);return false;">
-   <div id="confirm_logout" onclick="event.stopPropagation();">
-      <form name="logoutform" method="post" accept-charset="UTF-8" action="includes/logout.php" id="logoutform">
-         <input type="hidden" name="form_name" value="logoutform">
-         <table id="logout_box">
-            <tr>
-               <td colspan="2" class="row">Tem certeza que deseja sair?</td>
-            </tr>
-            <tr>
-               <td class="row" style="text-align:right"><input class="button" type="button" name="voltar" value="Não"
-                  id="nao" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);return false;"></td>
-               <td class="row" style="text-align:left"><input class="button" type="submit" name="sair" value="Sim"
-                  id="sim"></td>
-            </tr>
-         </table>
-      </form>
-   </div>
+<div id="confirm_logout" class="bloco" style="" onclick="event.stopPropagation();">
+   <form name="logoutform" method="post" accept-charset="UTF-8" action="includes/logout.php" id="logoutform">
+      <input type="hidden" name="form_name" value="logoutform">
+      <table id="logout_box">
+         <tr>
+            <td colspan="2" class="row">Tem certeza que deseja sair?</td>
+         </tr>
+         <tr>
+            <td class="row" style="text-align:right">
+               <input class="button" type="button" name="voltar" value="Não" id="nao" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);return false;">
+            </td>
+            <td class="row" style="text-align:left">
+               <input class="button" type="submit" name="sair" value="Sim" id="sim">
+            </td>
+         </tr>
+      </table>
+   </form>
 </div>

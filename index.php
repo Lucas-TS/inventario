@@ -48,9 +48,9 @@ if (isset($_SESSION['expires_by']))
 <script src="javascript/panel.min.js"></script>
 <script src="javascript/wwb19.min.js"></script>
 <script src="javascript/load.effect.js"></script>
+<script src="javascript/overlay.js"></script>
 </head>
 <body>
-   <?php include 'includes/logout_overlay.html' ?>
    <header id="FlexContainer1" style="visibility:hidden;">
       <div id="wb_Heading" style="display:block;width:886px;z-index:0;">
          <h1 id="Heading">Sistema de Controle de Inventário</h1>
@@ -58,6 +58,8 @@ if (isset($_SESSION['expires_by']))
       <?php include 'includes/menu.php'; ?>
    </header>
    <div id="content" style="visibility:hidden;">
+   </div>
+   <div id="overlay" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);return false;">
    </div>
    <footer id="FlexContainer2" style="visibility:hidden;">
       <div id="wb_Text1">

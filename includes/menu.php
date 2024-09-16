@@ -213,7 +213,7 @@
             </li>
             <!-- Item SAIR -->
             <li role="menuitem">
-                <a href="#" class="nav-link PanelMenu1-effect" onclick="ShowObjectWithEffect('overlay', 1, 'fade', 200);return false;">
+                <a href="#" class="nav-link PanelMenu1-effect" onclick="exibirOverlay('./includes/logout_overlay.html')">
                     <svg class="icon" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <path d="M63 35 C63 34, 64 33, 64 32 L64 32 C64 31, 63 30, 63 29 L47 13 C46 12, 45 12, 44 12 C43 12, 42 12, 41 13 C40 14, 40 15, 40 16 C40 17, 40 18, 41 19 L50 28 L24 28 C22 28, 22 28, 21 29 C20 30, 20 31, 20 32 C20 33, 20 34, 21 35 C22 36, 22 36, 24 36 L50 36 L41 45 C40 46, 40 47, 40 48 C40 49, 40 50, 41 51 C42 52, 43 52, 44 52 C45 52, 46 52, 47 51 L63 35Z  M20 12 C21 12, 22 12, 23 11 L23 11 C23 10, 24 9, 24 8 C24 7, 23 6, 23 5 C22 4, 21 4, 20 4 L12 4 C8 4, 5 5, 3 8 C1 10, 0 13, 0 16 L0 48 C0 51, 1 54, 3 57 C5 59, 8 60, 12 60 L20 60 C21 60, 22 60, 23 59 C23 58, 24 57, 24 56 C24 55, 23 54, 23 53 C22 52, 21 52, 20 52 L12 52 C10 52, 10 52, 9 51 C8 50, 8 49, 8 48 L8 16 C8 15, 8 14, 9 13 C10 12, 10 12, 12 12 L20 12Z " />
                     </svg>

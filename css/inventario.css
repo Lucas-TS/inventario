@@ -310,9 +310,6 @@ body {
 #confirm_logout {
    width: 300px;
    height: 118px;
-   background-color: #FFFFFF;
-   display: inline-block;
-   border-radius: 10px;
    cursor: default;
    z-index: 10001;
    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(0, 0, 0, 0.60);
@@ -450,20 +447,21 @@ svg {
    overflow: visible;
 }
 
-#bloco {
+.bloco {
    background-color: #FFFFFF;
    border-radius: 15px;
    width: 100%;
    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
    transition: all 300ms ease;
    overflow-x: hidden;
+   padding: 10px;
 }
 
-#bloco span {
+.bloco span {
    white-space: nowrap;
 }
 
-#bloco-ocultavel {
+.bloco-ocultavel {
    background-color: #FFFFFF;
    border-radius: 15px;
    width: 100%;
@@ -473,7 +471,7 @@ svg {
    overflow: hidden;
 }
 
-#bloco-ocultavel.visivel {
+.bloco-ocultavel.visivel {
    height: 254px;
    transition: all 300ms ease;
 }
@@ -1135,7 +1133,7 @@ label {
    font-size: 16px;
 }
 
-#add-pc .header {
+.header {
    display: flex;
    justify-content: space-between;
    align-items: center;
@@ -1148,14 +1146,14 @@ label {
    display: flex;
 }
 
-#add-pc .label {
+.label {
    padding: 5px;
    color: #555555;
    text-align: right;
    white-space: nowrap;
 }
 
-#add-pc .input {
+.input {
    padding: 5px 10px 5px 10px;
    border: none;
    border-bottom: #555555 1px solid;
@@ -1163,18 +1161,14 @@ label {
    font-size: 16px;
 }
 
-#add-pc .input:focus {
+.input:focus {
    border-color: #66AFE9;
    outline: 0;
    transition: all 0.3s ease;
 }
 
-#add-pc .input:disabled {
+.input:disabled {
    background-color: transparent;
-}
-
-#base-pc {
-   padding: 10px;
 }
 
 .linha {

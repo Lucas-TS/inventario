@@ -2,7 +2,7 @@ function suggestionsMem(valores) {
 
     var arrayValores = valores.split(',');
 
-    var div = document.getElementById('suggestions-tipo-mem');
+    var div = +('suggestions-tipo-mem');
     div.innerHTML = '';
 
     var input = document.getElementById('tipo-mem');

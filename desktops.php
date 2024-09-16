@@ -97,9 +97,9 @@ if (isset($_GET['ativo'])) {
    <script src="javascript/load.effect.js"></script>
    <script src="javascript/placeholder.js"></script>
    <script src="javascript/ocultar.bloco.js"></script>
+   <script src="javascript/overlay.js"></script>
 </head>
 <body>
-   <?php include 'includes/logout_overlay.html' ?>
    <header id="FlexContainer1" style="visibility:hidden;">
       <div id="wb_Heading" style="display:block;width:886px;z-index:0;">
          <h1 id="Heading">Sistema de Controle de Inventário</h1>
@@ -107,7 +107,7 @@ if (isset($_GET['ativo'])) {
       <?php include 'includes/menu.php'; ?>
    </header>
    <div id="content" style="visibility:hidden;">
-      <div id="bloco-ocultavel">
+      <div id="bloco-ocultavel" class="bloco-ocultavel">
          <form name="filtro-form" method="post" accept-charset="UTF-8" action="includes/filtro.php" id="filtro-form">
             <input type="hidden" name="url" value="desktops.php">
             <table id="filtro" class="tabela-filtro" cellspacing="0" cellpadding="0">
@@ -228,7 +228,7 @@ if (isset($_GET['ativo'])) {
       $sit_asc = ($por == "ASC" && $ordem == "situacao") ? "#117095" : "#AAAAAA";
       $sit_desc = ($por == "DESC" && $ordem == "situacao") ? "#117095" : "#AAAAAA";
       ?>
-      <div id="bloco">
+      <div id="bloco" class="bloco">
          <table id="lista" class="tabela-lista" cellspacing="0" cellpadding="0">
             <thead>
                <tr>
@@ -540,6 +540,8 @@ if (isset($_GET['ativo'])) {
    </div>
    <a href="./add_pc.php" title="Adicionar novo PC"><div id="adicionar" class="balao"><?php include './images/add.svg'; ?></div></a>
    <a href="#" title="Voltar ao topo"><div id="topo" class="topo oculto"><?php include './images/seta.svg'; ?></div></a>
+   <div id="overlay" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);return false;">
+   </div>
    <footer id="FlexContainer2" style="visibility:hidden;">
       <div id="wb_Text1">
          <p>Desenvolvido por Lucas Trindade Silveira © 2024 - v1.0</p>

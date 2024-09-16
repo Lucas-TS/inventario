@@ -1,28 +1,27 @@
 <?php
 include 'conecta_db.php';
 
-$id_op = isset($_GET["hidden-op"]) ? $_GET["hidden-op"] : null; //Campo INT (id_operador)
-$lacre = isset($_GET["lacre"]) ? $_GET["lacre"] : null; //Campo INT (lacre)
-$marca = isset($_GET["marca"]) ? $_GET["marca"] : null; //Campo VARCHAR (marca)
-$modelo = isset($_GET["modelo"]) ? $_GET["modelo"] : null; //Campo VARCHAR (modelo)
-$garantia = isset($_GET["garantia"]) ? $_GET["garantia"] : null; //Campo INT (garantia)
-$qtde_mem = isset($_GET['qtde-mem']) ? $_GET['qtde-mem'] : null; //Campo INT (tam_mem)
-$tipo_mem = isset($_GET['tipo-mem']) ? $_GET['tipo-mem'] : null; //Campo VARCHAR (tipo_mem)
-$user_so = isset($_GET['user-so']) ? $_GET['user-so'] : null; //Campo VARCHAR (usuario)
-$pw_so = isset($_GET['pw-so']) ? $_GET['pw-so'] : null; //Campo VARCHAR (senha)
-if (isset($_GET['licenca'])) {
-    if ($_GET['licenca'] == 'serial') {
-        $serial_so = $_GET['serial-so'];
+$id_op = isset($_POST["hidden-op"]) ? $_POST["hidden-op"] : null; //Campo INT (id_operador)
+$lacre = isset($_POST["lacre"]) ? $_POST["lacre"] : null; //Campo INT (lacre)
+$marca = isset($_POST["marca"]) ? $_POST["marca"] : null; //Campo VARCHAR (marca)
+$modelo = isset($_POST["modelo"]) ? $_POST["modelo"] : null; //Campo VARCHAR (modelo)
+$garantia = isset($_POST["garantia"]) ? $_POST["garantia"] : null; //Campo INT (garantia)
+$qtde_mem = isset($_POST['qtde-mem']) ? $_POST['qtde-mem'] : null; //Campo INT (tam_mem)
+$tipo_mem = isset($_POST['tipo-mem']) ? $_POST['tipo-mem'] : null; //Campo VARCHAR (tipo_mem)
+$user_so = isset($_POST['user-so']) ? $_POST['user-so'] : null; //Campo VARCHAR (usuario)
+$pw_so = isset($_POST['pw-so']) ? $_POST['pw-so'] : null; //Campo VARCHAR (senha)
+if (isset($_POST['licenca'])) {
+    if ($_POST['licenca'] == 'serial') {
+        $serial_so = $_POST['serial-so'];
     } else {
-        $serial_so = $_GET['licenca'];
+        $serial_so = $_POST['licenca'];
     }
 }
-//$serial_so = isset($_GET['serial-so']) ? $_GET['serial-so'] : null; //Campo VARCHAR (licenca_so)
-$serial_office = isset($_GET['serial-office']) ? $_GET['serial-office'] : null;  //Campo VARCHAR (licenca_office)
-$av = isset($_GET['av']) ? $_GET['av'] : null; //Campo TINYINT (antivirus)
-$hn = isset($_GET['hn']) ? $_GET['hn'] : null; //Campo VARCHAR (hostname)
-$rede = isset($_GET['rede']) ? $_GET['rede'] : null; //Campo TINYINT (rede)
-$mac = isset($_GET['mac']) ? str_replace(':', '', $_GET['mac']) : null;
+$serial_office = isset($_POST['serial-office']) ? $_POST['serial-office'] : null;  //Campo VARCHAR (licenca_office)
+$av = isset($_POST['av']) ? $_POST['av'] : null; //Campo TINYINT (antivirus)
+$hn = isset($_POST['hn']) ? $_POST['hn'] : null; //Campo VARCHAR (hostname)
+$rede = isset($_POST['rede']) ? $_POST['rede'] : null; //Campo TINYINT (rede)
+$mac = isset($_POST['mac']) ? str_replace(':', '', $_POST['mac']) : null;
 $situacao = 2; //Campo INT (situacao)
 $ativo = 1; //Campo INT (ativo)
 
@@ -47,7 +46,7 @@ $id_pc = $conn->insert_id;
 $stmt->close();
 
 // Associação do processador
-$id_processador = isset($_GET["hidden-processador"]) ? $_GET["hidden-processador"] : null;
+$id_processador = isset($_POST["hidden-processador"]) ? $_POST["hidden-processador"] : null;
 
 $stmt2 = $conn->prepare("INSERT INTO assoc_processador (id_pc, id_processador) VALUES (?, ?)");
 $stmt2->bind_param("ii", $id_pc, $id_processador);
@@ -55,21 +54,21 @@ $stmt2->execute();
 $stmt2->close();
 
 // Associação da placa de víceo
-$id_pv = isset($_GET['hidden-pv']) ? $_GET['hidden-pv'] : null;
+$id_pv = isset($_POST['hidden-pv']) ? $_POST['hidden-pv'] : null;
 $stmt3 = $conn->prepare("INSERT INTO assoc_placa_video (id_pc, id_placa_video) VALUES (?, ?)");
 $stmt3->bind_param("ii", $id_pc, $id_pv);
 $stmt3->execute();
 $stmt3->close();
 
 // Associação do SO
-$id_so = isset($_GET['hidden-so']) ? $_GET['hidden-so'] : null;
+$id_so = isset($_POST['hidden-so']) ? $_POST['hidden-so'] : null;
 $stmt4 = $conn->prepare("INSERT INTO assoc_so (id_pc, id_so) VALUES (?, ?)");
 $stmt4->bind_param("ii", $id_pc, $id_so);
 $stmt4->execute();
 $stmt4->close();
 
 // Associação do Office
-$id_office = isset($_GET['hidden-office']) ? $_GET['hidden-office'] : null;
+$id_office = isset($_POST['hidden-office']) ? $_POST['hidden-office'] : null;
 $stmt5 = $conn->prepare("INSERT INTO assoc_office (id_pc, id_office) VALUES (?, ?)");
 $stmt5->bind_param("ii", $id_pc, $id_office);
 $stmt5->execute();
@@ -79,21 +78,21 @@ $stmt5->close();
 $dsk = 1;
 
 while (true) {
-    $tipoDsk = isset($_GET["tipo-dsk-$dsk"]) ? $_GET["tipo-dsk-$dsk"] : null;
+    $tipoDsk = isset($_POST["tipo-dsk-$dsk"]) ? $_POST["tipo-dsk-$dsk"] : null;
     if (!$tipoDsk) break;
 
     if ($tipoDsk === 'HD') {
         $tabela_dsk = 'assoc_hd';
         $coluna_dsk = 'id_hd';
-        $tipo_dsk = isset($_GET["tipo-hd-$dsk"]) ? $_GET["tipo-hd-$dsk"] : null;
-        $saude_dsk = isset($_GET["saude-hd-$dsk"]) ? $_GET["saude-hd-$dsk"] : null;
-        $id_dsk = isset($_GET["hidden-tam-hd-$dsk"]) ? $_GET["hidden-tam-hd-$dsk"] : null;
+        $tipo_dsk = isset($_POST["tipo-hd-$dsk"]) ? $_POST["tipo-hd-$dsk"] : null;
+        $saude_dsk = isset($_POST["saude-hd-$dsk"]) ? $_POST["saude-hd-$dsk"] : null;
+        $id_dsk = isset($_POST["hidden-tam-hd-$dsk"]) ? $_POST["hidden-tam-hd-$dsk"] : null;
     } elseif ($tipoDsk === 'SSD') {
         $tabela_dsk = 'assoc_ssd';
         $coluna_dsk = 'id_ssd';
-        $tipo_dsk = isset($_GET["tipo-ssd-$dsk"]) ? $_GET["tipo-ssd-$dsk"] : null;
-        $saude_dsk = isset($_GET["saude-ssd-$dsk"]) ? $_GET["saude-ssd-$dsk"] : null;
-        $id_dsk = isset($_GET["hidden-tam-ssd-$dsk"]) ? $_GET["hidden-tam-ssd-$dsk"] : null;
+        $tipo_dsk = isset($_POST["tipo-ssd-$dsk"]) ? $_POST["tipo-ssd-$dsk"] : null;
+        $saude_dsk = isset($_POST["saude-ssd-$dsk"]) ? $_POST["saude-ssd-$dsk"] : null;
+        $id_dsk = isset($_POST["hidden-tam-ssd-$dsk"]) ? $_POST["hidden-tam-ssd-$dsk"] : null;
     }
 
     $stmt6 = $conn->prepare("INSERT INTO $tabela_dsk (id_pc, $coluna_dsk, tipo, saude) VALUES (?, ?, ?, ?)");
@@ -108,10 +107,10 @@ while (true) {
 $mon = 1;
 
 while (true) {
-    $id_monitor = isset($_GET["hidden-modelo-monitor-$mon"]) ? $_GET["hidden-modelo-monitor-$mon"] : null;
+    $id_monitor = isset($_POST["hidden-modelo-monitor-$mon"]) ? $_POST["hidden-modelo-monitor-$mon"] : null;
     if (!$id_monitor) break;
 
-    $con_monitor = isset($_GET["con-monitor-$mon"]) ? $_GET["con-monitor-$mon"] : null;
+    $con_monitor = isset($_POST["con-monitor-$mon"]) ? $_POST["con-monitor-$mon"] : null;
 
     $stmt7 = $conn->prepare("INSERT INTO assoc_monitor (id_pc, id_monitor, conexao) VALUES (?, ?, ?)");
     $stmt7->bind_param("iis", $id_pc, $id_monitor, $con_monitor);
