@@ -447,14 +447,17 @@ svg {
    overflow: visible;
 }
 
-.bloco {
+.bloco, .bloco-overlay {
    background-color: #FFFFFF;
    border-radius: 15px;
-   width: 100%;
    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
    transition: all 300ms ease;
    overflow-x: hidden;
    padding: 10px;
+}
+
+.bloco {
+   width: calc(100% - 20px);
 }
 
 .bloco span {
