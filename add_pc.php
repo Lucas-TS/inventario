@@ -125,7 +125,7 @@ if (isset($_GET['ativo'])) {
             <div id="linha-1" class="linha">
                <div id="h-line-1" class="h-line">Informações básicas:</div>
                <div id="b-line-1" class="b-line"><label class="label" for="op">Operador:</label>
-                  <input id="op" name="op" type="text" class="input box" placeholder="Digite o nome" required style="width:250px">
+                  <input id="op" name="op" type="text" class="input box" placeholder="Escolha o operador" required style="width:250px">
                   <input id="hidden-op" name="hidden-op" type="hidden" value="">
                   <div id="suggestions-op" class="suggestions-box op"></div>
                </div>
@@ -151,7 +151,7 @@ if (isset($_GET['ativo'])) {
                <div id="h-line-2" class="h-line">Processador:<div id="adicionarProc"><a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./includes/add_proc_overlay.php')"><?php include './images/new.svg'; ?></a></div>
                </div>
                <div id="b-line-proc-1" class="b-line"><label class="label" for="processador">Modelo:</label>
-                  <input id="processador" class="input box" type="text" name="processador" class="input" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
+                  <input id="processador_desktop" class="input box" type="text" name="processador" class="input" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
                   <div id="suggestions-processador" class="suggestions-box processador"></div>
                   <input id="hidden-processador" name="hidden-processador" type="hidden" value="">
                </div>
@@ -305,6 +305,7 @@ if (isset($_GET['ativo'])) {
 <script src="javascript/load.svg.js"></script>
 <script src="javascript/add.dsk.js"></script>
 <script src="javascript/add.monitor.js"></script>
+<script src="javascript/add.proc.js"></script>
 <script src="javascript/placeholder.js"></script>
 <script src="javascript/formulario.so.js"></script>
 <script src="javascript/formulario.office.js"></script>

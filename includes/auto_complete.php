@@ -9,9 +9,9 @@ $fm = isset($_GET['fm']) ? $_GET['fm'] : null;
 $so = isset($_GET['so']) ? $_GET['so'] : null;
 
 // SQL para processador
-if (isset($_GET['n']) && $_GET['n'] == 'processador')
+if (isset($_GET['n']) && $_GET['n'] == 'processador_desktop')
 {
-    $sql = "SELECT id, memoria, CONCAT(marca, ' ', modelo) AS lista FROM lista_processador WHERE CONCAT(marca, ' ', modelo) LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
+    $sql = "SELECT id, memoria, CONCAT(marca, ' ', modelo) AS lista FROM lista_processador WHERE seguimento LIKE 'Desktop' CONCAT(marca, ' ', modelo) LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
 }
 
 // SQL para operador
@@ -157,6 +157,13 @@ if (isset($_GET['fm']))
     $conn->close();
     exit;
 }
+
+// SQL para iGPU processador
+if (isset($_GET['n']) && $_GET['n'] == 'modelo-igpu-proc')
+{
+    $sql = "SELECT DISTINCT igpu AS lista FROM lista_processador WHERE igpu LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
+}
+
 // Execução do SQL
 $result = $conn->query($sql);
 
@@ -231,6 +238,12 @@ if ($result->num_rows > 0)
         elseif ($n == 'modelo-pv')
         {
             echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . '); liberarCampo4Pv()">' . $row['lista'] . "</p>";
+        }
+
+        //Sugestões para marca da iGPU
+        elseif ($n == 'modelo-igpu-proc')
+        {
+            echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . ')">' . $row['lista'] . "</p>";
         }
 
         //Sugestões para outros

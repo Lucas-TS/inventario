@@ -71,7 +71,6 @@ function showSuggestions(str1, str2) {
             break;
     }
 
-    console.log(str1, str2, marca);
     $.ajax({
         url: "./includes/auto_complete.php",
         method: "GET",

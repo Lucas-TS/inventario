@@ -81,14 +81,6 @@ function mostrarCampo2(str1) {
     let versao = document.getElementById('b-line-so-3');
     versao.classList.remove('oculto');
     document.querySelector('#b-line-so-3 input').value = '';
-
-    let campo0 = document.getElementById('ver-linux');
-    campo0.setAttribute('placeholder', 'Escolha a versão');
-    
-    let interface = document.getElementById('b-line-so-4');
-    interface.classList.add('oculto');
-    document.querySelector('#b-line-so-4 input').value = '';
-
     let arq = document.getElementById('b-line-so-5');
     arq.classList.add('oculto');
     let x64 = document.querySelector('[id^="x64"]');
@@ -99,10 +91,15 @@ function mostrarCampo2(str1) {
     document.querySelector(`#hidden-so`).value = '';
 
     if (str1.startsWith('Linux ')) {
+        let interface = document.getElementById('b-line-so-4');
+        interface.classList.add('oculto');
+        document.querySelector('#b-line-so-4 input').value = '';
+        document.querySelector('#b-line-so-3 input').placeholder = 'Escolha a versão';
         campo2 = 'ver-linux';
     }
 
     if (str1.startsWith('Windows ')) {
+        document.querySelector('#b-line-so-3 input').placeholder = 'Escolha a edição';
         campo2 = 'ed-win';
     }
 
@@ -116,7 +113,6 @@ function mostrarCampo3(str1) {
     if (str1.startsWith('Linux ')) {
         let campo0 = document.getElementById(`if-linux`);
         campo0.setAttribute('placeholder', 'Escolha a interface');
-        document.querySelector('#b-line-so-3 input').value = '';
 
         let interface = document.getElementById(`b-line-so-4`);
         interface.classList.remove('oculto');
@@ -137,13 +133,11 @@ function mostrarCampo3(str1) {
 }
 
 function mostrarArq(so4) {
-    console.log(mostrarArq);
     let so = '';
 
     document.querySelector(`#hidden-so`).value = '';
 
     let so1 = document.querySelector('input[name="so"]:checked').value;
-    console.log(so1);
     if (so1 === 'Linux') {
         let so2 = document.getElementById(`distro-linux`).value;
         let so3 = document.getElementById(`ver-linux`).value;
@@ -154,7 +148,6 @@ function mostrarArq(so4) {
         let so2 = document.getElementById(`ver-win`).value;
         so = so1 + ' ' + so2 + ' ' + so4;
     }
-    console.log(so);
 
     $.ajax({
         url: "./includes/auto_complete.php",

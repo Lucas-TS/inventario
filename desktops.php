@@ -163,7 +163,7 @@ if (isset($_GET['ativo'])) {
                            <option value="6" <?php if (in_array("6",$situacao_arr)) { echo 'selected'; }?> >Descarregar</option>
                         </select></td>
                      <td rowspan="1" style="vertical-align:bottom;padding:0px 0px 0px 5px">
-                     <label rowspan="2" class="round">Ativos<input type="checkbox" name="ativo" value="1" <?php echo $check_ativo; ?>><span class="checkmark"></span></label>
+                     <label class="round">Ativos<input type="checkbox" name="ativo" value="1" <?php echo $check_ativo; ?>><span class="checkmark"></span></label>
                      <label class="round">Inativos<input type="checkbox" name="inativo" value="1" <?php echo $check_inativo; ?>><span class="checkmark" ></span></label>
                      </td>
                   </tr>

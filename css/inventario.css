@@ -461,6 +461,10 @@ svg {
    width: calc(100% - 20px);
 }
 
+.bloco-overlay {
+   width: 750px;
+}
+
 .bloco span {
    white-space: nowrap;
 }
@@ -563,6 +567,11 @@ svg {
    user-select: none;
 }
 
+.round.mem {
+   color: #555555;
+   font-size: 16px;
+}
+
 .round input {
    position: absolute;
    opacity: 0;
@@ -577,6 +586,16 @@ svg {
    left: 0;
    height: 15px;
    width: 15px;
+   background-color: #eee;
+   border-radius: 50%;
+}
+
+.checkmark.mem {
+   position: absolute;
+   top: 0;
+   left: 0;
+   height: 20px;
+   width: 20px;
    background-color: #eee;
    border-radius: 50%;
 }
@@ -1125,6 +1144,18 @@ label {
    margin-top: 30px;
 }
 
+.suggestions-box.seg-proc {
+   width: 145px;
+   margin-left: 101px;
+   margin-top: 30px;
+}
+
+.suggestions-box.modelo-igpu-proc {
+   width: 245px;
+   margin-left: 254px;
+   margin-top: 29px;
+}
+
 .suggestions-box.visivel {
    display: block;
 }
@@ -1229,9 +1260,8 @@ label {
    width: 20px;
 }
 
-/* Estilo para os botões de rádio do primeiro grupo */
-/* Estilo para os botões de rádio do HD */
-/* Estilo para os botões de rádio do SSD */
+/* Estilo para os botões de rádio */
+
 input[type="radio"].radio {
    display: none;
 }
@@ -1281,6 +1311,61 @@ input[type="radio"].radio:not(:checked) + label {
 }
 
 input[type="radio"].radio:not(:checked) + label span {
+   border-color: #AAAAAA; /* Cor da borda quando não selecionado */
+}
+
+/* Estilo para os checkbox */
+input[type="checkbox"].checkbox {
+   display: none;
+}
+
+input[type="checkbox"].checkbox + label {
+   padding: 5px;
+   position: relative;
+   padding-left: 25px; /* Aproximar o texto do botão */
+   cursor: pointer;
+   color: #555555; /* Cor inicial do texto */
+   margin-right: 15px; /* Adicionar margem entre os botões */
+}
+
+input[type="checkbox"].checkbox + label span {
+   position: absolute;
+   left: 0;
+   top: 50%;
+   transform: translateY(-50%);
+   width: 20px;
+   height: 20px;
+   border: 2px solid #555555; /* Cor inicial da borda */
+   border-radius: 50%; /* Bordas quadradas para checkbox */
+   box-sizing: border-box;
+}
+
+input[type="checkbox"].checkbox:checked + label {
+   color: #158CBA; /* Cor do texto quando selecionado */
+}
+
+input[type="checkbox"].checkbox:checked + label span {
+   border-color: #158CBA; /* Cor da borda quando selecionado */
+   background-color: #158CBA; /* Cor de fundo quando selecionado */
+}
+
+input[type="checkbox"].checkbox:checked + label span::before {
+   content: '';
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   width: 10px;
+   height: 10px;
+   background-color: #FFFFFF; /* Cor do checkmark */
+   clip-path: polygon(14% 44%, 0% 65%, 50% 100%, 100% 20%, 80% 0%, 40% 55%);
+}
+
+input[type="checkbox"].checkbox:not(:checked) + label {
+   color: #AAAAAA; /* Cor do texto quando não selecionado */
+}
+
+input[type="checkbox"].checkbox:not(:checked) + label span {
    border-color: #AAAAAA; /* Cor da borda quando não selecionado */
 }
 

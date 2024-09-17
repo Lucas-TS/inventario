@@ -14,7 +14,22 @@ function paginaOverlay(nomeArquivo) {
         })
         .then(data => {
             document.getElementById('overlay').innerHTML = data;
-            recarregarEventos();
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+}
+
+function mensagemOverlay(text) {
+    fetch(nomeArquivo)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao carregar o arquivo: ' + response.statusText);
+            }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById('overlay').innerHTML = data;
         })
         .catch(error => {
             console.error('Erro:', error);
