@@ -1,9 +1,16 @@
+function handleOverlayClick(event) {
+    // Verifica se o clique foi na div #add_proc ou em um de seus filhos
+    if (event.target.closest('#add_proc')) {
+        return; // Não faz nada se o clique foi na #add_proc
+    }
+    ShowObjectWithEffect('overlay', 0, 'fade', 200);
+}
+
 function handleEvent(event) {
     const isBoxWithValue = event.target.classList.contains('box') && event.target.value;
     const isOpenBox = event.target.classList.contains('openBox');
 
     if (isBoxWithValue || (isOpenBox && event.target.value !== verificarValor(event.target.id))) {
-        console.log(event.target.value, event.target.id);
         showSuggestions(event.target.value, event.target.id);
     }
 }
@@ -18,40 +25,43 @@ function verificarValor(inputId) {
 }
 
 $(document).ready(function () {
-    $('input').on('click', function (event) {
-        event.stopPropagation();
-        const $this = $(this);
-        const valor = $this.val();
-        const campoId = $this.attr('id');
-        const $suggestions = $('#suggestions-' + campoId);
+    // Quando o documento estiver pronto, executa esta função
 
-        $('[id^="suggestions"]').removeClass('visivel');
+    $(document).on('click', 'input', function (event) {
+        // Adiciona um evento de clique a todos os elementos <input>
+        event.stopPropagation(); // Impede que o evento clique se propague para outros elementos
+        const $this = $(this); // Armazena o elemento <input> clicado
+        const valor = $this.val(); // Obtém o valor do <input>
+        const campoId = $this.attr('id'); // Obtém o ID do <input>
+        const $suggestions = $('#suggestions-' + campoId); // Seleciona o elemento de sugestões correspondente ao ID do <input>
+
+        $('[id^="suggestions"]').removeClass('visivel'); // Remove a classe 'visivel' de todos os elementos de sugestões
 
         const valorExiste = $suggestions.find('p').toArray().some(p => $(p).text() === valor);
+        // Verifica se o valor do <input> já existe nas sugestões
 
-        if (!valorExiste && (valor !== "" || ["tipo-mem", "tam-hd"].includes(campoId))) {
-            $suggestions.addClass('visivel');
+        if (!valorExiste && (valor !== "" || ["tipo-mem", "marca-proc"].includes(campoId))) {
+            // Se o valor não existe e não é vazio ou o ID do campo é 'tipo-mem' ou 'tam-hd' ou 'marca-proc'
+            $suggestions.addClass('visivel'); // Adiciona a classe 'visivel' ao elemento de sugestões correspondente
         }
     });
 
     $(document).click(function (event) {
+        // Adiciona um evento de clique ao documento
         if (!$('[id^="suggestions"]').is(event.target) && $('[id^="suggestions"]').has(event.target).length === 0) {
-            $('[id^="suggestions"]').removeClass('visivel');
+            // Se o clique não foi em um elemento de sugestões ou dentro de um elemento de sugestões
+            $('[id^="suggestions"]').removeClass('visivel'); // Remove a classe 'visivel' de todos os elementos de sugestões
         }
-    });
-
-    $(document).on('click', '[id^="suggestions"] p', function () {
-        const $input = $('#' + $(this).closest('[id^="suggestions"]').attr('id').replace('suggestions-', ''));
-        $input.val($(this).text());
-        $('[id^="suggestions"]').removeClass('visivel');
     });
 
     document.addEventListener('click', handleEvent);
     document.addEventListener('keyup', handleEvent);
+    // Adiciona eventos de clique e tecla pressionada ao documento
 });
 
-const topoButton = document.getElementById('topo');
-const addButton = document.getElementById('adicionar');
+const topoButton = document.getElementById('topo'); // Seleciona o botão com ID 'topo'
+const addButton = document.getElementById('adicionar'); // Seleciona o botão com ID 'adicionar'
+
 
 window.addEventListener('scroll', () => {
     if (window.scrollY > 100) {
@@ -66,3 +76,41 @@ window.addEventListener('scroll', () => {
         }
     }
 });
+
+function recarregarEventos() {
+    $(document).ready(function () {
+        // Quando o documento estiver pronto, executa esta função
+    
+        $('input').on('click', function (event) {
+            // Adiciona um evento de clique a todos os elementos <input>
+            event.stopPropagation(); // Impede que o evento clique se propague para outros elementos
+            const $this = $(this); // Armazena o elemento <input> clicado
+            const valor = $this.val(); // Obtém o valor do <input>
+            const campoId = $this.attr('id'); // Obtém o ID do <input>
+            const $suggestions = $('#suggestions-' + campoId); // Seleciona o elemento de sugestões correspondente ao ID do <input>
+    
+            $('[id^="suggestions"]').removeClass('visivel'); // Remove a classe 'visivel' de todos os elementos de sugestões
+    
+            const valorExiste = $suggestions.find('p').toArray().some(p => $(p).text() === valor);
+            // Verifica se o valor do <input> já existe nas sugestões
+    
+            if (!valorExiste && (valor !== "" || ["tipo-mem", "marca-proc"].includes(campoId))) {
+                console.log('logica');
+                // Se o valor não existe e não é vazio ou o ID do campo é 'tipo-mem' ou 'tam-hd' ou 'marca-proc'
+                $suggestions.addClass('visivel'); // Adiciona a classe 'visivel' ao elemento de sugestões correspondente
+            }
+        });
+    
+        $(document).click(function (event) {
+            // Adiciona um evento de clique ao documento
+            if (!$('[id^="suggestions"]').is(event.target) && $('[id^="suggestions"]').has(event.target).length === 0) {
+                // Se o clique não foi em um elemento de sugestões ou dentro de um elemento de sugestões
+                $('[id^="suggestions"]').removeClass('visivel'); // Remove a classe 'visivel' de todos os elementos de sugestões
+            }
+        });
+    
+        document.addEventListener('click', handleEvent);
+        document.addEventListener('keyup', handleEvent);
+        // Adiciona eventos de clique e tecla pressionada ao documento
+    });
+}

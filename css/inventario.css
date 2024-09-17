@@ -454,6 +454,7 @@ svg {
    transition: all 300ms ease;
    overflow-x: hidden;
    padding: 10px;
+   cursor: default;
 }
 
 .bloco {
@@ -908,7 +909,7 @@ label {
    fill:#158CBA !important;
 }
 
-#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #adicionarGpu, #enviar, #limpar {
+#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #adicionarGpu, #enviar, #limpar, #fecharOverlay {
    display: flex;
    align-items: center;
    vertical-align: middle;
@@ -919,7 +920,7 @@ label {
    margin-left: 5px;
 }
 
-#adicionarProc, #adicionarGpu, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos {
+#adicionarProc, #adicionarGpu, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos, #fecharOverlay {
    width: 26px;
    height: 26px;
    border-radius: 50%;
@@ -929,21 +930,21 @@ label {
    transition: all 300ms linear;
 }
 
-#adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos {
+#adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos, #fecharOverlay {
    margin-bottom: 10px;
 }
 
-#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover, #removerDsk:hover, #removerMonitor:hover {
+#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover, #removerDsk:hover, #removerMonitor:hover, #fecharOverlay:hover {
    background-color: #EEEEEE;
 }
 
 #mais:hover, #mais:hover svg, #menos:hover, #menos:hover svg, #removerDsk:hover, #removerDsk:hover svg, #removerMonitor:hover, #removerMonitor:hover svg,
 #adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover, #enviar:hover, #limpar:hover, #adicionarProc:hover svg, #adicionarDsk:hover svg,
-#adicionarMonitor:hover svg, #adicionarGpu:hover svg, #enviar:hover svg, #limpar:hover svg {
+#adicionarMonitor:hover svg, #adicionarGpu:hover svg, #enviar:hover svg, #limpar:hover svg, #fecharOverlay:hover, #fecharOverlay:hover svg {
    cursor: pointer;
 }
 
-#adicionarProc svg, #adicionarDsk svg, #removerDsk svg, #adicionarGpu svg, #adicionarMonitor svg, #removerMonitor svg, #mais svg, #menos svg {
+#adicionarProc svg, #adicionarDsk svg, #removerDsk svg, #adicionarGpu svg, #adicionarMonitor svg, #removerMonitor svg, #mais svg, #menos svg, #fecharOverlay svg {
    width: 16px;
    height: 16px;
    fill: #158CBA;
@@ -979,8 +980,12 @@ label {
    fill: #555555;
 }
 
-#removerDsk svg, #removerMonitor svg {
+#removerDsk svg, #removerMonitor svg, #fecharOverlay svg {
    transform: rotate(45deg);
+}
+
+#fecharOverlay svg{
+   top: 3px;
 }
 
 #num:disabled {
@@ -1114,6 +1119,12 @@ label {
    margin-top: 40px;
 }
 
+.suggestions-box.marca-proc {
+   width: 245px;
+   margin-left: 60px;
+   margin-top: 30px;
+}
+
 .suggestions-box.visivel {
    display: block;
 }
@@ -1186,6 +1197,10 @@ label {
 
 .linha.fim {
    border: none;
+}
+
+.linha.fim.botoes {
+   flex-direction: row-reverse;
 }
 
 .h-line {

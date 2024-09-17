@@ -2,7 +2,7 @@ function suggestionsMem(valores) {
 
     var arrayValores = valores.split(',');
 
-    var div = +('suggestions-tipo-mem');
+    var div = document.getElementById('suggestions-tipo-mem');
     div.innerHTML = '';
 
     var input = document.getElementById('tipo-mem');
@@ -82,10 +82,10 @@ function showSuggestions(str1, str2) {
     });
 }
 
-
 function passarValor(nr, input, id) {
-    let valor = $("#p" + nr).text();
-    $(input).val(valor);
+    let valor = $("#suggestions-" + input + " #p" + nr).text();
+    let campo = document.getElementById(input);
+    campo.value = valor;
 
     let suggestions = document.getElementById('suggestions-' + input);
     suggestions.classList.remove('visivel');

@@ -14,6 +14,7 @@ function paginaOverlay(nomeArquivo) {
         })
         .then(data => {
             document.getElementById('overlay').innerHTML = data;
+            recarregarEventos();
         })
         .catch(error => {
             console.error('Erro:', error);
