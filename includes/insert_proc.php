@@ -1,59 +1,46 @@
 <?php
 include 'conecta_db.php';
 
-$marca = isset($_POST["marca"]) ? $_POST["marca"] : null; //Campo VARCHAR (marca)
-$modelo = isset($_POST["modelo"]) ? $_POST["modelo"] : null; //Campo VARCHAR (modelo)
-$geracao = isset($_POST["geracao"]) ? $_POST["geracao"] : null; //Campo INT (geracao)
-$socket = isset($_POST["socket"]) ? $_POST["socket"] : null; //Campo VARCHAR (socket)
-$seguimento = isset($_POST["seguimento"]) ? $_POST["seguimento"] : null; //Campo VARCHAR (seguimento)
-$pcores = isset($_POST['pcores']) ? $_POST['pcores'] : null; //Campo INT (pcores)
-$ecores = isset($_POST['ecores']) ? $_POST['ecores'] : null; //Campo INT (ecores)
-$threads = isset($_POST['threads']) ? $_POST['threads'] : null; //Campo INT (threads)
-$clock = isset($_POST['clock']) ? $_POST['clock'] : null; //Campo VARCHAR (clock)
-$turbo = isset($_POST['turbo']) ? $_POST['turbo'] : null;  //Campo VARCHAR (turbo)
-$memoria = isset($_POST['memoria']) ? $_POST['memoria'] : null; //Campo VARCHAR (memoria)
-$igpu = isset($_POST['igpu']) ? $_POST['igpu'] : null; //Campo VARCHAR (igpu)
-$ativo = 1; //Campo INT (ativo)
+$data = json_decode(file_get_contents('php://input'), true);
 
-// Capturar os dados do formulário
-$marca = isset($_POST["marca"]) ? $_POST["marca"] : null; // Campo VARCHAR (marca)
-$modelo = isset($_POST["modelo"]) ? $_POST["modelo"] : null; // Campo VARCHAR (modelo)
-$geracao = isset($_POST["geracao"]) ? $_POST["geracao"] : null; // Campo INT (geracao)
-$socket = isset($_POST["socket"]) ? $_POST["socket"] : null; // Campo VARCHAR (socket)
-$seguimento = isset($_POST["seguimento"]) ? $_POST["seguimento"] : null; // Campo VARCHAR (seguimento)
-$pcores = isset($_POST['pcores']) ? $_POST['pcores'] : null; // Campo INT (pcores)
-$ecores = isset($_POST['ecores']) ? $_POST['ecores'] : null; // Campo INT (ecores)
-$threads = isset($_POST['threads']) ? $_POST['threads'] : null; // Campo INT (threads)
-$clock = isset($_POST['clock']) ? $_POST['clock'] : null; // Campo VARCHAR (clock)
-$turbo = isset($_POST['turbo']) ? $_POST['turbo'] : null; // Campo VARCHAR (turbo)
-$memoria = isset($_POST['memoria']) ? $_POST['memoria'] : null; // Campo VARCHAR (memoria)
-$igpu = isset($_POST['igpu']) ? $_POST['igpu'] : null; // Campo VARCHAR (igpu)
+$marca = isset($data["marca"]) ? $data["marca"] : null;
+$modelo = isset($data["modelo"]) ? $data["modelo"] : null;
+$geracao = !empty($data["geracao"]) ? $data["geracao"] : null;
+$socket = isset($data["socket"]) ? $data["socket"] : null;
+$seguimento = isset($data["seguimento"]) ? $data["seguimento"] : null;
+$pcores = isset($data['pcores']) ? $data['pcores'] : null;
+$ecores = !empty($data['ecores']) ? $data['ecores'] : null; // Verificar se está vazio
+$threads = isset($data['threads']) ? $data['threads'] : null;
+$clock = isset($data['clock']) ? $data['clock'] : null;
+$turbo = !empty($data['turbo']) ? $data['turbo'] : null; // Verificar se está vazio
+$memoria = isset($data['memoria']) ? $data['memoria'] : null;
+$igpu = !empty($data['igpu']) ? $data['igpu'] : null; // Verificar se está vazio
 $ativo = 1; // Campo INT (ativo)
 
-try {
-    // Preparar a consulta SQL
-    $stmt = $pdo->prepare('INSERT INTO lista_processador (marca, modelo, geracao, socket, seguimento, pcores, ecores, threads, clock, turbo, memoria, igpu, ativo) VALUES (:marca, :modelo, :geracao, :socket, :seguimento, :pcores, :ecores, :threads, :clock, :turbo, :memoria, :igpu, :ativo)');
-    
-    // Executar a consulta com os dados capturados
-    $stmt->execute([
-        ':marca' => $marca,
-        ':modelo' => $modelo,
-        ':geracao' => $geracao,
-        ':socket' => $socket,
-        ':seguimento' => $seguimento,
-        ':pcores' => $pcores,
-        ':ecores' => $ecores,
-        ':threads' => $threads,
-        ':clock' => $clock,
-        ':turbo' => $turbo,
-        ':memoria' => $memoria,
-        ':igpu' => $igpu,
-        ':ativo' => $ativo
-    ]);
+// Preparar a consulta SQL
+$sql = "INSERT INTO lista_processador (marca, modelo, geracao, socket, seguimento, clock, turbo, pcores, ecores, threads, memoria, igpu, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    echo "Dados inseridos com sucesso!";
-} catch (PDOException $e) {
-    echo "Erro: " . $e->getMessage();
+// Preparar a declaração
+$stmt = $conn->prepare($sql);
+if ($stmt === false) {
+    die("Erro na preparação da declaração: " . $conn->error);
 }
 
+// Vincular os parâmetros
+$stmt->bind_param("ssissssiiissi", $marca, $modelo, $geracao, $socket, $seguimento, $clock, $turbo, $pcores, $ecores, $threads, $memoria, $igpu, $ativo);
+
+// Executar a declaração
+if ($stmt->execute()) {
+    echo "Dados inseridos com sucesso!";
+} else {
+    echo "Erro ao inserir os dados: " . $stmt->error;
+}
+// Exibir os dados capturados
+
+
+// Registrar erros no log do servidor
+error_log("Erro ao inserir os dados: " . $stmt->error);
+// Fechar a declaração e a conexão
+$stmt->close();
+$conn->close();
 ?>

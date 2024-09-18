@@ -9,9 +9,9 @@ $fm = isset($_GET['fm']) ? $_GET['fm'] : null;
 $so = isset($_GET['so']) ? $_GET['so'] : null;
 
 // SQL para processador
-if (isset($_GET['n']) && $_GET['n'] == 'processador_desktop')
+if (isset($_GET['n']) && $_GET['n'] == 'processador-desktop')
 {
-    $sql = "SELECT id, memoria, CONCAT(marca, ' ', modelo) AS lista FROM lista_processador WHERE seguimento LIKE 'Desktop' CONCAT(marca, ' ', modelo) LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
+    $sql = "SELECT id, memoria, CONCAT(marca, ' ', modelo) AS lista FROM lista_processador WHERE seguimento LIKE 'Desktop' AND CONCAT(marca, ' ', modelo) LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
 }
 
 // SQL para operador
@@ -174,7 +174,7 @@ if ($result->num_rows > 0)
     while($row = $result->fetch_assoc())
     {
         //Sugestões para processador
-        if ($n == 'processador')
+        if ($n == 'processador-desktop')
         {
             $memoria = $row['memoria'];
             echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ',\'' . $n . '\',' . $row['id'] . '); suggestionsMem(\'' . $memoria . '\'); fichaProcessador(\'' . $row['lista'] . '\');">' . $row['lista'] . "</p>";

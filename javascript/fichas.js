@@ -9,7 +9,7 @@ function fichaProcessador(str1) {
             var dados = JSON.parse(response);
             var output = '<tr>';
 
-            output += "<td><b>Geração:</b> " + dados.geracao + "</td>";
+            output += "<td><b>Geração:</b> " + (dados.geracao ? dados.geracao : "N/A") + "</td>";
             if (dados.ecores) {
                 output += "<td><b>P-Cores / E-Cores / Threads:</b> " + dados.pcores + " / " + dados.ecores + " / " + dados.threads + "</td>";
             } else {
@@ -71,20 +71,3 @@ function limparFichaMon(n) {
 function limparFichaProc() {
     document.getElementById(`fichaProc`).innerHTML = `<tr><td>&nbsp;</td></tr><tr><td><span>Escolha um modelo da lista para carregar a ficha técnica</span></td></tr>`;
 }
-
-function verificarTecla(event, n) {
-    const teclasValidas = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~áéíóúÁÉÍÓÚãõÃÕâêîôûÂÊÎÔÛçÇ°ºª§¹²³£¢¬]$/;
-    const teclasIgnoradas = ['End', 'Home', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Tab', 'Escape'];
-
-    if (teclasValidas.test(event.key) || event.key === 'Backspace' || event.key === 'Delete') {
-        if (n && n !== '') {
-            limparFichaMon(n);
-        } else {
-            limparFichaProc();
-        }
-    } else if (!teclasIgnoradas.includes(event.key)) {
-        event.preventDefault();
-    }
-}
-
-

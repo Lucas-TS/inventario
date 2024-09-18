@@ -1,3 +1,35 @@
+function formularioGPU(str1) {
+    let linha = document.getElementById("formulario-pv-1");
+    let conteudo = '';
+        if (str1 === 'off') {
+        conteudo = `
+                <div id="b-line-pv-2" class="b-line"><label class="label" for="gpu-pv">Chipset:</label>
+                    <input id="gpu-pv" class="input box" type="text" name="gpu-pv" class="input" placeholder="Escolha o chipset" required style="width:245px;" onkeyup="disableCampo2Pv()">
+                    <div id="suggestions-gpu-pv" class="suggestions-box gpu-pv"></div>
+                </div>
+                <div id="h-spacer"></div>
+                <div id="b-line-pv-3" class="b-line"><label class="label" for="marca-pv">Fabricante:</label>
+                    <input id="marca-pv" class="input openBox" type="text" name="marca-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:245px;" onkeyup="disableCampo3Pv()">
+                    <div id="suggestions-marca-pv" class="suggestions-box marca-pv"></div>
+                </div>
+                <div id="h-spacer" style="flex-basis: 100%;"></div>
+                <div id="b-line-pv-4" class="b-line"><label class="label" for="modelo-pv">Modelo:</label>
+                    <input id="modelo-pv" class="input openBox" type="text" name="modelo-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:245px;" onkeyup="disableCampo4Pv()">
+                    <div id="suggestions-modelo-pv" class="suggestions-box modelo-pv"></div>
+                </div>
+                <div id="h-spacer"></div>
+                <div id="b-line-pv-5" class="b-line"><label class="label" for="mem-pv">Memória:</label>
+                    <input id="mem-pv" class="input openBox" type="text" name="mem-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:145px;">
+                    <div id="suggestions-mem-pv" class="suggestions-box mem-pv"></div>
+                </div>
+                <input id="hidden-mem-pv" name="hidden-mem-pv" type="hidden" value="">
+                `;
+    } else if (str1 === 'on') {
+        conteudo = ``;
+    }
+    linha.innerHTML = conteudo;
+}
+
 function liberarCampo2Pv() {
     let campo = document.getElementById('marca-pv');
     let campo2 = document.getElementById('modelo-pv');

@@ -1,5 +1,6 @@
 let maisSVG = '';
 let menosSVG = '';
+let okSVG = '';
 
 function loadSVG(url, callback) {
     fetch(url)
@@ -16,4 +17,8 @@ loadSVG('./images/add.svg', svg => {
 
 loadSVG('./images/menos.svg', svg => {
     menosSVG = svg;
+});
+
+loadSVG('./images/ok.svg', svg => {
+    okSVG = svg;
 });

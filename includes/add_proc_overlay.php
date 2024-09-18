@@ -1,5 +1,5 @@
 <div id="add_proc" class="bloco-overlay">
-    <form name="add_proc_form" method="post" accept-charset="UTF-8" id="add_proc_form">
+    <form name="add_proc_form" method="post" accept-charset="UTF-8" id="add_proc_form" onsubmit="insertProc(event)">
         <div class="header">
             <span>Adicionar Processador</span>
             <div id="botoes">
@@ -25,7 +25,7 @@
         <div id="linha-2" class="linha">
             <div id="h-line-add-proc-2" class="h-line">Informações complementares:</div>
             <div id="b-line-add-proc-3" class="b-line"><label class="label">Geração:</label>
-                <input id="ger-proc" name="ger" type="number" class="input" placeholder="" style="width:100px" required title="Somente número. Ex.: 1, 2, 3, ...">
+                <input id="ger-proc" name="ger" type="number" class="input" placeholder="" style="width:100px" title="Somente número. Ex.: 1, 2, 3, ...">
             </div>
             <div id="h-spacer"></div>
             <div id="b-line-add-proc-4" class="b-line"><label class="label">Socket:</label>
@@ -43,11 +43,11 @@
         </div>
         <div id="linha-3" class="linha">
             <div id="h-line-add-proc-3" class="h-line">Núcleos:</div>
-            <div id="b-line-add-proc-6" class="b-line"><label class="label">Performance:</label>
+            <div id="b-line-add-proc-6" class="b-line"><label class="label">P-Cores:</label>
                 <input id="pcores-proc" name="pcores" type="number" class="input" placeholder="" style="width:100px" required title="Somente número. Ex.: 1, 2, 3, ...">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-add-proc-7" class="b-line"><label class="label">Eficiencia:</label>
+            <div id="b-line-add-proc-7" class="b-line"><label class="label">E-Cores:</label>
                 <input id="ecores-proc" name="ecores" type="number" class="input" placeholder="" style="width:100px" title="Somente número. Ex.: 1, 2, 3, ...">
             </div>
             <div id="h-spacer"></div>
@@ -58,11 +58,13 @@
         <div id="linha-4" class="linha">
             <div id="h-line-add-proc-4" class="h-line">Clock:</div>
             <div id="b-line-add-proc-9" class="b-line"><label class="label">Base:</label>
-                <input id="clock-proc" name="clock" type="number" class="input" placeholder="" style="width:100px" required title="Somente número. Ex.: 1,5, 2,1, 3,2, ...">
+                <input id="clock-proc" name="clock" type="text" class="input" placeholder="" style="width:100px" required title="Somente número. Ex.: 1,5, 2,1, 3,2, ...">
+                <span style="color:#AAAAAA">&nbsp;Ghz</span>
             </div>
             <div id="h-spacer"></div>
             <div id="b-line-add-proc-10" class="b-line"><label class="label">Máximo (turbo):</label>
-                <input id="turbo-proc" name="turbo" type="number" class="input" placeholder="" style="width:100px" title="Somente número. Ex.: 3,5, 2,8, 4,7, ...">
+                <input id="turbo-proc" name="turbo" type="text" class="input" placeholder="" style="width:100px" title="Somente número. Ex.: 3,5, 2,8, 4,7, ...">
+                <span style="color:#AAAAAA">&nbsp;Ghz</span>
             </div>
             <div id="h-spacer"></div>
         </div>

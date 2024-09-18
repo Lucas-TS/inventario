@@ -1,5 +1,5 @@
 let contadorDsk = 0;
-let contadorbDsk = 0; // Início em 7 para evitar conflitos
+let contadorbDsk = 0;
 let maxArmazenamentos = 4;
 
 function adicionarArmazenamento() {

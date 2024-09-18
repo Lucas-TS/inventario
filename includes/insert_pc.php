@@ -54,11 +54,13 @@ $stmt2->execute();
 $stmt2->close();
 
 // Associação da placa de víceo
-$id_pv = isset($_POST['hidden-pv']) ? $_POST['hidden-pv'] : null;
-$stmt3 = $conn->prepare("INSERT INTO assoc_placa_video (id_pc, id_placa_video) VALUES (?, ?)");
-$stmt3->bind_param("ii", $id_pc, $id_pv);
-$stmt3->execute();
-$stmt3->close();
+if (!empty($_POST['hidden-pv'])) {
+    $id_pv = !empty($_POST['hidden-pv']) ? $_POST['hidden-pv'] : null;
+    $stmt3 = $conn->prepare("INSERT INTO assoc_placa_video (id_pc, id_placa_video) VALUES (?, ?)");
+    $stmt3->bind_param("ii", $id_pc, $id_pv);
+    $stmt3->execute();
+    $stmt3->close();
+}
 
 // Associação do SO
 $id_so = isset($_POST['hidden-so']) ? $_POST['hidden-so'] : null;

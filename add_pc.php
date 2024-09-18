@@ -108,7 +108,7 @@ if (isset($_GET['ativo'])) {
       <?php include 'includes/menu.php'; ?>
    </header>
    <div id="content">
-      <form name="add-pc" id="add-pc" method="post" accept-charset="UTF-8" action="includes/insert_pc.php">
+      <form name="add-pc" id="add-pc" method="post" accept-charset="UTF-8" action="includes/insert_pc.php" onreset="limparFormulario()">
          <div id="bloco" class="bloco">
             <div class="header">
                <span>Adicionar Computador</span>
@@ -150,10 +150,10 @@ if (isset($_GET['ativo'])) {
             <div id="linha-2" class="linha">
                <div id="h-line-2" class="h-line">Processador:<div id="adicionarProc"><a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./includes/add_proc_overlay.php')"><?php include './images/new.svg'; ?></a></div>
                </div>
-               <div id="b-line-proc-1" class="b-line"><label class="label" for="processador">Modelo:</label>
-                  <input id="processador_desktop" class="input box" type="text" name="processador" class="input" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
-                  <div id="suggestions-processador" class="suggestions-box processador"></div>
-                  <input id="hidden-processador" name="hidden-processador" type="hidden" value="">
+               <div id="b-line-proc-1" class="b-line"><label class="label" for="processador-desktop">Modelo:</label>
+                  <input id="processador-desktop" class="input box" type="text" name="processador-desktop" style="width:400px;" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
+                  <div id="suggestions-processador-desktop" class="suggestions-box processador-desktop"></div>
+                  <input id="hidden-processador-desktop" name="hidden-processador-desktop" type="hidden" value="">
                </div>
 
                <div id="h-spacer"></div>
@@ -163,7 +163,7 @@ if (isset($_GET['ativo'])) {
                         <td>&nbsp;</td>
                      </tr>
                      <tr>
-                        <td><span>Escolha um modelo para carregar a ficha técnica</span></td>
+                        <td><span>Escolha um modelo da lista para carregar a ficha técnica</span></td>
                      </tr>
                   </table>
                </div>
@@ -199,26 +199,15 @@ if (isset($_GET['ativo'])) {
             <div id="linha-5" class="linha">
                <div id="h-line-6" class="h-line">Placa de vídeo:<div id="adicionarGpu"><a title="Adicionar nova placa de vídeo" href="#"><?php include './images/new.svg'; ?></a></div>
                </div>
-               <div id="b-line-pv-1" class="b-line"><label class="label" for="gpu-pv">Chipset:</label>
-                  <input id="gpu-pv" class="input box" type="text" name="gpu-pv" class="input" placeholder="Escolha o chipset" required style="width:245px;" onkeyup="disableCampo2Pv()">
-                  <div id="suggestions-gpu-pv" class="suggestions-box gpu-pv"></div>
+               <div id="b-line-pv-1" class="b-line">
+                  <span class="label">Tipo:</span>
+                  <input type="radio" id="pv-on" name="pv" class="radio pv-check" value="on" checked onclick="formularioGPU(this.value)">
+                  <label for="pv-on"><span></span>Onboard</label>
+                  <input type="radio" id="pv-off" name="pv" class="radio pv-check" value="off" onclick="formularioGPU(this.value)">
+                  <label for="pv-off"><span></span>Offboard</label>
                </div>
-               <div id="h-spacer"></div>
-               <div id="b-line-pv-2" class="b-line"><label class="label" for="marca-pv">Fabricante:</label>
-                  <input id="marca-pv" class="input openBox" type="text" name="marca-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:245px;" onkeyup="disableCampo3Pv()">
-                  <div id="suggestions-marca-pv" class="suggestions-box marca-pv"></div>
+               <div id="formulario-pv-1" class="formulario">
                </div>
-               <div id="h-spacer"></div>
-               <div id="b-line-pv-3" class="b-line"><label class="label" for="modelo-pv">Modelo:</label>
-                  <input id="modelo-pv" class="input openBox" type="text" name="modelo-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:245px;" onkeyup="disableCampo4Pv()">
-                  <div id="suggestions-modelo-pv" class="suggestions-box modelo-pv"></div>
-               </div>
-               <div id="h-spacer"></div>
-               <div id="b-line-pv-4" class="b-line"><label class="label" for="mem-pv">Memória:</label>
-                  <input id="mem-pv" class="input openBox" type="text" name="mem-pv" class="input" placeholder="Escolha o chipset" required disabled style="width:145px;">
-                  <div id="suggestions-mem-pv" class="suggestions-box mem-pv"></div>
-               </div>
-               <input id="hidden-mem-pv" name="hidden-mem-pv" type="hidden" value="">
             </div>
             <div id="linha-6" class="linha">
                <div id="h-line-7" class="h-line">Monitor:</div>
@@ -303,6 +292,7 @@ if (isset($_GET['ativo'])) {
 <script src="javascript/suggestions.js"></script>
 <script src="javascript/more.less.js"></script>
 <script src="javascript/load.svg.js"></script>
+<script src="javascript/add.pc.js"></script>
 <script src="javascript/add.dsk.js"></script>
 <script src="javascript/add.monitor.js"></script>
 <script src="javascript/add.proc.js"></script>

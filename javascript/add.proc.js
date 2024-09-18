@@ -11,7 +11,9 @@ function desativaModeloIGPU() {
     igpu.disabled = true;
 }
 
-function submitForm() {
+function insertProc(event) {
+    event.preventDefault(); // Previne o comportamento padrão do formulário
+
     // Capturar valores dos checkboxes marcados
     var memoriaValues = [];
     var checkboxes = document.querySelectorAll('#linha-5 input[type="checkbox"]');
@@ -23,6 +25,8 @@ function submitForm() {
 
     // Capturar valor do campo de texto ou definir como nulo
     var igpuValue = document.getElementById('off-proc').checked ? null : document.getElementById('modelo-igpu-proc').value;
+    let marca = document.getElementById('marca-proc').value;
+    let modelo = document.getElementById('modelo-proc').value;
 
     var formData = {
         marca: document.getElementById('marca-proc').value,
@@ -39,21 +43,42 @@ function submitForm() {
         igpu: igpuValue // Valor do campo de texto ou nulo
     };
 
+    console.log(formData);
+
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "insert_proc.php", true);
+    xhr.open("POST", "./includes/insert_proc.php", true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) { // Verifica se a requisição foi concluída
             var overlay = document.getElementById('overlay'); // Seleciona a div com o ID 'overlay'
             if (xhr.status === 200) { // Verifica se a resposta do servidor foi bem-sucedida (status 200)
-                overlay.innerHTML = "Dados inseridos com sucesso!"; // Insere a mensagem de sucesso na div 'overlay'
-                // Fechar o overlay após a inserção com um retardo de 2 segundos
+                overlay.innerHTML = `
+                <div id="add_proc" class="bloco-overlay">
+                    <div class="header">
+                        <span>Adicionar Processador</span>
+                        <div id="botoes">
+                            <div id="b-line-header-1" class="b-line">
+                            <div id="fecharOverlay"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${maisSVG}</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="linha-1" class="linha fim">
+                    <div id="h-line-add-proc-1" class="h-line centralizado">${marca} ${modelo} inserido com sucesso!</div>
+                </div>
+                <div id="linha-2" class="linha fim centralizado">
+                    <div id="b-line-1" class="b-line">
+                        <div id="okOverlay"><a title="Ok" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${okSVG}</a></div>
+                    </div>
+                </div>
+                `; // Insere a mensagem de sucesso na div 'overlay'
+                // Fechar o overlay após a inserção com um retardo de 5 segundos
                 setTimeout(function() {
                     ShowObjectWithEffect('overlay', 0, 'fade', 200); // Função para fechar o overlay com efeito de fade
-                }, 2000); // 2000 milissegundos = 2 segundos
+                }, 5000); // 5000 milissegundos = 5 segundos
             } else {
                 alert("Erro: " + xhr.statusText); // Exibe um alert com a mensagem de erro
             }
         }
     };
+    xhr.send(JSON.stringify(formData));
 }

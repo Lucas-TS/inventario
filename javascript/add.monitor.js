@@ -1,5 +1,5 @@
 let contadorMonitor = 0;
-let contadorbMonitor = 0; // Início em 24 para evitar conflitos
+let contadorbMonitor = 0;
 let maxMonitores = 4;
 
 function adicionarMonitor() {

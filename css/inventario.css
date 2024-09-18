@@ -972,7 +972,12 @@ label {
    left: 0px;
 }
 
-#enviar, #limpar {
+#okOverlay svg{
+   bottom: 4px;
+   right: 4px;
+}
+
+#enviar, #limpar, #okOverlay {
    width: 32px;
    height: 32px;
    border-radius: 50%;
@@ -980,18 +985,18 @@ label {
    background-color: #158CBA;
 }
 
-#enviar svg, #limpar svg {
+#enviar svg, #limpar svg, #okOverlay svg {
    width: 40px;
    height: 40px;
    position: relative;
    fill: #FFFFFF;
 }
 
-#enviar:hover, #limpar:hover {
+#enviar:hover, #limpar:hover, #okOverlay:hover {
    background-color: #FFFFFF;
 }
 
-#enviar:hover svg, #limpar:hover svg {
+#enviar:hover svg, #limpar:hover svg, #okOverlay:hover svg {
    fill: #158CBA;
 }
 
@@ -1036,7 +1041,7 @@ label {
    margin-top: 30px;
 }
 
-.suggestions-box.processador {
+.suggestions-box.processador-desktop {
    width: 395px;
    margin-left: 68px;
    margin-top: 30px;
@@ -1204,6 +1209,7 @@ label {
    border-bottom: #555555 1px solid;
    box-sizing: border-box;
    font-size: 16px;
+   transition: all 0.3s ease;
 }
 
 .input:focus {
@@ -1212,8 +1218,11 @@ label {
    transition: all 0.3s ease;
 }
 
-.input:disabled {
+.input:disabled, .input:disabled::placeholder {
    background-color: transparent;
+   border-color: #DFDFDF;
+   color: #DFDFDF;
+   transition: all 0.3s ease;
 }
 
 .linha {
@@ -1234,12 +1243,21 @@ label {
    flex-direction: row-reverse;
 }
 
+.linha.fim.centralizado {
+   flex-direction: row;
+   justify-content: center;
+}
+
 .h-line {
    display: flex;
    width: 100%;
    color: #555555;
    font-weight: bold;
    padding-top: 5px;
+}
+
+.h-line.centralizado {
+   justify-content: center;
 }
 
 .b-line {
