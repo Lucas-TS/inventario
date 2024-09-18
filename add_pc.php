@@ -125,13 +125,13 @@ if (isset($_GET['ativo'])) {
             <div id="linha-1" class="linha">
                <div id="h-line-1" class="h-line">Informações básicas:</div>
                <div id="b-line-1" class="b-line"><label class="label" for="op">Operador:</label>
-                  <input id="op" name="op" type="text" class="input box" placeholder="Escolha o operador" required style="width:250px">
+                  <input id="op" name="op" type="text" class="input box" placeholder="Escolha o operador (Opcional)" style="width:250px">
                   <input id="hidden-op" name="hidden-op" type="hidden" value="">
                   <div id="suggestions-op" class="suggestions-box op"></div>
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-2" class="b-line"><label class="label" for="lacre">Lacre:</label>
-                  <input id="lacre" name="lacre" type="number" class="input" placeholder="Digite o número" required style="width:250px">
+                  <input id="lacre" name="lacre" type="number" class="input trim" placeholder="Digite o número" required style="width:250px">
                </div>
                <div id="h-spacer" style="flex-basis: 100%;"></div>
                <div id="b-line-3" class="b-line"><label class="label" for="marca">Marca:</label>
@@ -148,14 +148,13 @@ if (isset($_GET['ativo'])) {
                </div>
             </div>
             <div id="linha-2" class="linha">
-               <div id="h-line-2" class="h-line">Processador:<div id="adicionarProc"><a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./includes/add_proc_overlay.php')"><?php include './images/new.svg'; ?></a></div>
+               <div id="h-line-2" class="h-line">Processador:<div id="adicionarProc"><a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./overlay/add_proc_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
                </div>
                <div id="b-line-proc-1" class="b-line"><label class="label" for="processador-desktop">Modelo:</label>
                   <input id="processador-desktop" class="input box" type="text" name="processador-desktop" style="width:400px;" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
                   <div id="suggestions-processador-desktop" class="suggestions-box processador-desktop"></div>
                   <input id="hidden-processador-desktop" name="hidden-processador-desktop" type="hidden" value="">
                </div>
-
                <div id="h-spacer"></div>
                <div id="b-line-proc-2" class="b-line">
                   <table id="fichaProc" class="fichaProc">
@@ -197,7 +196,7 @@ if (isset($_GET['ativo'])) {
                </div>
             </div>
             <div id="linha-5" class="linha">
-               <div id="h-line-6" class="h-line">Placa de vídeo:<div id="adicionarGpu"><a title="Adicionar nova placa de vídeo" href="#"><?php include './images/new.svg'; ?></a></div>
+               <div id="h-line-6" class="h-line">Placa de vídeo:<div id="adicionarGpu"><a title="Adicionar nova placa de vídeo" href="#" onclick="exibirOverlay('./overlay/add_pv_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
                </div>
                <div id="b-line-pv-1" class="b-line">
                   <span class="label">Tipo:</span>
@@ -256,7 +255,7 @@ if (isset($_GET['ativo'])) {
             <div id="linha-10" class="linha fim">
                <div id="h-line-12" class="h-line">Rede:</div>
                <div id="b-line-rede-1" class="b-line"><label class="label" for="hn">Hostname:</label>
-                  <input id="input-hn" name="hn" type="text" class="input" placeholder="Digite o nome" required style="width:250px">
+                  <input id="input-hn" name="hn" type="text" class="input trim" placeholder="Digite o nome" required style="width:250px">
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-rede-2" class="b-line">
@@ -268,7 +267,7 @@ if (isset($_GET['ativo'])) {
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-rede-3" class="b-line"><label class="label" for="mac">MAC:</label>
-                  <input id="input-mac" name="mac" type="text" class="input mac" placeholder="Digite o MAC" required style="width:250px">
+                  <input id="input-mac" name="mac" type="text" class="input mac trim" placeholder="Digite o MAC" required style="width:250px">
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-rede-4" class="b-line" style="display:none"><label class="label" for="ip">IP:</label>
@@ -293,15 +292,16 @@ if (isset($_GET['ativo'])) {
 <script src="javascript/more.less.js"></script>
 <script src="javascript/load.svg.js"></script>
 <script src="javascript/add.pc.js"></script>
-<script src="javascript/add.dsk.js"></script>
-<script src="javascript/add.monitor.js"></script>
-<script src="javascript/add.proc.js"></script>
-<script src="javascript/placeholder.js"></script>
+<script src="javascript/formulario.dsk.js"></script>
+<script src="javascript/formulario.monitor.js"></script>
 <script src="javascript/formulario.so.js"></script>
 <script src="javascript/formulario.office.js"></script>
 <script src="javascript/formulario.gpu.js"></script>
-<script src="javascript/events.js"></script>
+<script src="javascript/add.proc.js"></script>
+<script src="javascript/add.pv.js"></script>
+<script src="javascript/placeholder.js"></script>
 <script src="javascript/masks.js"></script>
+<script src="javascript/events.js"></script>
 <?php
 // Fecha a conexão MySQL
 $conn->close();

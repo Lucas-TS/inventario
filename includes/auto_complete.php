@@ -158,11 +158,37 @@ if (isset($_GET['fm']))
     exit;
 }
 
-// SQL para iGPU processador
+// SQL para iGPU add processador
 if (isset($_GET['n']) && $_GET['n'] == 'modelo-igpu-proc')
 {
     $sql = "SELECT DISTINCT igpu AS lista FROM lista_processador WHERE igpu LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
 }
+
+// SQL para socket add processador
+if (isset($_GET['n']) && $_GET['n'] == 'skt-proc')
+{
+    $sql = "SELECT DISTINCT socket AS lista FROM lista_processador WHERE socket LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
+}
+
+// SQL para chipset add placa de vídeo
+if (isset($_GET['n']) && $_GET['n'] == 'chipset-add-pv')
+{
+    $sql = "SELECT DISTINCT gpu AS lista FROM lista_placa_video WHERE gpu LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
+}
+
+// SQL para marca add placa de vídeo
+if (isset($_GET['n']) && $_GET['n'] == 'marca-add-pv')
+{
+    $sql = "SELECT DISTINCT marca AS lista FROM lista_placa_video WHERE marca LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
+}
+
+// SQL para modelo add placa de vídeo
+if (isset($_GET['n']) && $_GET['n'] == 'modelo-add-pv')
+{
+    $sql = "SELECT DISTINCT modelo AS lista FROM lista_placa_video WHERE modelo LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
+}
+
+
 
 // Execução do SQL
 $result = $conn->query($sql);
@@ -241,7 +267,7 @@ if ($result->num_rows > 0)
         }
 
         //Sugestões para marca da iGPU
-        elseif ($n == 'modelo-igpu-proc')
+        elseif ($n == 'modelo-igpu-proc' || $n == 'skt-proc' || $n == 'marca-add-pv' || $n == 'modelo-add-pv' || $n == 'chipset-add-pv')
         {
             echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . ')">' . $row['lista'] . "</p>";
         }

@@ -302,9 +302,10 @@ body {
    align-content: center;
    display: flex;
    visibility: hidden;
-   background-color: rgba(0, 0, 0, 0.75);
+   background-color: rgba(0, 0, 0, 0.5);
    cursor: pointer;
    z-index: 10000;
+   backdrop-filter: blur(6px);
 }
 
 #confirm_logout {
@@ -631,58 +632,10 @@ label#text {
    border: 0px
 }
 
-#filtro .input {
-   height: 25px;
-   padding: 6px 4px 6px 10px;
-}
 
 label {
    white-space: nowrap;
    text-align: left
-}
-
-#filtro .combo {
-   height: 25px;
-   padding: 3px 4px 5px 4px;
-}
-
-#filtro .combomulti {
-   padding: 4px 4px 4px 4px;
-   margin-bottom: 0px;
-   box-sizing: content-box;
-   height: 98px;
-}
-
-#filtro .combo option:checked {
-   background-color: #12779E;
-}
-
-#filtro input::placeholder {
-   color: #CDCDCD;
-}
-
-#filtro .input, #filtro .combo, #filtro .combomulti {
-   width: 100%;
-   background-color: transparent;
-   border: 1px solid #AAAAAA;
-   border-radius: 5px;
-   color: #555555;
-   font-family: Arial;
-   font-weight: normal;
-   font-size: 15px;
-   font-style: normal;
-   text-decoration: none;
-   box-sizing: border-box;
-}
-
-#filtro .input:focus, #filtro .combo:focus, #filtro .combomulti:focus, #filtro #input-busca:focus{
-   border-color: #66AFE9;
-   outline: 0;
-   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(102, 175, 233, 0.60);
-}
-
-#filtro .input:hover, #filtro .combo:hover, #filtro .combomulti:hover,  #filtro #input-busca:hover{
-   border-color: #66AFE9;
 }
 
 .botao {
@@ -785,10 +738,6 @@ label {
 #th-flex {
    display: flex;
    justify-content: space-between;
-}
-
-#filtro #input-busca {
-   border-color:#555555;
 }
 
 #paginas {
@@ -924,11 +873,7 @@ label {
    fill: #158CBA;
 }
 
-#icone svg path#primary:hover, #icone svg path#secondary:hover {
-   fill:#158CBA !important;
-}
-
-#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #adicionarGpu, #enviar, #limpar, #fecharOverlay {
+#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #adicionarGpu, #enviar, #limpar, #fecharOverlay, #filtro {
    display: flex;
    align-items: center;
    vertical-align: middle;
@@ -959,7 +904,7 @@ label {
 
 #mais:hover, #mais:hover svg, #menos:hover, #menos:hover svg, #removerDsk:hover, #removerDsk:hover svg, #removerMonitor:hover, #removerMonitor:hover svg,
 #adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover, #enviar:hover, #limpar:hover, #adicionarProc:hover svg, #adicionarDsk:hover svg,
-#adicionarMonitor:hover svg, #adicionarGpu:hover svg, #enviar:hover svg, #limpar:hover svg, #fecharOverlay:hover, #fecharOverlay:hover svg {
+#adicionarMonitor:hover svg, #adicionarGpu:hover svg, #enviar:hover svg, #limpar:hover svg, #fecharOverlay:hover, #fecharOverlay:hover svg, #filtro:hover, #filtro:hover svg {
    cursor: pointer;
 }
 
@@ -977,7 +922,7 @@ label {
    right: 4px;
 }
 
-#enviar, #limpar, #okOverlay {
+#enviar, #limpar, #okOverlay, #filtro {
    width: 32px;
    height: 32px;
    border-radius: 50%;
@@ -985,7 +930,7 @@ label {
    background-color: #158CBA;
 }
 
-#enviar svg, #limpar svg, #okOverlay svg {
+#enviar svg, #limpar svg, #okOverlay svg, #filtro svg {
    width: 40px;
    height: 40px;
    position: relative;
@@ -1000,6 +945,14 @@ label {
    fill: #158CBA;
 }
 
+#filtro:hover {
+   background-color: #158CBA;
+}
+
+#filtro:hover svg {
+   fill: #EEEEEE;
+}
+
 #mais:disabled svg, #menos:disabled svg, #maisdsk:disabled svg, #menosdsk:disabled svg {
    fill: #555555;
 }
@@ -1008,7 +961,7 @@ label {
    transform: rotate(45deg);
 }
 
-#fecharOverlay svg{
+#fecharOverlay svg, #filtro svg{
    top: 3px;
 }
 
@@ -1161,6 +1114,30 @@ label {
    margin-top: 29px;
 }
 
+.suggestions-box.skt-proc {
+   width: 95px;
+   margin-left: 65px;
+   margin-top: 30px;
+}
+
+.suggestions-box.chipset-add-pv {
+   width: 245px;
+   margin-left: 131px;
+   margin-top: 30px;
+}
+
+.suggestions-box.marca-add-pv {
+   width: 245px;
+   margin-left: 91px;
+   margin-top: 30px;
+}
+
+.suggestions-box.modelo-add-pv {
+   width: 245px;
+   margin-left: 67px;
+   margin-top: 30px;
+}
+
 .suggestions-box.visivel {
    display: block;
 }
@@ -1192,6 +1169,10 @@ label {
    border-bottom: #AAAAAA 1px solid;
 }
 
+.header.fim {
+   border: none
+}
+
 #botoes {
    display: flex;
 }
@@ -1201,6 +1182,10 @@ label {
    color: #555555;
    text-align: right;
    white-space: nowrap;
+}
+
+#input-busca {
+   width: 100%;
 }
 
 .input {

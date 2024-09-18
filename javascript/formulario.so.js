@@ -19,7 +19,7 @@ function formularioSO(str1) {
                 <label for="x64-win"><span></span>64-bits</label>
             </div>
             <input id="hidden-so" name="hidden-so" type="hidden" value="">
-            <div id="h-spacer"></div>
+            <div id="h-spacer" style="flex-basis: 100%;"></div>
             <div id="b-line-so-4" class="b-line">
                 <input type="radio" id="pirata-rd-win" name="licenca" class="radio" value="0" onclick="desativaSerial()">
                 <label for="pirata-rd-win"><span></span>Sem licença</label>
@@ -27,12 +27,12 @@ function formularioSO(str1) {
                 <label for="digital-rd-win"><span></span>Licença digital</label>
                 <input type="radio" id="serial-rd-win" name="licenca" class="radio" value="serial" onclick="liberaSerial()">
                 <label for="serial-rd-win"><span></span>Serial:
-                <input id="serial-so" class="input" type="text" maxlength="29" name="serial-so" disabled placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" style="width:420px" onkeyup="applyMasks()"></label>
+                <input id="serial-so" class="input trim" type="text" maxlength="29" name="serial-so" disabled placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" style="width:420px" onkeyup="applyMasks()"></label>
             </div>
             <div id="h-spacer" style="flex-basis: 100%;"></div>
             <div id="b-line-so-6" class="b-line"><label class="label" for="user-win">Usuário:</label><input id="user-so" class="input" type="text" name="user-so" placeholder="Usuário" required style="width:190px"></div>
             <div id="h-spacer"></div>
-            <div id="b-line-so-7" class="b-line"><label class="label" for="pw-win">Senha:</label><input id="pw-so" class="input" type="text" name="pw-so" placeholder="Senha" style="width:190px"></div>
+            <div id="b-line-so-7" class="b-line"><label class="label" for="pw-win">Senha:</label><input id="pw-so" class="input trim" type="text" name="pw-so" placeholder="Senha" style="width:190px"></div>
         `;
     } else if (str1 === 'Linux') {
         conteudo = `

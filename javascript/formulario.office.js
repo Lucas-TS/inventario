@@ -11,8 +11,16 @@ function formularioOffice(str1) {
             <div id="suggestions-ed-ms" class="suggestions-box ed-office ms">
             </div>
             <input id="hidden-office" name="hidden-office" type="hidden" value="">
-            <div id="h-spacer"></div>
-            <div id="b-line-office-4" class="b-line"><label class="label" for="serial-office">Serial:</label><input id="serial-ms" class="input" type="text" maxlength="29" name="serial-office" placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" style="width:420px" onkeyup="applyMasks()"></div>
+            <div id="h-spacer" style="flex-basis: 100%;"></div>
+            <div id="b-line-office-4" class="b-line">
+                <input type="radio" id="pirata-rd-office" name="licenca" class="radio" value="0" onclick="desativaSerial()">
+                <label for="pirata-rd-office"><span></span>Sem licença</label>
+                <input type="radio" id="digital-rd-office" name="licenca" class="radio" value="1" onclick="desativaSerial()">
+                <label for="digital-rd-office"><span></span>Licença digital</label>
+                <input type="radio" id="serial-rd-office" name="licenca" class="radio" value="serial" onclick="liberaSerial()">
+                <label for="serial-rd-office"><span></span>Serial:
+                <input id="serial-so" class="input trim" type="text" maxlength="29" name="serial-so" disabled placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" style="width:420px" onkeyup="applyMasks()"></label>
+            </div>
         `;
     } else if (str1 === 'Free') {
         conteudo = `

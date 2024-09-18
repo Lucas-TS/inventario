@@ -1,6 +1,6 @@
 function handleOverlayClick(event) {
     // Verifica se o clique foi na div #add_proc ou em um de seus filhos
-    if (event.target.closest('#add_proc')) {
+    if (event.target.closest('#add_proc') || event.target.closest('#add_pv')) {
         return; // Não faz nada se o clique foi na #add_proc
     }
     ShowObjectWithEffect('overlay', 0, 'fade', 200);
@@ -64,9 +64,59 @@ $(document).ready(function () {
     // Adiciona eventos de clique e tecla pressionada ao documento
 });
 
+// Função para remover todos os espaços dos inputs com a classe 'trim'
+function removeAllSpaces() {
+    const inputs = document.querySelectorAll('input.trim');
+    inputs.forEach(input => {
+        input.value = input.value.replace(/\s+/g, '');
+    });
+}
+
+// Função para remover espaços dos inputs
+function trimInputs() {
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.value = input.value.trim();
+    });
+}
+
+// Adiciona um evento para remover todos os espaços quando o input perde o foco
+document.addEventListener('focusout', function(event) {
+    if (event.target.classList.contains('trim')) {
+        event.target.value = event.target.value.replace(/\s+/g, '');
+    }
+});
+
+// Adiciona um evento para remover espaços quando o input perde o foco
+document.addEventListener('focusout', function(event) {
+    if (event.target.classList.contains('input')) {
+        event.target.value = event.target.value.trim();
+    }
+});
+
+// Observador para detectar novos inputs adicionados dinamicamente
+const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
+            if (node.nodeType === 1 && node.matches('input.trim')) {
+                node.addEventListener('focusout', function() {
+                    this.value = this.value.replace(/\s+/g, '');
+                });
+            }
+            if (node.nodeType === 1 && node.matches('input.trim')) {
+                node.addEventListener('focusout', function() {
+                    this.value = this.value.trim();
+                });
+            }
+        });
+    });
+});
+
+// Configura o observador para monitorar mudanças no DOM
+observer.observe(document.body, { childList: true, subtree: true });
+
 const topoButton = document.getElementById('topo'); // Seleciona o botão com ID 'topo'
 const addButton = document.getElementById('adicionar'); // Seleciona o botão com ID 'adicionar'
-
 
 window.addEventListener('scroll', () => {
     if (window.scrollY > 100) {

@@ -117,7 +117,7 @@ function gerarFormulario(contadorDsk, tipo) {
         return `
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="tam-hd-${contadorDsk}">Tamanho:</label>
-                <input id="tam-hd-${contadorDsk}" class="input box" type="text" name="tam-hd-${contadorDsk}" placeholder="Escolha" required style="width:100px">
+                <input id="tam-hd-${contadorDsk}" class="input box"  type="text" name="tam-hd-${contadorDsk}" placeholder="Escolha" required style="width:100px">
             </div>
             <div id="suggestions-tam-hd-${contadorDsk}" class="suggestions-box tam-hd">
             </div>

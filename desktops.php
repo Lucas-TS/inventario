@@ -95,7 +95,6 @@ if (isset($_GET['ativo'])) {
    <script src="javascript/panel.min.js"></script>
    <script src="javascript/wwb19.min.js"></script>
    <script src="javascript/load.effect.js"></script>
-   <script src="javascript/placeholder.js"></script>
    <script src="javascript/ocultar.bloco.js"></script>
    <script src="javascript/overlay.js"></script>
 </head>
@@ -107,108 +106,24 @@ if (isset($_GET['ativo'])) {
       <?php include 'includes/menu.php'; ?>
    </header>
    <div id="content" style="visibility:hidden;">
-      <div id="bloco-ocultavel" class="bloco-ocultavel">
+      <div id="bloco" class="bloco">
          <form name="filtro-form" method="post" accept-charset="UTF-8" action="includes/filtro.php" id="filtro-form">
             <input type="hidden" name="url" value="desktops.php">
-            <table id="filtro" class="tabela-filtro" cellspacing="0" cellpadding="0">
-               <thead>
-                  <tr>
-                     <th colspan="10" class="head-filtro">
-                        <div id="th-flex"><span>Busca</span>
-                        </div>
-                     </th>
-                  </tr>
-               </thead>
-               <tbody id="pesquisa" class="pesquisa">
-                  <tr>
-                     <td colspan="9" style="padding-bottom:10px;border-bottom: 1px dashed #AAA">
-                        <input id="input-busca" class="input" name="busca" value="<?php echo $busca; ?>" placeholder="Palavra-chave" onfocus="clearPlaceholder(this)" onblur="restorePlaceholder(this)">
-                     </td>
-                  </tr>
-               </tbody>
-               <tbody id="ocultavel" class="ocultavel">
-                  <tr>
-                     <td colspan="2" rowspan="2" id="filtro-secao" class="combo-filtro"><label for="combo-secao">Seção:</label>
-                        <select name="secao[]" id="combo-secao" class="combomulti" multiple>
-                           <option value="" <?php if (empty($secao_arr)) { echo 'selected'; }?> >Todas</option>
-                           <?php
-                           $sql = "SELECT sigla FROM secao ORDER BY sigla";
-                           $result = $conn->query($sql);
-                           while ($row = $result->fetch_assoc()) {
-                              if (in_array($row['sigla'], $secao_arr))
-                              {
-                                 $selected = 'selected';
-                              }
-                              else
-                              {
-                                 $selected = '';
-                              }
-                              echo '<option value="' . $row['sigla'] . '"' . $selected . '>' . $row['sigla'] . '</option>';
-                           }
-                           ?>
-                        </select>
-                     </td>
-                     <td colspan="2" rowspan="1" id="filtro-operador" class="input-filtro"><label for="input-operador">Operador:</label><input id="input-op" class="input" name="op" placeholder="Digite um nome" value="<?php echo $op; ?>">
-                     </td>
-                     <td colspan="2" rowspan="1" id="filtro-ip" class="input-filtro"><label for="input-ip">IP:</label><input id="input-ip" class="input" name="ip" placeholder="Digite somente números" value="<?php echo $ip; ?>">
-                     </td>
-                     <td colspan="2" rowspan="2" id="filtro-situacao" class="combo-filtro"><label for="combo-situacao">Situação:</label><select name="situacao[]" id="combo-situacao" class="combomulti" multiple>
-                           <option value="" <?php if (empty($situacao_arr)) { echo 'selected'; }?> >Todas</option>
-                           <option value="0" <?php if (in_array('0',$situacao_arr)) { echo 'selected'; }?> >Em uso</option>
-                           <option value="1" <?php if (in_array("1",$situacao_arr)) { echo 'selected'; }?> >Devolver</option>
-                           <option value="2" <?php if (in_array("2",$situacao_arr)) { echo 'selected'; }?> >Distribuir</option>
-                           <option value="3" <?php if (in_array("3",$situacao_arr)) { echo 'selected'; }?> >Manutenção</option>
-                           <option value="4" <?php if (in_array("4",$situacao_arr)) { echo 'selected'; }?> >Aguardando peças</option>
-                           <option value="5" <?php if (in_array("5",$situacao_arr)) { echo 'selected'; }?> >Defeito</option>
-                           <option value="6" <?php if (in_array("6",$situacao_arr)) { echo 'selected'; }?> >Descarregar</option>
-                        </select></td>
-                     <td rowspan="1" style="vertical-align:bottom;padding:0px 0px 0px 5px">
-                     <label class="round">Ativos<input type="checkbox" name="ativo" value="1" <?php echo $check_ativo; ?>><span class="checkmark"></span></label>
-                     <label class="round">Inativos<input type="checkbox" name="inativo" value="1" <?php echo $check_inativo; ?>><span class="checkmark" ></span></label>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td colspan="2" rowspan="1" id="filtro-hn" class="input-filtro"><label for="input-hn">Host Name:</label><input id="input-hn" class="input" name="hn" placeholder="Digite um nome" value="<?php echo $hn; ?>">
-                     </td>
-                     <td colspan="2" rowspan="1" id="filtro-mac" class="input-filtro"><label for="input-mac">MAC:</label><input id="input-mac" class="input mac" name="mac" placeholder="Digite somente números" value="<?php echo $mac; ?>">
-                     </td>
-                     <td style="vertical-align:bottom"><div style="display:contents;"><label for="qtde" style="width:52px">Linhas:</label>
-                     <select id="combo-qtde" class="combo" name="qtde" style="margin-bottom:12px;width:calc(100% - 57px);">
-                           <option value="25" <?php if ($qtde == 25) {echo 'selected';} ?>>25</option>
-                           <option value="50" <?php if ($qtde == 50) {echo 'selected';} ?>>50</option>
-                           <option value="100" <?php if ($qtde == 100) {echo 'selected';} ?>>100</option>
-                           <option value="250" <?php if ($qtde == 250) {echo 'selected';} ?>>100</option>
-                           <option value="500" <?php if ($qtde == 200) {echo 'selected';} ?>>500</option>
-                        </select></div>
-                     </td>
-                  </tr>
-               </tbody>
-               <tbody>
-                  <tr style="vertical-align: middle;">
-                     <td>
-                        <button type="reset" id="limpar" class="botao limpar">Limpar</button>
-                     </td>
-                     <td onclick="alternarVisibilidade()">
-                     </td>
-                     <td onclick="alternarVisibilidade()">
-                     </td>
-                     <td onclick="alternarVisibilidade()">
-                     </td>
-                     <td onclick="alternarVisibilidade()" style="text-align:center;">
-                        <?php include './images/expandir.svg'; ?>
-                     </td>
-                     <td onclick="alternarVisibilidade()">
-                     </td>
-                     <td onclick="alternarVisibilidade()">
-                     </td>
-                     <td onclick="alternarVisibilidade()">
-                     </td>
-                     <td style="text-align: right">
-                        <button type="submit" id="filtrar" class="botao">Buscar</button>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
+            <div class="header fim">
+               <div id="b-line-header-1" class="b-line" style="flex-basis:100%;">
+                  <input id="input-busca" class="input" name="busca" value="<?php echo $busca; ?>" placeholder="Buscar">
+               </div>
+               <div id="h-spacer"></div>
+               <div id="botoes">
+                  <div id="b-line-header-2" class="b-line">
+                     <button id="enviar" type="submit"><?php include './images/buscar.svg'; ?></button>
+                  </div>
+                  <div id="h-spacer"></div>
+                  <div id="b-line-header-3" class="b-line">
+                     <div id="filtro"><a title="Filtro" href="#" onclick="exibirOverlay('./overlay/filtro_overlay.php')"><?php include './images/filtro.svg'; ?></a></div>
+                  </div>
+               </div>
+            </div>
          </form>
       </div>
       <div id="spacer"></div>
@@ -548,6 +463,7 @@ if (isset($_GET['ativo'])) {
       </div>
    </footer>
 </body>
+<script src="javascript/placeholder.js"></script>
 <script src="javascript/masks.js"></script>
 <script src="javascript/events.js"></script>
 <?php

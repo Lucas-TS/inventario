@@ -29,7 +29,8 @@
             </div>
             <div id="h-spacer"></div>
             <div id="b-line-add-proc-4" class="b-line"><label class="label">Socket:</label>
-                <input id="skt-proc" name="skt" type="text" class="input" placeholder="" style="width:100px" required title="Ex.: AM4, AM5, LGA 1155, LGA 1200">
+                <input id="skt-proc" name="skt" type="text" class="input box" placeholder="" style="width:100px" required title="Ex.: AM4, AM5, LGA 1155, LGA 1200">
+                <div id="suggestions-skt-proc" class="suggestions-box skt-proc"></div>
             </div>
             <div id="h-spacer"></div>
             <div id="b-line-add-proc-5" class="b-line"><label class="label">Seguimento:</label>
@@ -104,6 +105,6 @@
                     <button id="enviar" type="submit"><?php include '../images/ok.svg'; ?></button>
                 </div>
             </div>
-
+        </div>
     </form>
 </div>
