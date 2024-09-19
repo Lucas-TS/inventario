@@ -873,18 +873,16 @@ label {
    fill: #158CBA;
 }
 
-#adicionarProc, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #adicionarGpu, #enviar, #limpar, #fecharOverlay, #filtro {
+/* Classe para flexbox centralizado */
+.flex-center {
    display: flex;
    align-items: center;
    vertical-align: middle;
    justify-content: center;
 }
 
-#adicionarProc, #adicionarGpu {
-   margin-left: 5px;
-}
-
-#adicionarProc, #adicionarGpu, #adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos, #fecharOverlay {
+/* Classe para botões com ícones */
+.icon-button {
    width: 26px;
    height: 26px;
    border-radius: 50%;
@@ -894,21 +892,23 @@ label {
    transition: all 300ms linear;
 }
 
-#adicionarDsk, #removerDsk, #adicionarMonitor, #removerMonitor, #mais, #menos, #fecharOverlay {
+/* Classe para botões com margem inferior */
+.margin-bottom {
    margin-bottom: 10px;
 }
 
-#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover, #removerDsk:hover, #removerMonitor:hover, #fecharOverlay:hover {
+/* Classe para botões com margem esquerda */
+.margin-left {
+   margin-left: 5px;
+}
+
+/* Classe para botões com hover */
+.icon-button:hover {
    background-color: #EEEEEE;
 }
 
-#mais:hover, #mais:hover svg, #menos:hover, #menos:hover svg, #removerDsk:hover, #removerDsk:hover svg, #removerMonitor:hover, #removerMonitor:hover svg,
-#adicionarProc:hover, #adicionarDsk:hover, #adicionarMonitor:hover, #adicionarGpu:hover, #enviar:hover, #limpar:hover, #adicionarProc:hover svg, #adicionarDsk:hover svg,
-#adicionarMonitor:hover svg, #adicionarGpu:hover svg, #enviar:hover svg, #limpar:hover svg, #fecharOverlay:hover, #fecharOverlay:hover svg, #filtro:hover, #filtro:hover svg {
-   cursor: pointer;
-}
-
-#adicionarProc svg, #adicionarDsk svg, #removerDsk svg, #adicionarGpu svg, #adicionarMonitor svg, #removerMonitor svg, #mais svg, #menos svg, #fecharOverlay svg {
+/* Classe para ícones dentro dos botões */
+.icon-button svg {
    width: 16px;
    height: 16px;
    fill: #158CBA;
@@ -917,12 +917,8 @@ label {
    left: 0px;
 }
 
-#okOverlay svg{
-   bottom: 4px;
-   right: 4px;
-}
-
-#enviar, #limpar, #okOverlay, #filtro {
+/* Classe para botões maiores */
+.large-button {
    width: 32px;
    height: 32px;
    border-radius: 50%;
@@ -930,56 +926,47 @@ label {
    background-color: #158CBA;
 }
 
-#enviar svg, #limpar svg, #okOverlay svg, #filtro svg {
+/* Classe para ícones dentro dos botões maiores */
+.large-button svg {
    width: 40px;
    height: 40px;
    position: relative;
    fill: #FFFFFF;
 }
 
-#enviar:hover, #limpar:hover, #okOverlay:hover {
+/* Classe para hover nos botões maiores */
+.large-button:hover {
    background-color: #FFFFFF;
 }
 
-#enviar:hover svg, #limpar:hover svg, #okOverlay:hover svg {
+.large-button:hover svg {
    fill: #158CBA;
 }
 
-#filtro:hover {
+/* Classe para hover no filtro */
+.large-button-inverse:hover {
    background-color: #158CBA;
 }
 
-#filtro:hover svg {
+.large-button-inverse:hover svg {
    fill: #EEEEEE;
 }
 
-#mais:disabled svg, #menos:disabled svg, #maisdsk:disabled svg, #menosdsk:disabled svg {
+/* Classe para ícones desabilitados */
+.disabled-icon svg {
    fill: #555555;
 }
 
-#removerDsk svg, #removerMonitor svg, #fecharOverlay svg {
+/* Classe para ícones rotacionados */
+.rotated-icon svg {
    transform: rotate(45deg);
 }
 
-#fecharOverlay svg, #filtro svg{
+/* Ajuste de posição para ícones específicos */
+.adjust-position svg {
    top: 3px;
 }
 
-#num:disabled {
-   width: 25px;
-   height: 25px;
-   text-align: center;
-   border: none;
-   border-radius: 5px;
-   color: #555555;
-   font-size: 16px;
-   box-sizing: border-box;
-   background-color: transparent;
-}
-
-#processador {
-   width: 400px;
-}
 
 .suggestions-box {
    border: 1px solid #ccc;

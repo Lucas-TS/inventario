@@ -120,7 +120,7 @@ if (isset($_GET['ativo'])) {
                   </div>
                   <div id="h-spacer"></div>
                   <div id="b-line-header-3" class="b-line">
-                     <div id="filtro"><a title="Filtro" href="#" onclick="exibirOverlay('./overlay/filtro_overlay.php')"><?php include './images/filtro.svg'; ?></a></div>
+                     <div id="filtro" class="large-button-inverse large"><a title="Filtro" href="#" onclick="exibirOverlay('./overlay/filtro_overlay.php')"><?php include './images/filtro.svg'; ?></a></div>
                   </div>
                </div>
             </div>
