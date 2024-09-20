@@ -114,11 +114,11 @@ if (isset($_GET['ativo'])) {
                <span>Adicionar Computador</span>
                <div id="botoes">
                   <div id="b-line-fim-1" class="b-line">
-                     <button id="limpar" type="reset"><?php include './images/erase.svg'; ?></button>
+                     <button id="limpar" class="flex-center large-button" type="reset"><?php include './images/erase.svg'; ?></button>
                   </div>
                   <div id="h-spacer"></div>
                   <div id="b-line-fim-2" class="b-line">
-                     <button id="enviar" type="submit"><?php include './images/ok.svg'; ?></button>
+                     <button id="enviar" class="flex-center large-button" type="submit"><?php include './images/ok.svg'; ?></button>
                   </div>
                </div>
             </div>
@@ -148,7 +148,7 @@ if (isset($_GET['ativo'])) {
                </div>
             </div>
             <div id="linha-2" class="linha">
-               <div id="h-line-2" class="h-line">Processador:<div id="adicionarProc"><a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./overlay/add_proc_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
+               <div id="h-line-2" class="h-line">Processador:<div id="adicionarProc" class="flex-center margin-left icon-button"><a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./overlay/add_proc_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
                </div>
                <div id="b-line-proc-1" class="b-line"><label class="label" for="processador-desktop">Modelo:</label>
                   <input id="processador-desktop" class="input box" type="text" name="processador-desktop" style="width:400px;" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
@@ -170,9 +170,9 @@ if (isset($_GET['ativo'])) {
             <div id="linha-3" class="linha">
                <div id="h-line-3" class="h-line">Memória RAM:</div>
                <div id="b-line-mem-1" class="b-line"><label class="label" for="qtde-mem-1">Quantidade:</label>
-                  <button title="Diminuir" type="button" id="menos" class="menos" disabled onclick="less(this, 'mem')"><?php include './images/menos.svg'; ?></button>
+                  <button title="Diminuir" type="button" id="menos" class="menos icon-button margin-bottom disabled-icon " disabled onclick="less(this, 'mem')"><?php include './images/menos.svg'; ?></button>
                   <input type="number" name="qtde-mem" class="qtde-mem input" value="1" style="width:59px;text-align:center;"><span style="color:#AAAAAA">&nbsp;GB</span>
-                  <button title="Aumentar" type="button" id="mais" class="mais" onclick="more(this, 'mem')"><?php include './images/add.svg'; ?></button>
+                  <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom disabled-icon" onclick="more(this, 'mem')"><?php include './images/add.svg'; ?></button>
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-mem-2" class="b-line"><label class="label" for="tipo-mem">Tipo:</label>
@@ -192,11 +192,11 @@ if (isset($_GET['ativo'])) {
                   <!-- Armazenamentos serão adicionados aqui -->
                </div>
                <div id="h-line-5" class="h-line">
-                  <div id="adicionarDsk"><a title="Adicionar armazenamento" href="#" onclick="adicionarArmazenamento()"><?php include './images/list.add.svg'; ?></a></div>
+                  <div id="adicionarDsk" class="flex-center icon-button margin-bottom"><a title="Adicionar armazenamento" href="#" onclick="adicionarArmazenamento()"><?php include './images/list.add.svg'; ?></a></div>
                </div>
             </div>
             <div id="linha-5" class="linha">
-               <div id="h-line-6" class="h-line">Placa de vídeo:<div id="adicionarGpu"><a title="Adicionar nova placa de vídeo" href="#" onclick="exibirOverlay('./overlay/add_pv_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
+               <div id="h-line-6" class="h-line">Placa de vídeo:<div id="adicionarGpu" class="flex-center margin-left icon-button"><a title="Adicionar nova placa de vídeo" href="#" onclick="exibirOverlay('./overlay/add_pv_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
                </div>
                <div id="b-line-pv-1" class="b-line">
                   <span class="label">Tipo:</span>
@@ -214,7 +214,7 @@ if (isset($_GET['ativo'])) {
                   <!-- Monitores serão adicionados aqui -->
                </div>
                <div id="h-line-8" class="h-line">
-                  <div id="adicionarMonitor"><a title="Adicionar monitor" href="#" onclick="adicionarMonitor()"><?php include './images/list.add.svg'; ?></a></div>
+                  <div id="adicionarMonitor" class="flex-center icon-button margin-bottom"><a title="Adicionar monitor" href="#" onclick="adicionarMonitor()"><?php include './images/list.add.svg'; ?></a></div>
                </div>
             </div>
             <div id="linha-7" class="linha">

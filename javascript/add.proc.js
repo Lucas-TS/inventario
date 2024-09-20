@@ -58,7 +58,7 @@ function insertProc(event) {
                         <span>Adicionar Processador</span>
                         <div id="botoes">
                             <div id="b-line-header-1" class="b-line">
-                            <div id="fecharOverlay"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${maisSVG}</a></div>
+                            <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon adjust-position"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${maisSVG}</a></div>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@ function insertProc(event) {
                 </div>
                 <div id="linha-2" class="linha fim centralizado">
                     <div id="b-line-1" class="b-line">
-                        <div id="okOverlay"><a title="Ok" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${okSVG}</a></div>
+                        <div id="okOverlay" class="large-button"><a title="Ok" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${okSVG}</a></div>
                     </div>
                 </div>
                 `; // Insere a mensagem de sucesso na div 'overlay'

@@ -116,11 +116,11 @@ if (isset($_GET['ativo'])) {
                <div id="h-spacer"></div>
                <div id="botoes">
                   <div id="b-line-header-2" class="b-line">
-                     <button id="enviar" type="submit"><?php include './images/buscar.svg'; ?></button>
+                     <button id="enviar" class="flex-center large-button" type="submit"><?php include './images/buscar.svg'; ?></button>
                   </div>
                   <div id="h-spacer"></div>
                   <div id="b-line-header-3" class="b-line">
-                     <div id="filtro" class="large-button-inverse large"><a title="Filtro" href="#" onclick="exibirOverlay('./overlay/filtro_overlay.php')"><?php include './images/filtro.svg'; ?></a></div>
+                     <div id="filtro" class="large-button-inverse large-button flex-center adjust-position svg"><a title="Filtro" href="#" onclick="exibirOverlay('./overlay/filtro_overlay.php')"><?php include './images/filtro.svg'; ?></a></div>
                   </div>
                </div>
             </div>

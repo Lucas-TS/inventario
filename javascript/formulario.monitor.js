@@ -17,7 +17,7 @@ function adicionarMonitor() {
     novoMonitor.classList.add('monitor');
     novoMonitor.innerHTML = `
         <div id="b-line-mon-${contadorbMonitor}" class="b-line">
-            <div id="removerMonitor"><a title="Remover monitor" href="#" onclick="removerMonitor(${contadorMonitor})">${maisSVG}</a></div>
+            <div id="removerMonitor" class="flex-center icon-button margin-bottom rotated-icon"><a title="Remover monitor" href="#" onclick="removerMonitor(${contadorMonitor})">${maisSVG}</a></div>
             <span style="font-weight:bold;padding-left:5px;color:#AAAAAA;"> Monitor ${contadorMonitor} »   </span>        
             <span class="label" style="padding-left:15px;">Marca:</span>
             <input id="marca-monitor-${contadorMonitor}" class="input box" type="text" name="marca-monitor-${contadorMonitor}" placeholder="Escolha a marca" required style="width:140px" onkeyup="disableModelo(${contadorMonitor})">

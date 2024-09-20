@@ -4,7 +4,7 @@
             <span>Adicionar Placa de Vídeo</span>
             <div id="botoes">
                 <div id="b-line-header-1" class="b-line">
-                <div id="fecharOverlay"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);"><?php include '../images/add.svg'; ?></a></div>
+                <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon adjust-position"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);"><?php include '../images/add.svg'; ?></a></div>
                 </div>
             </div>
         </div>
@@ -55,11 +55,11 @@
         <div id="linha-4" class="linha fim botoes">
             <div id="botoes">
                 <div id="b-line-add-pv-19" class="b-line">
-                    <button id="limpar" type="reset"><?php include '../images/erase.svg'; ?></button>
+                    <button id="limpar" class="flex-center large-button" type="reset"><?php include '../images/erase.svg'; ?></button>
                 </div>
                 <div id="h-spacer"></div>
                 <div id="b-line-add-pv-20" class="b-line">
-                    <button id="enviar" type="submit"><?php include '../images/ok.svg'; ?></button>
+                    <button id="enviar" class="flex-center large-button" type="submit"><?php include '../images/ok.svg'; ?></button>
                 </div>
             </div>
         </div>

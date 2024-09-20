@@ -17,7 +17,7 @@ function adicionarArmazenamento() {
     novoArmazenamento.classList.add('armazenamento');
     novoArmazenamento.innerHTML = `
         <div id="b-line-dsk-${contadorbDsk}" class="b-line">
-            <div id="removerDsk"><a title="Remover armazenamento" href="#" onclick="removerArmazenamento(${contadorDsk})">${maisSVG}</a></div>
+            <div id="removerDsk" class="flex-center icon-button margin-bottom rotated-icon"><a title="Remover armazenamento" href="#" onclick="removerArmazenamento(${contadorDsk})">${maisSVG}</a></div>
             <span style="font-weight:bold;padding-left:5px;color:#AAAAAA;"> Armazenamento ${contadorDsk} »   </span>        
             <span class="label" style="padding-left:15px;">Tipo:</span>
             <input type="radio" id="hd-${contadorDsk}" name="tipo-dsk-${contadorDsk}" class="radio" value="HD" onclick="mostrarFormulario(${contadorDsk}, 'HD')">
