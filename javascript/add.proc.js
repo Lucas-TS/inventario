@@ -46,7 +46,7 @@ function insertProc(event) {
     console.log(formData);
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "./includes/insert_proc.php", true);
+    xhr.open("POST", "./includes/inserir_proc.php", true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) { // Verifica se a requisição foi concluída

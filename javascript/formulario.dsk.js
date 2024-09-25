@@ -132,9 +132,9 @@ function gerarFormulario(contadorDsk, tipo) {
             <div id="h-spacer"></div>
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="saude-hd-${contadorDsk}">Saúde:</label>
-                <button title="Diminuir" type="button" id="menos" class="menos" onclick="less(this, 'saude')">${menosSVG}</button>
+                <button title="Diminuir" type="button" id="menos" class="menos icon-button margin-bottom" onclick="less(this, 'saude')">${menosSVG}</button>
                 <input type="number" name="saude-hd-${contadorDsk}" class="saude-hd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
-                <button title="Aumentar" type="button" id="mais" class="mais" disabled onclick="more(this, 'saude')">${maisSVG}</button>
+                <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" disabled onclick="more(this, 'saude')">${maisSVG}</button>
             </div>
             <input id="hidden-tam-hd-${contadorDsk}" name="hidden-tam-hd-${contadorDsk}" type="hidden" value="">
         `;
@@ -159,9 +159,9 @@ function gerarFormulario(contadorDsk, tipo) {
             <div id="h-spacer"></div>
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="saude-ssd-${contadorDsk}">Saúde:</label>
-                <button title="Diminuir" type="button" id="menos" class="menos" onclick="less(this, 'saude')">${menosSVG}</button>
+                <button title="Diminuir" type="button" id="menos" class="menos icon-button margin-bottom" onclick="less(this, 'saude')">${menosSVG}</button>
                 <input type="number" name="saude-ssd-${contadorDsk}" class="saude-ssd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
-                <button title="Aumentar" type="button" id="mais" class="mais" disabled onclick="more(this, 'saude')">${maisSVG}</button>
+                <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" disabled onclick="more(this, 'saude')">${maisSVG}</button>
             </div>
             <input id="hidden-tam-ssd-${contadorDsk}" name="hidden-tam-ssd-${contadorDsk}" type="hidden" value="">
         `;

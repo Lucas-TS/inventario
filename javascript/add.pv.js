@@ -19,7 +19,7 @@ function insertPv(event) {
     console.log(formData);
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "./includes/insert_pv.php", true);
+    xhr.open("POST", "./includes/inserir_pv.php", true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) { // Verifica se a requisição foi concluída

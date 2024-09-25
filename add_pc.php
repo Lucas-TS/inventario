@@ -108,16 +108,18 @@ if (isset($_GET['ativo'])) {
       <?php include 'includes/menu.php'; ?>
    </header>
    <div id="content">
-      <form name="add-pc" id="add-pc" method="post" accept-charset="UTF-8" action="includes/insert_pc.php" onreset="limparFormulario()">
+      <form name="add-pc" id="add-pc" method="post" accept-charset="UTF-8" action="includes/inserir_pc.php" onreset="limparFormulario()">
          <div id="bloco" class="bloco">
             <div class="header">
-               <span>Adicionar Computador</span>
+               <div id="b-line-fim-1" class="b-line">
+                  <span>Adicionar Computador</span>
+               </div>
                <div id="botoes">
-                  <div id="b-line-fim-1" class="b-line">
+                  <div id="b-line-fim-2" class="b-line">
                      <button id="limpar" class="flex-center large-button" type="reset"><?php include './images/erase.svg'; ?></button>
                   </div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-fim-2" class="b-line">
+                  <div id="b-line-fim-3" class="b-line">
                      <button id="enviar" class="flex-center large-button" type="submit"><?php include './images/ok.svg'; ?></button>
                   </div>
                </div>
@@ -170,9 +172,9 @@ if (isset($_GET['ativo'])) {
             <div id="linha-3" class="linha">
                <div id="h-line-3" class="h-line">Memória RAM:</div>
                <div id="b-line-mem-1" class="b-line"><label class="label" for="qtde-mem-1">Quantidade:</label>
-                  <button title="Diminuir" type="button" id="menos" class="menos icon-button margin-bottom disabled-icon " disabled onclick="less(this, 'mem')"><?php include './images/menos.svg'; ?></button>
+                  <button title="Diminuir" type="button" id="menos" class="menos icon-button margin-bottom" disabled onclick="less(this, 'mem')"><?php include './images/menos.svg'; ?></button>
                   <input type="number" name="qtde-mem" class="qtde-mem input" value="1" style="width:59px;text-align:center;"><span style="color:#AAAAAA">&nbsp;GB</span>
-                  <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom disabled-icon" onclick="more(this, 'mem')"><?php include './images/add.svg'; ?></button>
+                  <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" onclick="more(this, 'mem')"><?php include './images/add.svg'; ?></button>
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-mem-2" class="b-line"><label class="label" for="tipo-mem">Tipo:</label>
@@ -192,7 +194,7 @@ if (isset($_GET['ativo'])) {
                   <!-- Armazenamentos serão adicionados aqui -->
                </div>
                <div id="h-line-5" class="h-line">
-                  <div id="adicionarDsk" class="flex-center icon-button margin-bottom"><a title="Adicionar armazenamento" href="#" onclick="adicionarArmazenamento()"><?php include './images/list.add.svg'; ?></a></div>
+                  <div id="adicionarDsk" class="flex-center icon-button"><a title="Adicionar armazenamento" href="#" onclick="adicionarArmazenamento()"><?php include './images/list.add.svg'; ?></a></div>
                </div>
             </div>
             <div id="linha-5" class="linha">
@@ -214,7 +216,7 @@ if (isset($_GET['ativo'])) {
                   <!-- Monitores serão adicionados aqui -->
                </div>
                <div id="h-line-8" class="h-line">
-                  <div id="adicionarMonitor" class="flex-center icon-button margin-bottom"><a title="Adicionar monitor" href="#" onclick="adicionarMonitor()"><?php include './images/list.add.svg'; ?></a></div>
+                  <div id="adicionarMonitor" class="flex-center icon-button"><a title="Adicionar monitor" href="#" onclick="adicionarMonitor()"><?php include './images/list.add.svg'; ?></a></div>
                </div>
             </div>
             <div id="linha-7" class="linha">

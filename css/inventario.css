@@ -1,3 +1,6 @@
+* {
+   box-sizing: border-box;
+}
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
    -webkit-appearance: none;
@@ -33,6 +36,7 @@ html, body, #container {
    width: 100%;
    height: 100%;
    word-break: keep-all;
+   box-sizing: border-box;
 }
 
 body {
@@ -456,10 +460,11 @@ svg {
    overflow-x: hidden;
    padding: 10px;
    cursor: default;
+   font-size: 15px;
 }
 
 .bloco {
-   width: calc(100% - 20px);
+   width: 100%;
 }
 
 .bloco-overlay {
@@ -490,6 +495,10 @@ svg {
    width: 100%;
    padding: 10px;
    overflow-x: auto;
+}
+
+.busca {
+   width: 100%;
 }
 
 .head-lista {
@@ -912,8 +921,8 @@ label {
 
 /* Classe para ícones dentro dos botões maiores */
 .large-button svg {
-   width: 41px;
-   height: 41px;
+   width: 42px;
+   height: 42px;
    position: relative;
    fill: #FFFFFF;
    cursor: pointer;
@@ -938,8 +947,12 @@ label {
 }
 
 /* Classe para ícones desabilitados */
-.disabled-icon svg {
+.mais:disabled svg, .menos:disabled svg {
    fill: #555555;
+}
+
+.mais:hover, .menos:hover {
+   background-color: transparent;
 }
 
 /* Classe para ícones rotacionados */
@@ -1155,10 +1168,6 @@ label {
    white-space: nowrap;
 }
 
-#input-busca {
-   width: 100%;
-}
-
 .input {
    padding: 5px 10px 5px 10px;
    border: none;
@@ -1186,9 +1195,9 @@ label {
    flex-direction: row;
    flex-wrap: wrap;
    font-size: 16px;
-   padding: 10px 10px 0px 10px;
+   padding: 10px;
    border-bottom: #DFDFDF 1px solid;
-   align-items: baseline;
+   align-items: center;
 }
 
 .linha.fim {
@@ -1218,6 +1227,7 @@ label {
 
 .b-line {
    padding-top: 10px;
+   
    display: flex;
    align-items: baseline;
    height: 40px;
