@@ -313,8 +313,9 @@ body {
 }
 
 #confirm_logout {
-   width: 300px;
-   height: 118px;
+   width: fit-content;
+   height: fit-content;
+   overflow: hidden;
    cursor: default;
    z-index: 10001;
    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(0, 0, 0, 0.60);
@@ -496,18 +497,16 @@ svg {
    padding: 10px;
    overflow-x: auto;
    text-align: center;
+   border-collapse: collapse;
 }
 
-.busca {
-   width: 100%;
-}
-
-.head-lista {
+.tabela-lista th {
    background-color: transparent;
    padding: 5px;
-   border: 1px;
-   border-color: #AAA;
-   border-bottom-style: solid;
+}
+
+.tabela-lista thead tr:last-of-type th {
+   border-bottom: 1px solid #AAA;
 }
 
 .tabela-lista td {
@@ -522,6 +521,42 @@ svg {
    background-color: #ebf6fd;
    border-bottom: 1px solid #58B0E0;
    transition: all 0.3s ease;
+}
+
+.icone-acao svg {
+   width: 16px;
+   height: 16px;
+}
+
+.icone-acao {
+   padding: 0px 5px;
+}
+
+.acoes {
+   width: 100px;
+}
+
+.busca {
+   width: 100%;
+}
+
+.checkbox-container {
+   display: flex;
+   justify-content: space-between;
+   flex: 1;
+}
+
+.checkbox-column {
+   flex: 1;
+   display: flex;
+   flex-direction: column;
+   border-right: 1px solid #DFDFDF; /* Linha vertical entre as colunas */
+   padding: 0px 10px;
+}
+
+.checkbox-column:last-child {
+   border-right: none; /* Remove a linha da última coluna */
+   padding-right: 0;
 }
 
 #icone svg {
@@ -971,7 +1006,7 @@ label {
 
 /* Ajuste de posição para ícones específicos */
 .adjust-position svg {
-   top: 2px;
+   top: 3px;
 }
 
 .suggestions-box {
@@ -1230,13 +1265,21 @@ label {
    padding-top: 5px;
 }
 
+.h-line.filtro {
+   align-items: baseline;
+   justify-content: space-between;
+}
+
+.seletor-colunas {
+   font-weight: normal;
+}
+
 .h-line.centralizado {
    justify-content: center;
 }
 
 .b-line {
    padding-top: 10px;
-   
    display: flex;
    align-items: baseline;
    height: 40px;

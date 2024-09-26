@@ -455,7 +455,7 @@ if (isset($_GET['ativo'])) {
    </div>
    <a href="./add_pc.php" title="Adicionar novo PC"><div id="adicionar" class="balao"><?php include './images/add.svg'; ?></div></a>
    <a href="#" title="Voltar ao topo"><div id="topo" class="topo oculto"><?php include './images/seta.svg'; ?></div></a>
-   <div id="overlay" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);return false;">
+   <div id="overlay" onclick="handleOverlayClick(event);">
    </div>
    <footer id="FlexContainer2" style="visibility:hidden;">
       <div id="wb_Text1">

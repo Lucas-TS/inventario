@@ -1,6 +1,10 @@
 let maisSVG = '';
 let menosSVG = '';
 let okSVG = '';
+let eraseSVG = '';
+let delSVG = '';
+let viewSVG = '';
+let editSVG = '';
 
 function loadSVG(url, callback) {
     fetch(url)
@@ -21,4 +25,20 @@ loadSVG('./images/menos.svg', svg => {
 
 loadSVG('./images/ok.svg', svg => {
     okSVG = svg;
+});
+
+loadSVG('./images/erase.svg', svg => {
+    eraseSVG = svg;
+});
+
+loadSVG('./images/del.svg', svg => {
+    delSVG = svg;
+});
+
+loadSVG('./images/view.svg', svg => {
+    viewSVG = svg;
+});
+
+loadSVG('./images/edit.svg', svg => {
+    editSVG = svg;
 });

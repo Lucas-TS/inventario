@@ -7,7 +7,8 @@ $substituicoes = [
     'geracao' => 'Geração',
     'pcores' => 'P-Cores',
     'ecores' => 'E-Cores',
-    'igpu' => 'iGPU'
+    'igpu' => 'iGPU',
+    'id' => 'ID'
     // Adicione mais substituições conforme necessário
 ];
 

@@ -49,6 +49,7 @@ if (isset($_SESSION['expires_by']))
 <script src="javascript/panel.min.js"></script>
 <script src="javascript/wwb19.min.js"></script>
 <script src="javascript/load.effect.js"></script>
+<script src="javascript/load.svg.js"></script>
 <script src="javascript/overlay.js"></script>
 <script src="javascript/cookies.js"></script>
 </head>
@@ -97,7 +98,7 @@ if (isset($_SESSION['expires_by']))
             </div>
         </div>
     </div>
-    <div id="overlay" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);return false;">
+    <div id="overlay"  onclick="handleOverlayClick(event);">
     </div>
     <footer id="FlexContainer2" style="visibility:hidden;">
         <div id="wb_Text1">
@@ -105,5 +106,6 @@ if (isset($_SESSION['expires_by']))
         </div>
     </footer>
     <script src="javascript/cria.tabela.js"></script>
+    <script src="javascript/events.js"></script>
 </body>
 </html>

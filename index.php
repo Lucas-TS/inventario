@@ -59,7 +59,7 @@ if (isset($_SESSION['expires_by']))
    </header>
    <div id="content" style="visibility:hidden;">
    </div>
-   <div id="overlay" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);return false;">
+   <div id="overlay" onclick="handleOverlayClick(event);">
    </div>
    <footer id="FlexContainer2" style="visibility:hidden;">
       <div id="wb_Text1">

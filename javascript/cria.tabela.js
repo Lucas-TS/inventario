@@ -1,5 +1,6 @@
 let dadosTabela = [];
 let nomeTabela = '';
+const colunasNaoExibirPorPadrao = ['ativo', 'coluna2', 'coluna3']; // Substitua pelos nomes das colunas que não devem ser exibidas
 
 function carregarPreferencias(nomeTabela) {
     const cookies = document.cookie.split('; ');
@@ -14,21 +15,24 @@ function carregarPreferencias(nomeTabela) {
 function criarTabela(dados, colunasSelecionadas = null) {
     const tabela = document.createElement('table');
     tabela.className = 'tabela-lista';
-    tabela.cellSpacing = '0';
 
-    // Cria o cabeçalho da tabela
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     const colunas = colunasSelecionadas || Object.keys(dados[0]);
     colunas.forEach(coluna => {
         const th = document.createElement('th');
-        th.textContent = coluna; // Use o nome da coluna diretamente
+        th.textContent = coluna; 
         headerRow.appendChild(th);
     });
+
+    // Adiciona uma coluna para ações
+    const thAcoes = document.createElement('th');
+    thAcoes.textContent = 'Ações';
+    headerRow.appendChild(thAcoes);
+
     thead.appendChild(headerRow);
     tabela.appendChild(thead);
 
-    // Cria o corpo da tabela
     const tbody = document.createElement('tbody');
     dados.forEach(linha => {
         const tr = document.createElement('tr');
@@ -37,6 +41,17 @@ function criarTabela(dados, colunasSelecionadas = null) {
             td.textContent = linha[coluna];
             tr.appendChild(td);
         });
+
+        // Adiciona as ações na última coluna
+        const tdAcoes = document.createElement('td');
+        tdAcoes.classList = 'acoes';
+        tdAcoes.innerHTML = `
+            <a title="Ver detalhes" class="icone-acao">${viewSVG}</a>
+            <a title="Editar" class="icone-acao">${editSVG}</a>
+            <a title="Apagar" class="icone-acao">${delSVG}</a>
+        `;
+        tr.appendChild(tdAcoes);
+
         tbody.appendChild(tr);
     });
     tabela.appendChild(tbody);
@@ -87,7 +102,7 @@ function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
             data: { tabela: nomeTabela },
             success: function(response) {
                 dadosTabela = JSON.parse(response);
-                colunasSelecionadas = carregarPreferencias(nomeTabela) || Object.keys(dadosTabela[0]); // Carrega preferências ou todas as colunas
+                colunasSelecionadas = carregarPreferencias(nomeTabela) || Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
                 renderizarTabela(dadosTabela, pagina, resultadosPorPagina, colunasSelecionadas);
             },
             error: function() {
@@ -95,7 +110,7 @@ function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
             }
         });
     } else {
-        colunasSelecionadas = carregarPreferencias(nomeTabela) || colunasSelecionadas;
+        colunasSelecionadas = carregarPreferencias(nomeTabela) || Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
         renderizarTabela(dadosTabela, pagina, resultadosPorPagina, colunasSelecionadas);
     }
 }
@@ -119,16 +134,13 @@ function renderizarTabela(dados, pagina, resultadosPorPagina, colunasSelecionada
     }
 }
 
+
 $(document).ready(function() {
     const queryString = window.location.search;
+
     const urlParams = new URLSearchParams(queryString);
-    nomeTabela = urlParams.get('tabela');
 
-    const selectResultadosPorPagina = document.getElementById('resultadosPorPagina');
-    selectResultadosPorPagina.onchange = function() {
-        const valor = this.value === 'todos' ? 'todos' : parseInt(this.value);
-        carregarTabela(nomeTabela, 1, valor);
-    };
+    const valor = urlParams.get('tabela');
 
-    carregarTabela(nomeTabela);
+    carregarTabela(valor);
 });
