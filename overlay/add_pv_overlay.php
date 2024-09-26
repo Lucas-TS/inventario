@@ -1,4 +1,4 @@
-<div id="add_pv" class="bloco-overlay">
+<div id="bloco-overlay" class="bloco-overlay">
     <form name="add_pv_form" method="post" accept-charset="UTF-8" id="add_pv_form" onsubmit="insertPv(event)">
         <div class="header">
             <span>Adicionar Placa de Vídeo</span>

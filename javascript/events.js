@@ -1,7 +1,7 @@
 function handleOverlayClick(event) {
-    // Verifica se o clique foi na div #add_proc ou em um de seus filhos
-    if (event.target.closest('#add_proc') || event.target.closest('#add_pv')) {
-        return; // Não faz nada se o clique foi na #add_proc
+    // Verifica se o clique foi na div #bloco-overlay ou em um de seus filhos
+    if (event.target.closest('#bloco-overlay')) {
+        return; // Não faz nada se o clique foi na #bloco-overlay
     }
     ShowObjectWithEffect('overlay', 0, 'fade', 200);
 }

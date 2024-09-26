@@ -495,6 +495,7 @@ svg {
    width: 100%;
    padding: 10px;
    overflow-x: auto;
+   text-align: center;
 }
 
 .busca {
@@ -869,6 +870,14 @@ label {
    align-items: center;
    vertical-align: middle;
    justify-content: center;
+}
+
+.paginacao {
+   flex: 1;
+}
+
+.rodape {
+   padding: 10px 20px;
 }
 
 /* Classe para botões com ícones */

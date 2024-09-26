@@ -1,4 +1,4 @@
-<div id="add_proc" class="bloco-overlay">
+<div id="bloco-overlay" class="bloco-overlay">
     <form name="add_proc_form" method="post" accept-charset="UTF-8" id="add_proc_form" onsubmit="insertProc(event)">
         <div class="header">
             <span>Adicionar Processador</span>

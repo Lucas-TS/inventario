@@ -1,89 +1,55 @@
 <?php
 include 'conecta_db.php';
 
-// Array de mapeamento para substituição dos nomes das colunas
-$colunaMapeamento = [
+// Array de substituição para os nomes das colunas
+$substituicoes = [
     'id' => 'ID',
-    'igpu' => 'iGPU',
     'geracao' => 'Geração',
     'pcores' => 'P-Cores',
-    'ecores' => 'E-Cores'
+    'ecores' => 'E-Cores',
+    'igpu' => 'iGPU'
+    // Adicione mais substituições conforme necessário
 ];
 
-// Função para formatar o nome da coluna
-function formatarNomeColuna($nomeColuna, $mapeamento) {
-    if (array_key_exists($nomeColuna, $mapeamento)) {
-        return $mapeamento[$nomeColuna];
+// Função para formatar os nomes das colunas
+function formatarNomeColuna($nome) {
+    global $substituicoes;
+    if (array_key_exists($nome, $substituicoes)) {
+        return $substituicoes[$nome];
     } else {
-        return ucfirst($nomeColuna);
+        return ucfirst($nome);
     }
 }
 
-// Função para exibir dados da tabela com paginação
-function exibirTabela($conn, $nomeTabela, $pagina, $limite, $mapeamento) {
-    $offset = ($pagina - 1) * $limite;
-    $sql = "SELECT * FROM $nomeTabela LIMIT $limite OFFSET $offset";
+// Função para exibir dados da tabela
+function exibirTabela($conn, $nomeTabela) {
+    $sql = "SELECT * FROM $nomeTabela";
     $result = $conn->query($sql);
 
+    $dados = [];
     if ($result->num_rows > 0) {
-        echo "<table class='tabela-lista'><tr>";
-
-        // Exibe os cabeçalhos das colunas
-        $fieldinfoArray = [];
-        while ($fieldinfo = $result->fetch_field()) {
-            $nomeFormatado = formatarNomeColuna($fieldinfo->name, $mapeamento);
-            echo "<th>" . $nomeFormatado . "</th>";
-            $fieldinfoArray[] = $fieldinfo->name;
-        }
-        echo "</tr>";
-
-        // Adiciona inputs de filtro
-        echo "<tr>";
-        foreach ($fieldinfoArray as $fieldname) {
-            echo "<th><input class='input busca' type='text' onkeyup='filtrarTabela()'></th>";
-        }
-        echo "</tr>";
-
-        // Exibe os dados das linhas
         while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            foreach ($row as $value) {
-                echo "<td>" . $value . "</td>";
-            }
-            echo "</tr>";
+            $dados[] = $row;
         }
-        echo "</table>";
-        echo '<div id="resultados"><label for="limite">Resultados por página:</label>';
-        echo '<select id="limite" name="limite" onchange="carregarTabela(\'' . $nomeTabela . '\', 1, this.value)">';
-        echo '<option value="2"' . ($limite == 2 ? ' selected' : '') . '>2</option>';
-        echo '<option value="5"' . ($limite == 5 ? ' selected' : '') . '>5</option>';
-        echo '<option value="10"' . ($limite == 10 ? ' selected' : '') . '>10</option>';
-        echo '<option value="20"' . ($limite == 20 ? ' selected' : '') . '>20</option>';
-        echo '</select></div>';
-
-        // Paginação
-        $sqlTotal = "SELECT COUNT(*) as total FROM $nomeTabela";
-        $resultTotal = $conn->query($sqlTotal);
-        $total = $resultTotal->fetch_assoc()['total'];
-        $totalPaginas = ceil($total / $limite);
-
-        echo "<div id='paginacao'>";
-        for ($i = 1; $i <= $totalPaginas; $i++) {
-            echo "<a href='#' onclick='carregarTabela(\"$nomeTabela\", $i, $limite)'>$i</a> ";
-        }
-        echo "</div>";
-    } else {
-        echo "0 resultados";
     }
+
+    // Formatar os nomes das colunas
+    if (!empty($dados)) {
+        $colunas = array_keys($dados[0]);
+        $colunasFormatadas = array_map('formatarNomeColuna', $colunas);
+        $dadosFormatados = array_map(function($linha) use ($colunas, $colunasFormatadas) {
+            return array_combine($colunasFormatadas, array_values($linha));
+        }, $dados);
+    }
+
+    echo json_encode($dadosFormatados);
 }
 
-// Recebe o nome da tabela, a página e o limite via GET
-$nomeTabela = $_GET['tabela'] ?? 'nome_da_tabela_padrao';
-$pagina = $_GET['pagina'] ?? 1;
-$limite = $_GET['limite'] ?? 2; // Número de registros por página
+// Recebe o nome da tabela via GET ou POST
+$nomeTabela = $_GET['tabela'] ?? null;
 
 // Chama a função para exibir a tabela
-exibirTabela($conn, $nomeTabela, $pagina, $limite, $colunaMapeamento);
+exibirTabela($conn, $nomeTabela);
 
 // Fecha a conexão
 $conn->close();
