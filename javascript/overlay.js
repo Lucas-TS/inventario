@@ -38,10 +38,10 @@ function mensagemOverlay(text) {
         });
 }
 
-function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = []) {
+function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultadosPorPaginaSelecionado = 10) {
+    console.log("exibirOverlayComCheckboxes - resultadosPorPaginaSelecionado:", resultadosPorPaginaSelecionado);
     ShowObjectWithEffect('overlay', 1, 'fade', 200);
 
-    // Organizar as colunas em três colunas verticais
     const colunasPorColuna = Math.ceil(colunas.length / 3);
     const colunasOrganizadas = [[], [], []];
 
@@ -56,7 +56,7 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = []) {
             <span>Opções de visualização</span>
             <div id="botoes">
                 <div id="b-line-header-1" class="b-line">
-                <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon adjust-position"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${maisSVG}</a></div>
+                    <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon adjust-position"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${maisSVG}</a></div>
                 </div>
             </div>
         </div>
@@ -91,8 +91,23 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = []) {
 
     overlayContent += `
         <div id="linha-2" class="linha">
-            <div id="h-line-filtro-2" class="h-line">Salvar Configuração:</div>
+            <div id="h-line-filtro-2" class="h-line">Resultados por página:</div>
             <div id="b-line-filtro-2" class="b-line">
+                <select id="resultadosPorPaginaOverlay" name="resultadosPorPagina" class="select">
+                    <option value="2" ${resultadosPorPaginaSelecionado == 2 ? 'selected' : ''}>2</option>
+                    <option value="5" ${resultadosPorPaginaSelecionado == 5 ? 'selected' : ''}>5</option>
+                    <option value="10" ${resultadosPorPaginaSelecionado == 10 ? 'selected' : ''}>10</option>
+                    <option value="50" ${resultadosPorPaginaSelecionado == 50 ? 'selected' : ''}>50</option>
+                    <option value="todos" ${resultadosPorPaginaSelecionado == 'todos' ? 'selected' : ''}>Todos</option>
+                </select>
+            </div>
+        </div>
+    `;
+
+    overlayContent += `
+        <div id="linha-3" class="linha">
+            <div id="h-line-filtro-3" class="h-line">Salvar Configuração:</div>
+            <div id="b-line-filtro-3" class="b-line">
                 <input type="radio" id="salvar-sim" name="salvarConfiguracao" class="radio" value="sim" checked>
                 <label for="salvar-sim"><span></span>Sim</label>
                 <input type="radio" id="salvar-nao" name="salvarConfiguracao" class="radio" value="nao">
@@ -118,7 +133,6 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = []) {
     atualizarBotaoMarcarTudo();
 }
 
-
 function aplicarFiltros() {
     const checkboxes = document.querySelectorAll('#formCheckboxes input[name="colunas"]');
     colunasSelecionadas = Array.from(checkboxes)
@@ -126,12 +140,13 @@ function aplicarFiltros() {
         .map(checkbox => checkbox.value);
 
     const salvarConfiguracao = document.querySelector('input[name="salvarConfiguracao"]:checked').value === 'sim';
+    const resultadosPorPagina = document.getElementById('resultadosPorPaginaOverlay').value;
 
     if (salvarConfiguracao) {
-        salvarPreferencias(nomeTabela, colunasSelecionadas);
+        salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina);
     }
 
-    renderizarTabela(dadosTabela, 1, parseInt(document.getElementById('resultadosPorPagina').value), colunasSelecionadas);
+    renderizarTabela(dadosTabela, 1, resultadosPorPagina, colunasSelecionadas);
     ShowObjectWithEffect('overlay', 0, 'fade', 200);
 }
 

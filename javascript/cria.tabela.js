@@ -1,15 +1,20 @@
 let dadosTabela = [];
 let nomeTabela = '';
-const colunasNaoExibirPorPadrao = ['ativo', 'coluna2', 'coluna3']; // Substitua pelos nomes das colunas que não devem ser exibidas
+const colunasNaoExibirPorPadrao = ['Ativo', 'Geração', 'Socket', 'Seguimento', 'P-Cores', 'E-Cores', 'Turbo', 'Memória'];
 
 function carregarPreferencias(nomeTabela) {
     const cookies = document.cookie.split('; ');
     const cookie = cookies.find(row => row.startsWith(`preferencias_${nomeTabela}=`));
     if (cookie) {
         const preferencias = JSON.parse(cookie.split('=')[1]);
-        return preferencias.colunas;
+        return preferencias;
     }
     return null;
+}
+
+function salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina) {
+    const preferencias = { colunas: colunasSelecionadas, resultadosPorPagina: resultadosPorPagina };
+    document.cookie = `preferencias_${nomeTabela}=${JSON.stringify(preferencias)}; path=/; max-age=31536000`;
 }
 
 function criarTabela(dados, colunasSelecionadas = null) {
@@ -25,7 +30,6 @@ function criarTabela(dados, colunasSelecionadas = null) {
         headerRow.appendChild(th);
     });
 
-    // Adiciona uma coluna para ações
     const thAcoes = document.createElement('th');
     thAcoes.textContent = 'Ações';
     headerRow.appendChild(thAcoes);
@@ -42,7 +46,6 @@ function criarTabela(dados, colunasSelecionadas = null) {
             tr.appendChild(td);
         });
 
-        // Adiciona as ações na última coluna
         const tdAcoes = document.createElement('td');
         tdAcoes.classList = 'acoes';
         tdAcoes.innerHTML = `
@@ -60,12 +63,12 @@ function criarTabela(dados, colunasSelecionadas = null) {
 }
 
 function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
-    const totalPaginas = Math.ceil(total / resultadosPorPagina);
+    const totalPaginas = resultadosPorPagina === 'todos' ? 1 : Math.ceil(total / resultadosPorPagina);
 
-    const criarLink = (texto, pagina, classe) => {
+    const criarLink = (svg, pagina, classe) => {
         const link = document.createElement('a');
         link.href = '#';
-        link.textContent = texto;
+        link.innerHTML = svg;
         link.className = classe;
         link.onclick = () => {
             carregarTabela(nomeTabela, pagina, resultadosPorPagina);
@@ -74,27 +77,45 @@ function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
         return link;
     };
 
+    const criarDivComLink = (svg, pagina, classeDiv, classeLink) => {
+        const div = document.createElement('div');
+        div.className = classeDiv;
+        div.appendChild(criarLink(svg, pagina, classeLink));
+        return div;
+    };
+
     const fragment = document.createDocumentFragment();
 
     if (paginaAtual > 1) {
-        fragment.appendChild(criarLink('<<', 1, 'primeira'));
-        fragment.appendChild(criarLink('<', paginaAtual - 1, 'anterior'));
+        if (paginaAtual > 2) {
+            fragment.appendChild(criarDivComLink(primeiraSVG, 1, 'botao-seta primeira', 'primeira'));
+        }
+        fragment.appendChild(criarDivComLink(anteriorSVG, paginaAtual - 1, 'botao-seta anterior', 'anterior'));
     }
 
     for (let i = Math.max(1, paginaAtual - 2); i <= Math.min(totalPaginas, paginaAtual + 2); i++) {
-        const classe = i === paginaAtual ? 'atual' : 'numero';
-        fragment.appendChild(criarLink(i, i, classe));
+        if (i === paginaAtual) {
+            const div = document.createElement('div');
+            div.className = 'botao-atual';
+            div.textContent = i;
+            fragment.appendChild(div);
+        } else {
+            fragment.appendChild(criarDivComLink(i, i, 'botao-numero', 'numero'));
+        }
     }
 
     if (paginaAtual < totalPaginas) {
-        fragment.appendChild(criarLink('>', paginaAtual + 1, 'proxima'));
-        fragment.appendChild(criarLink('>>', totalPaginas, 'ultima'));
+        fragment.appendChild(criarDivComLink(proximoSVG, paginaAtual + 1, 'botao-seta proxima', 'proxima'));
+        if (paginaAtual < totalPaginas - 1) {
+            fragment.appendChild(criarDivComLink(ultimaSVG, totalPaginas, 'botao-seta ultima', 'ultima'));
+        }
     }
 
     return fragment;
 }
 
 function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
+    console.log("carregarTabela - resultadosPorPagina:", resultadosPorPagina);
     if (dadosTabela.length === 0) {
         $.ajax({
             url: './includes/cria_tabela.php',
@@ -102,22 +123,32 @@ function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
             data: { tabela: nomeTabela },
             success: function(response) {
                 dadosTabela = JSON.parse(response);
-                colunasSelecionadas = carregarPreferencias(nomeTabela) || Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
+                const preferencias = carregarPreferencias(nomeTabela);
+                colunasSelecionadas = preferencias ? preferencias.colunas : Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
+                resultadosPorPagina = preferencias ? preferencias.resultadosPorPagina : resultadosPorPagina;
+                console.log("carregarTabela - preferencias resultadosPorPagina:", resultadosPorPagina);
                 renderizarTabela(dadosTabela, pagina, resultadosPorPagina, colunasSelecionadas);
+                // Atualizar o valor de resultadosPorPagina no overlay
+                $('#resultadosPorPaginaOverlay').val(resultadosPorPagina);
             },
             error: function() {
                 alert('Erro ao carregar a tabela.');
             }
         });
     } else {
-        colunasSelecionadas = carregarPreferencias(nomeTabela) || Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
+        const preferencias = carregarPreferencias(nomeTabela);
+        colunasSelecionadas = preferencias ? preferencias.colunas : Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
+        resultadosPorPagina = preferencias ? preferencias.resultadosPorPagina : resultadosPorPagina;
+        console.log("carregarTabela - preferencias resultadosPorPagina:", resultadosPorPagina);
         renderizarTabela(dadosTabela, pagina, resultadosPorPagina, colunasSelecionadas);
+        // Atualizar o valor de resultadosPorPagina no overlay
+        $('#resultadosPorPaginaOverlay').val(resultadosPorPagina);
     }
 }
 
 function renderizarTabela(dados, pagina, resultadosPorPagina, colunasSelecionadas = null) {
     const total = dados.length;
-    const inicio = (pagina - 1) * resultadosPorPagina;
+    const inicio = (pagina - 1) * (resultadosPorPagina === 'todos' ? total : resultadosPorPagina);
     const fim = resultadosPorPagina === 'todos' ? total : inicio + resultadosPorPagina;
     const dadosPagina = dados.slice(inicio, fim);
 
@@ -134,13 +165,6 @@ function renderizarTabela(dados, pagina, resultadosPorPagina, colunasSelecionada
     }
 }
 
-
 $(document).ready(function() {
-    const queryString = window.location.search;
 
-    const urlParams = new URLSearchParams(queryString);
-
-    const valor = urlParams.get('tabela');
-
-    carregarTabela(valor);
 });

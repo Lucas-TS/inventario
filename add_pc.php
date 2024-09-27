@@ -115,11 +115,11 @@ if (isset($_GET['ativo'])) {
                   <span>Adicionar Computador</span>
                </div>
                <div id="botoes">
-                  <div id="b-line-fim-2" class="b-line">
+                  <div id="b-line-fim-2" class="b-line correcao-altura">
                      <button id="limpar" class="flex-center large-button" type="reset"><?php include './images/erase.svg'; ?></button>
                   </div>
                   <div id="h-spacer"></div>
-                  <div id="b-line-fim-3" class="b-line">
+                  <div id="b-line-fim-3" class="b-line correcao-altura">
                      <button id="enviar" class="flex-center large-button" type="submit"><?php include './images/ok.svg'; ?></button>
                   </div>
                </div>

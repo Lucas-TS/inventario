@@ -5,6 +5,10 @@ let eraseSVG = '';
 let delSVG = '';
 let viewSVG = '';
 let editSVG = '';
+let primeiraSVG = '';
+let anteriorSVG = '';
+let proximaSVG = '';
+let ultimaSVG = '';
 
 function loadSVG(url, callback) {
     fetch(url)
@@ -41,4 +45,20 @@ loadSVG('./images/view.svg', svg => {
 
 loadSVG('./images/edit.svg', svg => {
     editSVG = svg;
+});
+
+loadSVG('./images/primeira.svg', svg => {
+    primeiraSVG = svg;
+});
+
+loadSVG('./images/anterior.svg', svg => {
+    anteriorSVG = svg;
+});
+
+loadSVG('./images/proximo.svg', svg => {
+    proximoSVG = svg;
+});
+
+loadSVG('./images/ultima.svg', svg => {
+    ultimaSVG = svg;
 });

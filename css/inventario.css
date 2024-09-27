@@ -783,11 +783,7 @@ label {
    height: 100%;
 }
 
-.botao-atual {
-   font-weight: bold;
-}
-
-.botao-paginas, .botao-atual, .botao-seta {
+.botao-numero, .botao-atual, .botao-seta {
    height: 24px;
    width: 24px;
    font-size: 16px;
@@ -800,25 +796,25 @@ label {
 }
 
 .botao-atual {
-
+   font-weight: bold;
    background: #158CBA;
    color: #FFFFFF;
    border: 1px solid #158CBA;
    cursor: default;
 }
 
-.botao-paginas, .botao-seta {
+.botao-numero, .botao-seta {
    background: transparent;
    color: #117095;
-   border: 1px solid #E6E6E6;
+   border: 1px solid #EEEEEE;
    cursor: pointer;
 }
 
-.botao-paginas:hover, .botao-seta:hover {
-   background: #E6E6E6;
+.botao-numero:hover, .botao-seta:hover {
+   background: #EEEEEE;
 }
 
-.botao-paginas a:focus {
+.botao-numero a:focus {
    border-color: #66AFE9;
    outline: 0;
    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 0px 0px 8px rgba(102, 175, 233, 0.60);
@@ -909,6 +905,12 @@ label {
 
 .paginacao {
    flex: 1;
+   flex-basis: 100%;
+}
+
+.paginacao a {
+   color: #158CBA;
+   text-decoration: none;
 }
 
 .rodape {
@@ -1212,7 +1214,7 @@ label {
    white-space: nowrap;
 }
 
-.input {
+.input, .select {
    padding: 5px 10px 5px 10px;
    border: none;
    border-bottom: #555555 1px solid;
@@ -1221,13 +1223,13 @@ label {
    transition: all 0.3s ease;
 }
 
-.input:focus {
+.input:focus, .select:focus {
    border-color: #66AFE9;
    outline: 0;
    transition: all 0.3s ease;
 }
 
-.input:disabled, .input:disabled::placeholder {
+.input:disabled, .input:disabled::placeholder, .select:disabled, .select:disabled::placeholder {
    background-color: transparent;
    border-color: #DFDFDF;
    color: #DFDFDF;
@@ -1284,8 +1286,13 @@ label {
    align-items: baseline;
    height: 40px;
 }
+
 #b-line-5 {
    flex: 1;
+}
+
+.correcao-altura {
+   height: 50px;
 }
 
 .oculto {

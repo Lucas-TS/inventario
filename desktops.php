@@ -215,7 +215,7 @@ if (isset($_GET['ativo'])) {
                }
                else
                {
-                  $qtde = "25";
+                  $qtde = "2";
                }
                $filtro_busca = "";
                if (isset($_GET['busca']) && !empty($_GET['busca']))

@@ -50,7 +50,6 @@ if (isset($_SESSION['expires_by']))
 <script src="javascript/wwb19.min.js"></script>
 <script src="javascript/load.effect.js"></script>
 <script src="javascript/load.svg.js"></script>
-<script src="javascript/overlay.js"></script>
 <script src="javascript/cookies.js"></script>
 </head>
 <body>
@@ -75,7 +74,8 @@ if (isset($_SESSION['expires_by']))
                         </div>
                         <div id="h-spacer"></div>
                         <div id="b-line-header-3" class="b-line">
-                            <div id="filtro" class="large-button-inverse large-button flex-center adjust-position svg"><a title="Filtro" href="#" onclick="exibirOverlayComCheckboxes(Object.keys(dadosTabela[0]), colunasSelecionadas)"><?php include './images/filtro.svg'; ?></a></div>
+                            <div id="filtro" class="large-button-inverse large-button flex-center adjust-position svg"><a title="Filtro" href="#" onclick="exibirOverlayComCheckboxes(Object.keys(dadosTabela[0]), colunasSelecionadas, carregarPreferencias(nomeTabela).resultadosPorPagina)">
+                            <?php include './images/filtro.svg'; ?></a></div>
                         </div>
                     </div>
                 </div>
@@ -86,15 +86,8 @@ if (isset($_SESSION['expires_by']))
             <div id="tabela" class="tabela-lista">
             </div>
             <div id="rodape-bloco" class="flex-center rodape">
-                <div id="paginacao" class="flex-center paginacao"></div>
-                <label for="resultadosPorPagina">Resultados por página:</label>
-                <select id="resultadosPorPagina" name="resultadosPorPagina">
-                    <option value="2">2</option>
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="50">50</option>
-                    <option value="todos">Todos</option>
-                </select>
+                <div id="paginacao" class="flex-center paginacao">
+                </div>
             </div>
         </div>
     </div>
@@ -106,6 +99,7 @@ if (isset($_SESSION['expires_by']))
         </div>
     </footer>
     <script src="javascript/cria.tabela.js"></script>
+    <script src="javascript/overlay.js"></script>
     <script src="javascript/events.js"></script>
 </body>
 </html>
