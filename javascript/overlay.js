@@ -117,7 +117,7 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
         <div id="linha-7" class="linha fim botoes">
             <div id="botoes">
                 <div id="b-line-filtro-20" class="b-line">
-                    <button id="enviar" class="flex-center large-button" type="button" onclick="aplicarFiltros()">${okSVG}</button>
+                    <button id="enviar" title="Enviar" class="flex-center large-button" type="button" onclick="aplicarFiltros()">${okSVG}</button>
                 </div>
             </div>
         </div>

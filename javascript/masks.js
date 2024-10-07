@@ -1,51 +1,61 @@
-$(document).ready(function(){
-   // Função para aplicar máscaras
-   function applyMasks() {
-       // Máscara para MAC Address
-       $('#input-mac').mask('AA:AA:AA:AA:AA:AA', {
-           translation: {
-               'A': { pattern: /[A-Fa-f0-9]/ }
-           },
-           onKeyPress: function(value, e, field, options) {
-               field.val(value.toUpperCase());
-           }
-       });
+$(document).ready(function () {
+    // Função para aplicar máscaras
+    function applyMasks() {
+        // Máscara para MAC Address
+        $('#input-mac').mask('AA:AA:AA:AA:AA:AA', {
+            translation: {
+                'A': { pattern: /[A-Fa-f0-9]/ }
+            },
+            onKeyPress: function (value, e, field, options) {
+                field.val(value.toUpperCase());
+            }
+        });
 
-       // Máscara para Serial
-       $('#serial-so').mask('AAAAA-AAAAA-AAAAA-AAAAA-AAAAA', {
-           translation: {
-               'A': { pattern: /[A-Za-z0-9]/ }
-           },
-           onKeyPress: function(value, e, field, options) {
-               field.val(value.toUpperCase());
-           }
-       });
+        // Máscara para Serial
+        $('#serial-so').mask('AAAAA-AAAAA-AAAAA-AAAAA-AAAAA', {
+            translation: {
+                'A': { pattern: /[A-Za-z0-9]/ }
+            },
+            onKeyPress: function (value, e, field, options) {
+                field.val(value.toUpperCase());
+            }
+        });
 
-       // Transformar texto em caixa alta para o campo #input-hn
-       $('#input-hn').on('input', function() {
-           this.value = this.value.toUpperCase();
-       });
-   }
+        // Máscara para Clock
+        $('#clock-proc').mask('AA.AA', {
+            translation: {
+                'A': { pattern: /[0-9]/ }
+            },
+            onKeyPress: function (value, e, field, options) {
+                field.val(value.toUpperCase());
+            }
+        });
 
-   // Aplicar máscaras inicialmente
-   applyMasks();
+        // Transformar texto em caixa alta para o campo #input-hn
+        $('#input-hn').on('input', function () {
+            this.value = this.value.toUpperCase();
+        });
+    }
 
-   // Configurar MutationObserver para monitorar mudanças no DOM
-   const observer = new MutationObserver(function(mutations) {
-       mutations.forEach(function(mutation) {
-           if (mutation.addedNodes.length) {
-               $(mutation.addedNodes).each(function() {
-                   if ($(this).is('#input-mac, #serial-so, #input-hn')) {
-                       applyMasks();
-                   }
-               });
-           }
-       });
-   });
+    // Aplicar máscaras inicialmente
+    applyMasks();
 
-   // Iniciar observação no body
-   observer.observe(document.body, {
-       childList: true,
-       subtree: true
-   });
+    // Configurar MutationObserver para monitorar mudanças no DOM
+    const observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+            if (mutation.addedNodes.length) {
+                $(mutation.addedNodes).each(function () {
+                    if ($(this).is('#input-mac, #serial-so, #input-hn, #clock-proc')) {
+                        applyMasks();
+                    }
+                });
+            }
+        });
+    });
+
+    // Iniciar observação no body
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
 });

@@ -83,7 +83,7 @@ if (isset($_GET['ativo'])) {
 }
 ?>
 <!doctype html>
-<html>
+<html lang="pt-BR">
 <head>
    <meta charset="utf-8">
    <title>Desktops - Sistema de Inventário de Computadores</title>

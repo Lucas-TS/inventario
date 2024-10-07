@@ -8,7 +8,25 @@ $substituicoes = [
     'pcores' => 'P-Cores',
     'ecores' => 'E-Cores',
     'igpu' => 'iGPU',
-    'memoria' => 'Memória'
+    'memoria' => 'Memória',
+    'gpu' => 'GPU',
+    'dev' => 'Desenvolvedor',
+    'versao' => 'Versão',
+    'edicao' => 'Edição',
+    'distribuicao' => 'Distribuição',
+    'pg' => 'Posto/Grad',
+    'secao' => 'Seção',
+    'nome_completo' => 'Nome Completo',
+    'fullname' => 'Nome Completo',
+    'username' => 'Usuário',
+    'email' => 'E-mail',
+    'nome_guerra' => 'Nome de Guerra',
+    'dp' => 'DP',
+    'hdmi' => 'HDMI',
+    'vga' => 'VGA',
+    'dvi' => 'DVI',
+    'usb' => 'USB',
+    'resolucao' => 'Resolução'
     // Adicione mais substituições conforme necessário
 ];
 
@@ -24,7 +42,18 @@ function formatarNomeColuna($nome) {
 
 // Função para exibir dados da tabela
 function exibirTabela($conn, $nomeTabela) {
-    $sql = "SELECT * FROM $nomeTabela";
+    if ($nomeTabela == 'militares')
+    {
+        $sql = "SELECT militares.id, militares.nome_completo,pg.abreviatura AS pg, militares.nome_guerra, secao.sigla AS secao  FROM $nomeTabela AS militares LEFT JOIN pg ON militares.id_pg = pg.id LEFT JOIN secao ON militares.id_secao = secao.id";
+    }
+    elseif ($nomeTabela == 'users')
+    {
+        $sql = "SELECT id, username, fullname, email, grupo FROM $nomeTabela";
+    }
+    else
+    {
+        $sql = "SELECT * FROM $nomeTabela";
+    }
     $result = $conn->query($sql);
 
     $dados = [];

@@ -526,6 +526,7 @@ svg {
 .icone-acao svg {
    width: 16px;
    height: 16px;
+   cursor: pointer;
 }
 
 .icone-acao {
@@ -848,6 +849,8 @@ label {
 }
 
 .balao, .topo {
+   visibility: visible;
+   opacity: 1;
    width: 48px;
    height: 48px;
    box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3);
@@ -1296,7 +1299,8 @@ label {
 }
 
 .oculto {
-   display: none;
+   opacity: 0;
+   visibility: hidden;
 }
 
 #h-spacer {
@@ -1421,6 +1425,11 @@ input[type="checkbox"].checkbox:not(:checked) + label span {
    flex-wrap: wrap;
 }
 
+.formulario.so, .formulario.office, .formulario.pv {
+   border-left: #555555 1px dashed;
+   padding-left: 10px;
+}
+
 .armazenamento, .monitor {
    height: 50px;
    width: auto;
@@ -1448,3 +1457,12 @@ input[type="checkbox"].checkbox:not(:checked) + label span {
    border-color: #AAAAAA;
 }
 
+.ordem {
+   fill: #AAAAAA;
+   width: 6px;
+   height: 6px;
+}
+
+.ordem.ativa {
+   fill: #117095;
+}

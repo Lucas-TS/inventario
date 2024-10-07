@@ -38,7 +38,7 @@ if (isset($_SESSION['expires_by']))
 }
 ?>
 <!doctype html>
-<html>
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <title>Home - Sistema de Inventário de Computadores</title>
@@ -71,7 +71,7 @@ if (isset($_SESSION['expires_by']))
                     <div id="h-spacer"></div>
                     <div id="botoes">
                         <div id="b-line-header-2" class="b-line">
-                            <button id="enviar" class="flex-center large-button" type="submit"><?php include './images/buscar.svg'; ?></button>
+                            <button id="buscar" title="Buscar" class="flex-center large-button" type="submit"><?php include './images/buscar.svg'; ?></button>
                         </div>
                         <div id="h-spacer"></div>
                         <div id="b-line-header-3" class="b-line">

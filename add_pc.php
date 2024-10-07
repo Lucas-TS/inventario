@@ -83,7 +83,7 @@ if (isset($_GET['ativo'])) {
 }
 ?>
 <!doctype html>
-<html>
+<html lang="pt-BR">
 
 <head>
    <meta charset="utf-8">
@@ -207,7 +207,7 @@ if (isset($_GET['ativo'])) {
                   <input type="radio" id="pv-off" name="pv" class="radio pv-check" value="off" onclick="formularioGPU(this.value)">
                   <label for="pv-off"><span></span>Offboard</label>
                </div>
-               <div id="formulario-pv-1" class="formulario">
+               <div id="formulario-pv-1" class="formulario pv">
                </div>
             </div>
             <div id="linha-6" class="linha">
@@ -228,7 +228,7 @@ if (isset($_GET['ativo'])) {
                   <input type="radio" id="linux" name="so" class="radio so-check" value="Linux" onclick="formularioSO(this.value)">
                   <label for="linux"><span></span>Linux</label>
                </div>
-               <div id="formulario-so-1" class="formulario">
+               <div id="formulario-so-1" class="formulario so">
                </div>
                <div id="h-spacer"></div>
             </div>
@@ -241,7 +241,7 @@ if (isset($_GET['ativo'])) {
                   <input type="radio" id="free" name="office" class="radio" value="Free" onclick="formularioOffice(this.value)">
                   <label for="free"><span></span>Gratuito</label>
                </div>
-               <div id="formulario-office-1" class="formulario">
+               <div id="formulario-office-1" class="formulario office">
                </div>
             </div>
             <div id="linha-9" class="linha">

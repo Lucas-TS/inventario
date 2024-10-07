@@ -37,7 +37,7 @@ if (isset($_SESSION['expires_by']))
    }
 }
 ?><!doctype html>
-<html>
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <title>Militares - Sistema de Inventário de Computadores</title>

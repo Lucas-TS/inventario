@@ -9,6 +9,8 @@ let primeiraSVG = '';
 let anteriorSVG = '';
 let proximaSVG = '';
 let ultimaSVG = '';
+let ascSVG = '';
+let descSVG = '';
 
 function loadSVG(url, callback) {
     fetch(url)
@@ -61,4 +63,12 @@ loadSVG('./images/proximo.svg', svg => {
 
 loadSVG('./images/ultima.svg', svg => {
     ultimaSVG = svg;
+});
+
+loadSVG('./images/asc.svg', svg => {
+    ascSVG = svg;
+});
+
+loadSVG('./images/desc.svg', svg => {
+    descSVG = svg;
 });
