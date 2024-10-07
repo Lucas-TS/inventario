@@ -1,21 +1,34 @@
 let dadosTabela = [];
+let colunasSelecionadas = [];
 let nomeTabela = '';
 const colunasNaoExibirPorPadrao = ['Ativo', 'Geração', 'Socket', 'Seguimento', 'P-Cores', 'E-Cores', 'Turbo', 'Memória'];
+let preferenciasAtuais = {
+    colunas: [],
+    resultadosPorPagina: 10
+};
+let paginaCarregada = false;
+
+window.addEventListener('load', function() {
+    paginaCarregada = true;
+});
 
 function carregarPreferencias(nomeTabela) {
     const cookies = document.cookie.split('; ');
     const cookie = cookies.find(row => row.startsWith(`preferencias_${nomeTabela}=`));
-    if (cookie) {
-        const preferencias = JSON.parse(cookie.split('=')[1]);
-        return preferencias;
+    if (cookie && paginaCarregada) {
+      const preferencias = JSON.parse(cookie.split('=')[1]);
+      preferenciasAtuais = preferencias;
+      paginaCarregada = false;
+      return preferencias;
     }
     return null;
-}
+  }
 
-function salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina) {
-    const preferencias = { colunas: colunasSelecionadas, resultadosPorPagina: resultadosPorPagina };
-    document.cookie = `preferencias_${nomeTabela}=${JSON.stringify(preferencias)}; path=/; max-age=31536000`;
-}
+  function salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina) {
+    preferenciasAtuais.colunas = colunasSelecionadas;
+    preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
+    document.cookie = `preferencias_${nomeTabela}=${JSON.stringify(preferenciasAtuais)}; path=/; max-age=31536000`;
+  }
 
 function criarTabela(dados, colunasSelecionadas = null) {
     const tabela = document.createElement('table');
@@ -58,7 +71,6 @@ function criarTabela(dados, colunasSelecionadas = null) {
         tbody.appendChild(tr);
     });
     tabela.appendChild(tbody);
-
     return tabela;
 }
 
@@ -115,55 +127,77 @@ function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
 }
 
 function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
-    console.log("carregarTabela - resultadosPorPagina:", resultadosPorPagina);
     if (dadosTabela.length === 0) {
-        $.ajax({
-            url: './includes/cria_tabela.php',
-            type: 'GET',
-            data: { tabela: nomeTabela },
-            success: function(response) {
-                dadosTabela = JSON.parse(response);
-                const preferencias = carregarPreferencias(nomeTabela);
-                colunasSelecionadas = preferencias ? preferencias.colunas : Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
-                resultadosPorPagina = preferencias ? preferencias.resultadosPorPagina : resultadosPorPagina;
-                console.log("carregarTabela - preferencias resultadosPorPagina:", resultadosPorPagina);
-                renderizarTabela(dadosTabela, pagina, resultadosPorPagina, colunasSelecionadas);
-                // Atualizar o valor de resultadosPorPagina no overlay
-                $('#resultadosPorPaginaOverlay').val(resultadosPorPagina);
-            },
-            error: function() {
-                alert('Erro ao carregar a tabela.');
+      $.ajax({
+        url: './includes/cria_tabela.php',
+        type: 'GET',
+        data: { tabela: nomeTabela },
+        success: function(response) {
+          dadosTabela = JSON.parse(response);
+          const preferencias = carregarPreferencias(nomeTabela);
+          if (preferencias) {
+            preferenciasAtuais.colunas = preferencias.colunas;
+            preferenciasAtuais.resultadosPorPagina = preferencias.resultadosPorPagina;
+            paginaCarregada = false;
+          } else {
+            if (colunasSelecionadas) {
+                preferenciasAtuais.colunas = colunasSelecionadas
+            } else {
+                preferenciasAtuais.colunas = Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
             }
-        });
+            preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
+          }
+          renderizarTabela(dadosTabela, pagina, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas);
+          },
+        error: function() {
+          alert('Erro ao carregar a tabela.');
+        }
+      });
     } else {
-        const preferencias = carregarPreferencias(nomeTabela);
-        colunasSelecionadas = preferencias ? preferencias.colunas : Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
-        resultadosPorPagina = preferencias ? preferencias.resultadosPorPagina : resultadosPorPagina;
-        console.log("carregarTabela - preferencias resultadosPorPagina:", resultadosPorPagina);
-        renderizarTabela(dadosTabela, pagina, resultadosPorPagina, colunasSelecionadas);
-        // Atualizar o valor de resultadosPorPagina no overlay
-        $('#resultadosPorPaginaOverlay').val(resultadosPorPagina);
+      const preferencias = carregarPreferencias(nomeTabela);
+      if (preferencias) {
+        preferenciasAtuais.colunas = preferencias.colunas;
+        preferenciasAtuais.resultadosPorPagina = preferencias.resultadosPorPagina;
+      } else {
+        if (colunasSelecionadas) {
+            preferenciasAtuais.colunas = colunasSelecionadas
+        } else {
+            preferenciasAtuais.colunas = Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
+        }
+        preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
+      }
+      renderizarTabela(dadosTabela, pagina, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas);
     }
+}
+
+function mudarResultadosPorPagina(resultadosPorPagina) {
+    preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
+    carregarTabela(nomeTabela, 1, resultadosPorPagina);
+}
+
+function mudarColunasSelecionadas(colunasSelecionadas) {
+    preferenciasAtuais.colunas = colunasSelecionadas;
+    carregarTabela(nomeTabela, 1, preferenciasAtuais.resultadosPorPagina);
 }
 
 function renderizarTabela(dados, pagina, resultadosPorPagina, colunasSelecionadas = null) {
     const total = dados.length;
-    const inicio = (pagina - 1) * (resultadosPorPagina === 'todos' ? total : resultadosPorPagina);
-    const fim = resultadosPorPagina === 'todos' ? total : inicio + resultadosPorPagina;
-    const dadosPagina = dados.slice(inicio, fim);
-
+    const startIndex = (pagina - 1) * (resultadosPorPagina === 'todos' ? total : resultadosPorPagina);
+    const endIndex = resultadosPorPagina === 'todos' ? total : startIndex + resultadosPorPagina;
+    const dadosPagina = dados.slice(startIndex, endIndex);
+  
     const tabela = criarTabela(dadosPagina, colunasSelecionadas);
     document.getElementById('tabela').innerHTML = '';
     document.getElementById('tabela').appendChild(tabela);
-
+  
     const paginacaoContainer = document.getElementById('paginacao');
     paginacaoContainer.innerHTML = '';
-
+  
     if (resultadosPorPagina !== 'todos') {
-        const paginacao = criarPaginacao(total, pagina, resultadosPorPagina);
-        paginacaoContainer.appendChild(paginacao);
+      const paginacao = criarPaginacao(total, pagina, resultadosPorPagina);
+      paginacaoContainer.appendChild(paginacao);
     }
-}
+  }
 
 $(document).ready(function() {
 
