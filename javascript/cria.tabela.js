@@ -238,5 +238,14 @@ function renderizarTabela(dados, pagina, resultadosPorPagina, colunasSelecionada
 }
 
 $(document).ready(function () {
+  // Eventos para overlay de filtros
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  nomeTabela = urlParams.get('tabela'); // Definindo nomeTabela aqui
+  carregarTabela(nomeTabela);
 
+  $('#resultadosPorPagina').change(function() {
+      const resultadosPorPagina = $(this).val();
+      carregarTabela(nomeTabela, 1, resultadosPorPagina);
+  });
 });

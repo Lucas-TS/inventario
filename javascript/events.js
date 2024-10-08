@@ -62,17 +62,6 @@ $(document).ready(function () {
     document.addEventListener('click', handleEvent);
     document.addEventListener('keyup', handleEvent);
     // Adiciona eventos de clique e tecla pressionada ao documento
-
-    // Eventos para overlay de filtros
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    nomeTabela = urlParams.get('tabela'); // Definindo nomeTabela aqui
-    carregarTabela(nomeTabela);
-
-    $('#resultadosPorPagina').change(function() {
-        const resultadosPorPagina = $(this).val();
-        carregarTabela(nomeTabela, 1, resultadosPorPagina);
-    });
 });
 
 // Função para remover todos os espaços dos inputs com a classe 'trim'

@@ -1,7 +1,5 @@
 $(document).ready(function () {
-    // Função para aplicar máscaras
     function applyMasks() {
-        // Máscara para MAC Address
         $('#input-mac').mask('AA:AA:AA:AA:AA:AA', {
             translation: {
                 'A': { pattern: /[A-Fa-f0-9]/ }
@@ -11,7 +9,6 @@ $(document).ready(function () {
             }
         });
 
-        // Máscara para Serial
         $('#serial-so').mask('AAAAA-AAAAA-AAAAA-AAAAA-AAAAA', {
             translation: {
                 'A': { pattern: /[A-Za-z0-9]/ }
@@ -21,41 +18,28 @@ $(document).ready(function () {
             }
         });
 
-        // Máscara para Clock
-        $('#clock-proc').mask('AA.AA', {
-            translation: {
-                'A': { pattern: /[0-9]/ }
-            },
-            onKeyPress: function (value, e, field, options) {
-                field.val(value.toUpperCase());
-            }
-        });
-
-        // Transformar texto em caixa alta para o campo #input-hn
         $('#input-hn').on('input', function () {
             this.value = this.value.toUpperCase();
+        });
+    }
+
+    function applyClockAndTurboMasks() {
+        $('#clock-proc, #turbo-proc').mask('00.00', {
+            reverse: true, // Aplica a máscara de trás para frente
+            translation: {
+                '0': { pattern: /[0-9]/ }
+            },
+            onKeyPress: function (value, e, field, options) {}
         });
     }
 
     // Aplicar máscaras inicialmente
     applyMasks();
 
-    // Configurar MutationObserver para monitorar mudanças no DOM
-    const observer = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
-            if (mutation.addedNodes.length) {
-                $(mutation.addedNodes).each(function () {
-                    if ($(this).is('#input-mac, #serial-so, #input-hn, #clock-proc')) {
-                        applyMasks();
-                    }
-                });
-            }
-        });
-    });
-
-    // Iniciar observação no body
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
+    // Verificação periódica a cada 500ms
+    setInterval(function () {
+        if ($('#clock-proc').length || $('#turbo-proc').length) {
+            applyClockAndTurboMasks();
+        }
+    }, 500);
 });
