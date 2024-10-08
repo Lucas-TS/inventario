@@ -59,12 +59,12 @@
         <div id="linha-4" class="linha">
             <div id="h-line-add-proc-4" class="h-line">Clock:</div>
             <div id="b-line-add-proc-9" class="b-line"><label class="label">Base:</label>
-                <input id="clock-proc" name="clock" type="text" class="input" placeholder="" style="width:100px" required title="Somente número com duas casas decimais. Ex.: 1,50, 2,33, 3,20, ...">
+                <input id="clock-proc" name="clock" type="text" class="input" placeholder="" style="width:100px" required title="Somente números com duas casas decimais. Ex.: 150 -> 1.50, 233 -> 2.33, 320 -> 3.20, ...">
                 <span style="color:#AAAAAA">&nbsp;Ghz</span>
             </div>
             <div id="h-spacer"></div>
             <div id="b-line-add-proc-10" class="b-line"><label class="label">Máximo (turbo):</label>
-                <input id="turbo-proc" name="turbo" type="text" class="input" placeholder="" style="width:100px" title="Somente número com duas casas decimais. Ex.: 3,66, 2,80, 4,70, ...">
+                <input id="turbo-proc" name="turbo" type="text" class="input" placeholder="" style="width:100px" title="Somente números com duas casas decimais. Ex.: 366 -> 3.66, 280 -> 2.80, 470 -> 4.70, ...">
                 <span style="color:#AAAAAA">&nbsp;Ghz</span>
             </div>
             <div id="h-spacer"></div>

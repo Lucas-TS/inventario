@@ -62,6 +62,11 @@ $(document).ready(function () {
     document.addEventListener('click', handleEvent);
     document.addEventListener('keyup', handleEvent);
     // Adiciona eventos de clique e tecla pressionada ao documento
+
+    document.getElementById('buscar').addEventListener('click', function(event) {
+        event.preventDefault(); // Evita o comportamento padrão do formulário
+        buscarTabela();
+    });
 });
 
 // Função para remover todos os espaços dos inputs com a classe 'trim'
@@ -120,12 +125,12 @@ const addButton = document.getElementById('adicionar'); // Seleciona o botão co
 
 window.addEventListener('scroll', () => {
     if (window.scrollY > 100) {
-        topoButton.classList.remove('oculto');
+        topoButton.classList.remove('botao-oculto');
         if (addButton) {
             addButton.style.bottom = '113px';
         }
     } else {
-        topoButton.classList.add('oculto');
+        topoButton.classList.add('botao-oculto');
         if (addButton) {
             addButton.style.bottom = '50px';
         }

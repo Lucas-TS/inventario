@@ -26,7 +26,12 @@ $substituicoes = [
     'vga' => 'VGA',
     'dvi' => 'DVI',
     'usb' => 'USB',
-    'resolucao' => 'Resolução'
+    'resolucao' => 'Resolução',
+    'data_inclusao' => 'Inclusão',
+    'data_atualizacao' => 'Atualizado',
+    'situacao' => 'Situação',
+    'ip' => 'IP',
+    'mac' => 'MAC'
     // Adicione mais substituições conforme necessário
 ];
 
@@ -49,6 +54,13 @@ function exibirTabela($conn, $nomeTabela) {
     elseif ($nomeTabela == 'users')
     {
         $sql = "SELECT id, username, fullname, email, grupo FROM $nomeTabela";
+    }
+    elseif ($nomeTabela == 'computadores')
+    {
+        $sql = "SELECT computadores.ativo, computadores.id, secao.sigla AS secao, CONCAT(pg.abreviatura,' ',militares.nome_guerra) AS operador, computadores.lacre, computadores.marca, computadores.modelo, computadores.garantia, CONCAT(computadores.tam_mem, 'GB ',computadores.tipo_mem) AS memoria, computadores.antivirus, computadores.rede, computadores.hostname, computadores.ip, computadores.mac, computadores.data_inclusao, computadores.data_atualizacao, computadores.situacao FROM $nomeTabela
+        LEFT JOIN militares ON computadores.id_operador=militares.id
+        LEFT JOIN secao ON militares.id_secao=secao.id
+        LEFT JOIN pg ON militares.id_pg=pg.id ";
     }
     else
     {

@@ -9,8 +9,13 @@ let primeiraSVG = '';
 let anteriorSVG = '';
 let proximaSVG = '';
 let ultimaSVG = '';
-let ascSVG = '';
-let descSVG = '';
+let ordemSVG = '';
+let returnSVG = '';
+let infoSVG = '';
+let manutSVG = '';
+let esperaSVG = '';
+let defeitoSVG = '';
+let binSVG = '';
 
 function loadSVG(url, callback) {
     fetch(url)
@@ -65,10 +70,31 @@ loadSVG('./images/ultima.svg', svg => {
     ultimaSVG = svg;
 });
 
-loadSVG('./images/asc.svg', svg => {
-    ascSVG = svg;
+loadSVG('./images/ordem.svg', svg => {
+    ordemSVG = svg;
 });
 
-loadSVG('./images/desc.svg', svg => {
-    descSVG = svg;
+// Adicionar ícones da situação
+loadSVG('./images/return.svg', svg => {
+    returnSVG = svg;
+});
+
+loadSVG('./images/info.svg', svg => {
+    infoSVG = svg;
+});
+
+loadSVG('./images/manut.svg', svg => {
+    manutSVG = svg;
+});
+
+loadSVG('./images/espera.svg', svg => {
+    esperaSVG = svg;
+});
+
+loadSVG('./images/defeito.svg', svg => {
+    defeitoSVG = svg;
+});
+
+loadSVG('./images/bin.svg', svg => {
+    binSVG = svg;
 });

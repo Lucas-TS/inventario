@@ -27,7 +27,7 @@ function formularioSO(str1) {
                 <label for="digital-rd-win"><span></span>Licença digital</label>
                 <input type="radio" id="serial-rd-win" name="licenca" class="radio" value="serial" onclick="liberaSerial()">
                 <label for="serial-rd-win"><span></span>Serial:
-                <input id="serial-so" class="input trim" type="text" maxlength="29" name="serial-so" disabled placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" style="width:420px" onkeyup="applyMasks()"></label>
+                <input id="serial-so" class="input trim" type="text" maxlength="29" name="serial-so" disabled placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" style="width:420px"></label>
             </div>
             <div id="h-spacer" style="flex-basis: 100%;"></div>
             <div id="b-line-so-6" class="b-line"><label class="label" for="user-win">Usuário:</label><input id="user-so" class="input" type="text" name="user-so" placeholder="Usuário" required style="width:190px"></div>

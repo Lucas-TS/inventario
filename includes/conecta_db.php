@@ -12,3 +12,18 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Falha na conexão: " . $conn->connect_error);
 }
+
+// Verifica se a tabela existe
+if (isset($_POST['funcao']) && $_POST['funcao'] === 'teste' && isset($_POST['tabela'])) {
+    $nomeTabela = $_POST['tabela'];
+    $sql = "SHOW TABLES LIKE '$nomeTabela'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo 'true';
+    } else {
+        echo 'false';
+    }
+    $conn->close();
+    exit;
+}

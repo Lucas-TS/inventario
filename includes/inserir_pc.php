@@ -22,6 +22,7 @@ $av = isset($_POST['av']) ? $_POST['av'] : null; //Campo TINYINT (antivirus)
 $hn = isset($_POST['hn']) ? $_POST['hn'] : null; //Campo VARCHAR (hostname)
 $rede = isset($_POST['rede']) ? $_POST['rede'] : null; //Campo TINYINT (rede)
 $mac = isset($_POST['mac']) ? str_replace(':', '', $_POST['mac']) : null;
+$observacao = isset($_POST['obs']) ? str_replace(':', '', $_POST['obs']) : null;
 $situacao = 2; //Campo INT (situacao)
 $ativo = 1; //Campo INT (ativo)
 
@@ -32,10 +33,10 @@ date_default_timezone_set('America/Sao_Paulo');
 $data_inclusao = date('Y-m-d H:i:s'); // Campo DATETIME (data_inclusao)
 
 // Preparar a consulta SQL usando prepared statements
-$stmt = $conn->prepare("INSERT INTO computadores (id_operador, lacre, marca, modelo, garantia, tam_mem, tipo_mem, antivirus, rede, mac, hostname, licenca_so, licenca_office, usuario, senha, data_inclusao, id_inclusao, situacao, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO computadores (id_operador, lacre, marca, modelo, garantia, tam_mem, tipo_mem, antivirus, rede, mac, hostname, licenca_so, licenca_office, usuario, senha, data_inclusao, id_inclusao, situacao, observacao, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 // Bind dos parâmetros
-$stmt->bind_param("iissiisiissssssssii", $id_op, $lacre, $marca, $modelo, $garantia, $qtde_mem, $tipo_mem, $av, $rede, $mac, $hn, $serial_so, $serial_office, $user_so, $pw_so, $data_inclusao, $usuario, $situacao, $ativo);
+$stmt->bind_param("iissiisiissssssssisi", $id_op, $lacre, $marca, $modelo, $garantia, $qtde_mem, $tipo_mem, $av, $rede, $mac, $hn, $serial_so, $serial_office, $user_so, $pw_so, $data_inclusao, $usuario, $situacao, $observacao, $ativo);
 
 // Executar a consulta
 $stmt->execute();

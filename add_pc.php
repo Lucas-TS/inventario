@@ -254,7 +254,7 @@ if (isset($_GET['ativo'])) {
                   <label for="av-nao"><span></span>Não</label>
                </div>
             </div>
-            <div id="linha-10" class="linha fim">
+            <div id="linha-10" class="linha">
                <div id="h-line-12" class="h-line">Rede:</div>
                <div id="b-line-rede-1" class="b-line"><label class="label" for="hn">Hostname:</label>
                   <input id="input-hn" name="hn" type="text" class="input trim" placeholder="Digite o nome" required style="width:250px">
@@ -269,18 +269,24 @@ if (isset($_GET['ativo'])) {
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-rede-3" class="b-line"><label class="label" for="mac">MAC:</label>
-                  <input id="input-mac" name="mac" type="text" class="input mac trim" placeholder="Digite o MAC" required style="width:250px">
+                  <input id="input-mac" name="mac" type="text" class="input mac trim" placeholder="Digite o MAC" required style="width:250px" title="Digite apenas os caracteres">
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-rede-4" class="b-line" style="display:none"><label class="label" for="ip">IP:</label>
                   <input id="ip" name="ip" type="text" class="input" placeholder="Digite o IP" disabled style="width:250px">
                </div>
             </div>
+            <div id="linha-11" class="linha fim">
+               <div id="h-line-13" class="h-line">Observações:</div>
+               <div id="b-line-obs-1" class="b-line" style="width:100%">
+                  <input id="input-obs" name="obs" type="text" class="input obs trim" placeholder="Opcional" style="width:100%">
+               </div>
+            </div>
          </div>
       </form>
    </div>
    <a href="#" title="Voltar ao topo">
-      <div id="topo" class="topo oculto"><?php include './images/seta.svg'; ?></div>
+      <div id="topo" class="topo botao-oculto"><?php include './images/seta.svg'; ?></div>
    </a>
    <div id="overlay" onclick="handleOverlayClick(event);">
    </div>
