@@ -21,33 +21,31 @@ function verificarValor(inputId) {
     const suggestionValues = $suggestions.find('p').map(function() {
         return $(this).text();
     }).toArray();
-    return suggestionValues.find(value => value === $('#' + inputId).val());
+    const inputValue = $('#' + inputId).val();
+    return suggestionValues.includes(inputValue);
 }
 
 $(document).ready(function () {
     // Quando o documento estiver pronto, executa esta função
 
     $(document).on('click', 'input', function (event) {
-        // Adiciona um evento de clique a todos os elementos <input>
-        event.stopPropagation(); // Impede que o evento clique se propague para outros elementos
-        const $this = $(this); // Armazena o elemento <input> clicado
-        const valor = $this.val(); // Obtém o valor do <input>
-        const campoId = $this.attr('id'); // Obtém o ID do <input>
-        const $suggestions = $('#suggestions-' + campoId); // Seleciona o elemento de sugestões correspondente ao ID do <input>
-
-        $('[id^="suggestions"]').removeClass('visivel'); // Remove a classe 'visivel' de todos os elementos de sugestões
-
+        event.stopPropagation();
+        const $this = $(this);
+        const valor = $this.val();
+        const campoId = $this.attr('id');
+        const $suggestions = $('#suggestions-' + campoId);
+    
+        $('[id^="suggestions"]').removeClass('visivel');
+    
         const valorExiste = $suggestions.find('p').toArray().some(p => $(p).text() === valor);
-        // Verifica se o valor do <input> já existe nas sugestões
-
-        if (!valorExiste && (valor !== "" || ["tipo-mem"].includes(campoId))) {
-            // Se o valor não existe e não é vazio ou o ID do campo é 'tipo-mem' ou 'marca-proc'
-            $suggestions.addClass('visivel'); // Adiciona a classe 'visivel' ao elemento de sugestões correspondente
-        }
-
-        if (["marca-proc"].includes(campoId) || ["seg-proc"].includes(campoId)) {
-            // Se o valor não existe e não é vazio ou o ID do campo é 'tipo-mem' ou 'marca-proc'
-            $suggestions.addClass('visivel'); // Adiciona a classe 'visivel' ao elemento de sugestões correspondente
+        const pExiste = $suggestions.find('p').length;
+    
+        if (campoId === 'tipo-mem' || ["situacao"].includes(campoId)) {
+            if (pExiste > 1) {
+                $suggestions.addClass('visivel');
+            }
+        } else if (!valorExiste && (valor !== "" || ["marca-proc"].includes(campoId))) {
+            $suggestions.addClass('visivel');
         }
     });
 
@@ -63,27 +61,36 @@ $(document).ready(function () {
     document.addEventListener('keyup', handleEvent);
     // Adiciona eventos de clique e tecla pressionada ao documento
 
-    document.getElementById('buscar').addEventListener('click', function(event) {
-        event.preventDefault(); // Evita o comportamento padrão do formulário
-        buscarTabela();
-    });
+    var buscarElemento = document.getElementById('buscar');
+    if (buscarElemento) {
+        buscarElemento.addEventListener('click', function(event) {
+            event.preventDefault(); // Evita o comportamento padrão do formulário
+            buscarTabela();
+        });
+    }
 });
 
-// Função para remover todos os espaços dos inputs com a classe 'trim'
-function removeAllSpaces() {
-    const inputs = document.querySelectorAll('input.trim');
-    inputs.forEach(input => {
-        input.value = input.value.replace(/\s+/g, '');
-    });
-}
+document.addEventListener('focusout', function(event) {
+    if (event.target.classList.contains('unity')) {
+        let valor = event.target.value.trim();
+        
+        // Primeiro, garantir o espaço entre o número e a unidade
+        valor = valor.replace(/(\d)([a-zA-Z]+)/, '$1 $2').toUpperCase();
+        
+        // Depois, adicionar a unidade se ainda não tiver
+        if (!/^\d+\s*(GB|MB)$/i.test(valor)) {
+            let numero = parseInt(valor, 10);
+            if (numero > 63) {
+                valor += " MB";
+            } else {
+                valor += " GB";
+            }
+        }
 
-// Função para remover espaços dos inputs
-function trimInputs() {
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => {
-        input.value = input.value.trim();
-    });
-}
+        // Atualiza o valor do campo
+        event.target.value = valor;
+    }
+});
 
 // Adiciona um evento para remover todos os espaços quando o input perde o foco
 document.addEventListener('focusout', function(event) {
@@ -136,3 +143,10 @@ window.addEventListener('scroll', () => {
         }
     }
 });
+
+document.addEventListener('input', function(event) {
+    if (event.target && event.target.id === 'tam-add-hd') {
+        event.target.value = event.target.value.replace(/[^0-9,]/g, '');
+    }
+});
+

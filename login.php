@@ -37,7 +37,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="css/inventario.css" rel="stylesheet">
 <link href="css/login.css" rel="stylesheet">
-<script src="javascript/jquery-1.12.4.min.js"></script>
+<script src="javascript/jquery.min.js"></script>
 <script src="javascript/jquery-ui.min.js"></script>
 <script src="javascript/panel.min.js"></script>
 <script src="javascript/wwb19.min.js"></script>
@@ -55,7 +55,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
             <input type="hidden" name="form_name" value="loginform">
             <table id="Login1">
                <tr>
-                  <td colspan="3" class="row"><input  class="input" name="username" type="text" id="username" value="<?php echo $username; ?>" placeholder="Usuário"></td>
+                  <td colspan="3" class="row"><input  class="input" name="username" autocomplete="on" type="text" id="username" value="<?php echo $username; ?>" placeholder="Usuário"></td>
                </tr>
                <tr>
                   <td colspan="3" class="row"><input  class="input" name="password" type="password" id="password" value="<?php echo $password; ?>" placeholder="Senha"></td>
@@ -63,7 +63,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
                <tr>
                   <td colspan="3" class="row">
                      <div id="wb_FlipSwitch1">
-                     <input type="checkbox" <?php echo $checked; ?> role="switch" name="rememberme" id="FlipSwitch1" value="">
+                     <input title="Lembrar login" type="checkbox" <?php echo $checked; ?> role="switch" name="rememberme" id="FlipSwitch1" value="">
                         <label id="FlipSwitch1-label" for="FlipSwitch1">
                            <span id="FlipSwitch1-inner"></span>
                            <span id="FlipSwitch1-switch"></span>

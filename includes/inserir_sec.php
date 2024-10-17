@@ -2,19 +2,17 @@
 include 'conecta_db.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
-$gpu = isset($data["chipset"]) ? $data["chipset"] : null;
-$marca = isset($data["marca"]) ? $data["marca"] : null;
-$modelo = isset($data["modelo"]) ? $data["modelo"] : null;
-$memoria = isset($data["memoria"]) ? $data["memoria"] : null;
+$sigla = isset($data["sigla"]) ? $data["sigla"] : null;
+$nome = isset($data["nome"]) ? $data["nome"] : null;
 $ativo = 1; // Campo INT (ativo)
 
 // Verificar se o registro já existe
-$check_sql = "SELECT COUNT(*) FROM lista_placa_video WHERE gpu = ? AND marca = ? AND modelo = ? AND memoria = ?";
+$check_sql = "SELECT COUNT(*) FROM secao WHERE nome = ? OR sigla = ?";
 $check_stmt = $conn->prepare($check_sql);
 if ($check_stmt === false) {
     die("Erro na preparação da declaração: " . $conn->error);
 }
-$check_stmt->bind_param("ssss", $gpu, $marca, $modelo, $memoria);
+$check_stmt->bind_param("ss", $nome, $sigla);
 $check_stmt->execute();
 $check_stmt->bind_result($count);
 $check_stmt->fetch();
@@ -25,13 +23,13 @@ if ($count > 0) {
     echo "Registro já existe.";
 } else {
     // Preparar a consulta SQL para inserção
-    $sql = "INSERT INTO lista_placa_video (gpu, marca, modelo, memoria, ativo) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO secao (nome, sigla, ativo) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die("Erro na preparação da declaração: " . $conn->error);
     }
     // Vincular os parâmetros
-    $stmt->bind_param("ssssi", $gpu, $marca, $modelo, $memoria, $ativo);
+    $stmt->bind_param("ssi", $nome, $sigla, $ativo);
     // Executar a declaração
     if ($stmt->execute()) {
         echo "Dados inseridos com sucesso!";

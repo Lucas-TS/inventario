@@ -1,45 +1,57 @@
 let closeTimeout; // Variável para armazenar a referência do timeout
 
-async function insertPv(event) {
+async function insertHd(event) {
     event.preventDefault(); // Previne o comportamento padrão do formulário
 
     // Capturar valor do campo de texto ou definir como nulo
-    let chipset = document.getElementById('chipset-add-pv').value;
-    let marca = document.getElementById('marca-add-pv').value;
-    let modelo = document.getElementById('modelo-add-pv').value;
-    let qtde = document.getElementById('mem-add-pv').value;
-    let tipo = document.getElementById('mem-pv').value;
-    let memoria = qtde + " " + tipo;
-
+    let radios = document.getElementsByName('un-add-hd');
+    let unidade;
+    for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            unidade = radios[i].value;
+            break;
+        }
+    }
+    
+    let numero = document.getElementById('tam-add-hd').value;
+    let numeroDecimal = parseFloat(numero); // Converter para número decimal
+    let numeroInteiro = parseInt(numero, 10); // Converter para número inteiro
+    let ehDecimal = (numeroDecimal !== numeroInteiro); // Verificar se é decimal
+    
+    // Ajustar o número conforme a unidade
+    if (ehDecimal && unidade === 'GB') {
+        numero = numeroInteiro.toString(); // Desconsiderar a casa decimal
+    } else if (!ehDecimal && unidade === 'TB') {
+        numero = numero + ",0"; // Acrescentar ",0" ao final
+    }
+    
+    let tamanho = numero + " " + unidade;
     let formData = {
-        chipset: chipset,
-        marca: marca,
-        modelo: modelo,
-        memoria: memoria,
+        tamanho: tamanho,
     };
 
     try {
-        let response = await fetch('./includes/inserir_pv.php', {
+        let response = await fetch('./includes/inserir_hd.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8'
             },
             body: JSON.stringify(formData)
         });
-
+        
         if (!response.ok) {
             if (response.status === 409) { // Conflito
                 throw new Error('Registro já existe.');
             } else {
-                throw new Error('Erro ao inserir a placa de vídeo.');
+                throw new Error('Erro ao inserir o HD.');
             }
         }
 
         let overlay = document.getElementById('overlay');
         overlay.innerHTML = `
-        <div id="add_pv" class="bloco-overlay">
+        <div id="add_hd" class="bloco-overlay">
             <div class="header">
-                <span>Adicionar Placa de Vídeo</span>
+                <span>Adicionar HD</span>
                 <div id="botoes">
                     <div id="b-line-header-1" class="b-line">
                     <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="closeOverlay()">${addSVG}</a></div>
@@ -47,7 +59,7 @@ async function insertPv(event) {
             </div>
         </div>
         <div id="linha-1" class="linha fim">
-            <div id="h-line-add-pv-1" class="h-line centralizado">${marca} ${chipset} ${modelo} ${memoria} inserida com sucesso!</div>
+            <div id="h-line-add-hd-1" class="h-line centralizado">${tamanho} inserido com sucesso!</div>
         </div>
         <div id="linha-2" class="linha fim centralizado">
             <div id="b-line-1" class="b-line">
@@ -57,7 +69,7 @@ async function insertPv(event) {
         `;
 
         atualizarTabela();
-
+        
         // Fechar o overlay após a inserção com um retardo de 5 segundos
         closeTimeout = setTimeout(function () {
             closeOverlay();

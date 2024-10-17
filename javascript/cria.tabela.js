@@ -1,15 +1,15 @@
 let dadosTabela = [];
 let colunasSelecionadas = [];
 let nomeTabela = '';
-const colunasNaoExibirPorPadrao = ['Ativo', 'Geração', 'Socket', 'Seguimento', 'P-Cores', 'E-Cores', 'Turbo', 'Memória', 'Lacre', 'Garantia', 'Antivirus', 'Rede', 'IP', 'Inclusão', 'Atualizado'];
-let preferenciasAtuais = {
+const colunasNaoExibirPorPadrao = ['Ativo', 'Geração', 'Socket', 'Seguimento', 'P-Cores', 'E-Cores', 'Turbo', 'Memória', 'Lacre', 'Garantia', 'Antivirus', 'Rede', 'IP', 'Inclusão', 'Atualizado',];let preferenciasAtuais = {
   colunas: [],
   resultadosPorPagina: 10
 };
 let paginaCarregada = false;
 const correspondenciaUnidades = {
-  'Clock': ' Ghz', // metros
-  'Turbo': ' Ghz', // quilogramas
+  'Clock': ' Ghz', // gigahertz
+  'Turbo': ' Ghz', // gigahertz
+  'Tamanho da Tela': ' "' // polegadas
 };
 let detalhes = {
   svg: "",
@@ -137,7 +137,7 @@ function criarTabela(dados, colunasSelecionadas = null, nomeTabela) {
 
     tdAcoes.innerHTML += `
               <a title="Editar" class="icone-acao">${editSVG}</a>
-              <a title="Apagar" class="icone-acao">${delSVG}</a>
+              <a title="Apagar" class="icone-acao apagar">${delSVG}</a>
           `;
     tr.appendChild(tdAcoes);
 
@@ -163,7 +163,6 @@ function ordenarTabela(dados, coluna, ordem) {
   setTimeout(() => {
     const th = document.querySelector(`[data-coluna="${coluna}"]`);
     const seta = ordem === 'asc' ? th.querySelector('#primary') : th.querySelector('#secondary');
-    console.log('Seta encontrada:', seta);
     if (seta) {
       seta.classList.add('ativa');
     } else {
@@ -225,38 +224,35 @@ function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
   return fragment;
 }
 
-function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
+async function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
   if (!verificarSeTabelaExiste(nomeTabela)) {
     document.getElementById('tabela').innerHTML = 'A tabela "' + nomeTabela + '" não existe!';
     return;
   }
 
   if (dadosTabela.length === 0) {
-    $.ajax({
-      url: './includes/cria_tabela.php',
-      type: 'GET',
-      data: { tabela: nomeTabela },
-      success: function (response) {
-        dadosTabela = JSON.parse(response);
-        const preferencias = carregarPreferencias(nomeTabela);
-        if (preferencias.colunas && preferencias.colunas.length > 0) {
-          preferenciasAtuais.colunas = preferencias.colunas;
-          preferenciasAtuais.resultadosPorPagina = preferencias.resultadosPorPagina;
-          paginaCarregada = false;
+    try {
+      let response = await fetch(`./includes/cria_tabela.php?tabela=${nomeTabela}`);
+      if (!response.ok) throw new Error('Erro ao carregar a tabela.');
+      let data = await response.text();
+      dadosTabela = JSON.parse(data);
+      const preferencias = carregarPreferencias(nomeTabela);
+      if (preferencias.colunas && preferencias.colunas.length > 0) {
+        preferenciasAtuais.colunas = preferencias.colunas;
+        preferenciasAtuais.resultadosPorPagina = preferencias.resultadosPorPagina;
+        paginaCarregada = false;
+      } else {
+        if (colunasSelecionadas && colunasSelecionadas.length > 0) {
+          preferenciasAtuais.colunas = colunasSelecionadas;
         } else {
-          if (colunasSelecionadas && colunasSelecionadas.length > 0) {
-            preferenciasAtuais.colunas = colunasSelecionadas;
-          } else {
-            preferenciasAtuais.colunas = Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
-          }
-          preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
+          preferenciasAtuais.colunas = Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
         }
-        renderizarTabela(dadosTabela, pagina, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, Object.keys(dadosTabela[0]));
-      },
-      error: function () {
-        alert('Erro ao carregar a tabela.');
+        preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
       }
-    });
+      renderizarTabela(dadosTabela, pagina, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, Object.keys(dadosTabela[0]));
+    } catch (error) {
+      alert(error.message);
+    }
   } else {
     const preferencias = carregarPreferencias(nomeTabela);
     if (preferencias) {
@@ -270,27 +266,32 @@ function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
       }
       preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
     }
+
     renderizarTabela(dadosTabela, pagina, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, Object.keys(dadosTabela[0]));
   }
 }
 
-function verificarSeTabelaExiste(nomeTabela) {
-  let existe = false;
-  $.ajax({
-    url: './includes/conecta_db.php',
-    type: 'POST',
-    data: { tabela: nomeTabela, funcao: 'teste' },
-    async: false,
-    success: function (response) {
-        if (response.trim() === 'true') {
-        existe = true;
-      }
-    },
-    error: function () {
-      alert('Erro ao verificar a existência da tabela.');
-    }
-  });
-  return existe;
+async function verificarSeTabelaExiste(nomeTabela) {
+  try {
+      let response = await fetch('./includes/conecta_db.php', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: new URLSearchParams({
+              tabela: nomeTabela,
+              funcao: 'teste'
+          })
+      });
+
+      if (!response.ok) throw new Error('Erro ao verificar a existência da tabela.');
+
+      let textResponse = await response.text();
+      return textResponse.trim() === 'true';
+  } catch (error) {
+      alert(error.message);
+      return false;
+  }
 }
 
 function mudarResultadosPorPagina(resultadosPorPagina) {
@@ -370,12 +371,16 @@ function obterDetalhesSituacao(situacao) {
         detalhes.texto = "Descarregar";
         detalhes.cor = "#7E57C2";
         break;
+      case "7":
+        detalhes.svg = bloqueadoSVG;
+        detalhes.texto = "Bloqueado";
+        detalhes.cor = "#FF0000";
+        break;
       default:
         detalhes.svg = "";
         detalhes.texto = "";
         detalhes.cor = "#000000";
     }
-    console.log(detalhes);
     resolve(detalhes);
   });
 }
@@ -391,4 +396,10 @@ $(document).ready(function () {
     const resultadosPorPagina = $(this).val();
     carregarTabela(nomeTabela, 1, resultadosPorPagina);
   });
+});
+
+$(window).on('load', function () {
+  if (paginaCarregada) {
+    carregarTabela(nomeTabela);
+  }
 });

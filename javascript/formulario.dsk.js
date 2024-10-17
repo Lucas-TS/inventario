@@ -17,7 +17,7 @@ function adicionarArmazenamento() {
     novoArmazenamento.classList.add('armazenamento');
     novoArmazenamento.innerHTML = `
         <div id="b-line-dsk-${contadorbDsk}" class="b-line">
-            <div id="removerDsk" class="flex-center icon-button margin-bottom rotated-icon"><a title="Remover armazenamento" href="#" onclick="removerArmazenamento(${contadorDsk})">${maisSVG}</a></div>
+            <div id="removerDsk" class="flex-center icon-button margin-bottom rotated-icon"><a title="Remover armazenamento" href="#" onclick="removerArmazenamento(${contadorDsk})">${addSVG}</a></div>
             <span style="font-weight:bold;padding-left:5px;color:#AAAAAA;"> Armazenamento ${contadorDsk} »   </span>        
             <span class="label" style="padding-left:15px;">Tipo:</span>
             <input type="radio" id="hd-${contadorDsk}" name="tipo-dsk-${contadorDsk}" class="radio" value="HD" onclick="mostrarFormulario(${contadorDsk}, 'HD')">
@@ -66,37 +66,6 @@ function removerArmazenamento(id) {
         document.getElementById('adicionarDsk').style.display = 'flex';
     }
 
-    // Ajustar valores e adicionar eventos
-    document.querySelectorAll('.saude-hd, .saude-ssd').forEach(input => {
-        let tipo = 'saude';
-
-        setValue(input, parseInt(input.value), tipo);
-        toggleButtons(input, tipo);
-
-        input.addEventListener('input', function() {
-            let value = parseInt(this.value);
-            console.log(`Input event: ${value}, Tipo: ${tipo}`);
-            if (isNaN(value) || value < getMinValue(tipo)) {
-                value = getMinValue(tipo);
-            } else if (value > getMaxValue(tipo)) {
-                value = getMaxValue(tipo);
-            }
-            setValue(this, value, tipo);
-            toggleButtons(this, tipo);
-        });
-
-        input.addEventListener('blur', function() {
-            let value = parseInt(this.value);
-            console.log(`Blur event: ${value}, Tipo: ${tipo}`);
-            if (isNaN(value) || value < getMinValue(tipo)) {
-                value = getMinValue(tipo);
-            } else if (value > getMaxValue(tipo)) {
-                value = getMaxValue(tipo);
-            }
-            setValue(this, value, tipo);
-            toggleButtons(this, tipo);
-        });
-    });
     requestAnimationFrame(() => {
         window.scrollTo(0, scrollPos);
     });
@@ -105,6 +74,7 @@ function removerArmazenamento(id) {
 function mostrarFormulario(contadorDsk, tipo) {
     let formulario = document.getElementById(`formulario-${contadorDsk}`);
     formulario.innerHTML = gerarFormulario(contadorDsk, tipo);
+    initializeListeners();
 }
 
 function gerarFormulario(contadorDsk, tipo) {
@@ -133,8 +103,8 @@ function gerarFormulario(contadorDsk, tipo) {
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="saude-hd-${contadorDsk}">Saúde:</label>
                 <button title="Diminuir" type="button" id="menos" class="menos icon-button margin-bottom" onclick="less(this, 'saude')">${menosSVG}</button>
-                <input type="number" name="saude-hd-${contadorDsk}" class="saude-hd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
-                <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" disabled onclick="more(this, 'saude')">${maisSVG}</button>
+                <input id="saude-hd-${contadorDsk}" type="number" name="saude-hd-${contadorDsk}" data-tipo="saude" class="saude-hd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
+                <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" disabled onclick="more(this, 'saude')">${addSVG}</button>
             </div>
             <input id="hidden-tam-hd-${contadorDsk}" name="hidden-tam-hd-${contadorDsk}" type="hidden" value="">
         `;
@@ -160,8 +130,8 @@ function gerarFormulario(contadorDsk, tipo) {
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
                 <label class="label" for="saude-ssd-${contadorDsk}">Saúde:</label>
                 <button title="Diminuir" type="button" id="menos" class="menos icon-button margin-bottom" onclick="less(this, 'saude')">${menosSVG}</button>
-                <input type="number" name="saude-ssd-${contadorDsk}" class="saude-ssd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
-                <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" disabled onclick="more(this, 'saude')">${maisSVG}</button>
+                <input id="saude-ssd-${contadorDsk}" type="number" name="saude-ssd-${contadorDsk}" data-tipo="saude" class="saude-ssd input" value="100" style="width:59px;text-align:center;"><span style="color:#AAAAAA"> %</span>
+                <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" disabled onclick="more(this, 'saude')">${addSVG}</button>
             </div>
             <input id="hidden-tam-ssd-${contadorDsk}" name="hidden-tam-ssd-${contadorDsk}" type="hidden" value="">
         `;
@@ -169,4 +139,5 @@ function gerarFormulario(contadorDsk, tipo) {
     requestAnimationFrame(() => {
         window.scrollTo(0, scrollPos);
     });
+
 }

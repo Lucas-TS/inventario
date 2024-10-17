@@ -20,11 +20,8 @@ function suggestionsMem(valores) {
     }
 }
 
-function showSuggestions(str1, str2) {
+async function showSuggestions(str1, str2) {
     const $suggestions = $(`#suggestions-${str2}`);
-    if (!$suggestions.hasClass("visivel")) {
-        $suggestions.addClass('visivel');
-    }
 
     let marca = '';
     const so = document.querySelector('input[name="so"]:checked')?.value;
@@ -63,6 +60,9 @@ function showSuggestions(str1, str2) {
         case 'mem-pv':
             marca = `${document.getElementById('gpu-pv').value} ${document.getElementById('marca-pv').value} ${document.getElementById('modelo-pv').value}`;
             break;
+        case 'tipo-mem':
+        case 'situacao':
+            return;
         default:
             if (str2.startsWith('modelo-monitor-')) {
                 const numero = str2.split('-').pop();
@@ -71,14 +71,18 @@ function showSuggestions(str1, str2) {
             break;
     }
 
-    $.ajax({
-        url: "./includes/auto_complete.php",
-        method: "GET",
-        data: { q: str1, n: str2, mm: marca },
-        success: function (response) {
-            $suggestions.html(response);
+    try {
+        const response = await fetch(`./includes/auto_complete.php?q=${str1}&n=${str2}&mm=${encodeURIComponent(marca)}`);
+        if (!response.ok) throw new Error('Erro na requisição.');
+
+        const data = await response.text();
+        $suggestions.html(data);
+        if (!$suggestions.hasClass("visivel")) {
+            $suggestions.addClass('visivel');
         }
-    });
+    } catch (error) {
+        console.error("Erro na requisição fetch:", error.message);
+    }
 }
 
 function passarValor(nr, input, id) {

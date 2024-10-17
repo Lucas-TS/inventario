@@ -228,10 +228,13 @@ body
     width: 100%;
     height: 100%;
 }
-svg
-{
-    overflow-clip-margin: content-box;
-    overflow: visible;
+svg {
+   overflow: visible;
+}
+@supports (overflow-clip-margin: content-box) {
+   svg {
+       overflow-clip-margin: content-box;
+   }
 }
 #wb_FlipSwitch1
 {

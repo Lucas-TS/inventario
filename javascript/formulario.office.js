@@ -3,48 +3,38 @@ function formularioOffice(str1) {
     let conteudo = '';
     if (str1 === 'Office') {
         conteudo = `
-            <div id="b-line-office-2" class="b-line"><label class="label" for="ver-office">Versão:</label><input id="ver-ms" class="input openBox" type="text" name="ver-office" placeholder="Escolha a versão" required  style="width:190px"></div>
+            <div id="b-line-office-2" class="b-line"><label class="label" for="ver-ms">Versão:</label><input id="ver-ms" class="input openBox" type="text" name="ver-office" placeholder="Escolha a versão" required  style="width:190px"></div>
             <div id="suggestions-ver-ms" class="suggestions-box ver-office ms">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-office-3" class="b-line"><label class="label" for="ed-office">Edição:</label><input id="ed-ms" class="input openBox" type="text" name="ed-office" placeholder="Escolha a versão" required disabled style="width:190px"></div>
+            <div id="b-line-office-3" class="b-line"><label class="label" for="ed-ms">Edição:</label><input id="ed-ms" class="input openBox" type="text" name="ed-office" placeholder="Escolha a versão" required disabled style="width:190px"></div>
             <div id="suggestions-ed-ms" class="suggestions-box ed-office ms">
             </div>
             <input id="hidden-office" name="hidden-office" type="hidden" value="">
             <div id="h-spacer" style="flex-basis: 100%;"></div>
             <div id="b-line-office-4" class="b-line">
-                <input type="radio" id="pirata-rd-office" name="licenca" class="radio" value="0" onclick="desativaSerial()">
+                <input type="radio" id="pirata-rd-office" name="licenca-office" class="radio" value="0" onclick="desativaSerialOffice()">
                 <label for="pirata-rd-office"><span></span>Sem licença</label>
-                <input type="radio" id="digital-rd-office" name="licenca" class="radio" value="1" onclick="desativaSerial()">
+                <input type="radio" id="digital-rd-office" name="licenca-office" class="radio" value="1" onclick="desativaSerialOffice()">
                 <label for="digital-rd-office"><span></span>Licença digital</label>
-                <input type="radio" id="serial-rd-office" name="licenca" class="radio" value="serial" onclick="liberaSerial()">
+                <input type="radio" id="serial-rd-office" name="licenca-office" class="radio" value="serial" onclick="liberaSerialOffice()">
                 <label for="serial-rd-office"><span></span>Serial:
-                <input id="serial-so" class="input trim" type="text" maxlength="29" name="serial-so" disabled placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" style="width:420px" onkeyup="applyMasks()"></label>
+                <input id="serial-office" class="input trim" type="text" maxlength="29" name="serial-office" disabled placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" style="width:420px" onkeyup="applyMasks()"></label>
             </div>
         `;
     } else if (str1 === 'Free') {
         conteudo = `
-            <div id="b-line-office-2" class="b-line"><label class="label" for="nome-office">Nome:</label><input id="nome-free" class="input openBox" type="text" name="nome-office" placeholder="Escolha o pacote" required  style="width:190px"></div>
+            <div id="b-line-office-2" class="b-line"><label class="label" for="nome-free">Nome:</label><input id="nome-free" class="input openBox" type="text" name="nome-office" placeholder="Escolha o pacote" required  style="width:190px"></div>
             <div id="suggestions-nome-free" class="suggestions-box nome-office free">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-office-4" class="b-line"><label class="label" for="ver-office">Versão:</label><input id="ver-free" class="input openBox" type="text" name="ver-office" placeholder="Escolha o pacote" required disabled style="width:190px"></div>
+            <div id="b-line-office-4" class="b-line"><label class="label" for="ver-free">Versão:</label><input id="ver-free" class="input openBox" type="text" name="ver-office" placeholder="Escolha o pacote" required disabled style="width:190px"></div>
             <div id="suggestions-ver-free" class="suggestions-box ver-office free">
             </div>
             <input id="hidden-office" name="hidden-office" type="hidden" value="">
         `;
     }
     linha.innerHTML = conteudo;
-
-    // Adiciona máscara e transforma em caixa alta
-    let serialInput = document.getElementById('serial-ms');
-    if (serialInput) {
-        serialInput.addEventListener('input', function (e) {
-            let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-            let formattedValue = value.match(/.{1,5}/g)?.join('-') || '';
-            e.target.value = formattedValue;
-        });
-    }
 }
 
 function liberarCampo2(str1) {
@@ -68,4 +58,15 @@ function passarIdOffice(id) {
     if (hiddenOffice) {
         hiddenOffice.value = id;
     }
+}
+
+function liberaSerialOffice() {
+    let serial = document.getElementById('serial-office');
+    serial.disabled = false;
+}
+
+function desativaSerialOffice() {
+    let serial = document.getElementById('serial-office');
+    serial.value = '';
+    serial.disabled = true;
 }

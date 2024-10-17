@@ -44,8 +44,9 @@ if (isset($_SESSION['expires_by']))
 <title>Home - Sistema de Inventário de Computadores</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="css/inventario.css" rel="stylesheet">
-<script src="javascript/jquery-1.12.4.min.js"></script>
+<script src="javascript/jquery.min.js"></script>
 <script src="javascript/jquery-ui.min.js"></script>
+<script src="javascript/jquery.mask.min.js"></script>
 <script src="javascript/panel.min.js"></script>
 <script src="javascript/wwb19.min.js"></script>
 <script src="javascript/load.effect.js"></script>
@@ -93,15 +94,73 @@ if (isset($_SESSION['expires_by']))
             </div>
         </div>
     </div>
-    <div id="overlay"  onclick="handleOverlayClick(event);">
+    <?php
+    if (isset($_GET['tabela']) && !empty($_GET['tabela']))
+    {
+        $icone = file_get_contents('./images/add.svg');
+        $linkAdd = "";
+        $js = "";
+        switch ($_GET['tabela']) {
+            case "computadores":
+                $linkAdd = '<a href="./add_pc.php" title="Adicionar novo PC"><div id="adicionar" class="balao">' . $icone . '</div></a>';
+                $js = '';
+                break;
+            case "lista_processador":
+                $linkAdd = '<a href="#" title="Adicionar novo processador"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_proc_overlay.php\')">' . $icone . '</div></a>';
+                $js = '<script src="javascript/add.proc.js"></script>';
+                break;
+            case "lista_placa_video":
+                $linkAdd = '<a href="#" title="Adicionar nova placa de vídeo"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_pv_overlay.php\')">' . $icone . '</div></a>';
+                $js = '<script src="javascript/add.pv.js"></script>';
+                break;
+            case "militares":
+                $linkAdd = '<a href="#" title="Adicionar novo militar"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_mil_overlay.php\')">' . $icone . '</div></a>';
+                $js = '<script src="javascript/add.mil.js"></script>';
+                break;
+            case "secao":
+                $linkAdd = '<a href="#" title="Adicionar nova seção"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_sec_overlay.php\')">' . $icone . '</div></a>';
+                $js = '<script src="javascript/add.sec.js"></script>';
+                break;
+            case "lista_monitor":
+                $linkAdd = '<a href="#" title="Adicionar novo monitor"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_mon_overlay.php\')">' . $icone . '</div></a>';
+                $js = '<script src="javascript/add.mon.js"></script>';
+                break;
+            case "lista_hd":
+                $linkAdd = '<a href="#" title="Adicionar novo HD"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_hd_overlay.php\')">' . $icone . '</div></a>';
+                $js = '<script src="javascript/add.hd.js"></script>';
+                break;
+            case "lista_ssd":
+                $linkAdd = '<a href="#" title="Adicionar novo SSD"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_ssd_overlay.php\')">' . $icone . '</div></a>';
+                $js = '<script src="javascript/add.ssd.js"></script>';
+                break;
+            case "lista_so":
+                $linkAdd = '<a href="#" title="Adicionar novo Sistema Operacional"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_so_overlay.php\')">' . $icone . '</div></a>';
+                $js = '<script src="javascript/add.so.js"></script>';
+                break;
+            case "lista_office":
+                $linkAdd = '<a href="#" title="Adicionar novo Pacote Office"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_office_overlay.php\')">' . $icone . '</div></a>';
+                $js = '<script src="javascript/add.office.js"></script>';
+                break;
+            case "":
+                break;
+        }
+        echo $linkAdd;
+    }
+    ?>
+    <a href="#" title="Voltar ao topo"><div id="topo" class="topo oculto"><?php include './images/seta.svg'; ?></div></a>
+    <div id="overlay" onclick="handleOverlayClick(event);">
     </div>
     <footer id="FlexContainer2" style="visibility:hidden;">
         <div id="wb_Text1">
             <p>Desenvolvido por Lucas Trindade Silveira © 2024 - v1.0</p>
         </div>
     </footer>
-    
+    <script src="javascript/suggestions.js"></script>
+    <?php echo $js; ?>
+    <script src="javascript/placeholder.js"></script>
     <script src="javascript/overlay.js"></script>
+    <script src="javascript/masks.js"></script>
+    <script src="javascript/more.less.js"></script>
     <script src="javascript/events.js"></script>
 </body>
 </html>

@@ -43,7 +43,7 @@ if (isset($_SESSION['expires_by']))
 <title>Seções - Sistema de Inventário de Computadores</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="css/inventario.css" rel="stylesheet">
-<script src="javascript/jquery-1.12.4.min.js"></script>
+<script src="javascript/jquery.min.js"></script>
 <script src="javascript/jquery-ui.min.js"></script>
 <script src="javascript/panel.min.js"></script>
 <script src="javascript/wwb19.min.js"></script>

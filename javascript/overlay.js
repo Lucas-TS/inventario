@@ -18,6 +18,9 @@ function paginaOverlay(nomeArquivo) {
         .catch(error => {
             console.error('Erro:', error);
         });
+        setTimeout(() => {
+            initializeListeners();
+        }, 1000); 
 }
 
 function mensagemOverlay(text) {
@@ -53,7 +56,7 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
         <span>Opções de visualização</span>
         <div id="botoes">
           <div id="b-line-header-1" class="b-line">
-            <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon adjust-position"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${maisSVG}</a></div>
+            <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon adjust-position"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${addSVG}</a></div>
           </div>
         </div>
       </div>
@@ -127,6 +130,11 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
     overlayContent += '</div>';
 
     document.getElementById('overlay').innerHTML = overlayContent;
+    const blocoOverlay = document.getElementById("bloco-overlay");
+    const width = blocoOverlay.offsetWidth;
+    const height = blocoOverlay.offsetHeight;
+    blocoOverlay.style.width = `${width}px`;
+    blocoOverlay.style.height = `${height}px`;
     atualizarBotaoMarcarTudo();
 }
 
@@ -175,4 +183,20 @@ function inverterSelecao() {
     const checkboxes = document.querySelectorAll('#formCheckboxes input[name="colunas"]');
     checkboxes.forEach(checkbox => checkbox.checked = !checkbox.checked);
     atualizarBotaoMarcarTudo();
+}
+
+function atualizarTabela() {
+    const params2 = new URLSearchParams(window.location.search);
+    if (window.location.pathname.includes('lista.php') && params2.has('tabela')) {
+        const novaTabela = params2.get('tabela');
+        dadosTabela = [];
+        carregarTabela(novaTabela);
+    }
+}
+
+function closeOverlay() {
+    // Limpa o timeout caso o overlay seja fechado manualmente
+    clearTimeout(closeTimeout);
+    ShowObjectWithEffect('overlay', 0, 'fade', 200);
+    atualizarTabela();
 }

@@ -1,21 +1,117 @@
+function changeValue(input, change, tipo) {
+    let numero = parseInt(input.value) + change;
+    setValue(input, numero, tipo);
+    toggleButtons(input, tipo);
+}
+
+function startInterval(callback, input, change, tipo) {
+    let interval;
+    callback(input, change, tipo); // Executa a função uma vez imediatamente
+    interval = setInterval(() => callback(input, change, tipo), 100); // Ajustar a taxa de intervalo para 200ms
+    return interval;
+}
+
+let initialized = false;
+
+function setupButton(button, input, change, tipo) {
+    let interval;
+    let timeout;
+
+    // Verifica se os eventos já estão configurados
+    if (button.dataset.initialized) return;
+
+    const handleMousedown = () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            interval = startInterval(changeValue, input, change, tipo);
+        }, 200);
+    };
+    const handleMouseup = () => {
+        clearTimeout(timeout);
+        clearInterval(interval);
+    };
+    const handleMouseleave = handleMouseup;
+    const handleTouchstart = handleMousedown;
+    const handleTouchend = handleMouseup;
+    const handleTouchcancel = handleMouseup;
+
+    // Adicionar eventos de clique
+    button.addEventListener('mousedown', handleMousedown);
+    button.addEventListener('mouseup', handleMouseup);
+    button.addEventListener('mouseleave', handleMouseleave);
+    button.addEventListener('touchstart', handleTouchstart);
+    button.addEventListener('touchend', handleTouchend);
+    button.addEventListener('touchcancel', handleTouchcancel);
+
+    // Marca o botão como inicializado
+    button.dataset.initialized = true;
+}
+
+function initializeListeners() {
+    document.querySelectorAll('.qtde-mem, .saude-ssd, .saude-hd, .conexoes').forEach(input => {
+        const tipo = input.dataset.tipo || 'mem';
+        // Configurar os valores iniciais e botões
+        setValue(input, parseInt(input.value), tipo);
+        toggleButtons(input, tipo);
+
+        let menosButton = input.previousElementSibling;
+        let maisButton = input.nextElementSibling.nextElementSibling;
+        if (menosButton && maisButton) {
+            setupButton(menosButton, input, -1, tipo);
+            setupButton(maisButton, input, 1, tipo);
+        }
+    });
+}
+
+// Inicializar os listeners e o observador do DOM
+document.addEventListener('DOMContentLoaded', initializeListeners);
+
+function handleInput() {
+    let value = parseInt(this.value);
+    const tipo = this.dataset.tipo || 'mem';
+    if (isNaN(value) || value < getMinValue(tipo)) {
+        value = getMinValue(tipo);
+    } else if (value > getMaxValue(tipo)) {
+        value = getMaxValue(tipo);
+    }
+    setValue(this, value, tipo);
+    toggleButtons(this, tipo);
+}
+
+function handleBlur() {
+    let value = parseInt(this.value);
+    const tipo = this.dataset.tipo || 'mem';
+    if (isNaN(value) || value < getMinValue(tipo)) {
+        value = getMinValue(tipo);
+    } else if (value > getMaxValue(tipo)) {
+        value = getMaxValue(tipo);
+    }
+    setValue(this, value, tipo);
+    toggleButtons(this, tipo);
+}
+
 function less(button, tipo) {
     let input = button.nextElementSibling;
-    let numero = parseInt(input.value);
-    if (numero > getMinValue(tipo)) {
-        numero--;
-        setValue(input, numero, tipo);
+    if (input) {
+        let numero = parseInt(input.value);
+        if (numero > getMinValue(tipo)) {
+            numero--;
+            setValue(input, numero, tipo);
+        }
+        toggleButtons(input, tipo);
     }
-    toggleButtons(input, tipo);
 }
 
 function more(button, tipo) {
     let input = button.previousElementSibling.previousElementSibling;
-    let numero = parseInt(input.value);
-    if (numero < getMaxValue(tipo)) {
-        numero++;
-        setValue(input, numero, tipo);
+    if (input) {
+        let numero = parseInt(input.value);
+        if (numero < getMaxValue(tipo)) {
+            numero++;
+            setValue(input, numero, tipo);
+        }
+        toggleButtons(input, tipo);
     }
-    toggleButtons(input, tipo);
 }
 
 function setValue(input, value, tipo) {
@@ -33,8 +129,10 @@ function toggleButtons(input, tipo) {
     let numero = parseInt(input.value);
     let menosButton = input.previousElementSibling;
     let maisButton = input.nextElementSibling.nextElementSibling;
-    menosButton.disabled = (numero === getMinValue(tipo));
-    maisButton.disabled = (numero === getMaxValue(tipo));
+    if (menosButton && maisButton) {
+        menosButton.disabled = (numero === getMinValue(tipo));
+        maisButton.disabled = (numero === getMaxValue(tipo));
+    }
 }
 
 function getMinValue(tipo) {
@@ -44,35 +142,3 @@ function getMinValue(tipo) {
 function getMaxValue(tipo) {
     return tipo === 'mem' ? 1024 : 100;
 }
-
-// Ajuste do valor digitado aos limites do campo
-document.querySelectorAll('.qtde-mem').forEach(input => {
-    const tipo = 'mem';
-
-    setValue(input, parseInt(input.value), tipo);
-    toggleButtons(input, tipo);
-
-    input.addEventListener('input', function() {
-        let value = parseInt(this.value);
-        console.log(`Input event: ${value}, Tipo: ${tipo}`);
-        if (isNaN(value) || value < getMinValue(tipo)) {
-            value = getMinValue(tipo);
-        } else if (value > getMaxValue(tipo)) {
-            value = getMaxValue(tipo);
-        }
-        setValue(this, value, tipo);
-        toggleButtons(this, tipo);
-    });
-
-    input.addEventListener('blur', function() {
-        let value = parseInt(this.value);
-        console.log(`Blur event: ${value}, Tipo: ${tipo}`);
-        if (isNaN(value) || value < getMinValue(tipo)) {
-            value = getMinValue(tipo);
-        } else if (value > getMaxValue(tipo)) {
-            value = getMaxValue(tipo);
-        }
-        setValue(this, value, tipo);
-        toggleButtons(this, tipo);
-    });
-});

@@ -476,7 +476,7 @@ svg {
 }
 
 .bloco-overlay {
-   width: 750px;
+   max-width: 100%;
 }
 
 .bloco span {
@@ -534,10 +534,25 @@ svg {
    width: 16px;
    height: 16px;
    cursor: pointer;
+   fill: #158CBA;
+}
+
+.icone-acao:hover svg {
+   fill: #12779E;
 }
 
 .icone-acao {
-   padding: 0px 5px;
+   width: 16px;
+   height: 16px;
+   margin: 0px 5px;
+}
+
+.icone-acao.apagar:hover svg {
+   fill: #FF0000;
+}
+
+.icone-acao.apagar svg {
+   fill: #D50000;
 }
 
 .acoes {
@@ -1051,6 +1066,11 @@ label {
    top: 3px;
 }
 
+.ok-adjust-position svg {
+   top: -5px;
+   left: -5px;
+}
+
 .suggestions-box {
    border: 1px solid #ccc;
    max-height: 150px;
@@ -1166,6 +1186,12 @@ label {
    margin-top: 40px;
 }
 
+.suggestions-box.situacao {
+   width: 285px;
+   margin-left: 78px;
+   bottom: 96px;
+}
+
 .suggestions-box.marca-proc {
    width: 245px;
    margin-left: 60px;
@@ -1205,6 +1231,24 @@ label {
 .suggestions-box.modelo-add-pv {
    width: 245px;
    margin-left: 67px;
+   margin-top: 30px;
+}
+
+.suggestions-box.pg-add-mil {
+   width: 245px;
+   margin-left: 140px;
+   margin-top: 30px;
+}
+
+.suggestions-box.sec-add-mil {
+   width: 745px;
+   margin-left: 62px;
+   margin-top: 30px;
+}
+
+.suggestions-box.marca-add-mon {
+   width: 245px;
+   margin-left: 61px;
    margin-top: 30px;
 }
 
@@ -1312,8 +1356,10 @@ label {
    justify-content: space-between;
 }
 
-.seletor-colunas {
+.seletor-colunas a{
    font-weight: normal;
+   text-decoration: underline;
+   color: #158CBA;
 }
 
 .h-line.centralizado {

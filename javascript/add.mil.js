@@ -1,25 +1,23 @@
 let closeTimeout; // Variável para armazenar a referência do timeout
 
-async function insertPv(event) {
+async function insertMil(event) {
     event.preventDefault(); // Previne o comportamento padrão do formulário
 
     // Capturar valor do campo de texto ou definir como nulo
-    let chipset = document.getElementById('chipset-add-pv').value;
-    let marca = document.getElementById('marca-add-pv').value;
-    let modelo = document.getElementById('modelo-add-pv').value;
-    let qtde = document.getElementById('mem-add-pv').value;
-    let tipo = document.getElementById('mem-pv').value;
-    let memoria = qtde + " " + tipo;
-
+    let nc = document.getElementById('nc-add-mil').value;
+    let pg = document.getElementById('pg-add-mil').value;
+    let id_pg = document.getElementById('hidden-pg-add-mil').value;
+    let ng = document.getElementById('ng-add-mil').value;
+    let id_sec = document.getElementById('hidden-sec-add-mil').value;
     let formData = {
-        chipset: chipset,
-        marca: marca,
-        modelo: modelo,
-        memoria: memoria,
+        nc: nc,
+        pg: id_pg,
+        ng: ng,
+        sec: id_sec,
     };
 
     try {
-        let response = await fetch('./includes/inserir_pv.php', {
+        let response = await fetch('./includes/inserir_mil.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8'
@@ -31,15 +29,15 @@ async function insertPv(event) {
             if (response.status === 409) { // Conflito
                 throw new Error('Registro já existe.');
             } else {
-                throw new Error('Erro ao inserir a placa de vídeo.');
+                throw new Error('Erro ao inserir o militar.');
             }
         }
 
         let overlay = document.getElementById('overlay');
         overlay.innerHTML = `
-        <div id="add_pv" class="bloco-overlay">
+        <div id="add_mil" class="bloco-overlay">
             <div class="header">
-                <span>Adicionar Placa de Vídeo</span>
+                <span>Adicionar Militar</span>
                 <div id="botoes">
                     <div id="b-line-header-1" class="b-line">
                     <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="closeOverlay()">${addSVG}</a></div>
@@ -47,7 +45,7 @@ async function insertPv(event) {
             </div>
         </div>
         <div id="linha-1" class="linha fim">
-            <div id="h-line-add-pv-1" class="h-line centralizado">${marca} ${chipset} ${modelo} ${memoria} inserida com sucesso!</div>
+            <div id="h-line-add-mil-1" class="h-line centralizado">${pg} ${ng} inserido com sucesso!</div>
         </div>
         <div id="linha-2" class="linha fim centralizado">
             <div id="b-line-1" class="b-line">

@@ -23,7 +23,7 @@ $hn = isset($_POST['hn']) ? $_POST['hn'] : null; //Campo VARCHAR (hostname)
 $rede = isset($_POST['rede']) ? $_POST['rede'] : null; //Campo TINYINT (rede)
 $mac = isset($_POST['mac']) ? str_replace(':', '', $_POST['mac']) : null;
 $observacao = isset($_POST['obs']) ? str_replace(':', '', $_POST['obs']) : null;
-$situacao = 2; //Campo INT (situacao)
+$situacao = isset($_POST['hidden-situacao']) ? str_replace(':', '', $_POST['hidden-situacao']) : null; //Campo INT (situacao)
 $ativo = 1; //Campo INT (ativo)
 
 session_start();

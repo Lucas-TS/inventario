@@ -4,7 +4,7 @@
             <span>Adicionar Placa de Vídeo</span>
             <div id="botoes">
                 <div id="b-line-header-1" class="b-line">
-                <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon adjust-position"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);"><?php include '../images/add.svg'; ?></a></div>
+                <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);"><?php include '../images/add.svg'; ?></a></div>
                 </div>
             </div>
         </div>
@@ -32,8 +32,8 @@
         </div>
         <div id="linha-3" class="linha">
             <div id="h-line-add-pv-3" class="h-line">Memória:</div>
-            <div id="b-line-add-pv-4" class="b-line"><label class="label" for="mem-add-pv">Tamanho:</label>
-                <input id="mem-pv" name="mem-add-pv" type="text" class="input trim" placeholder="Quantidade e unidade" style="width:200px" required title="Número e unidade. Ex.: 512MB, 2GB, 4GB ...">
+            <div id="b-line-add-pv-4" class="b-line" style="flex-basis:100%"><label class="label" for="mem-add-pv">Tamanho:</label>
+                <input id="mem-pv" name="mem-add-pv" type="text" class="input unity" placeholder="Quantidade e unidade" style="width:200px" required title="Número e unidade. Ex.: 512MB, 2GB, 4GB ...">
             </div>
             <div id="b-line-add-pv-5" class="b-line"><label class="label">Tipos:</label>
                 <input type="radio" id="DDR2-pv" name="mem-pv" class="radio" value="DDR2">
@@ -55,11 +55,11 @@
         <div id="linha-4" class="linha fim botoes">
             <div id="botoes">
                 <div id="b-line-add-pv-19" class="b-line">
-                    <button id="limpar" class="flex-center large-button" type="reset"><?php include '../images/erase.svg'; ?></button>
+                    <button id="limpar" title="Limpar" class="flex-center large-button" type="reset"><?php include '../images/erase.svg'; ?></button>
                 </div>
                 <div id="h-spacer"></div>
                 <div id="b-line-add-pv-20" class="b-line">
-                    <button id="enviar" class="flex-center large-button" type="submit"><?php include '../images/ok.svg'; ?></button>
+                    <button id="enviar" title="Enviar" class="flex-center large-button" type="submit"><?php include '../images/ok.svg'; ?></button>
                 </div>
             </div>
         </div>

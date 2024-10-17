@@ -30,61 +30,9 @@ if (isset($_SESSION['expires_by'])) {
       exit;
    }
 }
-$busca = $_GET['busca'] ?? '';
-$op = $_GET['op'] ?? '';
-$ip = $_GET['ip'] ?? '';
-$hn = $_GET['hn'] ?? '';
-$mac = $_GET['mac'] ?? '';
-$qtde = $_GET['qtde'] ?? '';
-$secao = $_GET['secao'] ?? '';
-$situacao = $_GET['situacao'] ?? '';
-$ativo = $_GET['ativo'] ?? '';
-$ordem = $_GET['ordem'] ?? 'id';
-$por = $_GET['por'] ?? 'ASC';
-$secao_arr = isset($_GET['secao']) ? explode(',', $_GET['secao']) : [];
-$situacao_arr = isset($_GET['situacao']) && $_GET['situacao'] !== '' ? explode(',', $_GET['situacao']) : [];
-$p = '';
-function montarURLget()
-{
-   $params = [
-      'busca' => $GLOBALS['busca'],
-      'op' => $GLOBALS['op'],
-      'ip' => $GLOBALS['ip'],
-      'hn' => $GLOBALS['hn'],
-      'mac' => $GLOBALS['mac'],
-      'qtde' => $GLOBALS['qtde'],
-      'secao' => $GLOBALS['secao'],
-      'situacao' => $GLOBALS['situacao'],
-      'ativo' => $GLOBALS['ativo'],
-      'ordem' => $GLOBALS['ordem'],
-      'por' => $GLOBALS['por'],
-      'p' => $GLOBALS['p'],
-   ];
-   $filtered_params = array_filter($params, function ($value) {
-      return $value !== '' && $value !== null;
-   });
-   $GLOBALS['get'] = http_build_query($filtered_params);
-}
-$check_ativo = 'checked';
-$check_inativo = '';
-if (isset($_GET['ativo'])) {
-   switch ($_GET['ativo']) {
-      case "0":
-         $check_ativo = '';
-         $check_inativo = 'checked';
-         break;
-      case "1":
-         $check_inativo = '';
-         break;
-      case "2":
-         $check_inativo = 'checked';
-         break;
-   }
-}
 ?>
 <!doctype html>
 <html lang="pt-BR">
-
 <head>
    <meta charset="utf-8">
    <title>Desktops - Sistema de Inventário de Computadores</title>
@@ -116,18 +64,18 @@ if (isset($_GET['ativo'])) {
                </div>
                <div id="botoes">
                   <div id="b-line-fim-2" class="b-line correcao-altura">
-                     <button id="limpar" class="flex-center large-button" type="reset"><?php include './images/erase.svg'; ?></button>
+                     <button id="limpar" title="Limpar" class="flex-center large-button" type="reset"><?php include './images/erase.svg'; ?></button>
                   </div>
                   <div id="h-spacer"></div>
                   <div id="b-line-fim-3" class="b-line correcao-altura">
-                     <button id="enviar" class="flex-center large-button" type="submit"><?php include './images/ok.svg'; ?></button>
+                     <button id="enviar" title="Enviar" class="flex-center large-button" type="submit"><?php include './images/ok.svg'; ?></button>
                   </div>
                </div>
             </div>
             <div id="linha-1" class="linha">
                <div id="h-line-1" class="h-line">Informações básicas:</div>
                <div id="b-line-1" class="b-line"><label class="label" for="op">Operador:</label>
-                  <input id="op" name="op" type="text" class="input box" placeholder="Escolha o operador (Opcional)" style="width:250px">
+                  <input id="op" name="op" type="text" class="input box" placeholder="Escolha o operador (Opcional)" style="width:250px"><div id="adicionarMil" class="flex-center margin-left icon-button"><a title="Adicionar novo operador" href="#" onclick="exibirOverlay('./overlay/add_mil_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
                   <input id="hidden-op" name="hidden-op" type="hidden" value="">
                   <div id="suggestions-op" class="suggestions-box op"></div>
                </div>
@@ -171,30 +119,29 @@ if (isset($_GET['ativo'])) {
             </div>
             <div id="linha-3" class="linha">
                <div id="h-line-3" class="h-line">Memória RAM:</div>
-               <div id="b-line-mem-1" class="b-line"><label class="label" for="qtde-mem-1">Quantidade:</label>
+               <div id="b-line-mem-1" class="b-line"><span class="label">Quantidade:</span>
                   <button title="Diminuir" type="button" id="menos" class="menos icon-button margin-bottom" disabled onclick="less(this, 'mem')"><?php include './images/menos.svg'; ?></button>
-                  <input type="number" name="qtde-mem" class="qtde-mem input" value="1" style="width:59px;text-align:center;"><span style="color:#AAAAAA">&nbsp;GB</span>
+                  <input id="qtde-mem" type="number" title="Quantidade" name="qtde-mem" data-tipo="mem" class="qtde-mem input" placeholder='Quantidade' value="1" style="width:59px;text-align:center;"><span style="color:#AAAAAA">&nbsp;GB</span>
                   <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" onclick="more(this, 'mem')"><?php include './images/add.svg'; ?></button>
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-mem-2" class="b-line"><label class="label" for="tipo-mem">Tipo:</label>
-                  <input id="tipo-mem" class="input" type="text" name="tipo-mem" placeholder="Escolha o tipo" required readonly style="width:190px">
+                  <input id="tipo-mem" class="input openBox" type="text" name="tipo-mem" placeholder="Escolha o tipo" required readonly style="width:190px">
                   <div id="suggestions-tipo-mem" class="suggestions-box tipo-mem">
-                     <p>DDR5</p>
-                     <p>DDR4</p>
-                     <p>DDR3</p>
-                     <p>DDR2</p>
-                     <p>DDR</p>
                   </div>
                </div>
             </div>
             <div id="linha-4" class="linha">
-               <div id="h-line-4" class="h-line">Armazenamento:</div>
+               <div id="h-line-4" class="h-line">Armazenamento:
+                  <div id="adicionarDsk" class="flex-center margin-left icon-button">
+                     <a title="Adicionar novo tamanho de armazenamento" href="#" onclick="exibirOverlay('./overlay/add_dsk_overlay.php')"><?php include './images/novo.svg'; ?></a>
+                  </div>
+               </div>
                <div id="armazenamentos-container">
                   <!-- Armazenamentos serão adicionados aqui -->
                </div>
                <div id="h-line-5" class="h-line">
-                  <div id="adicionarDsk" class="flex-center icon-button"><a title="Adicionar armazenamento" href="#" onclick="adicionarArmazenamento()"><?php include './images/list.add.svg'; ?></a></div>
+                  <div id="adicionarAmzt" class="flex-center icon-button"><a title="Adicionar armazenamento" href="#" onclick="adicionarArmazenamento()"><?php include './images/list.add.svg'; ?></a></div>
                </div>
             </div>
             <div id="linha-5" class="linha">
@@ -211,7 +158,11 @@ if (isset($_GET['ativo'])) {
                </div>
             </div>
             <div id="linha-6" class="linha">
-               <div id="h-line-7" class="h-line">Monitor:</div>
+               <div id="h-line-7" class="h-line">Monitor:
+                  <div id="adicionarMon" class="flex-center margin-left icon-button">
+                     <a title="Adicionar novo monitor" href="#" onclick="exibirOverlay('./overlay/add_mon_overlay.php')"><?php include './images/novo.svg'; ?></a>
+                  </div>
+               </div>
                <div id="monitores-container">
                   <!-- Monitores serão adicionados aqui -->
                </div>
@@ -220,7 +171,11 @@ if (isset($_GET['ativo'])) {
                </div>
             </div>
             <div id="linha-7" class="linha">
-               <div id="h-line-9" class="h-line">Sistema Operacional:</div>
+               <div id="h-line-9" class="h-line">Sistema Operacional:
+                  <div id="adicionarSO" class="flex-center margin-left icon-button">
+                     <a title="Adicionar novo SO" href="#" onclick="exibirOverlay('./overlay/add_so_overlay.php')"><?php include './images/novo.svg'; ?></a>
+                  </div>
+               </div>
                <div id="b-line-so-1" class="b-line">
                   <span class="label">Família:</span>
                   <input type="radio" id="win" name="so" class="radio so-check" value="Windows" onclick="formularioSO(this.value)">
@@ -233,7 +188,11 @@ if (isset($_GET['ativo'])) {
                <div id="h-spacer"></div>
             </div>
             <div id="linha-8" class="linha">
-               <div id="h-line10" class="h-line">Pacote Office:</div>
+               <div id="h-line10" class="h-line">Pacote Office:
+                  <div id="adicionarOffice" class="flex-center margin-left icon-button">
+                     <a title="Adicionar novo pacote office" href="#" onclick="exibirOverlay('./overlay/add_office_overlay.php')"><?php include './images/novo.svg'; ?></a>
+                  </div>
+               </div>
                <div id="b-line-office-1" class="b-line">
                   <span class="label">Pacote:</span>
                   <input type="radio" id="ms" name="office" class="radio" value="Office" onclick="formularioOffice(this.value)">
@@ -256,7 +215,7 @@ if (isset($_GET['ativo'])) {
             </div>
             <div id="linha-10" class="linha">
                <div id="h-line-12" class="h-line">Rede:</div>
-               <div id="b-line-rede-1" class="b-line"><label class="label" for="hn">Hostname:</label>
+               <div id="b-line-rede-1" class="b-line"><label class="label" for="input-hn">Hostname:</label>
                   <input id="input-hn" name="hn" type="text" class="input trim" placeholder="Digite o nome" required style="width:250px">
                </div>
                <div id="h-spacer"></div>
@@ -268,7 +227,7 @@ if (isset($_GET['ativo'])) {
                   <label for="rede-off"><span></span>Offboard</label>
                </div>
                <div id="h-spacer"></div>
-               <div id="b-line-rede-3" class="b-line"><label class="label" for="mac">MAC:</label>
+               <div id="b-line-rede-3" class="b-line"><label class="label" for="input-mac">MAC:</label>
                   <input id="input-mac" name="mac" type="text" class="input mac trim" placeholder="Digite o MAC" required style="width:250px" title="Digite apenas os caracteres">
                </div>
                <div id="h-spacer"></div>
@@ -277,8 +236,23 @@ if (isset($_GET['ativo'])) {
                </div>
             </div>
             <div id="linha-11" class="linha fim">
-               <div id="h-line-13" class="h-line">Observações:</div>
-               <div id="b-line-obs-1" class="b-line" style="width:100%">
+               <div id="h-line-13" class="h-line">Informações complementares:</div>
+               <div id="b-line-fim-1" class="b-line"><label class="label" for="situacao">Situação:</label>
+                  <input id="situacao" class="input openBox" type="text" name="situacao" placeholder="Escolha a situação" required style="width:290px">
+                  <div id="suggestions-situacao" class="suggestions-box situacao">
+                     <p id="p0" onclick="passarValor('0', 'situacao', '0')">Em uso</p>
+                     <p id="p1" onclick="passarValor('1', 'situacao', '1')">Devolver</p>
+                     <p id="p2" onclick="passarValor('2', 'situacao', '2')">Distribuir</p>
+                     <p id="p3" onclick="passarValor('3', 'situacao', '3')">Manutenção</p>
+                     <p id="p4" onclick="passarValor('4', 'situacao', '4')">Aguardando Peças</p>
+                     <p id="p5" onclick="passarValor('5', 'situacao', '5')">Defeito</p>
+                     <p id="p6" onclick="passarValor('6', 'situacao', '6')">Descarregar</p>
+                     <p id="p7" onclick="passarValor('7', 'situacao', '7')">Bloqueado</p>
+                  </div>
+                  <input id="hidden-situacao" name="hidden-situacao" type="hidden" value="">
+               </div>
+               <div id="h-spacer"></div>
+               <div id="b-line-fim-2" class="b-line" style="flex:1"><label class="label" for="input-obs">Observações:</label>
                   <input id="input-obs" name="obs" type="text" class="input obs trim" placeholder="Opcional" style="width:100%">
                </div>
             </div>

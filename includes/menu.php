@@ -18,7 +18,7 @@
                     <span>Home</span></a></li>
             <!-- Item MILITARES -->
             <li role="menuitem">
-                <a href="militares.php" class="nav-link PanelMenu1-effect"><svg class="icon" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <a href="lista.php?tabela=militares" class="nav-link PanelMenu1-effect"><svg class="icon" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <path d="M32 32 C35 32, 37 31, 40 30 L40 30 C42 28, 44 27, 46 24 C47 22, 48 19, 48 16 C48 13, 47 11, 46 8 C44 6, 42 4, 40 2 C37 1, 35 0, 32 0 C29 0, 26 1, 24 2 C21 4, 19 6, 18 8 C16 11, 16 13, 16 16 C16 19, 16 22, 18 24 C19 27, 21 28, 24 30 C26 31, 29 32, 32 32 Z M26 38 C20 38, 14 40, 10 45 L10 45 C6 49, 4 54, 4 60 C4 61, 4 62, 5 63 C5 64, 6 64, 7 64 L56 64 C57 64, 58 64, 59 63 C59 62, 60 61, 60 60 C59 54, 57 49, 53 45 C49 40, 44 38, 37 38 L26 38Z " />
                     </svg>
                     <span>Militares</span>
@@ -26,7 +26,7 @@
             </li>
             <!-- Item SEÇÕES -->
             <li role="menuitem">
-                <a href="secoes.php" class="nav-link PanelMenu1-effect"><svg class="icon" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <a href="lista.php?tabela=secao" class="nav-link PanelMenu1-effect"><svg class="icon" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <path  d="M10 0 C13 0, 16 2, 18 5 C20 8, 20 12, 18 15 C16 18, 13 20, 10 20 C6 20, 3 18, 1 15 C-1 12, -1 8, 1 5 C3 2, 6 0, 10 0 Z M56 0 C59 0, 62 2, 64 5 C66 8, 66 12, 64 15 C62 18, 59 20, 56 20 C52 20, 49 18, 47 15 C45 12, 45 8, 47 5 C49 2, 52 0, 56 0 Z M-8 37 C-8 34, -7 30, -4 28 L-4 28 C-2 25, 1 24, 5 24 L10 24 C12 24, 14 24, 16 25 C16 26, 16 27, 16 28 C16 33, 18 37, 21 40 C21 40, 21 40, 21 40 C21 40, 21 40, 21 40 L-6 40 C-7 40, -8 39, -8 37 Z M42 40 C42 40, 42 40, 42 40 L42 40 C42 40, 42 40, 42 40 C46 37, 47 33, 48 28 C48 27, 48 26, 47 25 C49 24, 51 24, 53 24 L58 24 C62 24, 65 25, 68 28 C70 30, 72 34, 72 37 C71 39, 71 40, 69 40 L42 40Z  M20 28 C20 26, 20 24, 21 22 L21 22 C22 20, 24 19, 26 18 C28 17, 30 16, 32 16 C34 16, 36 17, 38 18 C39 19, 41 20, 42 22 C43 24, 44 26, 44 28 C44 30, 43 32, 42 34 C41 36, 39 37, 38 38 C36 39, 34 40, 32 40 C30 40, 28 39, 26 38 C24 37, 22 36, 21 34 C20 32, 20 30, 20 28 Z M8 61 C8 56, 9 52, 13 49 L13 49 C16 46, 20 44, 24 44 L39 44 C44 44, 48 46, 51 49 C54 52, 56 56, 56 61 C55 63, 54 64, 52 64 L11 64 C9 64, 8 63, 8 61" />
                     </svg>
                     <span>Se&#231;&#245;es</span>
@@ -98,7 +98,7 @@
                 <ul id="submenu_per" class="submenu">
                     <!-- Item MONITORES -->
                     <li>
-                        <a href="lista.php?tabela=lista_monitor.php">
+                        <a href="lista.php?tabela=lista_monitor">
                             <span class="guia">├</span>
                             <svg class="icon" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M.34 0a.5.5 0 0 0-.34.5v5a.5.5 0 0 0 .5.5h2.5v1h-1c-.55 0-1 .45-1 1h6c0-.55-.45-1-1-1h-1v-1h2.5a.5.5 0 0 0 .5-.5v-5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.09 0 .5.5 0 0 0-.06 0zm.66 1h6v4h-6v-4z" />

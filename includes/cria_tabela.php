@@ -31,7 +31,8 @@ $substituicoes = [
     'data_atualizacao' => 'Atualizado',
     'situacao' => 'Situação',
     'ip' => 'IP',
-    'mac' => 'MAC'
+    'mac' => 'MAC',
+    'tamanho_tela' => 'Tamanho da Tela'
     // Adicione mais substituições conforme necessário
 ];
 

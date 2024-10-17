@@ -2,19 +2,25 @@
 include 'conecta_db.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
-$gpu = isset($data["chipset"]) ? $data["chipset"] : null;
 $marca = isset($data["marca"]) ? $data["marca"] : null;
 $modelo = isset($data["modelo"]) ? $data["modelo"] : null;
-$memoria = isset($data["memoria"]) ? $data["memoria"] : null;
+$tamanho = isset($data["tamanho"]) ? $data["tamanho"] : null;
+$res = isset($data["res"]) ? $data["res"] : null;
+$hdmi = isset($data["hdmi"]) ? $data["hdmi"] : null;
+$dp = isset($data["dp"]) ? $data["dp"] : null;
+$dvi = isset($data["dvi"]) ? $data["dvi"] : null;
+$vga = isset($data["vga"]) ? $data["vga"] : null;
+$usb = isset($data["usb"]) ? $data["usb"] : null;
+$p2 = isset($data["p2"]) ? $data["p2"] : null;
 $ativo = 1; // Campo INT (ativo)
 
 // Verificar se o registro já existe
-$check_sql = "SELECT COUNT(*) FROM lista_placa_video WHERE gpu = ? AND marca = ? AND modelo = ? AND memoria = ?";
+$check_sql = "SELECT COUNT(*) FROM lista_monitor WHERE marca = ? AND modelo = ? AND tamanho_tela = ? AND resolucao = ?";
 $check_stmt = $conn->prepare($check_sql);
 if ($check_stmt === false) {
     die("Erro na preparação da declaração: " . $conn->error);
 }
-$check_stmt->bind_param("ssss", $gpu, $marca, $modelo, $memoria);
+$check_stmt->bind_param("ssis", $marca, $modelo, $tamanho, $res);
 $check_stmt->execute();
 $check_stmt->bind_result($count);
 $check_stmt->fetch();
@@ -25,13 +31,13 @@ if ($count > 0) {
     echo "Registro já existe.";
 } else {
     // Preparar a consulta SQL para inserção
-    $sql = "INSERT INTO lista_placa_video (gpu, marca, modelo, memoria, ativo) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO lista_monitor (marca, modelo, tamanho_tela, resolucao, hdmi, dp, dvi, vga, usb, p2, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die("Erro na preparação da declaração: " . $conn->error);
     }
     // Vincular os parâmetros
-    $stmt->bind_param("ssssi", $gpu, $marca, $modelo, $memoria, $ativo);
+    $stmt->bind_param("ssisiiiiiii", $marca, $modelo, $tamanho, $res, $hdmi, $dp, $dvi, $vga, $usb, $p2, $ativo);
     // Executar a declaração
     if ($stmt->execute()) {
         echo "Dados inseridos com sucesso!";
