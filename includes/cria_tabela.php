@@ -50,11 +50,11 @@ function formatarNomeColuna($nome) {
 function exibirTabela($conn, $nomeTabela) {
     if ($nomeTabela == 'militares')
     {
-        $sql = "SELECT militares.id, militares.nome_completo,pg.abreviatura AS pg, militares.nome_guerra, secao.sigla AS secao  FROM $nomeTabela AS militares LEFT JOIN pg ON militares.id_pg = pg.id LEFT JOIN secao ON militares.id_secao = secao.id";
+        $sql = "SELECT militares.ativo, militares.id, militares.nome_completo,pg.abreviatura AS pg, militares.nome_guerra, secao.sigla AS secao  FROM $nomeTabela AS militares LEFT JOIN pg ON militares.id_pg = pg.id LEFT JOIN secao ON militares.id_secao = secao.id";
     }
     elseif ($nomeTabela == 'users')
     {
-        $sql = "SELECT id, username, fullname, email, grupo FROM $nomeTabela";
+        $sql = "SELECT ativo, id, username, fullname, email, grupo FROM $nomeTabela";
     }
     elseif ($nomeTabela == 'computadores')
     {

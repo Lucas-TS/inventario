@@ -40,7 +40,7 @@ $(document).ready(function () {
         const valorExiste = $suggestions.find('p').toArray().some(p => $(p).text() === valor);
         const pExiste = $suggestions.find('p').length;
     
-        if (campoId === 'tipo-mem' || ["situacao"].includes(campoId)) {
+        if (campoId === 'tipo-mem' || ["situacao"].includes(campoId) || campoId === 'gp-add-user') {
             if (pExiste > 1) {
                 $suggestions.addClass('visivel');
             }
@@ -107,6 +107,24 @@ document.addEventListener('focusout', function(event) {
 });
 
 // Observador para detectar novos inputs adicionados dinamicamente
+const overlayObserver = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+        if (mutation.attributeName === 'style') {
+            var overlay = document.getElementById('overlay');
+            if (overlay && getComputedStyle(overlay).display !== 'none') {
+                var avatar1 = document.getElementById('avatar1');
+                if (avatar1) {
+                    selectImage(avatar1);
+                }
+            }
+        }
+    });
+});
+
+// Assumindo que a div do overlay tem o ID 'overlay'
+const overlayElement = document.getElementById('overlay');
+overlayObserver.observe(overlayElement, { attributes: true });
+
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         mutation.addedNodes.forEach(node => {
@@ -121,6 +139,15 @@ const observer = new MutationObserver(mutations => {
                 });
             }
         });
+
+        // Novo código para verificar se avatar1 foi adicionado
+        if (mutation.addedNodes.length > 0) {
+            var avatar1 = document.getElementById('avatar1');
+            if (avatar1) {
+                selectImage(avatar1);
+                observer.disconnect(); // Desconecta o observer após encontrar o elemento
+            }
+        }
     });
 });
 

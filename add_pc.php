@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'includes/conecta_db.php';
 $params = [];
 if (isset($_SESSION['avatar'])) {
@@ -6,7 +7,6 @@ if (isset($_SESSION['avatar'])) {
 } else {
    $avatar = 'images\avatar.png';
 }
-session_start();
 unset($_SESSION['url']);
 $url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $pagina = strtok($url, '?');
@@ -24,6 +24,7 @@ if (isset($_SESSION['expires_by'])) {
       unset($_SESSION['fullname']);
       unset($_SESSION['username']);
       unset($_SESSION['avatar']);
+      unset($_SESSION['grupo']);
       unset($_SESSION['expires_by']);
       unset($_SESSION['expires_timeout']);
       header('Location: ./login.php');

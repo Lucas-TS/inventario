@@ -39,14 +39,15 @@ if (isset($_POST['form_name']) && $_POST['form_name'] == 'loginform')
          $db_email = $data['email'];
          $db_fullname = $data['fullname'];
          $db_username = $data['username'];
+         $db_grupo = $data['grupo'];
          $db_id = $data['id'];
          if ($data['avatar'] != NULL)
          {
-            $avatar = $data['avatar'];
+            $avatar = "images/avatares/{$data['avatar']}";
          }
          else
          {
-            $avatar = 'images\avatar.png';
+            $avatar = 'images/avatar.png';
          }
       }
    }
@@ -62,6 +63,7 @@ if (isset($_POST['form_name']) && $_POST['form_name'] == 'loginform')
       $_SESSION['fullname'] = $db_fullname;
       $_SESSION['username'] = $db_username;
       $_SESSION['id'] = $db_id;
+      $_SESSION['grupo'] = $db_grupo;
       $_SESSION['avatar'] = $avatar;
       $_SESSION['expires_by'] = time() + $session_timeout;
       $_SESSION['expires_timeout'] = $session_timeout;

@@ -56,7 +56,7 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
         <span>Opções de visualização</span>
         <div id="botoes">
           <div id="b-line-header-1" class="b-line">
-            <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon adjust-position"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${addSVG}</a></div>
+            <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${addSVG}</a></div>
           </div>
         </div>
       </div>
@@ -117,6 +117,18 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
     `;
 
     overlayContent += `
+        <div id="linha-4" class="linha">
+            <div id="h-line-filtro-4" class="h-line">Filtrar por status:</div>
+            <div id="b-line-filtro-4" class="b-line">
+                <input type="checkbox" id="filtro-ativo" name="filtroAtivo" class="checkbox" value="1" ${preferenciasAtuais.filtroAtivo ? 'checked' : ''}>
+                <label for="filtro-ativo"><span></span>Ativo</label>
+                <input type="checkbox" id="filtro-inativo" name="filtroInativo" class="checkbox" value="0" ${preferenciasAtuais.filtroInativo ? 'checked' : ''}>
+                <label for="filtro-inativo"><span></span>Inativo</label>
+            </div>
+        </div>
+    `;
+    
+    overlayContent += `
         <div id="linha-7" class="linha fim botoes">
             <div id="botoes">
                 <div id="b-line-filtro-20" class="b-line">
@@ -146,15 +158,22 @@ function aplicarFiltros() {
 
     const salvarConfiguracao = document.querySelector('input[name="salvarConfiguracao"]:checked').value === 'sim';
     const resultadosPorPagina = document.getElementById('resultadosPorPaginaOverlay').value === 'todos' ? 'todos' : parseInt(document.getElementById('resultadosPorPaginaOverlay').value, 10);
+    const filtroAtivo = document.getElementById('filtro-ativo').checked;
+    const filtroInativo = document.getElementById('filtro-inativo').checked;
 
     preferenciasAtuais = {
         colunas: colunasSelecionadas,
-        resultadosPorPagina: resultadosPorPagina
+        resultadosPorPagina: resultadosPorPagina,
+        filtroAtivo: filtroAtivo,
+        filtroInativo: filtroInativo
     };
 
     if (salvarConfiguracao) {
-        salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina);
+        salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina, filtroAtivo, filtroInativo);
     }
+
+    document.getElementById('input-busca').value = '';
+
     renderizarTabela(dadosTabela, 1, resultadosPorPagina, colunasSelecionadas);
     ShowObjectWithEffect('overlay', 0, 'fade', 200);
 }

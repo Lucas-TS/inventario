@@ -1,13 +1,10 @@
 <?php
-if (isset ($_SESSION['avatar']))
-    {
-    $avatar = $_SESSION['avatar'];
-    }
-else
-    {
-    $avatar = 'images\avatar.png';
-    }
 session_start();
+if (isset($_SESSION['avatar'])) {
+    $avatar = $_SESSION['avatar'];
+} else {
+    $avatar = 'images\avatar.png';
+}
 unset($_SESSION['url']);
 $url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION['username']))
@@ -29,6 +26,7 @@ if (isset($_SESSION['expires_by']))
       unset($_SESSION['fullname']);
       unset($_SESSION['username']);
       unset($_SESSION['avatar']);
+      unset($_SESSION['grupo']);
       unset($_SESSION['expires_by']);
       unset($_SESSION['expires_timeout']);
       $_SESSION['url'] = $url;
@@ -36,6 +34,7 @@ if (isset($_SESSION['expires_by']))
       exit;
    }
 }
+
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -134,12 +133,19 @@ if (isset($_SESSION['expires_by']))
                 $js = '<script src="javascript/add.ssd.js"></script>';
                 break;
             case "lista_so":
-                $linkAdd = '<a href="#" title="Adicionar novo Sistema Operacional"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_so_overlay.php\')">' . $icone . '</div></a>';
+                $linkAdd = '<a href="#" title="Adicionar novo sistema operacional"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_so_overlay.php\')">' . $icone . '</div></a>';
                 $js = '<script src="javascript/add.so.js"></script>';
                 break;
             case "lista_office":
-                $linkAdd = '<a href="#" title="Adicionar novo Pacote Office"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_office_overlay.php\')">' . $icone . '</div></a>';
+                $linkAdd = '<a href="#" title="Adicionar novo pacote office"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_office_overlay.php\')">' . $icone . '</div></a>';
                 $js = '<script src="javascript/add.office.js"></script>';
+                break;
+            case "users":
+                if ($_SESSION['grupo'] == 1)
+                {
+                    $linkAdd = '<a href="#" title="Adicionar novo usuario"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_user_overlay.php\')">' . $icone . '</div></a>';
+                    $js = '<script src="javascript/add.user.js"></script>';
+                }
                 break;
             case "":
                 break;

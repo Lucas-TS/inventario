@@ -1,7 +1,7 @@
 let dadosTabela = [];
 let colunasSelecionadas = [];
 let nomeTabela = '';
-const colunasNaoExibirPorPadrao = ['Ativo', 'Geração', 'Socket', 'Seguimento', 'P-Cores', 'E-Cores', 'Turbo', 'Memória', 'Lacre', 'Garantia', 'Antivirus', 'Rede', 'IP', 'Inclusão', 'Atualizado',];let preferenciasAtuais = {
+const colunasNaoExibirPorPadrao = ['Geração', 'Socket', 'Seguimento', 'P-Cores', 'E-Cores', 'Turbo', 'Memória', 'Lacre', 'Garantia', 'Antivirus', 'Rede', 'IP', 'Inclusão', 'Atualizado',];let preferenciasAtuais = {
   colunas: [],
   resultadosPorPagina: 10
 };
@@ -22,19 +22,31 @@ window.addEventListener('load', function () {
 });
 
 function carregarPreferencias(nomeTabela) {
-  const cookies = document.cookie.split('; ');
-  const cookie = cookies.find(row => row.startsWith(`preferencias_${nomeTabela}=`));
-  if (cookie && paginaCarregada) {
-    const preferencias = JSON.parse(cookie.split('=')[1]);
-    preferenciasAtuais = preferencias;
-    paginaCarregada = false;
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(`preferencias_${nomeTabela}=`)) {
+          const preferencias = JSON.parse(cookie.replace(`preferencias_${nomeTabela}=`, ''));
+          preferenciasAtuais = preferencias;
+          return preferenciasAtuais;  // Retorna as preferências carregadas
+      }
   }
-  return preferenciasAtuais;
+  preferenciasAtuais = {
+      colunas: [],
+      resultadosPorPagina: 10,
+      filtroAtivo: true,
+      filtroInativo: true
+  };
+  return preferenciasAtuais;  // Retorna as preferências padrão
 }
 
-function salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina) {
-  preferenciasAtuais.colunas = colunasSelecionadas;
-  preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
+function salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina, filtroAtivo, filtroInativo) {
+  preferenciasAtuais = {
+      colunas: colunasSelecionadas,
+      resultadosPorPagina: resultadosPorPagina,
+      filtroAtivo: filtroAtivo,
+      filtroInativo: filtroInativo
+  };
   document.cookie = `preferencias_${nomeTabela}=${JSON.stringify(preferenciasAtuais)}; path=/; max-age=31536000`;
 }
 
@@ -43,108 +55,96 @@ function formatarMAC(enderecoMAC) {
 }
 
 function criarTabela(dados, colunasSelecionadas = null, nomeTabela) {
-  const todasColunas = Object.keys(dados[0]);
-  const colunasExcetoAtivo = todasColunas.filter(coluna => coluna.toLowerCase() !== "ativo");
-  const todasColunasExibidas = colunasExcetoAtivo.every(coluna => colunasSelecionadas.includes(coluna));
-
-  const tabela = document.createElement('table');
-  tabela.classList = 'tabela-lista';
-
-  const thead = document.createElement('thead');
-  const headerRow = document.createElement('tr');
-  const colunas = colunasSelecionadas || Object.keys(dados[0]);
-
-  colunas.forEach((coluna, indice) => {
-    const th = document.createElement('th');
-    th.dataset.coluna = coluna;
-
-    // Criar SVG manualmente
-    const setaSVGWrapper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    setaSVGWrapper.setAttribute("viewBox", "0 0 12 24");
-    setaSVGWrapper.setAttribute("class", "icon");
-
-    const path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path1.setAttribute("id", "primary");
-    path1.setAttribute("class", "ordem");
-    path1.setAttribute("d", "M 4.461298,0.73682249 0.27817068,6.8551356 A 1.9547326,1.9547326 0 0 0 1.6269362,9.7872345 H 9.993192 A 1.9547326,1.9547326 0 0 0 11.341957,6.8551356 L 7.15883,0.73682249 a 1.6028807,1.6028807 0 0 0 -2.697532,0 z");
-
-    const path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path2.setAttribute("id", "secondary");
-    path2.setAttribute("class", "ordem");
-    path2.setAttribute("d", "m 7.15883,22.713998 4.183127,-6.098766 A 1.9547326,1.9547326 0 0 0 9.993192,13.683133 H 1.6269362 A 1.9547326,1.9547326 0 0 0 0.27817068,16.615232 L 4.461298,22.713998 a 1.6028807,1.6028807 0 0 0 2.697532,0 z");
-
-    setaSVGWrapper.appendChild(path1);
-    setaSVGWrapper.appendChild(path2);
-
-    path1.addEventListener('click', () => {
-      ordenarTabela(dados, coluna, 'asc');
-    });
-    path2.addEventListener('click', () => {
-      ordenarTabela(dados, coluna, 'desc');
-    });
-
-    th.appendChild(setaSVGWrapper);
-
-    // Adicionar o título da coluna após as setas
-    const titulo = document.createTextNode(coluna);
-    th.appendChild(titulo);
-
-    headerRow.appendChild(th);
-  });
-
-  const thAcoes = document.createElement('th');
-  thAcoes.textContent = 'Ações';
-  headerRow.appendChild(thAcoes);
-
-  thead.appendChild(headerRow);
-  tabela.appendChild(thead);
-
-  const tbody = document.createElement('tbody');
-  dados.forEach(linha => {
-    const tr = document.createElement('tr');
-    colunas.forEach(coluna => {
-      const td = document.createElement('td');
-      let valor = linha[coluna] || '-';
-
-      if (coluna.toLowerCase().includes('mac')) {
-        valor = formatarMAC(valor);
-      }
-
-      if (coluna === "Situação") {
-
-        obterDetalhesSituacao(linha[coluna]);
-          td.innerHTML = `
-            <div class="situacao">
-            ${detalhes.svg} 
-            <span class="span-situacao" style="color: ${detalhes.cor};">${detalhes.texto}</span>
-            </div>`;
-      } else {
-        if (correspondenciaUnidades[coluna]) {
-          valor += ` ${correspondenciaUnidades[coluna]}`;
+    const todasColunas = Object.keys(dados[0]);
+    const colunasExcetoAtivo = todasColunas.filter(coluna => coluna.toLowerCase() !== "ativo");
+    const todasColunasExibidas = colunasExcetoAtivo.every(coluna => colunasSelecionadas.includes(coluna));
+    const tabela = document.createElement('table');
+    tabela.classList = 'tabela-lista';
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    const colunas = colunasSelecionadas || Object.keys(dados[0]);
+    colunas.forEach((coluna, indice) => {
+        const th = document.createElement('th');
+        th.dataset.coluna = coluna;
+        if (coluna === 'Ativo') {
+          th.style.width = '70px';
         }
-        td.textContent = valor;
-      }
-      tr.appendChild(td);
+        // Criar SVG manualmente
+        const setaSVGWrapper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        setaSVGWrapper.setAttribute("viewBox", "0 0 12 24");
+        setaSVGWrapper.setAttribute("class", "icon");
+        const path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path1.setAttribute("id", "primary");
+        path1.setAttribute("class", "ordem");
+        path1.setAttribute("d", "M 4.461298,0.73682249 0.27817068,6.8551356 A 1.9547326,1.9547326 0 0 0 1.6269362,9.7872345 H 9.993192 A 1.9547326,1.9547326 0 0 0 11.341957,6.8551356 L 7.15883,0.73682249 a 1.6028807,1.6028807 0 0 0 -2.697532,0 z");
+        const path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path2.setAttribute("id", "secondary");
+        path2.setAttribute("class", "ordem");
+        path2.setAttribute("d", "m 7.15883,22.713998 4.183127,-6.098766 A 1.9547326,1.9547326 0 0 0 9.993192,13.683133 H 1.6269362 A 1.9547326,1.9547326 0 0 0 0.27817068,16.615232 L 4.461298,22.713998 a 1.6028807,1.6028807 0 0 0 2.697532,0 z");
+        setaSVGWrapper.appendChild(path1);
+        setaSVGWrapper.appendChild(path2);
+        path1.addEventListener('click', () => {
+            ordenarTabela(dados, coluna, 'asc');
+        });
+        path2.addEventListener('click', () => {
+            ordenarTabela(dados, coluna, 'desc');
+        });
+        th.appendChild(setaSVGWrapper);
+        // Adicionar o título da coluna após as setas
+        const titulo = document.createTextNode(coluna);
+        th.appendChild(titulo);
+        headerRow.appendChild(th);
     });
-
-    const tdAcoes = document.createElement('td');
-    tdAcoes.classList = 'acoes';
-
-    // Condicionar a inclusão do link "Ver detalhes"
-    if (!todasColunasExibidas) {
-      tdAcoes.innerHTML = `<a title="Ver detalhes" class="icone-acao">${viewSVG}</a>`;
-    }
-
-    tdAcoes.innerHTML += `
-              <a title="Editar" class="icone-acao">${editSVG}</a>
-              <a title="Apagar" class="icone-acao apagar">${delSVG}</a>
-          `;
-    tr.appendChild(tdAcoes);
-
-    tbody.appendChild(tr);
-  });
-  tabela.appendChild(tbody);
-  return tabela;
+    const thAcoes = document.createElement('th');
+    thAcoes.textContent = 'Ações';
+    headerRow.appendChild(thAcoes);
+    thead.appendChild(headerRow);
+    tabela.appendChild(thead);
+    const tbody = document.createElement('tbody');
+    dados.forEach(linha => {
+        const tr = document.createElement('tr');
+        colunas.forEach(coluna => {
+            const td = document.createElement('td');
+            let valor = linha[coluna] || '-';
+            if (coluna.toLowerCase().includes('mac')) {
+                valor = formatarMAC(valor);
+            }
+            if (coluna === "Situação") {
+                obterDetalhesSituacao(linha[coluna]);
+                td.innerHTML = `
+                    <div class="situacao">
+                    ${detalhes.svg}
+                     <span class="span-situacao" style="color: ${detalhes.cor};">${detalhes.texto}</span>
+                    </div>`;
+            } else if (coluna === "Grupo") {
+                valor = linha[coluna] === '0' ? 'Usuários' : 'Administradores';
+                td.textContent = valor;
+            } else if (coluna === "Ativo") {
+                valor = linha[coluna] === '0' ? inativoSVG : ativoSVG;
+                td.innerHTML = valor;
+            } else {
+                if (correspondenciaUnidades[coluna]) {
+                    valor += ` ${correspondenciaUnidades[coluna]}`;
+                }
+                td.textContent = valor;
+            }
+            tr.appendChild(td);
+        });
+        const tdAcoes = document.createElement('td');
+        tdAcoes.classList = 'acoes';
+        // Condicionar a inclusão do link "Ver detalhes"
+        if (!todasColunasExibidas) {
+            tdAcoes.innerHTML = `<a title="Ver detalhes" class="icone-acao">${viewSVG}</a>`;
+        }
+        tdAcoes.innerHTML += `
+                <a title="Editar" class="icone-acao">${editSVG}</a>
+                <a title="Apagar" class="icone-acao apagar">${delSVG}</a>
+            `;
+        tr.appendChild(tdAcoes);
+        tbody.appendChild(tr);
+    });
+    tabela.appendChild(tbody);
+    return tabela;
 }
 
 function ordenarTabela(dados, coluna, ordem) {
@@ -237,17 +237,20 @@ async function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) 
       let data = await response.text();
       dadosTabela = JSON.parse(data);
       const preferencias = carregarPreferencias(nomeTabela);
+      console.log(preferencias);
       if (preferencias.colunas && preferencias.colunas.length > 0) {
-        preferenciasAtuais.colunas = preferencias.colunas;
-        preferenciasAtuais.resultadosPorPagina = preferencias.resultadosPorPagina;
-        paginaCarregada = false;
+        preferenciasAtuais = {
+          ...preferencias,
+          filtroAtivo: preferencias.filtroAtivo !== undefined ? preferencias.filtroAtivo : true,
+          filtroInativo: preferencias.filtroInativo !== undefined ? preferencias.filtroInativo : true
+        };
       } else {
-        if (colunasSelecionadas && colunasSelecionadas.length > 0) {
-          preferenciasAtuais.colunas = colunasSelecionadas;
-        } else {
-          preferenciasAtuais.colunas = Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
-        }
-        preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
+        preferenciasAtuais = {
+          colunas: colunasSelecionadas && colunasSelecionadas.length > 0 ? colunasSelecionadas : Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna)),
+          resultadosPorPagina: resultadosPorPagina,
+          filtroAtivo: true,
+          filtroInativo: true
+        };
       }
       renderizarTabela(dadosTabela, pagina, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, Object.keys(dadosTabela[0]));
     } catch (error) {
@@ -305,10 +308,21 @@ function mudarColunasSelecionadas(colunasSelecionadas) {
 }
 
 function renderizarTabela(dados, pagina, resultadosPorPagina, colunasSelecionadas = null, todasColunas = []) {
-  const total = dados.length;
+  const dadosFiltrados = dados.filter(item => {
+    if (preferenciasAtuais.filtroAtivo && preferenciasAtuais.filtroInativo) {
+        return true; // Exibir todos
+    } else if (preferenciasAtuais.filtroAtivo) {
+        return item.Ativo === '1';
+    } else if (preferenciasAtuais.filtroInativo) {
+        return item.Ativo === '0';
+    }
+    return false; // Não exibir nada se nenhum filtro estiver selecionado
+  });
+
+  const total = dadosFiltrados.length;
   const startIndex = (pagina - 1) * (resultadosPorPagina === 'todos' ? total : resultadosPorPagina);
   const endIndex = resultadosPorPagina === 'todos' ? total : startIndex + resultadosPorPagina;
-  const dadosPagina = dados.slice(startIndex, endIndex);
+  const dadosPagina = dadosFiltrados.slice(startIndex, endIndex);
 
   const tabela = criarTabela(dadosPagina, colunasSelecionadas, todasColunas);
   document.getElementById('tabela').innerHTML = '';

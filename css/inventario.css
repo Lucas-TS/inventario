@@ -1,3 +1,7 @@
+/* Arquivo CSS */
+/* inventario.css */
+/* Content-Type: text/css; charset=utf-8 */
+
 * {
    box-sizing: border-box;
 }
@@ -230,7 +234,6 @@ body {
    width: 16px;
    vertical-align: middle;
 }
-
 
 #PanelMenu1_markup li a .icon.seta, #PanelMenu1_markup li a .icon.sub {
    position: absolute;
@@ -1252,6 +1255,12 @@ label {
    margin-top: 30px;
 }
 
+.suggestions-box.gp-add-user {
+   width: 245px;
+   margin-left: 2px;
+   margin-top: 29px;
+}
+
 .suggestions-box.visivel {
    display: block;
 }
@@ -1561,4 +1570,27 @@ input[type="checkbox"].checkbox:not(:checked) + label span {
 
 .ordem.ativa {
    fill: #117095;
+}
+
+.avatar-preview {
+   border-radius: 50%;
+   width: 150px;
+   height: 150px;
+   object-fit: cover;
+}
+
+.gallery-item {
+   border-radius: 50%;
+   object-fit: cover;
+   padding: 5px;
+   width: 75px;
+   height: 75px;
+   cursor: pointer;
+}
+
+.gallery {
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
 }

@@ -24,6 +24,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
       unset($_SESSION['fullname']);
       unset($_SESSION['username']);
       unset($_SESSION['avatar']);
+      unset($_SESSION['grupo']);
       unset($_SESSION['expires_by']);
       unset($_SESSION['expires_timeout']);
    }

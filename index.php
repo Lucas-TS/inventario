@@ -1,13 +1,10 @@
 <?php
-if (isset ($_SESSION['avatar']))
-    {
-    $avatar = $_SESSION['avatar'];
-    }
-else
-    {
-    $avatar = 'images\avatar.png';
-    }
 session_start();
+if (isset ($_SESSION['avatar'])) {
+   $avatar = $_SESSION['avatar'];
+} else {
+   $avatar = 'images\avatar.png';
+}
 unset($_SESSION['url']);
 $url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION['username']))
@@ -29,6 +26,7 @@ if (isset($_SESSION['expires_by']))
       unset($_SESSION['fullname']);
       unset($_SESSION['username']);
       unset($_SESSION['avatar']);
+      unset($_SESSION['grupo']);
       unset($_SESSION['expires_by']);
       unset($_SESSION['expires_timeout']);
       $_SESSION['url'] = $url;

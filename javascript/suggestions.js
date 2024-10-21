@@ -62,6 +62,7 @@ async function showSuggestions(str1, str2) {
             break;
         case 'tipo-mem':
         case 'situacao':
+        case 'gp-add-user':
             return;
         default:
             if (str2.startsWith('modelo-monitor-')) {
