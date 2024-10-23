@@ -188,12 +188,12 @@ if (isset($_GET['n']) && $_GET['n'] == 'modelo-add-pv')
     $sql = "SELECT DISTINCT modelo AS lista FROM lista_placa_video WHERE modelo LIKE '%$q%' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
 }
 
-if (isset($_GET['n']) && $_GET['n'] == 'pg-add-mil')
+if (isset($_GET['n']) && ($_GET['n'] == 'pg-add-mil' || $_GET['n'] == 'pg-edit-mil'))
 {
     $sql = "SELECT id, CONCAT(abreviatura, ' - ', pg) AS lista FROM pg WHERE CONCAT(abreviatura, ' - ', pg) LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
 }
 
-if (isset($_GET['n']) && $_GET['n'] == 'sec-add-mil')
+if (isset($_GET['n']) && ($_GET['n'] == 'sec-add-mil' || $_GET['n'] == 'sec-edit-mil'))
 {
     $sql = "SELECT id, CONCAT(sigla, ' - ', nome) AS lista FROM secao WHERE CONCAT(sigla, ' - ', nome) LIKE '%$q%' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
 }

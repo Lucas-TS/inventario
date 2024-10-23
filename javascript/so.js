@@ -181,20 +181,26 @@ async function insertSO(event) {
                 <span>Adicionar Sistema Operacional</span>
                 <div id="botoes">
                     <div id="b-line-header-1" class="b-line">
-                    <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="closeOverlay()">${addSVG}</a></div>
+                        <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon">
+                            <a title="Fechar" href="#" onclick="closeOverlay()">${addSVG}</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="linha-1" class="linha fim">`;
-        if (nome === 'Windows') {
-            mensagem += `<div id="h-line-add-so-1" class="h-line centralizado">${dev} ${nome} ${versao} ${ed} ${arq} inserido com sucesso!</div>`
-        } else {
-            mensagem += `<div id="h-line-add-so-1" class="h-line centralizado">${dev} ${nome} ${distro} ${versao} ${ed} ${arq} inserido com sucesso!</div>`
-        }
-        mensagem += `</div>
-        <div id="linha-2" class="linha fim centralizado">
-            <div id="b-line-1" class="b-line">
-                <div id="okOverlay" class="large-button adjust-position flex-center"><a title="Ok" href="#" onclick="closeOverlay()">${okSVG}</a></div>
+            <div id="linha-1" class="linha fim">`;
+            if (nome === 'Windows') {
+                mensagem += `<div id="h-line-add-so-1" class="h-line centralizado">${dev} ${nome} ${versao} ${ed} ${arq} inserido com sucesso!</div>`
+            } else {
+                mensagem += `<div id="h-line-add-so-1" class="h-line centralizado">${dev} ${nome} ${distro} ${versao} ${ed} ${arq} inserido com sucesso!</div>`
+            }
+        mensagem += `
+            </div>
+            <div id="linha-2" class="linha fim centralizado">
+                <div id="b-line-1" class="b-line">
+                    <div id="okOverlay" class="large-button adjust-position flex-center">
+                        <a title="Ok" href="#" onclick="closeOverlay()">${okSVG}</a>
+                    </div>
+                </div>
             </div>
         </div>
         `;

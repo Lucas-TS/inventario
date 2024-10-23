@@ -42,16 +42,21 @@ async function insertPv(event) {
                 <span>Adicionar Placa de Vídeo</span>
                 <div id="botoes">
                     <div id="b-line-header-1" class="b-line">
-                    <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="closeOverlay()">${addSVG}</a></div>
+                        <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon">
+                            <a title="Fechar" href="#" onclick="closeOverlay()">${addSVG}</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="linha-1" class="linha fim">
-            <div id="h-line-add-pv-1" class="h-line centralizado">${marca} ${chipset} ${modelo} ${memoria} inserida com sucesso!</div>
-        </div>
-        <div id="linha-2" class="linha fim centralizado">
-            <div id="b-line-1" class="b-line">
-                <div id="okOverlay" class="large-button adjust-position flex-center"><a title="Ok" href="#" onclick="closeOverlay()">${okSVG}</a></div>
+            <div id="linha-1" class="linha fim">
+                <div id="h-line-add-pv-1" class="h-line centralizado">${marca} ${chipset} ${modelo} ${memoria} inserida com sucesso!</div>
+            </div>
+            <div id="linha-2" class="linha fim centralizado">
+                <div id="b-line-1" class="b-line">
+                    <div id="okOverlay" class="large-button adjust-position flex-center">
+                        <a title="Ok" href="#" onclick="closeOverlay()">${okSVG}</a>
+                    </div>
+                </div>
             </div>
         </div>
         `;

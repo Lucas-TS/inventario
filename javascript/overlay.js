@@ -1,7 +1,62 @@
 function exibirOverlay(pagina) {
-    ShowObjectWithEffect('overlay', 1, 'fade', 200);
-    paginaOverlay(pagina);
-    return false;
+    return new Promise((resolve) => {
+        ShowObjectWithEffect('overlay', 1, 'fade', 200);
+        paginaOverlay(pagina);
+        setTimeout(resolve, 200); // Tempo ajustado conforme o fade
+    });
+}
+
+
+function exibirOverlayEditar(id, tabela) {
+    let arquivo = './overlay/';
+    switch (tabela) {
+        case 'militares':
+            arquivo += 'edit_mil_overlay.php';
+            editarMilOverlay(id, arquivo);
+            break;
+        case 'secao':
+            arquivo += 'edit_sec_overlay.php';
+            editarSecOverlay(id, arquivo);
+            break;
+        case 'users':
+            arquivo += 'edit_user_overlay.php';
+            editarUserOverlay(id, arquivo);
+            break;
+        case 'lista_hd':
+            arquivo += 'edit_hd_overlay.php';
+            editarHdOverlay(id, arquivo);
+            break;
+        case 'lista_monitor':
+            arquivo += 'edit_mon_overlay.php';
+            editarMonOverlay(id, arquivo);
+            break;
+        case 'lista_office':
+            arquivo += 'edit_office_overlay.php';
+            editarOfficeOverlay(id, arquivo);
+            break;
+        case 'lista_placa_video':
+            arquivo += 'edit_pv_overlay.php';
+            editarPvOverlay(id, arquivo);
+            break;
+        case 'lista_processador':
+            arquivo += 'edit_proc_overlay.php';
+            editarProcOverlay(id, arquivo);
+            break;
+        case 'lista_so':
+            arquivo += 'edit_so_overlay.php';
+            editarSOOverlay(id, arquivo);
+            break;
+        case 'lista_ssd':
+            arquivo += 'edit_ssd_overlay.php';
+            editarSsdOverlay(id, arquivo);
+            break;
+        case 'computadores':
+            arquivo = './edit_pc.php';
+            window.location.href = arquivo; // Redirecionar para a página
+            break;
+        default:
+            return;
+    }
 }
 
 function paginaOverlay(nomeArquivo) {
@@ -106,24 +161,24 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
 
     overlayContent += `
         <div id="linha-3" class="linha">
-            <div id="h-line-filtro-3" class="h-line">Salvar Configuração:</div>
+            <div id="h-line-filtro-3" class="h-line">Filtrar por status:</div>
             <div id="b-line-filtro-3" class="b-line">
-                <input type="radio" id="salvar-sim" name="salvarConfiguracao" class="radio" value="sim" checked>
-                <label for="salvar-sim"><span></span>Sim</label>
-                <input type="radio" id="salvar-nao" name="salvarConfiguracao" class="radio" value="nao">
-                <label for="salvar-nao"><span></span>Não</label>
+                <input type="checkbox" id="filtro-ativo" name="filtroAtivo" class="checkbox" value="1" ${preferenciasAtuais.filtroAtivo ? 'checked' : ''}>
+                <label for="filtro-ativo"><span></span>Ativo</label>
+                <input type="checkbox" id="filtro-inativo" name="filtroInativo" class="checkbox" value="0" ${preferenciasAtuais.filtroInativo ? 'checked' : ''}>
+                <label for="filtro-inativo"><span></span>Inativo</label>
             </div>
         </div>
     `;
 
     overlayContent += `
         <div id="linha-4" class="linha">
-            <div id="h-line-filtro-4" class="h-line">Filtrar por status:</div>
+            <div id="h-line-filtro-4" class="h-line">Salvar Configuração:</div>
             <div id="b-line-filtro-4" class="b-line">
-                <input type="checkbox" id="filtro-ativo" name="filtroAtivo" class="checkbox" value="1" ${preferenciasAtuais.filtroAtivo ? 'checked' : ''}>
-                <label for="filtro-ativo"><span></span>Ativo</label>
-                <input type="checkbox" id="filtro-inativo" name="filtroInativo" class="checkbox" value="0" ${preferenciasAtuais.filtroInativo ? 'checked' : ''}>
-                <label for="filtro-inativo"><span></span>Inativo</label>
+                <input type="radio" id="salvar-sim" name="salvarConfiguracao" class="radio" value="sim" checked>
+                <label for="salvar-sim"><span></span>Sim</label>
+                <input type="radio" id="salvar-nao" name="salvarConfiguracao" class="radio" value="nao">
+                <label for="salvar-nao"><span></span>Não</label>
             </div>
         </div>
     `;

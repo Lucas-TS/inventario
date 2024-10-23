@@ -35,7 +35,7 @@ function carregarPreferencias(nomeTabela) {
       colunas: [],
       resultadosPorPagina: 10,
       filtroAtivo: true,
-      filtroInativo: true
+      filtroInativo: false  // Por padrão, não exibir inativos
   };
   return preferenciasAtuais;  // Retorna as preferências padrão
 }
@@ -54,97 +54,114 @@ function formatarMAC(enderecoMAC) {
   return enderecoMAC.match(/.{1,2}/g).join(':');
 }
 
-function criarTabela(dados, colunasSelecionadas = null, nomeTabela) {
-    const todasColunas = Object.keys(dados[0]);
-    const colunasExcetoAtivo = todasColunas.filter(coluna => coluna.toLowerCase() !== "ativo");
-    const todasColunasExibidas = colunasExcetoAtivo.every(coluna => colunasSelecionadas.includes(coluna));
-    const tabela = document.createElement('table');
-    tabela.classList = 'tabela-lista';
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    const colunas = colunasSelecionadas || Object.keys(dados[0]);
-    colunas.forEach((coluna, indice) => {
-        const th = document.createElement('th');
-        th.dataset.coluna = coluna;
-        if (coluna === 'Ativo') {
+function criarTabela(dados, colunasSelecionadas = null, todasColunas) {
+  const colunasExcetoAtivoEId = todasColunas.filter(coluna => coluna.toLowerCase() !== "ativo" && coluna !== "id_link");
+  const todasColunasExibidas = colunasExcetoAtivoEId.every(coluna => colunasSelecionadas.includes(coluna));
+
+  const tabela = document.createElement('table');
+  tabela.classList = 'tabela-lista';
+  
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  const colunas = colunasSelecionadas || Object.keys(dados[0]);
+  
+  colunas.forEach((coluna, indice) => {
+      const th = document.createElement('th');
+      th.dataset.coluna = coluna;
+      if (coluna === 'Ativo') {
           th.style.width = '70px';
-        }
-        // Criar SVG manualmente
-        const setaSVGWrapper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        setaSVGWrapper.setAttribute("viewBox", "0 0 12 24");
-        setaSVGWrapper.setAttribute("class", "icon");
-        const path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path1.setAttribute("id", "primary");
-        path1.setAttribute("class", "ordem");
-        path1.setAttribute("d", "M 4.461298,0.73682249 0.27817068,6.8551356 A 1.9547326,1.9547326 0 0 0 1.6269362,9.7872345 H 9.993192 A 1.9547326,1.9547326 0 0 0 11.341957,6.8551356 L 7.15883,0.73682249 a 1.6028807,1.6028807 0 0 0 -2.697532,0 z");
-        const path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path2.setAttribute("id", "secondary");
-        path2.setAttribute("class", "ordem");
-        path2.setAttribute("d", "m 7.15883,22.713998 4.183127,-6.098766 A 1.9547326,1.9547326 0 0 0 9.993192,13.683133 H 1.6269362 A 1.9547326,1.9547326 0 0 0 0.27817068,16.615232 L 4.461298,22.713998 a 1.6028807,1.6028807 0 0 0 2.697532,0 z");
-        setaSVGWrapper.appendChild(path1);
-        setaSVGWrapper.appendChild(path2);
-        path1.addEventListener('click', () => {
-            ordenarTabela(dados, coluna, 'asc');
-        });
-        path2.addEventListener('click', () => {
-            ordenarTabela(dados, coluna, 'desc');
-        });
-        th.appendChild(setaSVGWrapper);
-        // Adicionar o título da coluna após as setas
-        const titulo = document.createTextNode(coluna);
-        th.appendChild(titulo);
-        headerRow.appendChild(th);
-    });
-    const thAcoes = document.createElement('th');
-    thAcoes.textContent = 'Ações';
-    headerRow.appendChild(thAcoes);
-    thead.appendChild(headerRow);
-    tabela.appendChild(thead);
-    const tbody = document.createElement('tbody');
-    dados.forEach(linha => {
-        const tr = document.createElement('tr');
-        colunas.forEach(coluna => {
-            const td = document.createElement('td');
-            let valor = linha[coluna] || '-';
-            if (coluna.toLowerCase().includes('mac')) {
-                valor = formatarMAC(valor);
-            }
-            if (coluna === "Situação") {
-                obterDetalhesSituacao(linha[coluna]);
-                td.innerHTML = `
-                    <div class="situacao">
-                    ${detalhes.svg}
-                     <span class="span-situacao" style="color: ${detalhes.cor};">${detalhes.texto}</span>
-                    </div>`;
-            } else if (coluna === "Grupo") {
-                valor = linha[coluna] === '0' ? 'Usuários' : 'Administradores';
-                td.textContent = valor;
-            } else if (coluna === "Ativo") {
-                valor = linha[coluna] === '0' ? inativoSVG : ativoSVG;
-                td.innerHTML = valor;
-            } else {
-                if (correspondenciaUnidades[coluna]) {
-                    valor += ` ${correspondenciaUnidades[coluna]}`;
-                }
-                td.textContent = valor;
-            }
-            tr.appendChild(td);
-        });
-        const tdAcoes = document.createElement('td');
-        tdAcoes.classList = 'acoes';
-        // Condicionar a inclusão do link "Ver detalhes"
-        if (!todasColunasExibidas) {
-            tdAcoes.innerHTML = `<a title="Ver detalhes" class="icone-acao">${viewSVG}</a>`;
-        }
-        tdAcoes.innerHTML += `
-                <a title="Editar" class="icone-acao">${editSVG}</a>
-                <a title="Apagar" class="icone-acao apagar">${delSVG}</a>
-            `;
-        tr.appendChild(tdAcoes);
-        tbody.appendChild(tr);
-    });
-    tabela.appendChild(tbody);
-    return tabela;
+      }
+      // Criar SVG manualmente
+      const setaSVGWrapper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      setaSVGWrapper.setAttribute("viewBox", "0 0 12 24");
+      setaSVGWrapper.setAttribute("class", "icon");
+      
+      const path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path1.setAttribute("id", "primary");
+      path1.setAttribute("class", "ordem");
+      path1.setAttribute("d", "M 4.461298,0.73682249 0.27817068,6.8551356 A 1.9547326,1.9547326 0 0 0 1.6269362,9.7872345 H 9.993192 A 1.9547326,1.9547326 0 0 0 11.341957,6.8551356 L 7.15883,0.73682249 a 1.6028807,1.6028807 0 0 0 -2.697532,0 z");
+      
+      const path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path2.setAttribute("id", "secondary");
+      path2.setAttribute("class", "ordem");
+      path2.setAttribute("d", "m 7.15883,22.713998 4.183127,-6.098766 A 1.9547326,1.9547326 0 0 0 9.993192,13.683133 H 1.6269362 A 1.9547326,1.9547326 0 0 0 0.27817068,16.615232 L 4.461298,22.713998 a 1.6028807,1.6028807 0 0 0 2.697532,0 z");
+      
+      setaSVGWrapper.appendChild(path1);
+      setaSVGWrapper.appendChild(path2);
+      
+      path1.addEventListener('click', () => {
+          ordenarTabela(dados, coluna, 'asc');
+      });
+      
+      path2.addEventListener('click', () => {
+          ordenarTabela(dados, coluna, 'desc');
+      });
+      
+      th.appendChild(setaSVGWrapper);
+      
+      // Adicionar o título da coluna após as setas
+      const titulo = document.createTextNode(coluna);
+      th.appendChild(titulo);
+      headerRow.appendChild(th);
+  });
+  
+  const thAcoes = document.createElement('th');
+  thAcoes.textContent = 'Ações';
+  headerRow.appendChild(thAcoes);
+  thead.appendChild(headerRow);
+  tabela.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  dados.forEach(linha => {
+      const tr = document.createElement('tr');
+
+      colunas.forEach(coluna => {
+          const td = document.createElement('td');
+          let valor = linha[coluna] || '-';
+          if (coluna.toLowerCase().includes('mac')) {
+              valor = formatarMAC(valor);
+          }
+          if (coluna === "Situação") {
+              obterDetalhesSituacao(linha[coluna]);
+              td.innerHTML = `
+                  <div class="situacao">
+                  ${detalhes.svg} 
+                  <span class="span-situacao" style="color: ${detalhes.cor};">${detalhes.texto}</span>
+                  </div>`;
+          } else if (coluna === "Grupo") {
+              valor = linha[coluna] === '0' ? 'Usuários' : 'Administradores';
+              td.textContent = valor;
+          } else if (coluna === "Ativo") {
+              valor = linha[coluna] === '0' ? inativoSVG : ativoSVG;
+              td.innerHTML = valor;
+          } else {
+              if (correspondenciaUnidades[coluna]) {
+                  valor += ` ${correspondenciaUnidades[coluna]}`;
+              }
+              td.textContent = valor;
+          }
+          tr.appendChild(td);
+      });
+
+      const tdAcoes = document.createElement('td');
+      tdAcoes.classList = 'acoes';
+      
+      // Condicionar a inclusão do link "Ver detalhes"
+      if (!todasColunasExibidas) {
+        tdAcoes.innerHTML = `<a title="Ver detalhes" class="icone-acao" onclick="verItem(${linha.id_link}, '${nomeTabela}')">${viewSVG}</a>`;
+      }
+
+      tdAcoes.innerHTML += `
+              <a title="Editar" class="icone-acao" onclick="exibirOverlayEditar(${linha.id_link}, '${nomeTabela}')">${editSVG}</a>
+              <a title="Apagar" class="icone-acao apagar" onclick="confirmaApagar(${linha.id_link}, '${nomeTabela}')">${delSVG}</a>
+          `;
+
+      tr.appendChild(tdAcoes);
+      tbody.appendChild(tr);
+  });
+
+  tabela.appendChild(tbody);
+  return tabela;
 }
 
 function ordenarTabela(dados, coluna, ordem) {
@@ -225,52 +242,37 @@ function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
 }
 
 async function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
-  if (!verificarSeTabelaExiste(nomeTabela)) {
-    document.getElementById('tabela').innerHTML = 'A tabela "' + nomeTabela + '" não existe!';
-    return;
-  }
-
-  if (dadosTabela.length === 0) {
-    try {
-      let response = await fetch(`./includes/cria_tabela.php?tabela=${nomeTabela}`);
-      if (!response.ok) throw new Error('Erro ao carregar a tabela.');
-      let data = await response.text();
-      dadosTabela = JSON.parse(data);
-      const preferencias = carregarPreferencias(nomeTabela);
-      console.log(preferencias);
-      if (preferencias.colunas && preferencias.colunas.length > 0) {
-        preferenciasAtuais = {
-          ...preferencias,
-          filtroAtivo: preferencias.filtroAtivo !== undefined ? preferencias.filtroAtivo : true,
-          filtroInativo: preferencias.filtroInativo !== undefined ? preferencias.filtroInativo : true
-        };
-      } else {
-        preferenciasAtuais = {
-          colunas: colunasSelecionadas && colunasSelecionadas.length > 0 ? colunasSelecionadas : Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna)),
-          resultadosPorPagina: resultadosPorPagina,
-          filtroAtivo: true,
-          filtroInativo: true
-        };
-      }
-      renderizarTabela(dadosTabela, pagina, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, Object.keys(dadosTabela[0]));
-    } catch (error) {
-      alert(error.message);
+  try {
+    if (!await verificarSeTabelaExiste(nomeTabela)) {
+      document.getElementById('tabela').innerHTML = 'A tabela "' + nomeTabela + '" não existe!';
+      return;
     }
-  } else {
+    let response = await fetch(`./includes/cria_tabela.php?tabela=${nomeTabela}`);
+    if (!response.ok) throw new Error('Erro ao carregar a tabela.');
+    let data = await response.text();
+    dadosTabela = JSON.parse(data);
+    
     const preferencias = carregarPreferencias(nomeTabela);
-    if (preferencias) {
-      preferenciasAtuais.colunas = preferencias.colunas;
-      preferenciasAtuais.resultadosPorPagina = preferencias.resultadosPorPagina;
+    if (preferencias && preferencias.colunas && preferencias.colunas.length > 0) {
+      preferenciasAtuais = {
+        ...preferencias,
+        filtroAtivo: preferencias.filtroAtivo !== undefined ? preferencias.filtroAtivo : true,
+        filtroInativo: preferencias.filtroInativo !== undefined ? preferencias.filtroInativo : false
+      };
     } else {
-      if (colunasSelecionadas) {
-        preferenciasAtuais.colunas = colunasSelecionadas;
-      } else {
-        preferenciasAtuais.colunas = Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna));
-      }
-      preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
+      preferenciasAtuais = {
+        colunas: colunasSelecionadas && colunasSelecionadas.length > 0 
+          ? colunasSelecionadas 
+          : Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna)),
+        resultadosPorPagina: resultadosPorPagina,
+        filtroAtivo: true,
+        filtroInativo: false
+      };
     }
-
     renderizarTabela(dadosTabela, pagina, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, Object.keys(dadosTabela[0]));
+  } catch (error) {
+    console.error('Erro ao carregar tabela:', error);
+    document.getElementById('tabela').innerHTML = 'Erro ao carregar a tabela. Por favor, tente novamente mais tarde.';
   }
 }
 
@@ -324,7 +326,16 @@ function renderizarTabela(dados, pagina, resultadosPorPagina, colunasSelecionada
   const endIndex = resultadosPorPagina === 'todos' ? total : startIndex + resultadosPorPagina;
   const dadosPagina = dadosFiltrados.slice(startIndex, endIndex);
 
-  const tabela = criarTabela(dadosPagina, colunasSelecionadas, todasColunas);
+  // Garantir que 'id' esteja sempre presente nos dados passados para criarTabela
+  const dadosComId = dadosPagina.map(item => {
+    const itemComId = { id_link: item.ID };
+    colunasSelecionadas.forEach(coluna => {
+      itemComId[coluna] = item[coluna];
+    });
+    return itemComId;
+  });
+
+  const tabela = criarTabela(dadosComId, colunasSelecionadas, todasColunas);
   document.getElementById('tabela').innerHTML = '';
   document.getElementById('tabela').appendChild(tabela);
 
@@ -399,21 +410,29 @@ function obterDetalhesSituacao(situacao) {
   });
 }
 
+let tabelaCarregada = false;
+
 $(document).ready(function () {
-  // Eventos para overlay de filtros
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  nomeTabela = urlParams.get('tabela'); // Definindo nomeTabela aqui
-  carregarTabela(nomeTabela);
+  // Primeiro trecho: carregar SVGs
+  loadAllSVGs()
+      .then(() => {          
+          // Definir nomeTabela
+          const queryString = window.location.search;
+          const urlParams = new URLSearchParams(queryString);
+          nomeTabela = urlParams.get('tabela'); // Definindo nomeTabela aqui
 
-  $('#resultadosPorPagina').change(function () {
-    const resultadosPorPagina = $(this).val();
-    carregarTabela(nomeTabela, 1, resultadosPorPagina);
-  });
-});
+          // Chamando carregarTabela após SVGs carregados e apenas se não estiver carregada
+          if (typeof carregarTabela === 'function' && typeof nomeTabela !== 'undefined' && !tabelaCarregada) {
+              carregarTabela(nomeTabela).catch(error => {
+                  console.error('Erro ao carregar tabela:', error);
+              });
+              tabelaCarregada = true; // Atualiza o estado para evitar chamadas duplas
+          }
 
-$(window).on('load', function () {
-  if (paginaCarregada) {
-    carregarTabela(nomeTabela);
-  }
+          $('#resultadosPorPagina').change(function () {
+              const resultadosPorPagina = $(this).val();
+              carregarTabela(nomeTabela, 1, resultadosPorPagina);
+          });
+      })
+      .catch(error => console.error('Erro ao carregar SVGs:', error));
 });

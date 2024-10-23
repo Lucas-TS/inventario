@@ -106,45 +106,45 @@ if (isset($_SESSION['expires_by']))
                 break;
             case "lista_processador":
                 $linkAdd = '<a href="#" title="Adicionar novo processador"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_proc_overlay.php\')">' . $icone . '</div></a>';
-                $js = '<script src="javascript/add.proc.js"></script>';
+                $js = '<script src="javascript/processador.js"></script>';
                 break;
             case "lista_placa_video":
                 $linkAdd = '<a href="#" title="Adicionar nova placa de vídeo"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_pv_overlay.php\')">' . $icone . '</div></a>';
-                $js = '<script src="javascript/add.pv.js"></script>';
+                $js = '<script src="javascript/placa.video.js"></script>';
                 break;
             case "militares":
                 $linkAdd = '<a href="#" title="Adicionar novo militar"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_mil_overlay.php\')">' . $icone . '</div></a>';
-                $js = '<script src="javascript/add.mil.js"></script>';
+                $js = '<script src="javascript/militar.js"></script>';
                 break;
             case "secao":
                 $linkAdd = '<a href="#" title="Adicionar nova seção"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_sec_overlay.php\')">' . $icone . '</div></a>';
-                $js = '<script src="javascript/add.sec.js"></script>';
+                $js = '<script src="javascript/secao.js"></script>';
                 break;
             case "lista_monitor":
                 $linkAdd = '<a href="#" title="Adicionar novo monitor"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_mon_overlay.php\')">' . $icone . '</div></a>';
-                $js = '<script src="javascript/add.mon.js"></script>';
+                $js = '<script src="javascript/monitor.js"></script>';
                 break;
             case "lista_hd":
                 $linkAdd = '<a href="#" title="Adicionar novo HD"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_hd_overlay.php\')">' . $icone . '</div></a>';
-                $js = '<script src="javascript/add.hd.js"></script>';
+                $js = '<script src="javascript/hd.js"></script>';
                 break;
             case "lista_ssd":
                 $linkAdd = '<a href="#" title="Adicionar novo SSD"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_ssd_overlay.php\')">' . $icone . '</div></a>';
-                $js = '<script src="javascript/add.ssd.js"></script>';
+                $js = '<script src="javascript/ssd.js"></script>';
                 break;
             case "lista_so":
                 $linkAdd = '<a href="#" title="Adicionar novo sistema operacional"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_so_overlay.php\')">' . $icone . '</div></a>';
-                $js = '<script src="javascript/add.so.js"></script>';
+                $js = '<script src="javascript/so.js"></script>';
                 break;
             case "lista_office":
                 $linkAdd = '<a href="#" title="Adicionar novo pacote office"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_office_overlay.php\')">' . $icone . '</div></a>';
-                $js = '<script src="javascript/add.office.js"></script>';
+                $js = '<script src="javascript/office.js"></script>';
                 break;
             case "users":
                 if ($_SESSION['grupo'] == 1)
                 {
                     $linkAdd = '<a href="#" title="Adicionar novo usuario"><div id="adicionar" class="balao" onclick="exibirOverlay(\'./overlay/add_user_overlay.php\')">' . $icone . '</div></a>';
-                    $js = '<script src="javascript/add.user.js"></script>';
+                    $js = '<script src="javascript/user.js"></script>';
                 }
                 break;
             case "":
@@ -163,6 +163,7 @@ if (isset($_SESSION['expires_by']))
     </footer>
     <script src="javascript/suggestions.js"></script>
     <?php echo $js; ?>
+    <script src="javascript/apagar.item.js"></script>
     <script src="javascript/placeholder.js"></script>
     <script src="javascript/overlay.js"></script>
     <script src="javascript/masks.js"></script>

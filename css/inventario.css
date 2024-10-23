@@ -815,10 +815,10 @@ label {
 }
 
 .botao-numero, .botao-atual, .botao-seta {
-   height: 24px;
-   width: 24px;
+   height: 28px;
+   width: 28px;
    font-size: 16px;
-   border-radius: 5px;
+   border-radius: 50%;
    text-align: center;
    display: flex;
    align-items: center;
@@ -849,15 +849,19 @@ label {
    fill: #117095;
    width: 16px;
    height: 16px;
-   vertical-align: text-bottom
+   vertical-align: text-bottom;
+   position: relative;
+   bottom: 1px;
 }
 
 #seta-pagina.proxima {
    transform: rotate(270deg);
+   left: 1px;
 }
 
 #seta-pagina.anterior {
    transform: rotate(90deg);
+   right: 1px;
 }
 
 #icone.ordem {
@@ -1371,7 +1375,7 @@ label {
    color: #158CBA;
 }
 
-.h-line.centralizado {
+.h-line.centralizado, .b-line.centralizado {
    justify-content: center;
 }
 
