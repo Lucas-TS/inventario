@@ -45,7 +45,7 @@ async function insertSec(event) {
                 </div>
             </div>
             <div id="linha-1" class="linha fim">
-                <div id="h-line-add-sec-1" class="h-line centralizado">${sigla} inserida com sucesso!</div>
+                <div id="h-line-add-sec-1" class="b-line centralizado">${sigla} inserida com sucesso!</div>
             </div>
             <div id="linha-2" class="linha fim centralizado">
                 <div id="b-line-1" class="b-line">
@@ -90,7 +90,7 @@ async function editarSecOverlay(id, arquivo) {
         }
         let data = await response.json(); // Converte a resposta para JSON
         //Preenche os campos do formulário com os dados retornados
-        document.getElementById('hidden-id-edit-sec').value = data.id;
+        document.getElementById('id-edit-sec').value = data.id;
         document.getElementById('nome-edit-sec').value = data.nome;
         document.getElementById('sigla-edit-sec').value = data.sigla;
         if (data.ativo === 1) {
@@ -107,20 +107,16 @@ async function editarSec(event) {
 
     // Capturar valor do campo de texto ou definir como nulo
     let funcao = 'editar';
-    let id = document.getElementById('hidden-id-edit-mil').value;
-    let nc = document.getElementById('nc-edit-mil').value;
-    let id_pg = document.getElementById('hidden-pg-edit-mil').value;
-    let ng = document.getElementById('ng-edit-mil').value;
-    let id_sec = document.getElementById('hidden-sec-edit-mil').value;
-    let ativo = document.getElementById('ativo-edit-mil').checked ? '1' : '0';
+    let id = document.getElementById('id-edit-sec').value;
+    let nome = document.getElementById('nome-edit-sec').value;
+    let sigla = document.getElementById('sigla-edit-sec').value;
+    let ativo = document.getElementById('ativo-edit-sec').checked ? '1' : '0';
 
     let formData = {
         funcao: funcao,
         id: id,
-        nc: nc,
-        pg: id_pg,
-        ng: ng,
-        sec: id_sec,
+        nome: nome,
+        sigla: sigla,
         ativo: ativo,
     };
 
@@ -135,16 +131,16 @@ async function editarSec(event) {
 
         if (!response.ok) {
             if (response.status === 409) {
-                throw new Error('Erro ao atualizar os dados do militar.');
+                throw new Error('Erro ao atualizar os dados da seção.');
             }
         }
 
         let responseData = await response.json();
         let overlay = document.getElementById('overlay');
         overlay.innerHTML = `
-        <div id="add_mil" class="bloco-overlay">
+        <div id="add_sec" class="bloco-overlay">
             <div class="header">
-                <span>Adicionar Militar</span>
+                <span>Editar Seção</span>
                 <div id="botoes">
                     <div id="b-line-header-1" class="b-line">
                         <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon">
@@ -154,7 +150,7 @@ async function editarSec(event) {
                 </div>
             </div>
             <div id="linha-1" class="linha fim">
-                <div id="h-line-add-mil-1" class="h-line centralizado">${responseData.mensagem}</div>
+                <div id="h-line-add-sec-1" class="b-line centralizado">${responseData.mensagem}</div>
             </div>
             <div id="linha-2" class="linha fim centralizado">
                 <div id="b-line-1" class="b-line">

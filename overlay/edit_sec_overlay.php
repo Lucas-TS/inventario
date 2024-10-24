@@ -9,18 +9,24 @@
             </div>
         </div>
         <div id="linha-1" class="linha">
-            <div id="h-line-edit-sec-1" class="h-line">Informações básicas:</div>
-            <input id="hidden-id-edit-sec" name="hidden-id-edit-sec" type="hidden" value="">
-            <div id="b-line-edit-sec-1" class="b-line"><label class="label" for="sigla-edit-sec">Sigla:</label>
+            <div id="h-line-edit-sec-1" class="h-line">Cadastro:</div>
+            <div id="b-line-edit-sec-2" class="b-line"><label class="label" for="id-edit-sec">ID:</label>
+                <input id="id-edit-sec" name="id-edit-sec" type="text" class="input" placeholder="" readonly title="ID">
+            </div>
+            <div id="h-spacer"></div>
+            <div id="b-line-edit-sec-2" class="b-line">
+                <input type="checkbox" id="ativo-edit-sec" class="checkbox" value="1">
+                <label for="ativo-edit-sec"><span></span>Ativo</label>
+            </div>
+        </div>
+        <div id="linha-2" class="linha">
+            <div id="h-line-edit-sec-3" class="h-line">Informações básicas:</div>
+            <div id="b-line-edit-sec-4" class="b-line"><label class="label" for="sigla-edit-sec">Sigla:</label>
                 <input id="sigla-edit-sec" name="sigla-edit-sec" type="text" class="input" placeholder="Digite a sigla" style="width:150px" required title="Ex.: STIC, SECOD, DP, DAEC">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-edit-sec-2" class="b-line" style="flex:1"><label class="label" for="nome-edit-sec">Nome completo:</label>
+            <div id="b-line-edit-sec-5" class="b-line" style="flex:1"><label class="label" for="nome-edit-sec">Nome completo:</label>
                 <input id="nome-edit-sec" name="nome-edit-sec" type="text" class="input" placeholder="Digite o nome completo da seção" style="width:100%" required title="Nome da seção">
-            </div>
-            <div id="b-line-edit-sec-3" class="b-line" style="flex-basis:100%">
-                <input type="checkbox" id="ativo-edit-sec" class="checkbox" value="1">
-                <label for="ativo-edit-sec"><span></span>Ativo</label>
             </div>
         </div>
         <div id="linha-4" class="linha fim botoes">

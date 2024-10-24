@@ -49,7 +49,7 @@ async function insertMil(event) {
                 </div>
             </div>
             <div id="linha-1" class="linha fim">
-                <div id="h-line-add-mil-1" class="h-line centralizado">${pg} ${ng} inserido com sucesso!</div>
+                <div id="h-line-add-mil-1" class="b-line centralizado">${pg} ${ng} inserido com sucesso!</div>
             </div>
             <div id="linha-2" class="linha fim centralizado">
                 <div id="b-line-1" class="b-line">
@@ -94,7 +94,7 @@ async function editarMilOverlay(id, arquivo) {
         }
         let data = await response.json(); // Converte a resposta para JSON
         //Preenche os campos do formulário com os dados retornados
-        document.getElementById('hidden-id-edit-mil').value = data.id;
+        document.getElementById('id-edit-mil').value = data.id;
         document.getElementById('nc-edit-mil').value = data.nome_completo;
         document.getElementById('ng-edit-mil').value = data.nome_guerra;
         document.getElementById('pg-edit-mil').value = data.lista_pg;
@@ -115,7 +115,7 @@ async function editarMil(event) {
 
     // Capturar valor do campo de texto ou definir como nulo
     let funcao = 'editar';
-    let id = document.getElementById('hidden-id-edit-mil').value;
+    let id = document.getElementById('id-edit-mil').value;
     let nc = document.getElementById('nc-edit-mil').value;
     let id_pg = document.getElementById('hidden-pg-edit-mil').value;
     let ng = document.getElementById('ng-edit-mil').value;
@@ -152,7 +152,7 @@ async function editarMil(event) {
         overlay.innerHTML = `
         <div id="add_mil" class="bloco-overlay">
             <div class="header">
-                <span>Adicionar Militar</span>
+                <span>Editar Militar</span>
                 <div id="botoes">
                     <div id="b-line-header-1" class="b-line">
                         <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon">
@@ -162,7 +162,7 @@ async function editarMil(event) {
                 </div>
             </div>
             <div id="linha-1" class="linha fim">
-                <div id="h-line-add-mil-1" class="h-line centralizado">${responseData.mensagem}</div>
+                <div id="h-line-add-mil-1" class="b-line centralizado">${responseData.mensagem}</div>
             </div>
             <div id="linha-2" class="linha fim centralizado">
                 <div id="b-line-1" class="b-line">

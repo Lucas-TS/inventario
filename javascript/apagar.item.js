@@ -1,7 +1,7 @@
 function confirmaApagar(id, local) {
     let overlayApagar = document.getElementById('overlay')
     overlayApagar.innerHTML = `
-    <div id="del" class="bloco-overlay" style="width:450px">
+    <div id="bloco-overlay" class="bloco-overlay" style="width:450px">
         <div class="header">
             <span>Remover</span>
             <div id="b-line-header-1" class="b-line">
@@ -51,7 +51,7 @@ async function apagarItem(id, local) {
 
         let overlayApagar = document.getElementById('overlay');
         overlayApagar.innerHTML = `
-        <div id="del" class="bloco-overlay">
+        <div id="bloco-overlay" class="bloco-overlay">
             <div class="header">
                 <span>Remover</span>
                 <div id="botoes">
@@ -75,11 +75,7 @@ async function apagarItem(id, local) {
         </div>
         `;
 
-        if (typeof atualizarTabela === 'function') {
-            atualizarTabela();
-        } else {
-            console.warn('A função atualizarTabela não está definida.');
-        }
+        atualizarTabela();
         
         // Fechar o overlay após a inserção com um retardo de 5 segundos
         closeTimeout = setTimeout(function () {
@@ -87,6 +83,5 @@ async function apagarItem(id, local) {
         }, 5000); // 5000 milissegundos = 5 segundos
     } catch (error) {
         alert(error.message); // Exibe um alert com a mensagem de erro
-        console.error('Erro ao apagar item:', error);
     }
 }
