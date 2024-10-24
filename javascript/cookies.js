@@ -1,7 +1,9 @@
-function salvarPreferencias(nomeTabela, colunasSelecionadas) {
-    const preferencias = {
-        tabela: nomeTabela,
-        colunas: colunasSelecionadas
+function salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina, filtroAtivo, filtroInativo) {
+    preferenciasAtuais = {
+        colunas: colunasSelecionadas,
+        resultadosPorPagina: resultadosPorPagina,
+        filtroAtivo: filtroAtivo,
+        filtroInativo: filtroInativo
     };
-    document.cookie = `preferencias_${nomeTabela}=${JSON.stringify(preferencias)}; path=/; max-age=31536000`; // 1 ano
-}
+    document.cookie = `preferencias_${nomeTabela}=${JSON.stringify(preferenciasAtuais)}; path=/; max-age=31536000`;
+  }

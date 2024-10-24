@@ -102,16 +102,6 @@ function carregarPreferencias(nomeTabela) {
   return preferenciasAtuais;  // Retorna as preferências padrão
 }
 
-function salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina, filtroAtivo, filtroInativo) {
-  preferenciasAtuais = {
-      colunas: colunasSelecionadas,
-      resultadosPorPagina: resultadosPorPagina,
-      filtroAtivo: filtroAtivo,
-      filtroInativo: filtroInativo
-  };
-  document.cookie = `preferencias_${nomeTabela}=${JSON.stringify(preferenciasAtuais)}; path=/; max-age=31536000`;
-}
-
 function formatarMAC(enderecoMAC) {
   return enderecoMAC.match(/.{1,2}/g).join(':');
 }
