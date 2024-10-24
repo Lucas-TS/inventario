@@ -9,7 +9,7 @@
             </div>
         </div>
         <div id="linha-1" class="linha">
-            <div id="h-line-add-sec-1" class="h-line">Informações:</div>
+            <div id="h-line-add-sec-1" class="h-line">Informações básicas:</div>
             <div id="b-line-add-sec-1" class="b-line"><label class="label" for="sigla-add-sec">Sigla:</label>
                 <input id="sigla-add-sec" name="sigla-add-sec" type="text" class="input" placeholder="Digite a sigla" style="width:150px" required title="Ex.: STIC, SECOD, DP, DAEC">
             </div>

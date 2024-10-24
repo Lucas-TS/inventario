@@ -1569,7 +1569,11 @@ input[type="checkbox"].checkbox:not(:checked) + label span {
 
 .ordem {
    fill: #AAAAAA;
+}
 
+.ordem:hover {
+   cursor: pointer;
+   fill: #555555;
 }
 
 .ordem.ativa {

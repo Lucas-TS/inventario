@@ -205,33 +205,7 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
     atualizarBotaoMarcarTudo();
 }
 
-function aplicarFiltros() {
-    const checkboxes = document.querySelectorAll('#formCheckboxes input[name="colunas"]');
-    colunasSelecionadas = Array.from(checkboxes)
-        .filter(checkbox => checkbox.checked)
-        .map(checkbox => checkbox.value);
 
-    const salvarConfiguracao = document.querySelector('input[name="salvarConfiguracao"]:checked').value === 'sim';
-    const resultadosPorPagina = document.getElementById('resultadosPorPaginaOverlay').value === 'todos' ? 'todos' : parseInt(document.getElementById('resultadosPorPaginaOverlay').value, 10);
-    const filtroAtivo = document.getElementById('filtro-ativo').checked;
-    const filtroInativo = document.getElementById('filtro-inativo').checked;
-
-    preferenciasAtuais = {
-        colunas: colunasSelecionadas,
-        resultadosPorPagina: resultadosPorPagina,
-        filtroAtivo: filtroAtivo,
-        filtroInativo: filtroInativo
-    };
-
-    if (salvarConfiguracao) {
-        salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina, filtroAtivo, filtroInativo);
-    }
-
-    document.getElementById('input-busca').value = '';
-
-    renderizarTabela(dadosTabela, 1, resultadosPorPagina, colunasSelecionadas);
-    ShowObjectWithEffect('overlay', 0, 'fade', 200);
-}
 
 function toggleMarcarTudo() {
     const checkboxes = document.querySelectorAll('#formCheckboxes input[name="colunas"]');

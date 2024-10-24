@@ -1,5 +1,8 @@
 let dadosTabela = [];
 let colunasSelecionadas = [];
+let todasColunas  = [];
+let totalComId = [];
+
 let nomeTabela = '';
 const colunasNaoExibirPorPadrao = ['Geração', 'Socket', 'Seguimento', 'P-Cores', 'E-Cores', 'Turbo', 'Memória', 'Lacre', 'Garantia', 'Antivirus', 'Rede', 'IP', 'Inclusão', 'Atualizado',];let preferenciasAtuais = {
   colunas: [],
@@ -16,6 +19,65 @@ let detalhes = {
   texto: "",
   cor: "#000000"
 };
+
+async function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
+  try {
+    if (!await verificarSeTabelaExiste(nomeTabela)) {
+      document.getElementById('tabela').innerHTML = 'A tabela "' + nomeTabela + '" não existe!';
+      return;
+    }
+    let response = await fetch(`./includes/cria_tabela.php?tabela=${nomeTabela}`);
+    if (!response.ok) throw new Error('Erro ao carregar a tabela.');
+    let data = await response.text();
+    dadosTabela = JSON.parse(data);
+    
+    const preferencias = carregarPreferencias(nomeTabela);
+    if (preferencias && preferencias.colunas && preferencias.colunas.length > 0) {
+      preferenciasAtuais = {
+        ...preferencias,
+        filtroAtivo: preferencias.filtroAtivo !== undefined ? preferencias.filtroAtivo : true,
+        filtroInativo: preferencias.filtroInativo !== undefined ? preferencias.filtroInativo : false
+      };
+    } else {
+      preferenciasAtuais = {
+        colunas: colunasSelecionadas && colunasSelecionadas.length > 0 
+          ? colunasSelecionadas 
+          : Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna)),
+        resultadosPorPagina: resultadosPorPagina,
+        filtroAtivo: true,
+        filtroInativo: false
+      };
+    }
+    todasColunas = Object.keys(dadosTabela[0]);
+    renderizarTabela(dadosTabela, pagina, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, todasColunas);
+  } catch (error) {
+    console.error('Erro ao carregar tabela:', error);
+    document.getElementById('tabela').innerHTML = 'Erro ao carregar a tabela. Por favor, tente novamente mais tarde.';
+  }
+}
+
+async function verificarSeTabelaExiste(nomeTabela) {
+  try {
+      let response = await fetch('./includes/conecta_db.php', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: new URLSearchParams({
+              tabela: nomeTabela,
+              funcao: 'teste'
+          })
+      });
+
+      if (!response.ok) throw new Error('Erro ao verificar a existência da tabela.');
+
+      let textResponse = await response.text();
+      return textResponse.trim() === 'true';
+  } catch (error) {
+      alert(error.message);
+      return false;
+  }
+}
 
 window.addEventListener('load', function () {
   paginaCarregada = true;
@@ -90,11 +152,11 @@ function criarTabela(dados, colunasSelecionadas = null, todasColunas) {
       setaSVGWrapper.appendChild(path2);
       
       path1.addEventListener('click', () => {
-          ordenarTabela(dados, coluna, 'asc');
+          ordenarTabela(totalComId, coluna, 'asc');
       });
       
       path2.addEventListener('click', () => {
-          ordenarTabela(dados, coluna, 'desc');
+          ordenarTabela(totalComId, coluna, 'desc');
       });
       
       th.appendChild(setaSVGWrapper);
@@ -172,9 +234,8 @@ function ordenarTabela(dados, coluna, ordem) {
       return a[coluna] < b[coluna] ? 1 : -1;
     }
   });
-
   // Renderizar a tabela
-  renderizarTabela(dadosOrdenados, 1, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas);
+  renderizarTabela(dadosOrdenados, 1, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, todasColunas);
 
   // Adicionar a classe "ativa" ao elemento SVG correspondente após renderização
   setTimeout(() => {
@@ -241,64 +302,6 @@ function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
   return fragment;
 }
 
-async function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
-  try {
-    if (!await verificarSeTabelaExiste(nomeTabela)) {
-      document.getElementById('tabela').innerHTML = 'A tabela "' + nomeTabela + '" não existe!';
-      return;
-    }
-    let response = await fetch(`./includes/cria_tabela.php?tabela=${nomeTabela}`);
-    if (!response.ok) throw new Error('Erro ao carregar a tabela.');
-    let data = await response.text();
-    dadosTabela = JSON.parse(data);
-    
-    const preferencias = carregarPreferencias(nomeTabela);
-    if (preferencias && preferencias.colunas && preferencias.colunas.length > 0) {
-      preferenciasAtuais = {
-        ...preferencias,
-        filtroAtivo: preferencias.filtroAtivo !== undefined ? preferencias.filtroAtivo : true,
-        filtroInativo: preferencias.filtroInativo !== undefined ? preferencias.filtroInativo : false
-      };
-    } else {
-      preferenciasAtuais = {
-        colunas: colunasSelecionadas && colunasSelecionadas.length > 0 
-          ? colunasSelecionadas 
-          : Object.keys(dadosTabela[0]).filter(coluna => !colunasNaoExibirPorPadrao.includes(coluna)),
-        resultadosPorPagina: resultadosPorPagina,
-        filtroAtivo: true,
-        filtroInativo: false
-      };
-    }
-    renderizarTabela(dadosTabela, pagina, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, Object.keys(dadosTabela[0]));
-  } catch (error) {
-    console.error('Erro ao carregar tabela:', error);
-    document.getElementById('tabela').innerHTML = 'Erro ao carregar a tabela. Por favor, tente novamente mais tarde.';
-  }
-}
-
-async function verificarSeTabelaExiste(nomeTabela) {
-  try {
-      let response = await fetch('./includes/conecta_db.php', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: new URLSearchParams({
-              tabela: nomeTabela,
-              funcao: 'teste'
-          })
-      });
-
-      if (!response.ok) throw new Error('Erro ao verificar a existência da tabela.');
-
-      let textResponse = await response.text();
-      return textResponse.trim() === 'true';
-  } catch (error) {
-      alert(error.message);
-      return false;
-  }
-}
-
 function mudarResultadosPorPagina(resultadosPorPagina) {
   preferenciasAtuais.resultadosPorPagina = resultadosPorPagina;
   carregarTabela(nomeTabela, 1, resultadosPorPagina);
@@ -335,6 +338,14 @@ function renderizarTabela(dados, pagina, resultadosPorPagina, colunasSelecionada
     return itemComId;
   });
 
+  totalComId = dadosFiltrados.map(item => {
+    const itemComId = { id_link: item.ID };
+    colunasSelecionadas.forEach(coluna => {
+      itemComId[coluna] = item[coluna];
+    });
+    return itemComId;
+  });
+
   const tabela = criarTabela(dadosComId, colunasSelecionadas, todasColunas);
   document.getElementById('tabela').innerHTML = '';
   document.getElementById('tabela').appendChild(tabela);
@@ -355,7 +366,7 @@ function buscarTabela() {
           valor != null && valor.toString().toLowerCase().includes(termoBusca)
       );
   });
-  renderizarTabela(dadosFiltrados, 1, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas);
+  renderizarTabela(dadosFiltrados, 1, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, todasColunas);
 }
 
 function obterDetalhesSituacao(situacao) {
@@ -408,6 +419,34 @@ function obterDetalhesSituacao(situacao) {
     }
     resolve(detalhes);
   });
+}
+
+function aplicarFiltros() {
+  const checkboxes = document.querySelectorAll('#formCheckboxes input[name="colunas"]');
+  colunasSelecionadas = Array.from(checkboxes)
+      .filter(checkbox => checkbox.checked)
+      .map(checkbox => checkbox.value);
+
+  const salvarConfiguracao = document.querySelector('input[name="salvarConfiguracao"]:checked').value === 'sim';
+  const resultadosPorPagina = document.getElementById('resultadosPorPaginaOverlay').value === 'todos' ? 'todos' : parseInt(document.getElementById('resultadosPorPaginaOverlay').value, 10);
+  const filtroAtivo = document.getElementById('filtro-ativo').checked;
+  const filtroInativo = document.getElementById('filtro-inativo').checked;
+
+  preferenciasAtuais = {
+      colunas: colunasSelecionadas,
+      resultadosPorPagina: resultadosPorPagina,
+      filtroAtivo: filtroAtivo,
+      filtroInativo: filtroInativo
+  };
+
+  if (salvarConfiguracao) {
+      salvarPreferencias(nomeTabela, colunasSelecionadas, resultadosPorPagina, filtroAtivo, filtroInativo);
+  }
+
+  document.getElementById('input-busca').value = '';
+
+  renderizarTabela(dadosTabela, 1, resultadosPorPagina, colunasSelecionadas, todasColunas);
+  ShowObjectWithEffect('overlay', 0, 'fade', 200);
 }
 
 let tabelaCarregada = false;

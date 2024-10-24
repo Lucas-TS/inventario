@@ -71,11 +71,12 @@ async function insertSec(event) {
 async function editarSecOverlay(id, arquivo) {
     await exibirOverlay(arquivo); // Espera a execução e finalização de exibirOverlay
     let funcao = 'buscar';
+
     let formData = {
         funcao: funcao,
         id: id,
     };
-    console.log(formData);
+
     try {
         let response = await fetch('./includes/secao.php', {
             method: 'POST',
@@ -88,17 +89,12 @@ async function editarSecOverlay(id, arquivo) {
             throw new Error('Erro ao buscar os dados.');
         }
         let data = await response.json(); // Converte a resposta para JSON
-        console.log(data);
         //Preenche os campos do formulário com os dados retornados
-        document.getElementById('hidden-id-edit-mil').value = data.id;
-        document.getElementById('nc-edit-mil').value = data.nome_completo;
-        document.getElementById('ng-edit-mil').value = data.nome_guerra;
-        document.getElementById('pg-edit-mil').value = data.lista_pg;
-        document.getElementById('hidden-pg-edit-mil').value = data.id_pg;
-        document.getElementById('sec-edit-mil').value = data.lista_secao;
-        document.getElementById('hidden-sec-edit-mil').value = data.id_secao;
+        document.getElementById('hidden-id-edit-sec').value = data.id;
+        document.getElementById('nome-edit-sec').value = data.nome;
+        document.getElementById('sigla-edit-sec').value = data.sigla;
         if (data.ativo === 1) {
-            document.getElementById('ativo-edit-mil').checked = true;
+            document.getElementById('ativo-edit-sec').checked = true;
         }
         // Continue para outros campos conforme necessário
     } catch (error) {
@@ -127,8 +123,6 @@ async function editarSec(event) {
         sec: id_sec,
         ativo: ativo,
     };
-
-    console.log(formData);
 
     try {
         let response = await fetch('./includes/secao.php', {

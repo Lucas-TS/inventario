@@ -65,7 +65,7 @@ elseif ($data['funcao'] == 'buscar') {
         $check_stmt->close();
 
         if ($count == 1) {
-            $select_sql = "SELECT militares.id, militares.nome_completo, militares.nome_guerra, militares.id_pg, militares.id_secao, CONCAT(pg.abreviatura, ' - ', pg.pg) AS lista_pg, CONCAT(secao.sigla, ' - ', secao.nome) AS lista_secao, militares.ativo FROM $tabela LEFT JOIN pg ON militares.id_pg = pg.id LEFT JOIN secao ON militares.id_secao = secao.id WHERE militares.id = ?";
+            $select_sql = "SELECT * FROM $tabela WHERE id = ?";
             $select_stmt = $conn->prepare($select_sql);
             if ($select_stmt === false) {
                 throw new Exception('Erro na preparação da declaração: ' . $conn->error);
@@ -89,10 +89,8 @@ elseif ($data['funcao'] == 'buscar') {
 }
 elseif ( $data[ 'funcao' ] == 'editar' ) {    
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;    
-    $nc = isset( $data[ 'nc' ] ) ? $data[ 'nc' ] : null;    
-    $pg = isset( $data[ 'pg' ] ) ? $data[ 'pg' ] : null;    
-    $ng = isset( $data[ 'ng' ] ) ? $data[ 'ng' ] : null;    
-    $sec = isset( $data[ 'sec' ] ) ? $data[ 'sec' ] : null;    
+    $nome = isset( $data[ 'nome' ] ) ? $data[ 'nome' ] : null;    
+    $sigla = isset( $data[ 'sigla' ] ) ? $data[ 'sigla' ] : null;    
     $ativo = isset( $data[ 'ativo' ] ) ? $data[ 'ativo' ] : null;
 
     // Verificar se o registro já existe
@@ -108,34 +106,14 @@ elseif ( $data[ 'funcao' ] == 'editar' ) {
     $check_stmt->close();
 
     if ($count == 1) {
-        // Verificar se $ativo é 0 e se o id está na tabela computadores
-        if ($ativo == 0) {
-            $comp_sql = "SELECT COUNT(*) FROM computadores WHERE id_operador = ?";
-            $comp_stmt = $conn->prepare($comp_sql);
-            $comp_stmt->bind_param('i', $id);
-            $comp_stmt->execute();
-            $comp_stmt->bind_result($comp_count);
-            $comp_stmt->fetch();
-            $comp_stmt->close();
-
-            if ($comp_count > 0) {
-                $ativo = 1;
-                $mensagem_sucesso = 'Registro atualizado, mas o status ativo foi mantido devido a computadores vinculados ao militar.';
-            } else {
-                $mensagem_sucesso = 'Registro atualizado com sucesso!';
-            }
-        } else {
-            $mensagem_sucesso = 'Registro atualizado com sucesso!';
-        }
-
         // Preparar a consulta SQL para atualização
-        $sql = "UPDATE $tabela SET nome_completo = ?, nome_guerra = ?, id_pg = ?, id_secao = ?, ativo = ? WHERE id = ?";
+        $sql = "UPDATE $tabela SET nome = ?, sigla = ?, ativo = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
         if ($stmt === false) {
             die('Erro na preparação da declaração: ' . $conn->error);
         }
         // Vincular os parâmetros
-        $stmt->bind_param('ssiiii', $nc, $ng, $pg, $sec, $ativo, $id);
+        $stmt->bind_param('ssii', $nome, $sigla, $ativo, $id);
         // Executar a declaração
         if ($stmt->execute()) {
             echo json_encode(['mensagem' => $mensagem_sucesso]);
@@ -153,8 +131,6 @@ elseif ( $data[ 'funcao' ] == 'editar' ) {
     http_response_code(400);
     echo json_encode(['error' => 'ID ou tabela não especificados.']);
 }
-
-$conn->close();
 
 $conn->close();
 ?>

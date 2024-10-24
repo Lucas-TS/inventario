@@ -75,11 +75,12 @@ async function insertMil(event) {
 async function editarMilOverlay(id, arquivo) {
     await exibirOverlay(arquivo); // Espera a execução e finalização de exibirOverlay
     let funcao = 'buscar';
+
     let formData = {
         funcao: funcao,
         id: id,
     };
-    console.log(formData);
+
     try {
         let response = await fetch('./includes/militar.php', {
             method: 'POST',
@@ -92,7 +93,6 @@ async function editarMilOverlay(id, arquivo) {
             throw new Error('Erro ao buscar os dados.');
         }
         let data = await response.json(); // Converte a resposta para JSON
-        console.log(data);
         //Preenche os campos do formulário com os dados retornados
         document.getElementById('hidden-id-edit-mil').value = data.id;
         document.getElementById('nc-edit-mil').value = data.nome_completo;
@@ -131,8 +131,6 @@ async function editarMil(event) {
         sec: id_sec,
         ativo: ativo,
     };
-
-    console.log(formData);
 
     try {
         let response = await fetch('./includes/militar.php', {
