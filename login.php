@@ -56,13 +56,13 @@ if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
             <input type="hidden" name="form_name" value="loginform">
             <table id="Login1">
                <tr>
-                  <td colspan="3" class="row"><input  class="input" name="username" autocomplete="on" type="text" id="username" value="<?php echo $username; ?>" placeholder="Usuário"></td>
+                  <td colspan="2" class="row"><input class="input" name="username" autocomplete="on" type="text" autocomplete="username" id="username" value="<?php echo $username; ?>" placeholder="Usuário"></td>
                </tr>
                <tr>
-                  <td colspan="3" class="row"><input  class="input" name="password" type="password" id="password" value="<?php echo $password; ?>" placeholder="Senha"></td>
+                  <td colspan="2" class="row"><input class="input" name="password" type="password" autocomplete="current-password" id="password" value="<?php echo $password; ?>" placeholder="Senha"></td>
                </tr>
                <tr>
-                  <td colspan="3" class="row">
+                  <td class="row">
                      <div id="wb_FlipSwitch1">
                      <input title="Lembrar login" type="checkbox" <?php echo $checked; ?> role="switch" name="rememberme" id="FlipSwitch1" value="">
                         <label id="FlipSwitch1-label" for="FlipSwitch1">
@@ -72,11 +72,14 @@ if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
                         <span style="margin-left:5px;color:#747474;">Lembrar login</span>
                      </div>
                   </td>
+                  <td style="text-align:right"><a id="esqueci" href="esqueci.php">Esqueci minha senha</a></td>
                </tr>
                <tr>
-                  <td style="text-align:left;vertical-align:bottom"><a id="esqueci" href="esqueci.php">Esqueci minha senha</a></td>
-                  <td style="text-align:left;vertical-align:bottom"><!--<input class="button" type="reset" name="reset" value="Limpar" id="reset">--></td>
-                  <td style="text-align:right;vertical-align:bottom"><input class="button" type="submit" name="login" value="Entrar" id="login"></td>
+                  <td colspan="2" class="row">
+                     <div class="flex-center">
+                        <button id="enviar" title="Enviar" class="flex-center large-button" type="submit"><?php include './images/ok.svg'; ?></button>
+                     </div>
+                  </td>
                </tr>
             </table>
          </form>

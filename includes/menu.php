@@ -8,7 +8,7 @@
     <!-- INÍCIO DO MENU -->
     <div id="PanelMenu1_markup">
         <!-- AVATAR -->
-        <div id="PanelMenu1-logo"><img alt="" src="<?php echo $avatar; ?>"></div>
+        <div id="PanelMenu1-logo"><img id="avatar" alt="" src="<?php echo $avatar; ?>"></div>
         <ul role="menu" class="menu">
             <!-- Item HOME -->
             <li role="menuitem">

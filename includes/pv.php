@@ -3,21 +3,23 @@ include 'conecta_db.php';
 
 $data = json_decode( file_get_contents( 'php://input' ), true );
 
-$tabela = 'secao';
+$tabela = 'lista_placa_video';
 
 if ( $data[ 'funcao' ] == 'inserir' ) {
-    $sigla = isset( $data[ 'sigla' ] ) ? $data[ 'sigla' ] : null;
-    $nome = isset( $data[ 'nome' ] ) ? $data[ 'nome' ] : null;
+    $gpu = isset( $data[ 'chipset' ] ) ? $data[ 'chipset' ] : null;
+    $marca = isset( $data[ 'marca' ] ) ? $data[ 'marca' ] : null;
+    $modelo = isset( $data[ 'modelo' ] ) ? $data[ 'modelo' ] : null;
+    $memoria = isset( $data[ 'memoria' ] ) ? $data[ 'memoria' ] : null;
     $ativo = 1;
     // Campo INT ( ativo )
 
     // Verificar se o registro já existe
-    $check_sql = 'SELECT COUNT(*) FROM secao WHERE nome = ? OR sigla = ?';
+    $check_sql = "SELECT COUNT(*) FROM $tabela WHERE gpu = ? AND marca = ? AND modelo = ? AND memoria = ?";
     $check_stmt = $conn->prepare( $check_sql );
     if ( $check_stmt === false ) {
         die( 'Erro na preparação da declaração: ' . $conn->error );
     }
-    $check_stmt->bind_param( 'ss', $nome, $sigla );
+    $check_stmt->bind_param( 'ssss', $gpu, $marca, $modelo, $memoria );
     $check_stmt->execute();
     $check_stmt->bind_result( $count );
     $check_stmt->fetch();
@@ -29,13 +31,13 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
         echo 'Registro já existe.';
     } else {
         // Preparar a consulta SQL para inserção
-        $sql = 'INSERT INTO secao (nome, sigla, ativo) VALUES (?, ?, ?)';
+        $sql = "INSERT INTO $tabela (gpu, marca, modelo, memoria, ativo) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare( $sql );
         if ( $stmt === false ) {
             die( 'Erro na preparação da declaração: ' . $conn->error );
         }
         // Vincular os parâmetros
-        $stmt->bind_param( 'ssi', $nome, $sigla, $ativo );
+        $stmt->bind_param( 'ssssi', $gpu, $marca, $modelo, $memoria, $ativo );
         // Executar a declaração
         if ( $stmt->execute() ) {
             echo 'Dados inseridos com sucesso!';
@@ -89,8 +91,10 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
 } elseif ( $data[ 'funcao' ] == 'editar' ) {
 
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
-    $nome = isset( $data[ 'nome' ] ) ? $data[ 'nome' ] : null;
-    $sigla = isset( $data[ 'sigla' ] ) ? $data[ 'sigla' ] : null;
+    $marca = isset( $data[ 'marca' ] ) ? $data[ 'marca' ] : null;
+    $modelo = isset( $data[ 'modelo' ] ) ? $data[ 'modelo' ] : null;
+    $gpu = !empty( $data[ 'gpu' ] ) ? $data[ 'gpu' ] : null;
+    $memoria = isset( $data[ 'memoria' ] ) ? $data[ 'memoria' ] : null;
     $ativo = isset( $data[ 'ativo' ] ) ? $data[ 'ativo' ] : 1;
 
     // Verificar se o registro já existe
@@ -106,19 +110,19 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
     $check_stmt->close();
 
     if ( $count == 1 ) {
-        // Verificar se $ativo é 0 e se o id está na tabela militares
+        // Verificar se $ativo é 0 e se o id está na tabela assoc_placa_video
         if ( $ativo == 0 ) {
-            $mil_sql = 'SELECT COUNT(*) FROM militares WHERE id_secao = ?';
-            $mil_stmt = $conn->prepare( $mil_sql );
-            $mil_stmt->bind_param( 'i', $id );
-            $mil_stmt->execute();
-            $mil_stmt->bind_result( $mil_count );
-            $mil_stmt->fetch();
-            $mil_stmt->close();
+            $pv_sql = 'SELECT COUNT(*) FROM assoc_placa_video WHERE id_placa_video = ?';
+            $pv_stmt = $conn->prepare( $pv_sql );
+            $pv_stmt->bind_param( 'i', $id );
+            $pv_stmt->execute();
+            $pv_stmt->bind_result( $pv_count );
+            $pv_stmt->fetch();
+            $pv_stmt->close();
 
-            if ( $mil_count > 0 ) {
+            if ( $pv_count > 0 ) {
                 $ativo = 1;
-                $mensagem_sucesso = 'Registro atualizado, mas o status ativo foi mantido devido a militares vinculados à seção.';
+                $mensagem_sucesso = 'Registro atualizado, mas o status ativo foi mantido devido a esta placa de vídeo estar vinculada a um ou mais computadores.';
             } else {
                 $mensagem_sucesso = 'Registro atualizado com sucesso!';
             }
@@ -127,13 +131,13 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
         }
 
         // Preparar a consulta SQL para atualização
-        $sql = "UPDATE $tabela SET nome = ?, sigla = ?, ativo = ? WHERE id = ?";
+        $sql = "UPDATE $tabela SET marca = ?, modelo = ?, gpu = ?, memoria = ?, ativo = ? WHERE id = ?";
         $stmt = $conn->prepare( $sql );
         if ( $stmt === false ) {
             die( 'Erro na preparação da declaração: ' . $conn->error );
         }
         // Vincular os parâmetros
-        $stmt->bind_param( 'ssii', $nome, $sigla, $ativo, $id );
+        $stmt->bind_param( 'ssssii', $marca, $modelo, $gpu, $memoria, $ativo, $id );
         // Executar a declaração
         if ( $stmt->execute() ) {
             echo json_encode( [ 'mensagem' => $mensagem_sucesso ] );

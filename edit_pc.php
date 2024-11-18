@@ -56,7 +56,7 @@ if (isset($_SESSION['expires_by'])) {
       <?php include 'includes/menu.php'; ?>
    </header>
    <div id="content">
-      <form name="add-pc" id="add-pc" method="post" accept-charset="UTF-8" action="includes/inserir_pc.php" onreset="limparFormulario()">
+      <form name="edit-pc" id="edit-pc" method="post" accept-charset="UTF-8" action="includes/inserir_pc.php" onreset="limparFormulario()">
          <div id="bloco" class="bloco">
             <div class="header">
                <div id="b-line-fim-1" class="b-line">
@@ -71,6 +71,25 @@ if (isset($_SESSION['expires_by'])) {
                      <button id="enviar" title="Enviar" class="flex-center large-button" type="submit"><?php include './images/ok.svg'; ?></button>
                   </div>
                </div>
+            </div>
+            <div id="linha-0" class="linha">
+                <div id="h-line-edit-pc-1" class="h-line">Cadastro:</div>
+                <div id="b-line-edit-pc-1" class="b-line"><label class="label" for="id-edit-pc">ID:</label>
+                    <input id="id-edit-pc" name="id-edit-pc" type="text" class="input" placeholder="" readonly title="ID">
+                </div>
+                <div id="h-spacer"></div>
+                <div id="b-line-edit-pc-2" class="b-line">
+                    <input type="checkbox" id="ativo-edit-pc" class="checkbox" value="1">
+                    <label for="ativo-edit-pc"><span></span>Ativo</label>
+                </div>
+                <div id="h-spacer" style="flex-basis: 100%;"></div>
+                <div id="b-line-edit-pc-3" class="b-line" style="flex-basis: 50%;"><span class="label">Incluído em:</span>
+                    <span id="data-add-edit-pc"></span>
+                </div>
+                <div id="h-spacer"></div>
+                <div id="b-line-edit-pc-3" class="b-line"><span class="label">Ultima atualização:</span>
+                    <span id="data-updt-edit-pc"></span>
+                </div>
             </div>
             <div id="linha-1" class="linha">
                <div id="h-line-1" class="h-line">Informações básicas:</div>
@@ -270,6 +289,13 @@ if (isset($_SESSION['expires_by'])) {
       </div>
    </footer>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let urlParams = new URLSearchParams(window.location.search);
+        let id = urlParams.get('id');
+        preencherPC(id);
+    });
+</script>
 <script src="javascript/suggestions.js"></script>
 <script src="javascript/more.less.js"></script>
 <script src="javascript/load.svg.js"></script>

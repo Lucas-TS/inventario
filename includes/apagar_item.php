@@ -21,6 +21,17 @@ if ($id && $tabela) {
         $check_stmt->close();
 
         if ($count == 1) {
+            if ($tabela == 'users') {
+                // Buscar avatar antes de excluir o registro
+                $avatar_sql = "SELECT avatar FROM $tabela WHERE id = ?";
+                $avatar_stmt = $conn->prepare($avatar_sql);
+                $avatar_stmt->bind_param("i", $id);
+                $avatar_stmt->execute();
+                $avatar_stmt->bind_result($avatar);
+                $avatar_stmt->fetch();
+                $avatar_stmt->close();
+            }
+
             // Preparar a consulta SQL para exclusão
             $delete_sql = "DELETE FROM $tabela WHERE id = ?";
             $delete_stmt = $conn->prepare($delete_sql);
@@ -30,7 +41,24 @@ if ($id && $tabela) {
             $delete_stmt->bind_param("i", $id);
 
             if ($delete_stmt->execute()) {
-                echo json_encode(["message" => "Registro apagado com sucesso."]);
+                if ($tabela == 'users' && $avatar) {
+                    $caminho = '../images/avatares/' . $avatar;
+                    error_log("Tentando apagar o arquivo: $caminho"); // Log de diagnóstico
+
+                    if (file_exists($caminho)) {
+                        if (unlink($caminho)) {
+                            echo json_encode(["message" => "Registro e avatar apagados com sucesso."]);
+                        } else {
+                            echo json_encode(["message" => "Registro apagado, mas erro ao apagar o avatar."]);
+                            error_log("Erro ao apagar o arquivo: $caminho"); // Log de erro
+                        }
+                    } else {
+                        echo json_encode(["message" => "Registro apagado, mas avatar não encontrado."]);
+                        error_log("Arquivo não encontrado: $caminho"); // Log de erro
+                    }
+                } else {
+                    echo json_encode(["message" => "Registro apagado com sucesso."]);
+                }
             } else {
                 throw new Exception("Erro ao apagar o registro: " . $delete_stmt->error);
             }

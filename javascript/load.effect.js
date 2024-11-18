@@ -16,10 +16,14 @@ $(document).ready(function () {
 var wb_Timer1;
 function TimerStartTimer1() {
    wb_Timer1 = setTimeout(function () {
-      var event = null;
-      ShowPanel('PanelMenu1', event);
+       var event = null;
+       var panel = document.getElementById('PanelMenu1');
+       if (panel) {
+           ShowPanel('PanelMenu1', event);
+       }
    }, 10);
 }
+
 
 function TimerStopTimer1() {
    clearTimeout(wb_Timer1);

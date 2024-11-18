@@ -1,5 +1,3 @@
-let closeTimeout; // Variável para armazenar a referência do timeout
-
 async function insertMil(event) {
     event.preventDefault(); // Previne o comportamento padrão do formulário
 
@@ -150,7 +148,7 @@ async function editarMil(event) {
         let responseData = await response.json();
         let overlay = document.getElementById('overlay');
         overlay.innerHTML = `
-        <div id="add_mil" class="bloco-overlay">
+        <div id="edit_mil" class="bloco-overlay">
             <div class="header">
                 <span>Editar Militar</span>
                 <div id="botoes">
@@ -162,7 +160,7 @@ async function editarMil(event) {
                 </div>
             </div>
             <div id="linha-1" class="linha fim">
-                <div id="h-line-add-mil-1" class="b-line centralizado">${responseData.mensagem}</div>
+                <div id="h-line-edit-mil-1" class="b-line centralizado">${responseData.mensagem}</div>
             </div>
             <div id="linha-2" class="linha fim centralizado">
                 <div id="b-line-1" class="b-line">

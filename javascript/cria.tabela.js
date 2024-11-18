@@ -363,9 +363,7 @@ function obterDetalhesSituacao(situacao) {
   return new Promise((resolve) => {
     switch (situacao) {
       case "0":
-        detalhes.svg = okSVG;
-        detalhes.texto = "Em uso";
-        detalhes.cor = "#008000";
+        texto = "Em uso";
         break;
       case "1":
         detalhes.svg = returnSVG;
@@ -440,28 +438,3 @@ function aplicarFiltros() {
 }
 
 let tabelaCarregada = false;
-
-$(document).ready(function () {
-  // Primeiro trecho: carregar SVGs
-  loadAllSVGs()
-      .then(() => {          
-          // Definir nomeTabela
-          const queryString = window.location.search;
-          const urlParams = new URLSearchParams(queryString);
-          nomeTabela = urlParams.get('tabela'); // Definindo nomeTabela aqui
-
-          // Chamando carregarTabela após SVGs carregados e apenas se não estiver carregada
-          if (typeof carregarTabela === 'function' && typeof nomeTabela !== 'undefined' && !tabelaCarregada) {
-              carregarTabela(nomeTabela).catch(error => {
-                  console.error('Erro ao carregar tabela:', error);
-              });
-              tabelaCarregada = true; // Atualiza o estado para evitar chamadas duplas
-          }
-
-          $('#resultadosPorPagina').change(function () {
-              const resultadosPorPagina = $(this).val();
-              carregarTabela(nomeTabela, 1, resultadosPorPagina);
-          });
-      })
-      .catch(error => console.error('Erro ao carregar SVGs:', error));
-});

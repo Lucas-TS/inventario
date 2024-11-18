@@ -1,4 +1,4 @@
-<div id="bloco-overlay" class="bloco-overlay">
+<div id="bloco-overlay" class="bloco-overlay" style="width:750px">
     <form name="add_pv_form" method="post" accept-charset="UTF-8" id="add_pv_form" onsubmit="insertPv(event)">
         <div class="header">
             <span>Adicionar Placa de Vídeo</span>
@@ -11,7 +11,7 @@
         <div id="linha-1" class="linha">
             <div id="h-line-add-pv-1" class="h-line">Chipset:</div>
             <div id="b-line-add-pv-1" class="b-line"><label class="label" for="chipset-add-pv">Marca e modelo:</label>
-                <input id="chipset-add-pv" name="chipset-add-pv" type="text" class="input box" placeholder="Digite o nome completo" style="width:250px" required title="Ex.: AMD Radeon RX-550, NVIDIA GeForce RTX 3060">
+                <input id="chipset-add-pv" name="chipset-add-pv" type="text" class="input box" placeholder="Digite o nome completo" style="width:350px" required title="Ex.: AMD Radeon RX-550, NVIDIA GeForce RTX 3060">
                 <div id="suggestions-chipset-add-pv" class="suggestions-box chipset-add-pv">
                 </div>
             </div>
@@ -33,9 +33,9 @@
         <div id="linha-3" class="linha">
             <div id="h-line-add-pv-3" class="h-line">Memória:</div>
             <div id="b-line-add-pv-4" class="b-line" style="flex-basis:100%"><label class="label" for="mem-add-pv">Tamanho:</label>
-                <input id="mem-pv" name="mem-add-pv" type="text" class="input unity" placeholder="Quantidade e unidade" style="width:200px" required title="Número e unidade. Ex.: 512MB, 2GB, 4GB ...">
+                <input id="mem-add-pv" name="mem-add-pv" type="text" class="input unity" placeholder="Quantidade e unidade" style="width:200px" required title="Número e unidade. Ex.: 512MB, 2GB, 4GB ...">
             </div>
-            <div id="b-line-add-pv-5" class="b-line"><label class="label">Tipos:</label>
+            <div id="b-line-add-pv-5" class="b-line"><span class="label">Tipos:</span>
                 <input type="radio" id="DDR2-pv" name="mem-pv" class="radio" value="DDR2">
                 <label for="DDR2-pv"><span></span>DDR2</label>
                 <input type="radio" id="DDR3-pv" name="mem-pv" class="radio" value="DDR3">

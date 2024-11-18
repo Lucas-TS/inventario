@@ -159,31 +159,31 @@ if (isset($_GET['fm']))
 }
 
 // SQL para iGPU add processador
-if (isset($_GET['n']) && $_GET['n'] == 'modelo-igpu-proc')
+if (isset($_GET['n']) && ($_GET['n'] == 'modelo-igpu-proc' || $_GET['n'] == 'modelo-igpu-edit-proc'))
 {
     $sql = "SELECT DISTINCT igpu AS lista FROM lista_processador WHERE igpu LIKE '%$q%' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
 }
 
 // SQL para socket add processador
-if (isset($_GET['n']) && $_GET['n'] == 'skt-proc')
+if (isset($_GET['n']) && ($_GET['n'] == 'skt-proc' || $_GET['n'] == 'skt-edit-proc'))
 {
     $sql = "SELECT DISTINCT socket AS lista FROM lista_processador WHERE socket LIKE '%$q%' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
 }
 
 // SQL para chipset add placa de vídeo
-if (isset($_GET['n']) && $_GET['n'] == 'chipset-add-pv')
+if (isset($_GET['n']) && ($_GET['n'] == 'chipset-add-pv' || $_GET['n'] == 'chipset-edit-pv'))
 {
     $sql = "SELECT DISTINCT gpu AS lista FROM lista_placa_video WHERE gpu LIKE '%$q%' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
 }
 
 // SQL para marca add placa de vídeo
-if (isset($_GET['n']) && $_GET['n'] == 'marca-add-pv')
+if (isset($_GET['n']) && ($_GET['n'] == 'marca-add-pv' || $_GET['n'] == 'marca-edit-pv'))
 {
     $sql = "SELECT DISTINCT marca AS lista FROM lista_placa_video WHERE marca LIKE '%$q%' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
 }
 
 // SQL para modelo add placa de vídeo
-if (isset($_GET['n']) && $_GET['n'] == 'modelo-add-pv')
+if (isset($_GET['n']) && ($_GET['n'] == 'modelo-add-pv' || $_GET['n'] == 'modelo-edit-pv'))
 {
     $sql = "SELECT DISTINCT modelo AS lista FROM lista_placa_video WHERE modelo LIKE '%$q%' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
 }
@@ -198,7 +198,7 @@ if (isset($_GET['n']) && ($_GET['n'] == 'sec-add-mil' || $_GET['n'] == 'sec-edit
     $sql = "SELECT id, CONCAT(sigla, ' - ', nome) AS lista FROM secao WHERE CONCAT(sigla, ' - ', nome) LIKE '%$q%' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
 }
 
-if (isset($_GET['n']) && $_GET['n'] == 'marca-add-mon')
+if (isset($_GET['n']) && ($_GET['n'] == 'marca-add-mon' || $_GET['n'] == 'marca-edit-mon'))
 {
     $sql = "SELECT DISTINCT marca AS lista FROM lista_monitor WHERE marca LIKE '%$q%' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
 }
@@ -279,8 +279,8 @@ if ($result->num_rows > 0)
             echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . '); liberarCampo4Pv()">' . $row['lista'] . "</p>";
         }
 
-        //Sugestões para marca da iGPU
-        elseif ($n == 'modelo-igpu-proc' || $n == 'skt-proc' || $n == 'marca-add-pv' || $n == 'modelo-add-pv' || $n == 'chipset-add-pv' || $n == 'marca-add-mon')
+        //Sugestões diversas sem passagem de ID
+        elseif ($n == 'modelo-igpu-proc' || $n == 'skt-proc' || $n == 'marca-add-pv' || $n == 'modelo-add-pv' || $n == 'chipset-add-pv' || $n == 'marca-add-mon' || $n == 'marca-edit-mon' || $n == 'skt-edit-proc' || $n == 'modelo-igpu-edit-proc' || $n == 'marca-edit-pv' || $n == 'modelo-edit-pv' || $n == 'chipset-edit-pv')
         {
             echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . ')">' . $row['lista'] . "</p>";
         }

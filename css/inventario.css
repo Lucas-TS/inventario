@@ -282,15 +282,15 @@ body {
 
 #PanelMenu1-logo {
    border-width: 0;
-   padding: 10px 10px 10px 10px;
+   padding: 10px 10px 30px 10px;
    text-align: center;
-   max-height: 180px;
 }
 
 #PanelMenu1-logo img {
    border-width: 0;
    max-height: 150px;
    max-width: 150px;
+   border-radius: 50%;
 }
 
 .PanelMenu1-effect {
@@ -759,6 +759,10 @@ label {
    display: none;
 }
 
+.ultimo {
+   display:none;
+}
+
 .visivel.ocultavel {
    display: table-row-group;
    opacity: 1;
@@ -1199,43 +1203,43 @@ label {
    bottom: 96px;
 }
 
-.suggestions-box.marca-proc {
+.suggestions-box.marca-proc, .suggestions-box.marca-edit-proc {
    width: 245px;
    margin-left: 60px;
    margin-top: 30px;
 }
 
-.suggestions-box.seg-proc {
+.suggestions-box.seg-proc, .suggestions-box.seg-edit-proc {
    width: 145px;
    margin-left: 101px;
    margin-top: 30px;
 }
 
-.suggestions-box.modelo-igpu-proc {
+.suggestions-box.modelo-igpu-proc, .suggestions-box.modelo-igpu-edit-proc {
    width: 245px;
    margin-left: 254px;
    margin-top: 29px;
 }
 
-.suggestions-box.skt-proc {
+.suggestions-box.skt-proc, .suggestions-box.skt-edit-proc {
    width: 95px;
    margin-left: 65px;
    margin-top: 30px;
 }
 
-.suggestions-box.chipset-add-pv {
-   width: 245px;
+.suggestions-box.chipset-add-pv, .suggestions-box.chipset-edit-pv {
+   width: 345px;
    margin-left: 131px;
    margin-top: 30px;
 }
 
-.suggestions-box.marca-add-pv {
+.suggestions-box.marca-add-pv, .suggestions-box.marca-edit-pv {
    width: 245px;
    margin-left: 91px;
    margin-top: 30px;
 }
 
-.suggestions-box.modelo-add-pv {
+.suggestions-box.modelo-add-pv, .suggestions-box.modelo-edit-pv {
    width: 245px;
    margin-left: 67px;
    margin-top: 30px;
@@ -1253,13 +1257,13 @@ label {
    margin-top: 30px;
 }
 
-.suggestions-box.marca-add-mon {
+.suggestions-box.marca-add-mon, .suggestions-box.marca-edit-mon {
    width: 245px;
    margin-left: 61px;
    margin-top: 30px;
 }
 
-.suggestions-box.gp-add-user {
+.suggestions-box.gp-add-user, .suggestions-box.gp-edit-user {
    width: 245px;
    margin-left: 2px;
    margin-top: 29px;
@@ -1601,4 +1605,16 @@ input[type="checkbox"].checkbox:not(:checked) + label span {
    display: flex;
    flex-direction: row;
    flex-wrap: wrap;
+}
+
+@media (min-width: 1600px) {
+   .ultimo {
+      display: block;
+   }
+}
+
+@media (max-width: 1600px) {
+   .monitor {
+      align-items: flex-start;
+   }
 }

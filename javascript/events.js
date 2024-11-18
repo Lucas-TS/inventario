@@ -9,16 +9,22 @@ function handleOverlayClick(event) {
 function handleEvent(event) {
     const isBoxWithValue = event.target.classList.contains('box') && event.target.value;
     const isOpenBox = event.target.classList.contains('openBox');
+    const isFixedBox = event.target.classList.contains('fixedBox');
 
     if (isBoxWithValue || (isOpenBox && event.target.value !== verificarValor(event.target.id))) {
         showSuggestions(event.target.value, event.target.id);
+    }
+    if (isFixedBox) {
+        let inputBox = event.target.id;
+        let $suggestions = $(`#suggestions-${inputBox}`);
+        $suggestions.addClass('visivel');
     }
 }
 
 // Add a new function to get the matching suggestion value
 function verificarValor(inputId) {
     const $suggestions = $('#suggestions-' + inputId);
-    const suggestionValues = $suggestions.find('p').map(function() {
+    const suggestionValues = $suggestions.find('p').map(function () {
         return $(this).text();
     }).toArray();
     const inputValue = $('#' + inputId).val();
@@ -27,6 +33,27 @@ function verificarValor(inputId) {
 
 $(document).ready(function () {
     // Quando o documento estiver pronto, executa esta função
+    loadAllSVGs()
+        .then(() => {
+            // Definir nomeTabela
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            nomeTabela = urlParams.get('tabela'); // Definindo nomeTabela aqui
+
+            // Chamando carregarTabela após SVGs carregados e apenas se não estiver carregada
+            if (typeof carregarTabela === 'function' && typeof nomeTabela !== 'undefined' && !tabelaCarregada) {
+                carregarTabela(nomeTabela).catch(error => {
+                    console.error('Erro ao carregar tabela:', error);
+                });
+                tabelaCarregada = true; // Atualiza o estado para evitar chamadas duplas
+            }
+
+            $('#resultadosPorPagina').change(function () {
+                const resultadosPorPagina = $(this).val();
+                carregarTabela(nomeTabela, 1, resultadosPorPagina);
+            });
+        })
+        .catch(error => console.error('Erro ao carregar SVGs:', error));
 
     $(document).on('click', 'input', function (event) {
         event.stopPropagation();
@@ -34,13 +61,13 @@ $(document).ready(function () {
         const valor = $this.val();
         const campoId = $this.attr('id');
         const $suggestions = $('#suggestions-' + campoId);
-    
+
         $('[id^="suggestions"]').removeClass('visivel');
-    
+
         const valorExiste = $suggestions.find('p').toArray().some(p => $(p).text() === valor);
         const pExiste = $suggestions.find('p').length;
-    
-        if (campoId === 'tipo-mem' || ["situacao"].includes(campoId) || campoId === 'gp-add-user') {
+
+        if (campoId === 'tipo-mem' || ["situacao"].includes(campoId) || campoId === 'gp-add-user' || campoId === 'gp-edit-user') {
             if (pExiste > 1) {
                 $suggestions.addClass('visivel');
             }
@@ -63,20 +90,20 @@ $(document).ready(function () {
 
     var buscarElemento = document.getElementById('buscar');
     if (buscarElemento) {
-        buscarElemento.addEventListener('click', function(event) {
+        buscarElemento.addEventListener('click', function (event) {
             event.preventDefault(); // Evita o comportamento padrão do formulário
             buscarTabela();
         });
     }
 });
 
-document.addEventListener('focusout', function(event) {
+document.addEventListener('focusout', function (event) {
     if (event.target.classList.contains('unity')) {
         let valor = event.target.value.trim();
-        
+
         // Primeiro, garantir o espaço entre o número e a unidade
         valor = valor.replace(/(\d)([a-zA-Z]+)/, '$1 $2').toUpperCase();
-        
+
         // Depois, adicionar a unidade se ainda não tiver
         if (!/^\d+\s*(GB|MB)$/i.test(valor)) {
             let numero = parseInt(valor, 10);
@@ -93,14 +120,14 @@ document.addEventListener('focusout', function(event) {
 });
 
 // Adiciona um evento para remover todos os espaços quando o input perde o foco
-document.addEventListener('focusout', function(event) {
+document.addEventListener('focusout', function (event) {
     if (event.target.classList.contains('trim')) {
         event.target.value = event.target.value.replace(/\s+/g, '');
     }
 });
 
 // Adiciona um evento para remover espaços quando o input perde o foco
-document.addEventListener('focusout', function(event) {
+document.addEventListener('focusout', function (event) {
     if (event.target.classList.contains('input')) {
         event.target.value = event.target.value.trim();
     }
@@ -129,12 +156,12 @@ const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         mutation.addedNodes.forEach(node => {
             if (node.nodeType === 1 && node.matches('input.trim')) {
-                node.addEventListener('focusout', function() {
+                node.addEventListener('focusout', function () {
                     this.value = this.value.replace(/\s+/g, '');
                 });
             }
             if (node.nodeType === 1 && node.matches('input.trim')) {
-                node.addEventListener('focusout', function() {
+                node.addEventListener('focusout', function () {
                     this.value = this.value.trim();
                 });
             }
@@ -169,9 +196,9 @@ window.addEventListener('scroll', () => {
             addButton.style.bottom = '50px';
         }
     }
-});
+}, { passive: true });
 
-document.addEventListener('input', function(event) {
+document.addEventListener('input', function (event) {
     if (event.target && event.target.id === 'tam-add-hd') {
         event.target.value = event.target.value.replace(/[^0-9,]/g, '');
     }

@@ -3,21 +3,30 @@ include 'conecta_db.php';
 
 $data = json_decode( file_get_contents( 'php://input' ), true );
 
-$tabela = 'secao';
+$tabela = 'lista_processador';
 
 if ( $data[ 'funcao' ] == 'inserir' ) {
-    $sigla = isset( $data[ 'sigla' ] ) ? $data[ 'sigla' ] : null;
-    $nome = isset( $data[ 'nome' ] ) ? $data[ 'nome' ] : null;
-    $ativo = 1;
-    // Campo INT ( ativo )
+    $marca = isset( $data[ 'marca' ] ) ? $data[ 'marca' ] : null;
+    $modelo = isset( $data[ 'modelo' ] ) ? $data[ 'modelo' ] : null;
+    $geracao = !empty( $data[ 'geracao' ] ) ? $data[ 'geracao' ] : null;
+    $socket = isset( $data[ 'socket' ] ) ? $data[ 'socket' ] : null;
+    $seguimento = isset( $data[ 'seguimento' ] ) ? $data[ 'seguimento' ] : null;
+    $pcores = isset( $data[ 'pcores' ] ) ? $data[ 'pcores' ] : null;
+    $ecores = !empty( $data[ 'ecores' ] ) ? $data[ 'ecores' ] : null;
+    $threads = isset( $data[ 'threads' ] ) ? $data[ 'threads' ] : null;
+    $clock = isset( $data[ 'clock' ] ) ? $data[ 'clock' ] : null;
+    $turbo = !empty( $data[ 'turbo' ] ) ? $data[ 'turbo' ] : null;
+    $memoria = isset( $data[ 'memoria' ] ) ? $data[ 'memoria' ] : null;
+    $igpu = !empty( $data[ 'igpu' ] ) ? $data[ 'igpu' ] : null;
+    $ativo = 1; // Campo INT ( ativo )
 
     // Verificar se o registro já existe
-    $check_sql = 'SELECT COUNT(*) FROM secao WHERE nome = ? OR sigla = ?';
+    $check_sql = "SELECT COUNT(*) FROM $tabela WHERE marca = ? AND modelo = ? AND geracao = ? AND socket = ?";
     $check_stmt = $conn->prepare( $check_sql );
     if ( $check_stmt === false ) {
         die( 'Erro na preparação da declaração: ' . $conn->error );
     }
-    $check_stmt->bind_param( 'ss', $nome, $sigla );
+    $check_stmt->bind_param( 'ssis', $marca, $modelo, $geracao, $socket );
     $check_stmt->execute();
     $check_stmt->bind_result( $count );
     $check_stmt->fetch();
@@ -29,13 +38,13 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
         echo 'Registro já existe.';
     } else {
         // Preparar a consulta SQL para inserção
-        $sql = 'INSERT INTO secao (nome, sigla, ativo) VALUES (?, ?, ?)';
+        $sql = "INSERT INTO $tabela (marca, modelo, geracao, socket, seguimento, clock, turbo, pcores, ecores, threads, memoria, igpu, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare( $sql );
         if ( $stmt === false ) {
             die( 'Erro na preparação da declaração: ' . $conn->error );
         }
         // Vincular os parâmetros
-        $stmt->bind_param( 'ssi', $nome, $sigla, $ativo );
+        $stmt->bind_param( 'ssissssiiissi', $marca, $modelo, $geracao, $socket, $seguimento, $clock, $turbo, $pcores, $ecores, $threads, $memoria, $igpu, $ativo );
         // Executar a declaração
         if ( $stmt->execute() ) {
             echo 'Dados inseridos com sucesso!';
@@ -89,8 +98,18 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
 } elseif ( $data[ 'funcao' ] == 'editar' ) {
 
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
-    $nome = isset( $data[ 'nome' ] ) ? $data[ 'nome' ] : null;
-    $sigla = isset( $data[ 'sigla' ] ) ? $data[ 'sigla' ] : null;
+    $marca = isset( $data[ 'marca' ] ) ? $data[ 'marca' ] : null;
+    $modelo = isset( $data[ 'modelo' ] ) ? $data[ 'modelo' ] : null;
+    $geracao = !empty( $data[ 'geracao' ] ) ? $data[ 'geracao' ] : null;
+    $socket = isset( $data[ 'socket' ] ) ? $data[ 'socket' ] : null;
+    $seguimento = isset( $data[ 'seguimento' ] ) ? $data[ 'seguimento' ] : null;
+    $pcores = isset( $data[ 'pcores' ] ) ? $data[ 'pcores' ] : null;
+    $ecores = !empty( $data[ 'ecores' ] ) ? $data[ 'ecores' ] : null;
+    $threads = isset( $data[ 'threads' ] ) ? $data[ 'threads' ] : null;
+    $clock = isset( $data[ 'clock' ] ) ? $data[ 'clock' ] : null;
+    $turbo = !empty( $data[ 'turbo' ] ) ? $data[ 'turbo' ] : null;
+    $memoria = isset( $data[ 'memoria' ] ) ? $data[ 'memoria' ] : null;
+    $igpu = !empty( $data[ 'igpu' ] ) ? $data[ 'igpu' ] : null;
     $ativo = isset( $data[ 'ativo' ] ) ? $data[ 'ativo' ] : 1;
 
     // Verificar se o registro já existe
@@ -106,19 +125,19 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
     $check_stmt->close();
 
     if ( $count == 1 ) {
-        // Verificar se $ativo é 0 e se o id está na tabela militares
+        // Verificar se $ativo é 0 e se o id está na tabela assoc_processador
         if ( $ativo == 0 ) {
-            $mil_sql = 'SELECT COUNT(*) FROM militares WHERE id_secao = ?';
-            $mil_stmt = $conn->prepare( $mil_sql );
-            $mil_stmt->bind_param( 'i', $id );
-            $mil_stmt->execute();
-            $mil_stmt->bind_result( $mil_count );
-            $mil_stmt->fetch();
-            $mil_stmt->close();
+            $proc_sql = 'SELECT COUNT(*) FROM assoc_processador WHERE id_processador = ?';
+            $proc_stmt = $conn->prepare( $proc_sql );
+            $proc_stmt->bind_param( 'i', $id );
+            $proc_stmt->execute();
+            $proc_stmt->bind_result( $proc_count );
+            $proc_stmt->fetch();
+            $proc_stmt->close();
 
-            if ( $mil_count > 0 ) {
+            if ( $proc_count > 0 ) {
                 $ativo = 1;
-                $mensagem_sucesso = 'Registro atualizado, mas o status ativo foi mantido devido a militares vinculados à seção.';
+                $mensagem_sucesso = 'Registro atualizado, mas o status ativo foi mantido devido a este processador estar vinculado a um ou mais computadores.';
             } else {
                 $mensagem_sucesso = 'Registro atualizado com sucesso!';
             }
@@ -127,13 +146,13 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
         }
 
         // Preparar a consulta SQL para atualização
-        $sql = "UPDATE $tabela SET nome = ?, sigla = ?, ativo = ? WHERE id = ?";
+        $sql = "UPDATE $tabela SET marca = ?, modelo = ?, geracao = ?, socket = ?, seguimento = ?, clock = ?, turbo = ?, pcores = ?, ecores = ?, threads = ?, memoria = ?, igpu = ?, ativo = ? WHERE id = ?";
         $stmt = $conn->prepare( $sql );
         if ( $stmt === false ) {
             die( 'Erro na preparação da declaração: ' . $conn->error );
         }
         // Vincular os parâmetros
-        $stmt->bind_param( 'ssii', $nome, $sigla, $ativo, $id );
+        $stmt->bind_param( 'ssissssiiissii', $marca, $modelo, $geracao, $socket, $seguimento, $clock, $turbo, $pcores, $ecores, $threads, $memoria, $igpu, $ativo, $id );
         // Executar a declaração
         if ( $stmt->execute() ) {
             echo json_encode( [ 'mensagem' => $mensagem_sucesso ] );

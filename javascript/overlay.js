@@ -1,3 +1,5 @@
+let closeTimeout; // Variável para armazenar a referência do timeout
+
 function exibirOverlay(pagina) {
     return new Promise((resolve) => {
         ShowObjectWithEffect('overlay', 1, 'fade', 200);
@@ -5,7 +7,6 @@ function exibirOverlay(pagina) {
         setTimeout(resolve, 200); // Tempo ajustado conforme o fade
     });
 }
-
 
 function exibirOverlayEditar(id, tabela) {
     let arquivo = './overlay/';
@@ -44,14 +45,14 @@ function exibirOverlayEditar(id, tabela) {
             break;
         case 'lista_so':
             arquivo += 'edit_so_overlay.php';
-            editarSOOverlay(id, arquivo);
+            editarSoOverlay(id, arquivo);
             break;
         case 'lista_ssd':
             arquivo += 'edit_ssd_overlay.php';
             editarSsdOverlay(id, arquivo);
             break;
         case 'computadores':
-            arquivo = './edit_pc.php';
+            arquivo = './edit_pc.php?id=' + id;
             window.location.href = arquivo; // Redirecionar para a página
             break;
         default:

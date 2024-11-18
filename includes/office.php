@@ -3,21 +3,23 @@ include 'conecta_db.php';
 
 $data = json_decode( file_get_contents( 'php://input' ), true );
 
-$tabela = 'secao';
+$tabela = 'lista_office';
 
 if ( $data[ 'funcao' ] == 'inserir' ) {
-    $sigla = isset( $data[ 'sigla' ] ) ? $data[ 'sigla' ] : null;
+    $dev = isset( $data[ 'dev' ] ) ? $data[ 'dev' ] : null;
     $nome = isset( $data[ 'nome' ] ) ? $data[ 'nome' ] : null;
+    $ed = isset( $data[ 'ed' ] ) ? $data[ 'ed' ] : null;
+    $versao = isset( $data[ 'versao' ] ) ? $data[ 'versao' ] : null;
     $ativo = 1;
     // Campo INT ( ativo )
 
     // Verificar se o registro já existe
-    $check_sql = 'SELECT COUNT(*) FROM secao WHERE nome = ? OR sigla = ?';
+    $check_sql = "SELECT COUNT(*) FROM $tabela WHERE dev = ? AND nome = ? AND versao = ? AND edicao = ?";
     $check_stmt = $conn->prepare( $check_sql );
     if ( $check_stmt === false ) {
         die( 'Erro na preparação da declaração: ' . $conn->error );
     }
-    $check_stmt->bind_param( 'ss', $nome, $sigla );
+    $check_stmt->bind_param( 'ssss', $dev, $nome, $versao, $ed );
     $check_stmt->execute();
     $check_stmt->bind_result( $count );
     $check_stmt->fetch();
@@ -29,13 +31,13 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
         echo 'Registro já existe.';
     } else {
         // Preparar a consulta SQL para inserção
-        $sql = 'INSERT INTO secao (nome, sigla, ativo) VALUES (?, ?, ?)';
+        $sql = "INSERT INTO $tabela (dev, nome, versao, edicao, ativo) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare( $sql );
         if ( $stmt === false ) {
             die( 'Erro na preparação da declaração: ' . $conn->error );
         }
         // Vincular os parâmetros
-        $stmt->bind_param( 'ssi', $nome, $sigla, $ativo );
+        $stmt->bind_param( 'ssssi', $dev, $nome, $versao, $ed, $ativo );
         // Executar a declaração
         if ( $stmt->execute() ) {
             echo 'Dados inseridos com sucesso!';
@@ -90,7 +92,9 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
 
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
     $nome = isset( $data[ 'nome' ] ) ? $data[ 'nome' ] : null;
-    $sigla = isset( $data[ 'sigla' ] ) ? $data[ 'sigla' ] : null;
+    $dev = isset( $data[ 'dev' ] ) ? $data[ 'dev' ] : null;
+    $ed = isset( $data[ 'edicao' ] ) ? $data[ 'edicao' ] : null;
+    $versao = isset( $data[ 'versao' ] ) ? $data[ 'versao' ] : null;
     $ativo = isset( $data[ 'ativo' ] ) ? $data[ 'ativo' ] : 1;
 
     // Verificar se o registro já existe
@@ -106,19 +110,19 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
     $check_stmt->close();
 
     if ( $count == 1 ) {
-        // Verificar se $ativo é 0 e se o id está na tabela militares
+        // Verificar se $ativo é 0 e se o id está na tabela assoc_office
         if ( $ativo == 0 ) {
-            $mil_sql = 'SELECT COUNT(*) FROM militares WHERE id_secao = ?';
-            $mil_stmt = $conn->prepare( $mil_sql );
-            $mil_stmt->bind_param( 'i', $id );
-            $mil_stmt->execute();
-            $mil_stmt->bind_result( $mil_count );
-            $mil_stmt->fetch();
-            $mil_stmt->close();
+            $office_sql = 'SELECT COUNT(*) FROM assoc_office WHERE id_office = ?';
+            $office_stmt = $conn->prepare( $office_sql );
+            $office_stmt->bind_param( 'i', $id );
+            $office_stmt->execute();
+            $office_stmt->bind_result( $office_count );
+            $office_stmt->fetch();
+            $office_stmt->close();
 
-            if ( $mil_count > 0 ) {
+            if ( $office_count > 0 ) {
                 $ativo = 1;
-                $mensagem_sucesso = 'Registro atualizado, mas o status ativo foi mantido devido a militares vinculados à seção.';
+                $mensagem_sucesso = 'Registro atualizado, mas o status ativo foi mantido devido a este pacote office estar vinculado a um ou mais computadores.';
             } else {
                 $mensagem_sucesso = 'Registro atualizado com sucesso!';
             }
@@ -127,13 +131,13 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
         }
 
         // Preparar a consulta SQL para atualização
-        $sql = "UPDATE $tabela SET nome = ?, sigla = ?, ativo = ? WHERE id = ?";
+        $sql = "UPDATE $tabela SET nome = ?, dev = ?, versao = ?, edicao = ?, ativo = ? WHERE id = ?";
         $stmt = $conn->prepare( $sql );
         if ( $stmt === false ) {
             die( 'Erro na preparação da declaração: ' . $conn->error );
         }
         // Vincular os parâmetros
-        $stmt->bind_param( 'ssii', $nome, $sigla, $ativo, $id );
+        $stmt->bind_param( 'ssssii', $nome, $dev, $versao, $ed, $ativo, $id );
         // Executar a declaração
         if ( $stmt->execute() ) {
             echo json_encode( [ 'mensagem' => $mensagem_sucesso ] );

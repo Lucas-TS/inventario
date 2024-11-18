@@ -1,5 +1,3 @@
-let closeTimeout; // Variável para armazenar a referência do timeout
-
 async function insertSec(event) {
     event.preventDefault(); // Previne o comportamento padrão do formulário
 
@@ -138,7 +136,7 @@ async function editarSec(event) {
         let responseData = await response.json();
         let overlay = document.getElementById('overlay');
         overlay.innerHTML = `
-        <div id="add_sec" class="bloco-overlay">
+        <div id="edit_sec" class="bloco-overlay">
             <div class="header">
                 <span>Editar Seção</span>
                 <div id="botoes">
@@ -150,7 +148,7 @@ async function editarSec(event) {
                 </div>
             </div>
             <div id="linha-1" class="linha fim">
-                <div id="h-line-add-sec-1" class="b-line centralizado">${responseData.mensagem}</div>
+                <div id="h-line-edit-sec-1" class="b-line centralizado">${responseData.mensagem}</div>
             </div>
             <div id="linha-2" class="linha fim centralizado">
                 <div id="b-line-1" class="b-line">

@@ -1,64 +1,83 @@
-async function insertSsd(event) {
+async function insertPv(event) {
     event.preventDefault(); // Previne o comportamento padrão do formulário
 
     let funcao = 'inserir';
     // Capturar valor do campo de texto ou definir como nulo
-    let radios = document.getElementsByName('un-add-ssd');
-    let unidade;
+    let chipset = document.getElementById('chipset-add-pv').value;
+    let marca = document.getElementById('marca-add-pv').value;
+    let modelo = document.getElementById('modelo-add-pv').value;
+    let qtde = document.getElementById('mem-add-pv').value;
 
-    for (let i = 0; i < radios.length; i++) {
-        if (radios[i].checked) {
-            unidade = radios[i].value;
+    // Extrai a parte numérica e a unidade
+    let numberPart = qtde.match(/[\d,\.]+/)[0];
+    let unitPart = qtde.match(/[^\d,\.]+/)[0].trim();
+    console.log(numberPart);
+
+    // Converte a parte numérica para um número com ponto decimal
+    numberPart = parseFloat(numberPart.replace(',', '.'));
+
+    // Verifica se a parte numérica é menor que 10
+    if (numberPart < 10) {
+        // Adiciona uma casa decimal se não houver
+        if (numberPart % 1 === 0) {
+            numberPart = numberPart.toFixed(1).replace('.', ',');
+        } else {
+            numberPart = numberPart.toString().replace('.', ',');
+        }
+    } else {
+        // Remove a casa decimal se houver
+        numberPart = Math.floor(numberPart).toString();
+    }
+
+    // Atualiza o valor formatado em qtde
+    let tamanhoMemoria = `${numberPart} ${unitPart}`;
+
+    // Seleciona todos os rádios com o name 'mem-pv'
+    let radios = document.querySelectorAll('input[name="mem-pv"]');
+
+    // Encontra o rádio marcado
+    let tipoMemoria;
+    for (let radio of radios) {
+        if (radio.checked) {
+            tipoMemoria = radio.value;
             break;
         }
     }
 
-    let numero = document.getElementById('tam-add-ssd').value;
+    let memoria = tamanhoMemoria + ' ' + tipoMemoria;
 
-    // Ajustar o número conforme a unidade
-    if (unidade === 'GB') {
-        // Remover qualquer valor decimal
-        numero = parseInt(numero).toString();
-    } else if (unidade === 'TB') {
-        // Certificar que haja uma casa decimal, substituindo ponto por vírgula se necessário
-        if (!numero.includes(',')) {
-            if (numero.includes('.')) {
-                numero = numero.replace('.', ',');
-            } else {
-                numero = numero + ",0";
-            }
-        } else if (numero.split(',')[1].length === 0) {
-            numero = numero + "0"; // Adicionar 0 após a vírgula se estiver vazio
-        }
-    }
-
-    let tamanho = numero + " " + unidade;
     let formData = {
-        tamanho: tamanho,
         funcao: funcao,
+        chipset: chipset,
+        marca: marca,
+        modelo: modelo,
+        memoria: memoria,
     };
 
+    console.log(formData);
+
     try {
-        let response = await fetch('./includes/ssd.php', {
+        let response = await fetch('./includes/pv.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8'
             },
             body: JSON.stringify(formData)
         });
+
         if (!response.ok) {
             if (response.status === 409) { // Conflito
                 throw new Error('Registro já existe.');
             } else {
-                throw new Error('Erro ao inserir o SSD.');
+                throw new Error('Erro ao inserir a placa de vídeo.');
             }
         }
 
         let overlay = document.getElementById('overlay');
         overlay.innerHTML = `
-        <div id="add_ssd" class="bloco-overlay">
+        <div id="add_pv" class="bloco-overlay">
             <div class="header">
-                <span>Adicionar SSD</span>
+                <span>Adicionar Placa de Vídeo</span>
                 <div id="botoes">
                     <div id="b-line-header-1" class="b-line">
                         <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon">
@@ -68,7 +87,7 @@ async function insertSsd(event) {
                 </div>
             </div>
             <div id="linha-1" class="linha fim">
-                <div id="h-line-add-ssd-1" class="h-line centralizado">${tamanho} inserido com sucesso!</div>
+                <div id="h-line-add-pv-1" class="h-line centralizado">${marca} ${chipset} ${modelo} ${memoria} inserida com sucesso!</div>
             </div>
             <div id="linha-2" class="linha fim centralizado">
                 <div id="b-line-1" class="b-line">
@@ -91,7 +110,7 @@ async function insertSsd(event) {
     }
 }
 
-async function editarSsdOverlay(id, arquivo) {
+async function editarPvOverlay(id, arquivo) {
     await exibirOverlay(arquivo); // Espera a execução e finalização de exibirOverlay
     let funcao = 'buscar';
 
@@ -101,7 +120,7 @@ async function editarSsdOverlay(id, arquivo) {
     };
 
     try {
-        let response = await fetch('./includes/ssd.php', {
+        let response = await fetch('./includes/pv.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8'
@@ -113,74 +132,84 @@ async function editarSsdOverlay(id, arquivo) {
         }
         let data = await response.json(); // Converte a resposta para JSON
         //Preenche os campos do formulário com os dados retornados
-        let tamanho = data.tamanho.split(' ')
-
-        document.getElementById('id-edit-ssd').value = data.id;
-        document.getElementById('tam-edit-ssd').value = tamanho[0];
-        let unidade = tamanho[1];
-        if (unidade == 'GB') {
-            document.getElementById('gb').checked = true;
-        }
-        if (unidade == 'TB') {
-            document.getElementById('tb').checked = true;
-        }
+        document.getElementById('id-edit-pv').value = data.id;
+        document.getElementById('marca-edit-pv').value = data.marca;
+        document.getElementById('modelo-edit-pv').value = data.modelo;
+        document.getElementById('chipset-edit-pv').value = data.gpu;
+        let dadosMemoria = data.memoria.split(' ');
+        let tamanhoMemoria = dadosMemoria[0] + ' ' + dadosMemoria[1];
+        document.getElementById('mem-edit-pv').value = tamanhoMemoria;
+        let tipoMemoria = dadosMemoria[2];
+        document.getElementById(tipoMemoria + '-pv').checked = true;
         if (data.ativo === 1) {
-            document.getElementById('ativo-edit-ssd').checked = true;
+            document.getElementById('ativo-edit-pv').checked = true;
         }
-        // Continue para outros campos conforme necessário
     } catch (error) {
         console.error(error.message);
     }
 }
 
-async function editarSsd(event) {
+async function editarPv(event) {
     event.preventDefault(); // Previne o comportamento padrão do formulário
 
     // Capturar valor do campo de texto ou definir como nulo
     let funcao = 'editar';
-    let id = document.getElementById('id-edit-ssd').value;
-    let ativo = document.getElementById('ativo-edit-ssd').checked ? '1' : '0';
+    let id = document.getElementById('id-edit-pv').value;
+    let marca = document.getElementById('marca-edit-pv').value;
+    let modelo = document.getElementById('modelo-edit-pv').value;
+    let gpu = document.getElementById('chipset-edit-pv').value;
+    let qtde = document.getElementById('mem-edit-pv').value;
 
-    let radios = document.getElementsByName('un-edit-ssd');
-    let unidade;
+    // Extrai a parte numérica e a unidade
+    let numberPart = qtde.match(/[\d,\.]+/)[0];
+    let unitPart = qtde.match(/[^\d,\.]+/)[0].trim();
+    console.log(numberPart);
+
+    // Converte a parte numérica para um número com ponto decimal
+    numberPart = parseFloat(numberPart.replace(',', '.'));
+
+    // Verifica se a parte numérica é menor que 10
+    if (numberPart < 10) {
+        // Adiciona uma casa decimal se não houver
+        if (numberPart % 1 === 0) {
+            numberPart = numberPart.toFixed(1).replace('.', ',');
+        } else {
+            numberPart = numberPart.toString().replace('.', ',');
+        }
+    } else {
+        // Remove a casa decimal se houver
+        numberPart = Math.floor(numberPart).toString();
+    }
+
+    // Atualiza o valor formatado em qtde
+    let tamanhoMemoria = `${numberPart} ${unitPart}`;
+
+    let radios = document.getElementsByName('mem-pv');
+    let tipoMemoria;
 
     for (let i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
-            unidade = radios[i].value;
+            tipoMemoria = radios[i].value;
             break;
         }
     }
 
-    let numero = document.getElementById('tam-edit-ssd').value;
+    let memoria = tamanhoMemoria + ' ' + tipoMemoria;
 
-    // Ajustar o número conforme a unidade
-    if (unidade === 'GB') {
-        // Remover qualquer valor decimal
-        numero = parseInt(numero).toString();
-    } else if (unidade === 'TB') {
-        // Certificar que haja uma casa decimal, substituindo ponto por vírgula se necessário
-        if (!numero.includes(',')) {
-            if (numero.includes('.')) {
-                numero = numero.replace('.', ',');
-            } else {
-                numero = numero + ",0";
-            }
-        } else if (numero.split(',')[1].length === 0) {
-            numero = numero + "0"; // Adicionar 0 após a vírgula se estiver vazio
-        }
-    }
-
-    let tamanho = numero + " " + unidade;
+    let ativo = document.getElementById('ativo-edit-pv').checked ? '1' : '0';
 
     let formData = {
         funcao: funcao,
         id: id,
-        tamanho: tamanho,
-        ativo: ativo,
+        marca: marca,
+        modelo: modelo,
+        gpu: gpu,
+        memoria: memoria,
+        ativo: ativo
     };
 
     try {
-        let response = await fetch('./includes/ssd.php', {
+        let response = await fetch('./includes/pv.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8'
@@ -190,16 +219,16 @@ async function editarSsd(event) {
 
         if (!response.ok) {
             if (response.status === 409) {
-                throw new Error('Erro ao atualizar os dados do SSD.');
+                throw new Error('Erro ao atualizar os dados da placa de vídeo.');
             }
         }
 
         let responseData = await response.json();
         let overlay = document.getElementById('overlay');
         overlay.innerHTML = `
-        <div id="edit_ssd" class="bloco-overlay">
+        <div id="edit_pv" class="bloco-overlay">
             <div class="header">
-                <span>Editar SSD</span>
+                <span>Editar Placa de Vídeo</span>
                 <div id="botoes">
                     <div id="b-line-header-1" class="b-line">
                         <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon">
@@ -209,7 +238,7 @@ async function editarSsd(event) {
                 </div>
             </div>
             <div id="linha-1" class="linha fim">
-                <div id="h-line-edit-ssd-1" class="b-line centralizado">${responseData.mensagem}</div>
+                <div id="h-line-edit-pv-1" class="b-line centralizado">${responseData.mensagem}</div>
             </div>
             <div id="linha-2" class="linha fim centralizado">
                 <div id="b-line-1" class="b-line">

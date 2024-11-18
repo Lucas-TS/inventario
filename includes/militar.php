@@ -95,7 +95,7 @@ elseif ( $data[ 'funcao' ] == 'editar' ) {
     $pg = isset( $data[ 'pg' ] ) ? $data[ 'pg' ] : null;    
     $ng = isset( $data[ 'ng' ] ) ? $data[ 'ng' ] : null;    
     $sec = isset( $data[ 'sec' ] ) ? $data[ 'sec' ] : null;    
-    $ativo = isset( $data[ 'ativo' ] ) ? $data[ 'ativo' ] : null;
+    $ativo = isset( $data[ 'ativo' ] ) ? $data[ 'ativo' ] : 1;
 
     // Verificar se o registro já existe
     $check_sql = "SELECT COUNT(*) FROM $tabela WHERE id = ?";

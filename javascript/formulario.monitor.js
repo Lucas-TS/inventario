@@ -47,7 +47,7 @@ function adicionarMonitor() {
         </div>
         <div id="h-spacer"></div>    
         <div id="b-line-mon-${++contadorbMonitor}" class="b-line fichaMon" style="flex:1">
-        <table id="fichaMon-${contadorMonitor}" class="fichaMon">
+        <table id="fichaMon-${contadorMonitor}" class="fichaMon ultimo">
             <tr><td>&nbsp;</td></tr><tr><td><span>Escolha um modelo para carregar a ficha técnica</span></td></tr>
         </table>
         </div>

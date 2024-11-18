@@ -10,7 +10,7 @@
         </div>
         <div id="linha-1" class="linha">
             <div id="h-line-edit-sec-1" class="h-line">Cadastro:</div>
-            <div id="b-line-edit-sec-2" class="b-line"><label class="label" for="id-edit-sec">ID:</label>
+            <div id="b-line-edit-sec-1" class="b-line"><label class="label" for="id-edit-sec">ID:</label>
                 <input id="id-edit-sec" name="id-edit-sec" type="text" class="input" placeholder="" readonly title="ID">
             </div>
             <div id="h-spacer"></div>

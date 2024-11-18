@@ -1,12 +1,14 @@
-function suggestionsMem(valores) {
+function suggestionsMem(valores, edit = 0) {
 
     var arrayValores = valores.split(',');
 
     var div = document.getElementById('suggestions-tipo-mem');
     div.innerHTML = '';
-
-    var input = document.getElementById('tipo-mem');
-    input.value = '';
+    
+    if (edit === 0) {
+        var input = document.getElementById('tipo-mem');
+        input.value = '';
+    }
 
     for (var i = 0; i < arrayValores.length; i++) {
         var p = document.createElement('p');
@@ -63,6 +65,7 @@ async function showSuggestions(str1, str2) {
         case 'tipo-mem':
         case 'situacao':
         case 'gp-add-user':
+        case 'gp-edit-user':
             return;
         default:
             if (str2.startsWith('modelo-monitor-')) {

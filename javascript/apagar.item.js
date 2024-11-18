@@ -76,6 +76,9 @@ async function apagarItem(id, local) {
         `;
 
         atualizarTabela();
+        if (local === 'users') {
+            
+        }
         
         // Fechar o overlay após a inserção com um retardo de 5 segundos
         closeTimeout = setTimeout(function () {

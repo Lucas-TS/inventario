@@ -39,9 +39,9 @@ function setupButton(button, input, change, tipo) {
     button.addEventListener('mousedown', handleMousedown);
     button.addEventListener('mouseup', handleMouseup);
     button.addEventListener('mouseleave', handleMouseleave);
-    button.addEventListener('touchstart', handleTouchstart);
-    button.addEventListener('touchend', handleTouchend);
-    button.addEventListener('touchcancel', handleTouchcancel);
+    button.addEventListener('touchstart', handleTouchstart, { passive: true });
+    button.addEventListener('touchend', handleTouchend, { passive: true });
+    button.addEventListener('touchcancel', handleTouchcancel, { passive: true });
 
     // Marca o botão como inicializado
     button.dataset.initialized = true;

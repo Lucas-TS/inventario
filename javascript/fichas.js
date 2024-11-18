@@ -46,7 +46,7 @@ async function fichaMonitor(str1, str2) {
         const dados = await response.json();
         let output = '<tr>';
 
-        output += `<td><b>Tamanho:</b> ${dados.tamanho} polegadas</td>`;
+        output += `<td><b>Tamanho:</b> ${dados.tamanho_tela} polegadas</td>`;
         output += `<td><b>HDMI:</b> ${dados.hdmi !== null ? dados.hdmi : 0}</td>`;
         output += `<td><b>DVI:</b> ${dados.dvi !== null ? dados.dvi : 0}</td>`;
         output += `<td style="border-right:none"><b>USB:</b> ${dados.usb !== null ? dados.usb : 0}</td>`;
