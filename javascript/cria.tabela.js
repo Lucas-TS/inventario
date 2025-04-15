@@ -22,15 +22,26 @@ let detalhes = {
 
 async function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
   try {
-    if (!await verificarSeTabelaExiste(nomeTabela)) {
-      document.getElementById('tabela').innerHTML = 'A tabela "' + nomeTabela + '" não existe!';
+
+    let tabelaFonte = nomeTabela;
+
+    if (nomeTabela === 'computadores') {
+      nomeTabela += '&tipo=0';
+    } else if (nomeTabela === 'notebooks') {
+      tabelaFonte = 'computadores';
+      nomeTabela = 'computadores&tipo=1';
+    } else if (nomeTabela === 'servidores') {
+      tabelaFonte = 'computadores';
+      nomeTabela = 'computadores&tipo=2';
+    }
+    if (!await verificarSeTabelaExiste(tabelaFonte)) {
+      document.getElementById('tabela').innerHTML = 'A tabela "' + tabelaFonte + '" não existe!';
       return;
     }
     let response = await fetch(`./includes/cria_tabela.php?tabela=${nomeTabela}`);
     if (!response.ok) throw new Error('Erro ao carregar a tabela.');
     let data = await response.text();
     dadosTabela = JSON.parse(data);
-    
     const preferencias = carregarPreferencias(nomeTabela);
     if (preferencias && preferencias.colunas && preferencias.colunas.length > 0) {
       preferenciasAtuais = {
@@ -363,7 +374,9 @@ function obterDetalhesSituacao(situacao) {
   return new Promise((resolve) => {
     switch (situacao) {
       case "0":
-        texto = "Em uso";
+        detalhes.svg = okSVG;
+        detalhes.texto = "Em uso";
+        detalhes.cor = "#008000";
         break;
       case "1":
         detalhes.svg = returnSVG;
@@ -399,6 +412,16 @@ function obterDetalhesSituacao(situacao) {
         detalhes.svg = bloqueadoSVG;
         detalhes.texto = "Bloqueado";
         detalhes.cor = "#FF0000";
+        break;
+      case "8":
+        detalhes.svg = cauteladoSVG;
+        detalhes.texto = "Cautelado";
+        detalhes.cor = "#FF9800";
+        break;
+      case "9":
+        detalhes.svg = disponivelSVG;
+        detalhes.texto = "Disponivel";
+        detalhes.cor = "#01CF73";
         break;
       default:
         detalhes.svg = "";

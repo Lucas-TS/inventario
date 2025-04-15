@@ -34,7 +34,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Home - Sistema de Inventário de Computadores</title>
+<title>Sistema de Inventário de Computadores</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="css/inventario.css" rel="stylesheet">
 <link href="css/login.css" rel="stylesheet">

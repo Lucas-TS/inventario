@@ -107,6 +107,7 @@ function gerarFormulario(contadorDsk, tipo) {
                 <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" disabled onclick="more(this, 'saude')">${addSVG}</button>
             </div>
             <input id="hidden-tam-hd-${contadorDsk}" name="hidden-tam-hd-${contadorDsk}" type="hidden" value="">
+            <input id="hidden-id-assoc-hd-${contadorDsk}" name="hidden-id-assoc-hd-${contadorDsk}" type="hidden" value="">
         `;
     } else if (tipo === 'SSD') {
         return `
@@ -134,6 +135,7 @@ function gerarFormulario(contadorDsk, tipo) {
                 <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" disabled onclick="more(this, 'saude')">${addSVG}</button>
             </div>
             <input id="hidden-tam-ssd-${contadorDsk}" name="hidden-tam-ssd-${contadorDsk}" type="hidden" value="">
+            <input id="hidden-id-assoc-ssd-${contadorDsk}" name="hidden-id-assoc-ssd-${contadorDsk}" type="hidden" value="">
         `;
     }
     requestAnimationFrame(() => {

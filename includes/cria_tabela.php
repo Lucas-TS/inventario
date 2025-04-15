@@ -47,7 +47,7 @@ function formatarNomeColuna($nome) {
 }
 
 // Função para exibir dados da tabela
-function exibirTabela($conn, $nomeTabela) {
+function exibirTabela($conn, $nomeTabela, $tipo) {
     if ($nomeTabela == 'militares')
     {
         $sql = "SELECT militares.ativo, militares.id, militares.nome_completo,pg.abreviatura AS pg, militares.nome_guerra, secao.sigla AS secao  FROM $nomeTabela AS militares LEFT JOIN pg ON militares.id_pg = pg.id LEFT JOIN secao ON militares.id_secao = secao.id";
@@ -56,12 +56,29 @@ function exibirTabela($conn, $nomeTabela) {
     {
         $sql = "SELECT ativo, id, username, fullname, email, grupo FROM $nomeTabela";
     }
-    elseif ($nomeTabela == 'computadores')
+    elseif ($nomeTabela == 'computadores' && $tipo == '0')
     {
         $sql = "SELECT computadores.ativo, computadores.id, secao.sigla AS secao, CONCAT(pg.abreviatura,' ',militares.nome_guerra) AS operador, computadores.lacre, computadores.marca, computadores.modelo, computadores.garantia, CONCAT(computadores.tam_mem, 'GB ',computadores.tipo_mem) AS memoria, computadores.antivirus, computadores.rede, computadores.hostname, computadores.ip, computadores.mac, computadores.data_inclusao, computadores.data_atualizacao, computadores.situacao FROM $nomeTabela
         LEFT JOIN militares ON computadores.id_operador=militares.id
         LEFT JOIN secao ON militares.id_secao=secao.id
-        LEFT JOIN pg ON militares.id_pg=pg.id ";
+        LEFT JOIN pg ON militares.id_pg=pg.id
+        WHERE computadores.tipo=0";
+    }
+    elseif ($nomeTabela == 'computadores' && $tipo == '1')
+    {
+        $sql = "SELECT computadores.ativo, computadores.id, secao.sigla AS secao, CONCAT(pg.abreviatura,' ',militares.nome_guerra) AS operador, computadores.lacre, computadores.marca, computadores.modelo, computadores.garantia, CONCAT(computadores.tam_mem, 'GB ',computadores.tipo_mem) AS memoria, computadores.tela, computadores.antivirus, computadores.rede, computadores.hostname, computadores.ip, computadores.mac, computadores.data_inclusao, computadores.data_atualizacao, computadores.situacao FROM $nomeTabela
+        LEFT JOIN militares ON computadores.id_operador=militares.id
+        LEFT JOIN secao ON militares.id_secao=secao.id
+        LEFT JOIN pg ON militares.id_pg=pg.id
+        WHERE computadores.tipo=1";
+    }
+    elseif ($nomeTabela == 'computadores' && $tipo == '2')
+    {
+        $sql = "SELECT computadores.ativo, computadores.id, secao.sigla AS secao, CONCAT(pg.abreviatura,' ',militares.nome_guerra) AS operador, computadores.lacre, computadores.marca, computadores.modelo, computadores.garantia, CONCAT(computadores.tam_mem, 'GB ',computadores.tipo_mem) AS memoria, computadores.antivirus, computadores.rede, computadores.hostname, computadores.ip, computadores.mac, computadores.data_inclusao, computadores.data_atualizacao, computadores.situacao FROM $nomeTabela
+        LEFT JOIN militares ON computadores.id_operador=militares.id
+        LEFT JOIN secao ON militares.id_secao=secao.id
+        LEFT JOIN pg ON militares.id_pg=pg.id
+        WHERE computadores.tipo=2";
     }
     else
     {
@@ -90,9 +107,10 @@ function exibirTabela($conn, $nomeTabela) {
 
 // Recebe o nome da tabela via GET ou POST
 $nomeTabela = $_GET['tabela'] ?? null;
+$tipo = $_GET['tipo'] ?? null;
 
 // Chama a função para exibir a tabela
-exibirTabela($conn, $nomeTabela);
+exibirTabela($conn, $nomeTabela, $tipo);
 
 // Fecha a conexão
 $conn->close();

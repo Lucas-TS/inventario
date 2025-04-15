@@ -40,7 +40,7 @@ if (isset($_SESSION['expires_by']))
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Home - Sistema de Inventário de Computadores</title>
+<title>Sistema de Inventário de Computadores</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="css/inventario.css" rel="stylesheet">
 <script src="javascript/jquery.min.js"></script>
@@ -100,6 +100,10 @@ if (isset($_SESSION['expires_by']))
         $linkAdd = "";
         $js = "";
         switch ($_GET['tabela']) {
+            case "notebooks":
+                $linkAdd = '<a href="./add_notebook.php" title="Adicionar novo Notebook"><div id="adicionar" class="balao">' . $icone . '</div></a>';
+                $js = '';
+                break;
             case "computadores":
                 $linkAdd = '<a href="./add_pc.php" title="Adicionar novo PC"><div id="adicionar" class="balao">' . $icone . '</div></a>';
                 $js = '';
@@ -154,7 +158,7 @@ if (isset($_SESSION['expires_by']))
     }
     ?>
     <a href="#" title="Voltar ao topo"><div id="topo" class="topo oculto"><?php include './images/seta.svg'; ?></div></a>
-    <div id="overlay" onclick="handleOverlayClick(event);">
+    <div id="overlay" onclick="handleOverlayClick(event);clearTimeout(closeTimeout);">
     </div>
     <footer id="FlexContainer2" style="visibility:hidden;">
         <div id="wb_Text1">

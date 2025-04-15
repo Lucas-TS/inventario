@@ -33,6 +33,7 @@ function adicionarMonitor() {
         <div id="suggestions-modelo-monitor-${contadorMonitor}" class="suggestions-box modelo-monitor">
         </div>
         <input id="hidden-modelo-monitor-${contadorMonitor}" name="hidden-modelo-monitor-${contadorMonitor}" type="hidden" value="">
+        <input id="hidden-id-assoc-monitor-${contadorMonitor}" name="hidden-id-assoc-monitor-${contadorMonitor}" type="hidden" value="">
         <div id="h-spacer"></div>
         <div id="b-line-mon-${++contadorbMonitor}" class="b-line">
             <span class="label">Conexão:</span>

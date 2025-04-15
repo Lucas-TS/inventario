@@ -43,7 +43,7 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
             die( 'Erro na preparação da declaração: ' . $conn->error );
         }
         // Vincular os parâmetros
-        $stmt->bind_param( 'ssisiiiiiii', $marca, $modelo, $tela, $res, $hdmi, $dp, $dvi, $vga, $usb, $p2, $ativo );
+        $stmt->bind_param( 'ssdsiiiiiii', $marca, $modelo, $tela, $res, $hdmi, $dp, $dvi, $vga, $usb, $p2, $ativo );
         // Executar a declaração
         if ( $stmt->execute() ) {
             echo 'Dados inseridos com sucesso!';
@@ -148,7 +148,7 @@ if ( $data[ 'funcao' ] == 'inserir' ) {
             die( 'Erro na preparação da declaração: ' . $conn->error );
         }
         // Vincular os parâmetros
-        $stmt->bind_param( 'ssisiiiiiiii', $marca, $modelo, $tela, $res, $hdmi, $dp, $dvi, $vga, $usb, $p2, $ativo, $id );
+        $stmt->bind_param( 'ssdsiiiiiiii', $marca, $modelo, $tela, $res, $hdmi, $dp, $dvi, $vga, $usb, $p2, $ativo, $id );
         // Executar a declaração
         if ( $stmt->execute() ) {
             echo json_encode( [ 'mensagem' => $mensagem_sucesso ] );

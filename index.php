@@ -38,7 +38,7 @@ if (isset($_SESSION['expires_by']))
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Home - Sistema de Inventário de Computadores</title>
+<title>Sistema de Inventário de Computadores</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="css/inventario.css" rel="stylesheet">
 <script src="javascript/jquery.min.js"></script>
@@ -57,7 +57,7 @@ if (isset($_SESSION['expires_by']))
    </header>
    <div id="content" style="visibility:hidden;">
    </div>
-   <div id="overlay" onclick="handleOverlayClick(event);">
+   <div id="overlay" onclick="handleOverlayClick(event);clearTimeout(closeTimeout);">
    </div>
    <footer id="FlexContainer2" style="visibility:hidden;">
       <div id="wb_Text1">

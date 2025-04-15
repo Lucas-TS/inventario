@@ -29,29 +29,25 @@ function TimerStopTimer1() {
    clearTimeout(wb_Timer1);
 }
 
-function exibirSubmenu(item) {
-   // Seleciona o submenu correspondente ao item clicado
-   var submenu = $('#submenu_' + item);
-   var icon = $('#expandir_' + item);
-
-   // Verifica se o submenu já está visível
-   var isVisible = submenu.hasClass('visivel');
-
-   // Oculta todos os submenus
-   $('.submenu').removeClass('visivel');
-   $('.icon.sub').removeClass('visivel');
-
-   // Se o submenu não estava visível, exibe-o
-   if (!isVisible) {
-       submenu.addClass('visivel');
-       icon.addClass('visivel');
-   }
-}
-
-// Fecha o submenu quando clicar fora do menu
-$(document).on('click', function (event) {
-   if (!$(event.target).closest('.menuitem').length) {
-      $('.submenu').removeClass('visivel');
-      $('.icon.sub').removeClass('visivel');
-   }
+$(document).ready(function() {
+    $(document).on('click', function(event) {
+        // Se o clique for fora do menu-item e do submenu, fecha todos os submenus abertos
+        if (!$(event.target).closest('.menuitem, .submenu').length) {
+            $('.submenu').stop(true, true).slideUp(300);
+            $('.icon.sub').removeClass('ativado'); // Mantém a rotação do ícone
+        }
+    });
 });
+
+function exibirSubmenu(item) {
+    var submenu = $('#submenu_' + item);
+    var icon = $('#expandir_' + item);
+
+    // Fecha outros submenus antes de abrir o atual
+    $('.submenu').not(submenu).stop(true, true).slideUp(300);
+    $('.icon.sub').not(icon).removeClass('ativado');
+
+    // Alterna o submenu atual
+    submenu.stop(true, true).slideToggle(300);
+    icon.toggleClass('ativado'); // Mantém a rotação do ícone
+}

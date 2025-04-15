@@ -15,11 +15,10 @@ $(document).ready(function () {
     }
 
     function applyInputMasks() {
-        applyMask('#input-mac', 'AA:AA:AA:AA:AA:AA');
-        applyMask('#serial-so', 'AAAAA-AAAAA-AAAAA-AAAAA-AAAAA');
-        applyMask('#serial-office', 'AAAAA-AAAAA-AAAAA-AAAAA-AAAAA');
-        applyMask('#clock-proc, #turbo-proc', '00.00');
-        applyMask('#tam-add-mon', '00.0');
+        applyMask('#input-mac, #input-mac-wifi', 'AA:AA:AA:AA:AA:AA');
+        applyMask('#serial-so, #serial-office', 'AAAAA-AAAAA-AAAAA-AAAAA-AAAAA');
+        applyMask('#clock-proc, #turbo-proc, #clock-edit-proc, #turbo-edit-proc', '00.00');
+        applyMask('#tam-add-mon, #tam-edit-mon, #tela', '00.0');
     }
 
     $('#input-hn').on('input', function () {

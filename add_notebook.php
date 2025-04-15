@@ -56,11 +56,11 @@ if (isset($_SESSION['expires_by'])) {
       <?php include 'includes/menu.php'; ?>
    </header>
    <div id="content">
-      <form name="edit-pc" id="edit-pc" method="post" accept-charset="UTF-8" action="includes/editar_pc.php" onreset="limparFormulario()">
+      <form name="add-pc" id="add-pc" method="post" accept-charset="UTF-8" action="includes/inserir_pc.php" onreset="limparFormulario()">
          <div id="bloco" class="bloco">
             <div class="header">
                <div id="b-line-fim-1" class="b-line">
-                  <span>Editar Computador</span>
+                  <span>Adicionar Notebook</span>
                </div>
                <div id="botoes">
                   <div id="b-line-fim-2" class="b-line correcao-altura">
@@ -72,26 +72,8 @@ if (isset($_SESSION['expires_by'])) {
                   </div>
                </div>
             </div>
-            <div id="linha-0" class="linha">
-                <div id="h-line-edit-pc-1" class="h-line">Cadastro:</div>
-                <div id="b-line-edit-pc-1" class="b-line"><label class="label" for="id-edit-pc">ID:</label>
-                    <input id="id-edit-pc" name="id-edit-pc" type="text" class="input" placeholder="" readonly title="ID">
-                </div>
-                <div id="h-spacer"></div>
-                <div id="b-line-edit-pc-2" class="b-line">
-                    <input type="checkbox" id="ativo-edit-pc" class="checkbox" value="1">
-                    <label for="ativo-edit-pc"><span></span>Ativo</label>
-                </div>
-                <div id="h-spacer" style="flex-basis: 100%;"></div>
-                <div id="b-line-edit-pc-3" class="b-line" style="flex-basis: 50%;"><span class="label">Incluído em:</span>
-                    <span id="data-add-edit-pc"></span>
-                </div>
-                <div id="h-spacer"></div>
-                <div id="b-line-edit-pc-3" class="b-line"><span class="label">Ultima atualização:</span>
-                    <span id="data-updt-edit-pc"></span>
-                </div>
-            </div>
             <div id="linha-1" class="linha">
+               <input id="hidden-tipo" name="hidden-tipo" type="hidden" value="1">
                <div id="h-line-1" class="h-line">Informações básicas:</div>
                <div id="b-line-1" class="b-line"><label class="label" for="op">Operador:</label>
                   <input id="op" name="op" type="text" class="input box" placeholder="Escolha o operador (Opcional)" style="width:250px"><div id="adicionarMil" class="flex-center margin-left icon-button"><a title="Adicionar novo operador" href="#" onclick="exibirOverlay('./overlay/add_mil_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
@@ -104,11 +86,13 @@ if (isset($_SESSION['expires_by'])) {
                </div>
                <div id="h-spacer" style="flex-basis: 100%;"></div>
                <div id="b-line-3" class="b-line"><label class="label" for="marca">Marca:</label>
-                  <input id="marca" name="marca" type="text" class="input" placeholder="Digite a marca (Opcional)" style="width:250px">
+                  <input id="marca" name="marca" type="text" class="input box" placeholder="Digite a marca" style="width:250px">
+                  <div id="suggestions-marca" class="suggestions-box marca"></div>
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-4" class="b-line"><label class="label" for="modelo">Modelo:</label>
-                  <input id="modelo" name="modelo" type="text" class="input" placeholder="Digite o modelo (Opcional)" style="width:250px">
+                  <input id="modelo" name="modelo" type="text" class="input box" placeholder="Digite o modelo" style="width:250px">
+                  <div id="suggestions-modelo" class="suggestions-box modelo"></div>
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-5" class="b-line"><label class="label" for="garantia">Garantia:</label>
@@ -119,11 +103,10 @@ if (isset($_SESSION['expires_by'])) {
             <div id="linha-2" class="linha">
                <div id="h-line-2" class="h-line">Processador:<div id="adicionarProc" class="flex-center margin-left icon-button"><a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./overlay/add_proc_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
                </div>
-               <div id="b-line-proc-1" class="b-line"><label class="label" for="processador-desktop">Modelo:</label>
-                  <input id="processador-desktop" class="input box" type="text" name="processador-desktop" style="width:400px;" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
-                  <div id="suggestions-processador-desktop" class="suggestions-box processador-desktop"></div>
-                  <input id="hidden-processador-desktop" name="hidden-processador-desktop" type="hidden" value="">
-                  <input id="hidden-id-assoc-processador-desktop" name="hidden-id-assoc-processador-desktop" type="hidden" value="">
+               <div id="b-line-proc-1" class="b-line"><label class="label" for="processador-note">Modelo:</label>
+                  <input id="processador-note" class="input box" type="text" name="processador-note" style="width:400px;" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
+                  <div id="suggestions-processador-note" class="suggestions-box processador-note"></div>
+                  <input id="hidden-processador-note" name="hidden-processador-note" type="hidden" value="">
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-proc-2" class="b-line">
@@ -171,10 +154,16 @@ if (isset($_SESSION['expires_by'])) {
                   <span class="label">Tipo:</span>
                   <input type="radio" id="pv-on" name="pv" class="radio pv-check" value="on" checked onclick="formularioGPU(this.value)">
                   <label for="pv-on"><span></span>Onboard</label>
-                  <input type="radio" id="pv-off" name="pv" class="radio pv-check" value="off" onclick="formularioGPU(this.value)">
+                  <input type="radio" id="pv-off" name="pv" class="radio pv-check" value="off" onclick="formularioGPU(this.value, 'Notebook')">
                   <label for="pv-off"><span></span>Offboard</label>
                </div>
                <div id="formulario-pv-1" class="formulario pv">
+               </div>
+            </div>
+            <div id="linha-6a" class="linha">
+               <div id="h-line-7a" class="h-line">Tela:</div>
+               <div id="b-line-tela-1" class="b-line"><label class="label" for="tela">Tamanho:</label>
+                  <input id="tela" class="input box" type="text" name="tela" style="width:150px;" placeholder="Digite o tamanho" required onkeyup="verificarTecla(event)"><span style="color:#AAAAAA">&nbsp;polegadas</span>
                </div>
             </div>
             <div id="linha-6" class="linha">
@@ -238,10 +227,10 @@ if (isset($_SESSION['expires_by'])) {
                <div id="b-line-rede-1" class="b-line"><label class="label" for="input-hn">Hostname:</label>
                   <input id="input-hn" name="hn" type="text" class="input trim" placeholder="Digite o nome" required style="width:250px">
                </div>
-               <div id="h-spacer"></div>
+               <div id="h-spacer" style="flex-basis:100%"></div>
                <div id="b-line-rede-2" class="b-line">
                   <span class="label">Placa de rede:</span>
-                  <input type="radio" id="rede-on" name="rede" class="radio" value="0">
+                  <input type="radio" id="rede-on" name="rede" class="radio" value="0" required>
                   <label for="rede-on"><span></span>Onboard</label>
                   <input type="radio" id="rede-off" name="rede" class="radio" value="1">
                   <label for="rede-off"><span></span>Offboard</label>
@@ -250,8 +239,20 @@ if (isset($_SESSION['expires_by'])) {
                <div id="b-line-rede-3" class="b-line"><label class="label" for="input-mac">MAC:</label>
                   <input id="input-mac" name="mac" type="text" class="input mac trim" placeholder="Digite o MAC" required style="width:250px" title="Digite apenas os caracteres">
                </div>
+               <div id="h-spacer" style="flex-basis:100%"></div>
+               <div id="b-line-rede-4" class="b-line">
+                  <span class="label">Wi-Fi:</span>
+                  <input type="radio" id="wifi-nao" name="wifi" class="radio" value="0" required checked onclick="bloquearMacWifi()">
+                  <label for="wifi-nao"><span></span>Não</label>
+                  <input type="radio" id="wifi-sim" name="wifi" class="radio" value="1" onclick="liberarMacWifi()">
+                  <label for="wifi-sim"><span></span>Sim</label>
+               </div>
                <div id="h-spacer"></div>
-               <div id="b-line-rede-4" class="b-line" style="display:none"><label class="label" for="ip">IP:</label>
+               <div id="b-line-rede-5" class="b-line"><label class="label" for="input-mac-wifi">MAC:</label>
+                  <input id="input-mac-wifi" name="mac-wifi" type="text" class="input mac trim" placeholder="Digite o MAC" required disabled style="width:250px" title="Digite apenas os caracteres">
+               </div>
+               <div id="h-spacer" style="flex-basis:100%"></div>
+               <div id="b-line-rede-6" class="b-line" style="display:none"><label class="label" for="ip">IP:</label>
                   <input id="ip" name="ip" type="text" class="input" placeholder="Digite o IP" disabled style="width:250px">
                </div>
             </div>
@@ -268,6 +269,8 @@ if (isset($_SESSION['expires_by'])) {
                      <p id="p5" onclick="passarValor('5', 'situacao', '5')">Defeito</p>
                      <p id="p6" onclick="passarValor('6', 'situacao', '6')">Descarregar</p>
                      <p id="p7" onclick="passarValor('7', 'situacao', '7')">Bloqueado</p>
+                     <p id="p8" onclick="passarValor('8', 'situacao', '8')">Disponível</p>
+                     <p id="p9" onclick="passarValor('9', 'situacao', '9')">cautelado</p>
                   </div>
                   <input id="hidden-situacao" name="hidden-situacao" type="hidden" value="">
                </div>
@@ -290,13 +293,6 @@ if (isset($_SESSION['expires_by'])) {
       </div>
    </footer>
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let urlParams = new URLSearchParams(window.location.search);
-        let id = urlParams.get('id');
-        preencherPC(id);
-    });
-</script>
 <script src="javascript/suggestions.js"></script>
 <script src="javascript/more.less.js"></script>
 <script src="javascript/load.svg.js"></script>
@@ -306,6 +302,7 @@ if (isset($_SESSION['expires_by'])) {
 <script src="javascript/formulario.so.js"></script>
 <script src="javascript/formulario.office.js"></script>
 <script src="javascript/formulario.gpu.js"></script>
+<script src="javascript/formulario.rede.js"></script>
 <script src="javascript/processador.js"></script>
 <script src="javascript/placa.video.js"></script>
 <script src="javascript/placeholder.js"></script>

@@ -62,6 +62,18 @@ async function showSuggestions(str1, str2) {
         case 'mem-pv':
             marca = `${document.getElementById('gpu-pv').value} ${document.getElementById('marca-pv').value} ${document.getElementById('modelo-pv').value}`;
             break;
+        case 'mem-pv-nb':
+            marca = document.getElementById('gpu-pv-nb').value;
+            break;
+        case 'gpu-pv-nb':
+            marca = 'Notebook';
+            break;
+        case 'chipset-add-pv':
+            marca = document.getElementById('seg-add-pv').value;
+            break;
+        case 'chipset-edit-pv':
+            marca = document.getElementById('seg-edit-pv').value;
+            break;
         case 'tipo-mem':
         case 'situacao':
         case 'gp-add-user':
@@ -78,7 +90,7 @@ async function showSuggestions(str1, str2) {
     try {
         const response = await fetch(`./includes/auto_complete.php?q=${str1}&n=${str2}&mm=${encodeURIComponent(marca)}`);
         if (!response.ok) throw new Error('Erro na requisição.');
-
+        console.log(response);
         const data = await response.text();
         $suggestions.html(data);
         if (!$suggestions.hasClass("visivel")) {

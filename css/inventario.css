@@ -764,21 +764,17 @@ label {
 }
 
 .visivel.ocultavel {
-   display: table-row-group;
+   display: block;
    opacity: 1;
    transition: opacity 0.3s ease;
 }
 
 .submenu {
-   opacity: 0;
-   display: none;
-   transition: all 0.3s linear;
+   display: none; /* Esconde inicialmente */
 }
 
-.visivel.submenu {
-   display: block;
-   opacity: 1;
-   transition: all 0.3s linear;
+.icon.sub {
+   transition: transform 0.3s ease-in-out;
 }
 
 .visivel.icon.seta, .visivel.icon.sub{
@@ -1095,7 +1091,7 @@ label {
    margin-top: 30px;
 }
 
-.suggestions-box.processador-desktop {
+.suggestions-box.processador-desktop, .suggestions-box.processador-note {
    width: 395px;
    margin-left: 68px;
    margin-top: 30px;
@@ -1104,6 +1100,18 @@ label {
 .suggestions-box.op {
    width: 245px;
    margin-left: 83px;
+   margin-top: 30px;
+}
+
+.suggestions-box.marca {
+   width: 245px;
+   margin-left: 61px;
+   margin-top: 30px;
+}
+
+.suggestions-box.modelo {
+   width: 245px;
+   margin-left: 69px;
    margin-top: 30px;
 }
 

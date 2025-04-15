@@ -21,7 +21,7 @@ if ( isset( $data[ 'funcao' ] ) && $data[ 'funcao' ] == 'buscar_pc' ) {
         $check_stmt->close();
 
         if ( $count == 1 ) {
-            $select_sql = "SELECT $tabela.*, CONCAT (pg.abreviatura, ' ', militares.nome_guerra, ' - ', secao.sigla) AS op,users_add.fullname AS fullname_add, users_updt.fullname AS fullname_updt FROM $tabela 
+            $select_sql = "SELECT $tabela.*, CONCAT (pg.abreviatura, ' ', militares.nome_guerra, ' - ', secao.sigla) AS op, users_add.fullname AS fullname_add, users_updt.fullname AS fullname_updt FROM $tabela 
             LEFT JOIN militares ON $tabela.id_operador = militares.id
             LEFT JOIN pg ON militares.id_pg = pg.id
             LEFT JOIN secao ON militares.id_secao = secao.id
@@ -53,7 +53,7 @@ if ( isset( $data[ 'funcao' ] ) && $data[ 'funcao' ] == 'buscar_pc' ) {
     $tabela = 'assoc_processador';
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
     try {
-        $select_sql = "SELECT $tabela.id_pc, $tabela.id_processador, lista_processador.* FROM $tabela 
+        $select_sql = "SELECT $tabela.id AS id_assoc, $tabela.id_pc, $tabela.id_processador, lista_processador.* FROM $tabela 
             LEFT JOIN lista_processador ON $tabela.id_processador = lista_processador.id
             WHERE $tabela.id_pc = ?";
         $select_stmt = $conn->prepare( $select_sql );
@@ -80,7 +80,7 @@ if ( isset( $data[ 'funcao' ] ) && $data[ 'funcao' ] == 'buscar_pc' ) {
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
 
     try {
-        $select_sql = "SELECT $tabela.id_pc, $tabela.id_hd, $tabela.tipo, $tabela.saude, lista_hd.* FROM $tabela 
+        $select_sql = "SELECT $tabela.id AS id_assoc, $tabela.id_pc, $tabela.id_hd, $tabela.tipo, $tabela.saude, lista_hd.* FROM $tabela 
         LEFT JOIN lista_hd ON $tabela.id_hd = lista_hd.id
         WHERE $tabela.id_pc = ?";
         $select_stmt = $conn->prepare( $select_sql );
@@ -110,7 +110,7 @@ if ( isset( $data[ 'funcao' ] ) && $data[ 'funcao' ] == 'buscar_pc' ) {
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
 
     try {
-        $select_sql = "SELECT $tabela.id_pc, $tabela.id_ssd, $tabela.tipo, $tabela.saude, lista_ssd.* FROM $tabela 
+        $select_sql = "SELECT $tabela.id AS id_assoc, $tabela.id_pc, $tabela.id_ssd, $tabela.tipo, $tabela.saude, lista_ssd.* FROM $tabela 
         LEFT JOIN lista_ssd ON $tabela.id_ssd = lista_ssd.id
         WHERE $tabela.id_pc = ?";
         $select_stmt = $conn->prepare( $select_sql );
@@ -139,7 +139,7 @@ if ( isset( $data[ 'funcao' ] ) && $data[ 'funcao' ] == 'buscar_pc' ) {
     $tabela = 'assoc_placa_video';
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
     try {
-        $select_sql = "SELECT $tabela.id_pc, $tabela.id_placa_video, lista_placa_video.* FROM $tabela 
+        $select_sql = "SELECT $tabela.id AS id_assoc, $tabela.id_pc, $tabela.id_placa_video, lista_placa_video.* FROM $tabela 
             LEFT JOIN lista_placa_video ON $tabela.id_placa_video = lista_placa_video.id
             WHERE $tabela.id_pc = ?";
         $select_stmt = $conn->prepare( $select_sql );
@@ -166,7 +166,7 @@ if ( isset( $data[ 'funcao' ] ) && $data[ 'funcao' ] == 'buscar_pc' ) {
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
 
     try {
-        $select_sql = "SELECT $tabela.id_pc, $tabela.id_monitor, $tabela.conexao, lista_monitor.* FROM $tabela 
+        $select_sql = "SELECT $tabela.id AS id_assoc, $tabela.id_pc, $tabela.id_monitor, $tabela.conexao, lista_monitor.* FROM $tabela 
         LEFT JOIN lista_monitor ON $tabela.id_monitor = lista_monitor.id
         WHERE $tabela.id_pc = ?";
         $select_stmt = $conn->prepare( $select_sql );
@@ -195,7 +195,7 @@ if ( isset( $data[ 'funcao' ] ) && $data[ 'funcao' ] == 'buscar_pc' ) {
     $tabela = 'assoc_so';
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
     try {
-        $select_sql = "SELECT $tabela.id_pc, $tabela.id_so, lista_so.* FROM $tabela 
+        $select_sql = "SELECT $tabela.id AS id_assoc, $tabela.id_pc, $tabela.id_so, lista_so.* FROM $tabela 
             LEFT JOIN lista_so ON $tabela.id_so = lista_so.id
             WHERE $tabela.id_pc = ?";
         $select_stmt = $conn->prepare( $select_sql );
@@ -221,7 +221,7 @@ if ( isset( $data[ 'funcao' ] ) && $data[ 'funcao' ] == 'buscar_pc' ) {
     $tabela = 'assoc_office';
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
     try {
-        $select_sql = "SELECT $tabela.id_pc, $tabela.id_office, lista_office.* FROM $tabela 
+        $select_sql = "SELECT $tabela.id AS id_assoc, $tabela.id_pc, $tabela.id_office, lista_office.* FROM $tabela 
             LEFT JOIN lista_office ON $tabela.id_office = lista_office.id
             WHERE $tabela.id_pc = ?";
         $select_stmt = $conn->prepare( $select_sql );

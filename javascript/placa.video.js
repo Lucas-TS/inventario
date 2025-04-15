@@ -3,6 +3,7 @@ async function insertPv(event) {
 
     let funcao = 'inserir';
     // Capturar valor do campo de texto ou definir como nulo
+    let seguimento = document.getElementById('seg-add-pv').value;
     let chipset = document.getElementById('chipset-add-pv').value;
     let marca = document.getElementById('marca-add-pv').value;
     let modelo = document.getElementById('modelo-add-pv').value;
@@ -11,7 +12,6 @@ async function insertPv(event) {
     // Extrai a parte numérica e a unidade
     let numberPart = qtde.match(/[\d,\.]+/)[0];
     let unitPart = qtde.match(/[^\d,\.]+/)[0].trim();
-    console.log(numberPart);
 
     // Converte a parte numérica para um número com ponto decimal
     numberPart = parseFloat(numberPart.replace(',', '.'));
@@ -48,13 +48,12 @@ async function insertPv(event) {
 
     let formData = {
         funcao: funcao,
+        seguimento: seguimento,
         chipset: chipset,
         marca: marca,
         modelo: modelo,
         memoria: memoria,
     };
-
-    console.log(formData);
 
     try {
         let response = await fetch('./includes/pv.php', {
@@ -133,6 +132,13 @@ async function editarPvOverlay(id, arquivo) {
         let data = await response.json(); // Converte a resposta para JSON
         //Preenche os campos do formulário com os dados retornados
         document.getElementById('id-edit-pv').value = data.id;
+        document.getElementById('seg-edit-pv').value = data.seguimento;
+        if (data.seguimento === 'Notebook') {
+            document.getElementById('marca-edit-pv').disabled = true; // Desabilita o campo de marca
+            document.getElementById('marca-edit-pv').placeholder = '---';
+            document.getElementById('modelo-edit-pv').disabled = true; // Desabilita o campo de modelo
+            document.getElementById('modelo-edit-pv').placeholder = '---';
+        }
         document.getElementById('marca-edit-pv').value = data.marca;
         document.getElementById('modelo-edit-pv').value = data.modelo;
         document.getElementById('chipset-edit-pv').value = data.gpu;
@@ -155,6 +161,7 @@ async function editarPv(event) {
     // Capturar valor do campo de texto ou definir como nulo
     let funcao = 'editar';
     let id = document.getElementById('id-edit-pv').value;
+    let seguimento = document.getElementById('seg-edit-pv').value;
     let marca = document.getElementById('marca-edit-pv').value;
     let modelo = document.getElementById('modelo-edit-pv').value;
     let gpu = document.getElementById('chipset-edit-pv').value;
@@ -201,6 +208,7 @@ async function editarPv(event) {
     let formData = {
         funcao: funcao,
         id: id,
+        seguimento: seguimento,
         marca: marca,
         modelo: modelo,
         gpu: gpu,
@@ -257,5 +265,56 @@ async function editarPv(event) {
         }, 5000); // 5000 milissegundos = 5 segundos
     } catch (error) {
         alert(error.message); // Exibe um alert com a mensagem de erro
+    }
+}
+
+let valorMarca = ''; // Armazena a marca original
+let valorModelo = ''; // Armazena o modelo original
+
+function mobileGPU() {
+    let campo = document.getElementById('marca-add-pv') || document.getElementById('marca-edit-pv');
+    let campo2 = document.getElementById('modelo-add-pv') || document.getElementById('modelo-edit-pv');
+
+    // Armazena os valores antes de limpar, mas apenas se forem campos de edição
+    if (campo && campo.id === 'marca-edit-pv') {
+        valorMarca = campo.value; // Salva o valor original
+        campo.value = ''; // Limpa o campo
+    }
+    if (campo2 && campo2.id === 'modelo-edit-pv') {
+        valorModelo = campo2.value; // Salva o valor original
+        campo2.value = ''; // Limpa o campo
+    }
+
+    // Desativa os campos
+    if (campo) {
+        campo.disabled = true;
+        campo.placeholder = '---';
+    }
+    if (campo2) {
+        campo2.disabled = true;
+        campo2.placeholder = '---';
+    }
+}
+
+function desktopGPU() {
+    let campo = document.getElementById('marca-add-pv') || document.getElementById('marca-edit-pv');
+    let campo2 = document.getElementById('modelo-add-pv') || document.getElementById('modelo-edit-pv');
+
+    // Se os campos forem editáveis, recupera os valores armazenados
+    if (campo && campo.id === 'marca-edit-pv') {
+        campo.value = valorMarca; // Recupera o valor original
+    }
+    if (campo2 && campo2.id === 'modelo-edit-pv') {
+        campo2.value = valorModelo; // Recupera o valor original
+    }
+
+    // Reativa os campos
+    if (campo) {
+        campo.disabled = false;
+        campo.placeholder = 'Digite o nome';
+    }
+    if (campo2) {
+        campo2.disabled = false;
+        campo2.placeholder = 'Digite o modelo';
     }
 }

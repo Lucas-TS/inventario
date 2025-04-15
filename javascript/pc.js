@@ -63,6 +63,7 @@ async function preencherProc(id) {
         let processador = marca + ' ' + modelo;
         document.getElementById('processador-desktop').value = processador;
         document.getElementById('hidden-processador-desktop').value = data.id_processador;
+        document.getElementById('hidden-id-assoc-processador-desktop').value = data.id_assoc;
         fichaProcessador(processador);
         suggestionsMem(memorias, 1);
     } catch (error) {
@@ -98,6 +99,7 @@ async function preencherSsd(id) {
             let tamanho = item.tamanho;
             document.getElementById('tam-ssd-' + contadorAddDsk).value = tamanho;
             document.getElementById('hidden-tam-ssd-' + contadorAddDsk).value = item.id_ssd;
+            document.getElementById('hidden-id-assoc-ssd-' + contadorAddDsk).value = item.id_assoc;
             let saude = item.saude;
             document.getElementById('saude-ssd-' + contadorAddDsk).value = saude;
             let tipo = item.tipo;
@@ -144,6 +146,7 @@ async function preencherHd(id) {
             let tamanho = item.tamanho;
             document.getElementById('tam-hd-' + contadorAddDsk).value = tamanho;
             document.getElementById('hidden-tam-hd-' + contadorAddDsk).value = item.id_hd;
+            document.getElementById('hidden-id-assoc-hd-' + contadorAddDsk).value = item.id_assoc;
             let saude = item.saude;
             document.getElementById('saude-hd-' + contadorAddDsk).value = saude;
             let tipo = item.tipo;
@@ -185,6 +188,7 @@ async function preencherPv(id) {
             document.getElementById('pv-off').checked = true;
             formularioGPU('off')
             document.getElementById('hidden-mem-pv').value = data.id_placa_video;
+            document.getElementById('hidden-id-assoc-pv').value = data.id_assoc;
             document.getElementById('gpu-pv').value = data.gpu;
             document.getElementById('marca-pv').removeAttribute('disabled');
             document.getElementById('marca-pv').value = data.marca;
@@ -226,6 +230,7 @@ async function preencherMonitor(id) {
             let modelo = item.modelo;
             document.getElementById('modelo-monitor-' + contadorAddMon).value = modelo;
             document.getElementById('hidden-modelo-monitor-' + contadorAddMon).value = item.id_monitor;
+            document.getElementById('hidden-id-assoc-monitor-' + contadorAddMon).value = item.id_assoc;
             let conexao = item.conexao;
             if (conexao == 'HDMI') {
                 document.getElementById('HDMI-' + contadorAddMon).checked = true;
@@ -306,6 +311,7 @@ async function preencherSo(id) {
             }
         }
         document.getElementById('hidden-so').value = data.id_so;
+        document.getElementById('hidden-id-assoc-so').value = data.id_assoc;
     } catch (error) {
         console.error(error.message);
     }
@@ -345,6 +351,7 @@ async function preencherOffice(id) {
             document.getElementById('ver-free').value = data.versao;
         }
         document.getElementById('hidden-office').value = data.id_office;
+        document.getElementById('hidden-id-assoc-office').value = data.id_assoc;
     } catch (error) {
         console.error(error.message);
     }
@@ -419,6 +426,7 @@ async function preencherPC(id) {
             document.getElementById('data-updt-edit-pc').innerHTML = '---';
         }     
         document.getElementById('op').value = data.op;
+        document.getElementById('hidden-op').value = data.id_operador;
         document.getElementById('lacre').value = data.lacre;
         document.getElementById('marca').value = data.marca;
         document.getElementById('modelo').value = data.modelo;

@@ -20,22 +20,30 @@
             </div>
         </div>
         <div id="linha-2" class="linha">
-            <div id="h-line-edit-pv-2" class="h-line">Chipset:</div>
-            <div id="b-line-edit-pv-3" class="b-line"><label class="label" for="chipset-edit-pv">Marca e modelo:</label>
-                <input id="chipset-edit-pv" name="chipset-edit-pv" type="text" class="input box" placeholder="Digite o nome completo" style="width:350px" required title="Ex.: AMD Radeon RX-550, NVIDIA GeForce RTX 3060">
+            <div id="h-line-edit-pv-2" class="h-line">Informações básicas:</div>
+            <div id="b-line-edit-pv-3" class="b-line"><label class="label" for="seg-edit-pv">Seguimento:</label>
+                <input id="seg-edit-pv" name="seg-edit-pv" type="text" class="input fixedBox" placeholder="Escolha o seguimento" style="width:250px" required readonly>
+                <div id="suggestions-seg-edit-pv" class="suggestions-box seg-edit-pv">
+                    <p id="p1" onclick="passarValor(1,'seg-edit-pv','');desktopGPU()">Desktop</p>
+                    <p id="p2" onclick="passarValor(2,'seg-edit-pv','');mobileGPU()">Notebook</p>
+                </div>
+            </div>
+            <div id="h-spacer"></div>
+            <div id="b-line-edit-pv-4" class="b-line"><label class="label" for="chipset-edit-pv">Chipset:</label>
+                <input id="chipset-edit-pv" name="chipset-edit-pv" type="text" class="input box" placeholder="Digite o nome completo" style="width:250px" required title="Ex.: AMD Radeon RX-550, NVIDIA GeForce RTX 3060">
                 <div id="suggestions-chipset-edit-pv" class="suggestions-box chipset-edit-pv">
                 </div>
             </div>
         </div>
         <div id="linha-3" class="linha">
             <div id="h-line-edit-pv-3" class="h-line">Informações complementares:</div>
-            <div id="b-line-edit-pv-4" class="b-line"><label class="label" for="marca-edit-pv">Fabricante:</label>
+            <div id="b-line-edit-pv-5" class="b-line"><label class="label" for="marca-edit-pv">Fabricante:</label>
                 <input id="marca-edit-pv" name="marca-edit-pv" type="text" class="input box" placeholder="Digite o nome" style="width:250px" required title="Ex.: Asus, Galax, MSI, XFX, Zotac">
                 <div id="suggestions-marca-edit-pv" class="suggestions-box marca-edit-pv">
                 </div>
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-edit-pv-5" class="b-line"><label class="label" for="modelo-edit-pv">Modelo:</label>
+            <div id="b-line-edit-pv-6" class="b-line"><label class="label" for="modelo-edit-pv">Modelo:</label>
                 <input id="modelo-edit-pv" name="modelo-edit-pv" type="text" class="input box" placeholder="Digite o modelo" style="width:250px" required title="Ex.: MECH 2X OC, Speedster SWFT210">
                 <div id="suggestions-modelo-edit-pv" class="suggestions-box modelo-edit-pv">
                 </div>
@@ -43,7 +51,7 @@
         </div>
         <div id="linha-4" class="linha">
             <div id="h-line-edit-pv-4" class="h-line">Memória:</div>
-            <div id="b-line-edit-pv-6" class="b-line" style="flex-basis:100%"><label class="label" for="mem-edit-pv">Tamanho:</label>
+            <div id="b-line-edit-pv-7" class="b-line" style="flex-basis:100%"><label class="label" for="mem-edit-pv">Tamanho:</label>
                 <input id="mem-edit-pv" name="mem-edit-pv" type="text" class="input unity" placeholder="Quantidade e unidade" style="width:200px" required title="Número e unidade. Ex.: 512MB, 2GB, 4GB ...">
             </div>
             <div id="b-line-edit-pv-7" class="b-line"><span class="label">Tipos:</span>

@@ -11,6 +11,7 @@ function formularioOffice(str1) {
             <div id="suggestions-ed-ms" class="suggestions-box ed-office ms">
             </div>
             <input id="hidden-office" name="hidden-office" type="hidden" value="">
+            <input id="hidden-id-assoc-office" name="hidden-id-assoc-office" type="hidden" value="">
             <div id="h-spacer" style="flex-basis: 100%;"></div>
             <div id="b-line-office-4" class="b-line">
                 <input type="radio" id="pirata-rd-office" name="licenca-office" class="radio" value="0" onclick="desativaSerialOffice()">
@@ -32,6 +33,7 @@ function formularioOffice(str1) {
             <div id="suggestions-ver-free" class="suggestions-box ver-office free">
             </div>
             <input id="hidden-office" name="hidden-office" type="hidden" value="">
+            <input id="hidden-id-assoc-office" name="hidden-id-assoc-office" type="hidden" value="">
         `;
     }
     linha.innerHTML = conteudo;

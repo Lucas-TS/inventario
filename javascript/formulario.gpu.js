@@ -1,8 +1,9 @@
-function formularioGPU(str1) {
+function formularioGPU(str1, str2 = 'Desktop') {
     let linha = document.getElementById("formulario-pv-1");
     let conteudo = '';
         if (str1 === 'off') {
-        conteudo = `
+            if (str2 === 'Desktop') {
+            conteudo = `
                 <div id="b-line-pv-2" class="b-line"><label class="label" for="gpu-pv">Chipset:</label>
                     <input id="gpu-pv" class="input box" type="text" name="gpu-pv" class="input" placeholder="Escolha o chipset" required style="width:245px;" onkeyup="disableCampo2Pv()">
                     <div id="suggestions-gpu-pv" class="suggestions-box gpu-pv"></div>
@@ -23,7 +24,23 @@ function formularioGPU(str1) {
                     <div id="suggestions-mem-pv" class="suggestions-box mem-pv"></div>
                 </div>
                 <input id="hidden-mem-pv" name="hidden-mem-pv" type="hidden" value="">
+                <input id="hidden-id-assoc-gpu" name="hidden-id-assoc-gpu" type="hidden" value="">
                 `;
+            } else if (str2 === 'Notebook') {
+                conteudo = `
+                <div id="b-line-pv-2" class="b-line"><label class="label" for="gpu-pv-nb">Chipset:</label>
+                    <input id="gpu-pv-nb" class="input box" type="text" name="gpu-pv-nb" class="input" placeholder="Escolha o chipset" required style="width:245px;" onkeyup="disableCampo2PvNb()">
+                    <div id="suggestions-gpu-pv-nb" class="suggestions-box gpu-pv-nb"></div>
+                </div>
+                <div id="h-spacer"></div>
+                <div id="b-line-pv-5" class="b-line"><label class="label" for="mem-pv-nb">Memória:</label>
+                    <input id="mem-pv-nb" class="input openBox" type="text" name="mem-pv-nb" class="input" placeholder="Escolha o chipset" required disabled style="width:145px;">
+                    <div id="suggestions-mem-pv-nb" class="suggestions-box mem-pv-nb"></div>
+                </div>
+                <input id="hidden-mem-pv-nb" name="hidden-mem-pv-nb" type="hidden" value="">
+                <input id="hidden-id-assoc-gpu" name="hidden-id-assoc-gpu" type="hidden" value="">
+                `;
+            }
     } else if (str1 === 'on') {
         conteudo = ``;
     }
@@ -91,6 +108,24 @@ function liberarCampo4Pv() {
 
 function disableCampo4Pv() {
     let campo4 = document.getElementById('mem-pv');
+    campo4.setAttribute('placeholder', 'Escolha o modelo');
+    campo4.disabled = true;
+    campo4.value = '';
+    let campo5 = document.getElementById('hidden-mem-pv');
+    campo5.value = '';
+}
+
+function liberarCampo2PvNb() {
+    let campo = document.getElementById('mem-pv-nb');
+    campo.setAttribute('placeholder', 'Escolha');
+    campo.disabled = false;
+    campo.value = '';
+    campo.addEventListener('click', handleEvent);
+    campo.addEventListener('keyup', handleEvent);
+}
+
+function disableCampo2PvNb() {
+    let campo4 = document.getElementById('mem-pv-nb');
     campo4.setAttribute('placeholder', 'Escolha o modelo');
     campo4.disabled = true;
     campo4.value = '';
