@@ -103,10 +103,10 @@ if (isset($_GET['so']))
 if (isset($_GET['n']) && ($_GET['n'] == 'nome-free' || $_GET['n'] == 'ver-ms'))
 {
     if ($mm == 'Office') {
-        $sql = "SELECT DISTINCT versao AS lista FROM lista_office WHERE versao LIKE '%$q%' AND nome LIKE '$mm' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
+        $sql = "SELECT DISTINCT id, versao AS lista, edicao FROM lista_office WHERE versao LIKE '%$q%' AND nome LIKE '$mm' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
     }
     if ($mm == 'Free') {
-        $sql = "SELECT DISTINCT nome AS lista FROM lista_office WHERE nome LIKE '%$q%' AND nome NOT LIKE 'Office' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
+        $sql = "SELECT DISTINCT id, nome AS lista, edicao FROM lista_office WHERE nome LIKE '%$q%' AND nome NOT LIKE 'Office' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
     }
 }
 if (isset($_GET['n']) && ($_GET['n'] == 'ver-free' || $_GET['n'] == 'ed-ms'))
@@ -281,7 +281,14 @@ if ($result->num_rows > 0)
         //Sugestões para nome do office gratuito ou para versão do Office
         elseif ($n == 'nome-free' || $n == 'ver-ms')
         {
-            echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . '); liberarCampo2(\'' . $mm . '\')">' . $row['lista'] . "</p>";
+            if ($row['edicao'] != '')
+            {
+                echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . '); liberarCampo2(\'' . $mm . '\')">' . $row['lista'] . "</p>";
+            }
+            else
+            {
+                echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . '); passarIdOffice(\'' . $row['id'] . '\')">' . $row['lista'] . "</p>";
+            }
         }
         
         //Sugestões para versão do office gratuito ou para edição do Office

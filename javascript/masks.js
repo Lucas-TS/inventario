@@ -5,7 +5,8 @@ $(document).ready(function () {
                 reverse: true,
                 translation: {
                     'A': { pattern: /[A-Fa-f0-9]/ },
-                    '0': { pattern: /[0-9]/ }
+                    '0': { pattern: /[0-9]/ },
+                    'B': { pattern: /[A-Za-z0-9]/ }
                 },
                 onKeyPress: function (value, e, field, options) {
                     field.val(value.toUpperCase());
@@ -16,7 +17,7 @@ $(document).ready(function () {
 
     function applyInputMasks() {
         applyMask('#input-mac, #input-mac-wifi', 'AA:AA:AA:AA:AA:AA');
-        applyMask('#serial-so, #serial-office', 'AAAAA-AAAAA-AAAAA-AAAAA-AAAAA');
+        applyMask('#serial-so, #serial-office', 'BBBBB-BBBBB-BBBBB-BBBBB-BBBBB');
         applyMask('#clock-proc, #turbo-proc, #clock-edit-proc, #turbo-edit-proc', '00.00');
         applyMask('#tam-add-mon, #tam-edit-mon, #tela', '00.0');
     }

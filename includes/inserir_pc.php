@@ -2,7 +2,7 @@
 include 'conecta_db.php';
 
 $tipo = isset($_POST["hidden-tipo"]) ? $_POST["hidden-tipo"] : null; //Campo INT (tipo)
-$id_op = isset($_POST["hidden-op"]) ? $_POST["hidden-op"] : null; //Campo INT (id_operador)
+$id_op = isset($_POST["hidden-op"]) && $_POST["hidden-op"] !== "" ? $_POST["hidden-op"] : null;
 $lacre = isset($_POST["lacre"]) ? $_POST["lacre"] : null; //Campo INT (lacre)
 $marca = isset($_POST["marca"]) ? $_POST["marca"] : null; //Campo VARCHAR (marca)
 $modelo = isset($_POST["modelo"]) ? $_POST["modelo"] : null; //Campo VARCHAR (modelo)
@@ -51,7 +51,7 @@ $id_pc = $conn->insert_id;
 $stmt->close();
 
 // Associação do processador
-$id_processador = isset($_POST["hidden-processador"]) ? $_POST["hidden-processador"] : (isset($_POST["hidden-processador-note"]) ? $_POST["hidden-processador-note"] : null);
+$id_processador = isset($_POST["hidden-processador-desktop"]) ? $_POST["hidden-processador-desktop"] : (isset($_POST["hidden-processador-note"]) ? $_POST["hidden-processador-note"] : null);
 
 $stmt2 = $conn->prepare("INSERT INTO assoc_processador (id_pc, id_processador) VALUES (?, ?)");
 $stmt2->bind_param("ii", $id_pc, $id_processador);

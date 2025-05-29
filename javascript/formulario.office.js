@@ -7,7 +7,7 @@ function formularioOffice(str1) {
             <div id="suggestions-ver-ms" class="suggestions-box ver-office ms">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-office-3" class="b-line"><label class="label" for="ed-ms">Edição:</label><input id="ed-ms" class="input openBox" type="text" name="ed-office" placeholder="Escolha a versão" required disabled style="width:190px"></div>
+            <div id="b-line-office-3" class="b-line"><label class="label" for="ed-ms">Edição:</label><input id="ed-ms" class="input openBox" type="text" name="ed-office" placeholder="Escolha a versão" disabled style="width:190px"></div>
             <div id="suggestions-ed-ms" class="suggestions-box ed-office ms">
             </div>
             <input id="hidden-office" name="hidden-office" type="hidden" value="">
