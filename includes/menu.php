@@ -17,13 +17,13 @@
                     </svg>
                     <span>Home</span></a></li>
             <!-- Item MILITARES -->
-            <li role="menuitem">
+            <!--<li role="menuitem">
                 <a href="lista.php?tabela=militares" class="nav-link PanelMenu1-effect"><svg class="icon" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <path d="M32 32 C35 32, 37 31, 40 30 L40 30 C42 28, 44 27, 46 24 C47 22, 48 19, 48 16 C48 13, 47 11, 46 8 C44 6, 42 4, 40 2 C37 1, 35 0, 32 0 C29 0, 26 1, 24 2 C21 4, 19 6, 18 8 C16 11, 16 13, 16 16 C16 19, 16 22, 18 24 C19 27, 21 28, 24 30 C26 31, 29 32, 32 32 Z M26 38 C20 38, 14 40, 10 45 L10 45 C6 49, 4 54, 4 60 C4 61, 4 62, 5 63 C5 64, 6 64, 7 64 L56 64 C57 64, 58 64, 59 63 C59 62, 60 61, 60 60 C59 54, 57 49, 53 45 C49 40, 44 38, 37 38 L26 38Z " />
                     </svg>
                     <span>Militares</span>
                 </a>
-            </li>
+            </li>-->
             <!-- Item SEÇÕES -->
             <li role="menuitem">
                 <a href="lista.php?tabela=secao" class="nav-link PanelMenu1-effect"><svg class="icon" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">

@@ -21,7 +21,8 @@ if (isset($_GET['n']) && $_GET['n'] == 'processador-note')
 // SQL para operador
 if (isset($_GET['n']) && $_GET['n'] == 'op')
 {
-    $sql = "SELECT militares.id, CONCAT(pg.abreviatura, ' ', militares.nome_guerra, ' - ', secao.sigla) AS lista FROM militares LEFT JOIN pg ON militares.id_pg = pg.id LEFT JOIN secao ON militares.id_secao = secao.id WHERE CONCAT(pg.abreviatura, ' ', militares.nome_guerra, ' - ', secao.sigla) LIKE '%$q%' AND militares.ativo = '1' ORDER BY lista ASC LIMIT 5";
+    /*$sql = "SELECT militares.id, CONCAT(pg.abreviatura, ' ', militares.nome_guerra, ' - ', secao.sigla) AS lista FROM militares LEFT JOIN pg ON militares.id_pg = pg.id LEFT JOIN secao ON militares.id_secao = secao.id WHERE CONCAT(pg.abreviatura, ' ', militares.nome_guerra, ' - ', secao.sigla) LIKE '%$q%' AND militares.ativo = '1' ORDER BY lista ASC LIMIT 5";*/
+    $sql = "SELECT id, CONCAT(sigla, ' - ', nome) AS lista FROM secao WHERE CONCAT(sigla, nome) LIKE '%$q%' AND ativo = '1' ORDER BY lista ASC LIMIT 5";
 }
 
 // SQL para placa de vídeo

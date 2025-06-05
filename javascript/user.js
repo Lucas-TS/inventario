@@ -53,7 +53,7 @@ function addToGallery(dataURL, selectNew = false) {
 
     var addButton = document.getElementById('add-avatar-button');
 
-    if (personalizedImages.length >= 4) {
+    if (personalizedImages.length >= 8) {
         personalizedImages.shift().remove();
     }
 
@@ -375,4 +375,44 @@ function atualizarSessao() {
         console.error('Erro ao fazer o fetch:', error);
     });
 }
+
+function scrollGallery(direction) {
+    let galleryList = document.getElementById("gallery-list");
+    let leftArrow = document.getElementById("gallery-left");
+    let rightArrow = document.getElementById("gallery-right");
+    let columnWidth = 75; // Define a largura de uma única coluna
+    let columnsPerMove = 1; // Define o deslocamento exato por coluna
+
+    // Move o scroll exatamente uma coluna por vez
+    galleryList.scrollLeft += direction * (columnWidth * columnsPerMove);
+
+    setTimeout(() => {
+        let maxScroll = galleryList.scrollWidth - galleryList.clientWidth;
+
+        // 🔹 Usa opacity e cursor para ocultar/desativar a seta esquerda
+        if (galleryList.scrollLeft <= 0) {
+            leftArrow.style.opacity = "0";
+            leftArrow.style.cursor = "default";
+        } else {
+            leftArrow.style.opacity = "1";
+            leftArrow.style.cursor = "pointer";
+        }
+
+        // 🔹 Usa opacity e cursor para ocultar/desativar a seta direita
+        if (galleryList.scrollLeft >= maxScroll) {
+            rightArrow.style.opacity = "0";
+            rightArrow.style.cursor = "default";
+        } else {
+            rightArrow.style.opacity = "1";
+            rightArrow.style.cursor = "pointer";
+        }
+    }, 100); // Pequeno delay para atualização mais precisa
+}
+
+// 🔄 Inicializa corretamente ao carregar a página
+window.onload = function () {
+    scrollGallery(0);
+};
+
+
 

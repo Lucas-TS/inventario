@@ -93,8 +93,8 @@ if (isset($_SESSION['expires_by'])) {
             </div>
             <div id="linha-1" class="linha">
                <div id="h-line-1" class="h-line">Informações básicas:</div>
-               <div id="b-line-1" class="b-line"><label class="label" for="op">Operador:</label>
-                  <input id="op" name="op" type="text" class="input box" placeholder="Escolha o operador (Opcional)" style="width:250px"><div id="adicionarMil" class="flex-center margin-left icon-button"><a title="Adicionar novo operador" href="#" onclick="exibirOverlay('./overlay/add_mil_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
+               <div id="b-line-1" class="b-line"><label class="label" for="op">Seção:</label>
+                  <input id="op" name="op" type="text" class="input box" placeholder="Escolha a seção (Opcional)" style="width:350px"><div id="adicionarSec" class="flex-center margin-left icon-button"><a title="Adicionar nova seção" href="#" onclick="exibirOverlay('./overlay/add_sec_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
                   <input id="hidden-op" name="hidden-op" type="hidden" value="">
                   <div id="suggestions-op" class="suggestions-box op"></div>
                </div>

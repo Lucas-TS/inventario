@@ -21,10 +21,15 @@ if ( isset( $data[ 'funcao' ] ) && $data[ 'funcao' ] == 'buscar_pc' ) {
         $check_stmt->close();
 
         if ( $count == 1 ) {
-            $select_sql = "SELECT $tabela.*, CONCAT (pg.abreviatura, ' ', militares.nome_guerra, ' - ', secao.sigla) AS op, users_add.fullname AS fullname_add, users_updt.fullname AS fullname_updt FROM $tabela 
+            /*$select_sql = "SELECT $tabela.*, CONCAT (pg.abreviatura, ' ', militares.nome_guerra, ' - ', secao.sigla) AS op, users_add.fullname AS fullname_add, users_updt.fullname AS fullname_updt FROM $tabela 
             LEFT JOIN militares ON $tabela.id_operador = militares.id
             LEFT JOIN pg ON militares.id_pg = pg.id
             LEFT JOIN secao ON militares.id_secao = secao.id
+            LEFT JOIN users AS users_add ON $tabela.id_inclusao = users_add.id 
+            LEFT JOIN users AS users_updt ON $tabela.id_atualizacao = users_updt.id 
+            WHERE $tabela.id = ?";*/
+            $select_sql = "SELECT $tabela.*, CONCAT (secao.sigla, ' - ', secao.nome) AS op, users_add.fullname AS fullname_add, users_updt.fullname AS fullname_updt FROM $tabela 
+            LEFT JOIN secao ON $tabela.id_operador = secao.id
             LEFT JOIN users AS users_add ON $tabela.id_inclusao = users_add.id 
             LEFT JOIN users AS users_updt ON $tabela.id_atualizacao = users_updt.id 
             WHERE $tabela.id = ?";
