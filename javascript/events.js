@@ -47,11 +47,6 @@ $(document).ready(function () {
                 });
                 tabelaCarregada = true; // Atualiza o estado para evitar chamadas duplas
             }
-
-            $('#resultadosPorPagina').change(function () {
-                const resultadosPorPagina = $(this).val();
-                carregarTabela(nomeTabela, 1, resultadosPorPagina);
-            });
         })
         .catch(error => console.error('Erro ao carregar SVGs:', error));
 

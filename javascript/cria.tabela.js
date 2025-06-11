@@ -4,7 +4,8 @@ let todasColunas  = [];
 let totalComId = [];
 
 let nomeTabela = '';
-const colunasNaoExibirPorPadrao = ['Geração', 'Socket', 'Seguimento', 'P-Cores', 'E-Cores', 'Turbo', 'Memória', 'Lacre', 'Garantia', 'Antivirus', 'Rede', 'IP', 'Inclusão', 'Atualizado',];let preferenciasAtuais = {
+const colunasNaoExibirPorPadrao = ['Geração', 'Socket', 'Seguimento', 'P-Cores', 'E-Cores', 'Turbo', 'Garantia', 'Antivirus', 'Rede', 'IP', 'Inclusão', 'Atualizado','Rede', 'Wi-Fi', 'MAC Wi-Fi'];
+let preferenciasAtuais = {
   colunas: [],
   resultadosPorPagina: 10
 };
@@ -22,7 +23,17 @@ let detalhes = {
 
 async function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
   try {
+    if (nomeTabela === 'computadores') {
+      colunasNaoExibirPorPadrao.push('Marca', 'Modelo', 'GPU');
+    }
+    if (nomeTabela === 'notebooks') {
+      colunasNaoExibirPorPadrao.push('GPU', 'Monitor');
+    }
+    if (nomeTabela === 'servidores') {
+      colunasNaoExibirPorPadrao.push('GPU');
+    }
 
+    let tabelaPreferencias = nomeTabela;
     let tabelaFonte = nomeTabela;
 
     if (nomeTabela === 'computadores') {
@@ -41,8 +52,12 @@ async function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) 
     let response = await fetch(`./includes/cria_tabela.php?tabela=${nomeTabela}`);
     if (!response.ok) throw new Error('Erro ao carregar a tabela.');
     let data = await response.text();
-    dadosTabela = JSON.parse(data);
-    const preferencias = carregarPreferencias(nomeTabela);
+    try {
+      dadosTabela = JSON.parse(data);
+    } catch (error) {
+      console.error("Erro ao processar JSON:", error, "Resposta recebida:", data);
+    }
+        const preferencias = carregarPreferencias(tabelaPreferencias);
     if (preferencias && preferencias.colunas && preferencias.colunas.length > 0) {
       preferenciasAtuais = {
         ...preferencias,
@@ -98,7 +113,7 @@ function carregarPreferencias(nomeTabela) {
   const cookies = document.cookie.split(';');
   for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i].trim();
-      if (cookie.startsWith(`preferencias_${nomeTabela}=`)) {
+      if (cookie.trim().startsWith(`preferencias_${nomeTabela}=`)) {
           const preferencias = JSON.parse(cookie.replace(`preferencias_${nomeTabela}=`, ''));
           preferenciasAtuais = preferencias;
           return preferenciasAtuais;  // Retorna as preferências carregadas
@@ -197,11 +212,22 @@ function criarTabela(dados, colunasSelecionadas = null, todasColunas) {
           } else if (coluna === "Ativo") {
               valor = linha[coluna] === '0' ? inativoSVG : ativoSVG;
               td.innerHTML = valor;
+          } else if (coluna === "Wi-Fi" || coluna === "Antivirus") {
+              valor = linha[coluna] === '0' ? 'Não' : 'Sim';
+              td.innerHTML = valor;
+          } else if (coluna === "Rede") {
+              valor = linha[coluna] === '0' ? 'Onboard' : 'Offboard';
+              td.innerHTML = valor;
           } else {
-              if (correspondenciaUnidades[coluna]) {
-                  valor += ` ${correspondenciaUnidades[coluna]}`;
-              }
+            if (correspondenciaUnidades[coluna]) {
+                valor += ` ${correspondenciaUnidades[coluna]}`;
+            }
+            if (coluna === "SSD" || coluna === "HD" || coluna === "Monitor" || coluna === "GPU") {
+              valor = valor.replace(/\n/g, '<br>');
+              td.innerHTML = valor;  // Agora a numeração aparece em negrito e com quebra de linha
+            } else {
               td.textContent = valor;
+            }
           }
           tr.appendChild(td);
       });

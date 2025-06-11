@@ -23,9 +23,9 @@ if (isset($_POST['licenca'])) {
 $serial_office = isset($_POST['serial-office']) ? $_POST['serial-office'] : null;  //Campo VARCHAR (licenca_office)
 $hn = isset($_POST['hn']) ? $_POST['hn'] : null; //Campo VARCHAR (hostname)
 $rede = isset($_POST['rede']) ? $_POST['rede'] : null; //Campo TINYINT (rede)
-$mac = isset($_POST['mac']) ? str_replace(':', '', $_POST['mac']) : null;
+$mac = isset($_POST['mac']) ? strtoupper(str_replace(':', '', $_POST['mac'])) : null;
 $wifi = isset($_POST['wifi']) ? $_POST['wifi'] : null; //Campo TINYINT (wifi)
-$macwifi = isset($_POST['mac_wifi']) ? str_replace(':', '', $_POST['mac_wifi']) : null;
+$macwifi = isset($_POST['mac_wifi']) ? strtoupper(str_replace(':', '', $_POST['mac_wifi'])) : null;
 $observacao = isset($_POST['obs']) ? str_replace(':', '', $_POST['obs']) : null;
 $situacao = isset($_POST['hidden-situacao']) ? str_replace(':', '', $_POST['hidden-situacao']) : null; //Campo INT (situacao)
 $ativo = 1; //Campo INT (ativo)

@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['avatar'])) {
     $avatar = $_SESSION['avatar'];
 } else {
-    $avatar = 'images\avatar.png';
+    $avatar = 'images\avatar1.png';
 }
 unset($_SESSION['url']);
 $url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
