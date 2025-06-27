@@ -67,13 +67,18 @@ function exibirTabela($conn, $nomeTabela, $tipo) {
         LEFT JOIN pg ON militares.id_pg=pg.id
         WHERE computadores.tipo=0";*/
         
-        $sql = "SELECT computadores.ativo, computadores.id, secao.sigla AS secao, computadores.marca, computadores.modelo,
+        $sql = "SELECT computadores.ativo, computadores.id, secao.sigla AS secao,
+        CASE WHEN lista_so.dev = 'Microsoft' THEN CONCAT(lista_so.nome, ' ', lista_so.versao, ' ', lista_so.edicao)
+        ELSE CONCAT(lista_so.distribuicao, ' ', lista_so.versao)
+        END AS SO,
+        computadores.marca, computadores.modelo,
         CONCAT(lista_processador.marca, ' ', lista_processador.modelo) AS Processador,
         CONCAT(computadores.tam_mem, 'GB ', computadores.tipo_mem) AS memoria,
         CONCAT(lista_placa_video.gpu) AS GPU,
         COALESCE((SELECT GROUP_CONCAT(CONCAT(tamanho, ' (', saude, '%)') ORDER BY rn SEPARATOR '\n') FROM (SELECT lista_ssd.tamanho, assoc_ssd.saude, ROW_NUMBER() OVER (ORDER BY assoc_ssd.id) AS rn FROM assoc_ssd JOIN lista_ssd ON assoc_ssd.id_ssd = lista_ssd.id WHERE assoc_ssd.id_pc = computadores.id) t), '-') AS SSD,
         COALESCE((SELECT GROUP_CONCAT(CONCAT(tamanho, ' (', saude, '%)') ORDER BY rn SEPARATOR '\n') FROM (SELECT lista_hd.tamanho, assoc_hd.saude, ROW_NUMBER() OVER (ORDER BY assoc_hd.id) AS rn FROM assoc_hd JOIN lista_hd ON assoc_hd.id_hd = lista_hd.id WHERE assoc_hd.id_pc = computadores.id) t), '-') AS HD,
         COALESCE((SELECT GROUP_CONCAT(CONCAT(marca, ' ', modelo, ' (', conexao, ')') ORDER BY rn SEPARATOR '\n') FROM (SELECT lista_monitor.marca, lista_monitor.modelo, assoc_monitor.conexao, ROW_NUMBER() OVER (ORDER BY assoc_monitor.id) AS rn FROM assoc_monitor JOIN lista_monitor ON assoc_monitor.id_monitor = lista_monitor.id WHERE assoc_monitor.id_pc = computadores.id) t), '-') AS Monitor,
+        CONCAT(lista_office.nome, ' ', lista_office.versao, ' ', lista_office.edicao) AS Office,
         computadores.antivirus, computadores.rede, computadores.hostname, computadores.rede, computadores.mac, computadores.wifi, computadores.mac_wifi, computadores.ip, computadores.lacre, computadores.garantia, computadores.data_inclusao, computadores.data_atualizacao, computadores.situacao
         FROM $nomeTabela
         LEFT JOIN secao ON computadores.id_operador=secao.id
@@ -101,7 +106,14 @@ function exibirTabela($conn, $nomeTabela, $tipo) {
         LEFT JOIN secao ON militares.id_secao=secao.id
         LEFT JOIN pg ON militares.id_pg=pg.id
         WHERE computadores.tipo=1";*/
-        $sql = "SELECT computadores.ativo, computadores.id, secao.sigla AS secao, computadores.marca, computadores.modelo,
+        $sql = "SELECT computadores.ativo, computadores.id, secao.sigla AS secao,
+        CASE WHEN lista_so.dev = 'Microsoft' THEN CONCAT(lista_so.nome, ' ', lista_so.versao, ' ', lista_so.edicao)
+        ELSE CONCAT(lista_so.distribuicao, ' ', lista_so.versao)
+        END AS SO,
+        computadores.marca, computadores.modelo,
+        CONCAT(lista_processador.marca, ' ', lista_processador.modelo) AS Processador,
+        CONCAT(computadores.tam_mem, 'GB ', computadores.tipo_mem) AS memoria,
+        CONCAT(lista_placa_video.gpu) AS GPU,
         CONCAT(lista_processador.marca, ' ', lista_processador.modelo) AS Processador,
         CONCAT(computadores.tam_mem, 'GB ', computadores.tipo_mem) AS memoria,
         CONCAT(lista_placa_video.gpu) AS GPU,
@@ -109,6 +121,7 @@ function exibirTabela($conn, $nomeTabela, $tipo) {
         COALESCE((SELECT GROUP_CONCAT(CONCAT(tamanho, ' (', saude, '%)') ORDER BY rn SEPARATOR '\n') FROM (SELECT lista_hd.tamanho, assoc_hd.saude, ROW_NUMBER() OVER (ORDER BY assoc_hd.id) AS rn FROM assoc_hd JOIN lista_hd ON assoc_hd.id_hd = lista_hd.id WHERE assoc_hd.id_pc = computadores.id) t), '-') AS HD,
         CONCAT(computadores.tela, '\"') AS Tela,
         COALESCE((SELECT GROUP_CONCAT(CONCAT(marca, ' ', modelo, ' (', conexao, ')') ORDER BY rn SEPARATOR '\n') FROM (SELECT lista_monitor.marca, lista_monitor.modelo, assoc_monitor.conexao, ROW_NUMBER() OVER (ORDER BY assoc_monitor.id) AS rn FROM assoc_monitor JOIN lista_monitor ON assoc_monitor.id_monitor = lista_monitor.id WHERE assoc_monitor.id_pc = computadores.id) t), '-') AS Monitor,
+        CONCAT(lista_office.nome, ' ', lista_office.versao, ' ', lista_office.edicao) AS Office,
         computadores.antivirus, computadores.rede, computadores.hostname, computadores.ip, computadores.mac, computadores.lacre, computadores.garantia, computadores.data_inclusao, computadores.data_atualizacao, computadores.situacao
         FROM $nomeTabela
         LEFT JOIN secao ON computadores.id_operador=secao.id
@@ -136,7 +149,14 @@ function exibirTabela($conn, $nomeTabela, $tipo) {
         LEFT JOIN secao ON militares.id_secao=secao.id
         LEFT JOIN pg ON militares.id_pg=pg.id
         WHERE computadores.tipo=2";*/
-        $sql = "SELECT computadores.ativo, computadores.id, secao.sigla AS secao, computadores.marca, computadores.modelo,
+        $sql = "SELECT computadores.ativo, computadores.id, secao.sigla AS secao,
+        CASE WHEN lista_so.dev = 'Microsoft' THEN CONCAT(lista_so.nome, ' ', lista_so.versao, ' ', lista_so.edicao)
+        ELSE CONCAT(lista_so.distribuicao, ' ', lista_so.versao)
+        END AS SO,
+        computadores.marca, computadores.modelo,
+        CONCAT(lista_processador.marca, ' ', lista_processador.modelo) AS Processador,
+        CONCAT(computadores.tam_mem, 'GB ', computadores.tipo_mem) AS memoria,
+        CONCAT(lista_placa_video.gpu) AS GPU,
         CONCAT(lista_processador.marca, ' ', lista_processador.modelo) AS Processador,
         CONCAT(computadores.tam_mem, 'GB ', computadores.tipo_mem) AS memoria,
         CONCAT(lista_placa_video.gpu) AS GPU,

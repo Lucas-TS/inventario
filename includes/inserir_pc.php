@@ -26,7 +26,7 @@ $rede = isset($_POST['rede']) ? $_POST['rede'] : null; //Campo TINYINT (rede)
 $mac = isset($_POST['mac']) ? strtoupper(str_replace(':', '', $_POST['mac'])) : null;
 $wifi = isset($_POST['wifi']) ? $_POST['wifi'] : null; //Campo TINYINT (wifi)
 $macwifi = isset($_POST['mac_wifi']) ? strtoupper(str_replace(':', '', $_POST['mac_wifi'])) : null;
-$observacao = isset($_POST['obs']) ? str_replace(':', '', $_POST['obs']) : null;
+$observacao = isset($_POST['obs']) ? $_POST['obs'] : null;
 $situacao = isset($_POST['hidden-situacao']) ? str_replace(':', '', $_POST['hidden-situacao']) : null; //Campo INT (situacao)
 $ativo = 1; //Campo INT (ativo)
 
@@ -51,7 +51,7 @@ $id_pc = $conn->insert_id;
 $stmt->close();
 
 // Associação do processador
-$id_processador = isset($_POST["hidden-processador-desktop"]) ? $_POST["hidden-processador-desktop"] : (isset($_POST["hidden-processador-note"]) ? $_POST["hidden-processador-note"] : null);
+$id_processador = isset($_POST["hidden-processador-desktop"]) ? $_POST["hidden-processador-desktop"] : (isset($_POST["hidden-processador-note"]) ? $_POST["hidden-processador-note"] : (isset($_POST["hidden-processador-server"]) ? $_POST["hidden-processador-server"] : null));
 
 $stmt2 = $conn->prepare("INSERT INTO assoc_processador (id_pc, id_processador) VALUES (?, ?)");
 $stmt2->bind_param("ii", $id_pc, $id_processador);
@@ -59,21 +59,18 @@ $stmt2->execute();
 $stmt2->close();
 
 // Associação da placa de víceo
-if (!empty($_POST['hidden-mem-pv'])) {
-    $id_pv = !empty($_POST['hidden-mem-pv']) ? $_POST['hidden-mem-pv'] : null;
-    $stmt3 = $conn->prepare("INSERT INTO assoc_placa_video (id_pc, id_placa_video) VALUES (?, ?)");
-    $stmt3->bind_param("ii", $id_pc, $id_pv);
-    $stmt3->execute();
-    $stmt3->close();
+$placas_video = ['hidden-mem-pv', 'hidden-mem-pv-nb'];
+
+foreach ($placas_video as $campo) {
+    if (!empty($_POST[$campo])) {
+        $id_pv = $_POST[$campo];
+        $stmt3 = $conn->prepare("INSERT INTO assoc_placa_video (id_pc, id_placa_video) VALUES (?, ?)");
+        $stmt3->bind_param("ii", $id_pc, $id_pv);
+        $stmt3->execute();
+        $stmt3->close();
+    }
 }
 
-if (!empty($_POST['hidden-mem-pv-nb'])) {
-    $id_pv = !empty($_POST['hidden-mem-pv-nb']) ? $_POST['hidden-mem-pv-nb'] : null;
-    $stmt3 = $conn->prepare("INSERT INTO assoc_placa_video (id_pc, id_placa_video) VALUES (?, ?)");
-    $stmt3->bind_param("ii", $id_pc, $id_pv);
-    $stmt3->execute();
-    $stmt3->close();
-}
 
 // Associação do SO
 $id_so = isset($_POST['hidden-so']) ? $_POST['hidden-so'] : null;

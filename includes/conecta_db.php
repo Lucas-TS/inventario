@@ -2,7 +2,7 @@
 // Configurações de conexão com o banco de dados
 $servername = "127.0.0.1";
 $username = "inventario";
-$password = "t3rr4d3n1ngu3m";
+$password = "3s@o24";
 $dbname = "inventario";
 
 // Cria a conexão

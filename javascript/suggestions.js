@@ -90,7 +90,6 @@ async function showSuggestions(str1, str2) {
     try {
         const response = await fetch(`./includes/auto_complete.php?q=${str1}&n=${str2}&mm=${encodeURIComponent(marca)}`);
         if (!response.ok) throw new Error('Erro na requisição.');
-        console.log(response);
         const data = await response.text();
         $suggestions.html(data);
         if (!$suggestions.hasClass("visivel")) {

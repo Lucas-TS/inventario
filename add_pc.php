@@ -270,7 +270,7 @@ if (isset($_SESSION['expires_by'])) {
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-fim-2" class="b-line" style="flex:1"><label class="label" for="input-obs">Observações:</label>
-                  <input id="input-obs" name="obs" type="text" class="input obs trim" placeholder="Opcional" style="width:100%">
+                  <input id="input-obs" name="obs" type="text" class="input obs" placeholder="Opcional" style="width:100%">
                </div>
             </div>
          </div>
@@ -299,6 +299,12 @@ if (isset($_SESSION['expires_by'])) {
 <script src="javascript/formulario.rede.js"></script>
 <script src="javascript/processador.js"></script>
 <script src="javascript/placa.video.js"></script>
+<script src="javascript/so.js"></script>
+<script src="javascript/office.js"></script>
+<script src="javascript/ssd.js"></script>
+<script src="javascript/hd.js"></script>
+<script src="javascript/monitor.js"></script>
+<script src="javascript/secao.js"></script>
 <script src="javascript/placeholder.js"></script>
 <script src="javascript/masks.js"></script>
 <script src="javascript/events.js"></script>

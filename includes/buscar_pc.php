@@ -28,7 +28,7 @@ if ( isset( $data[ 'funcao' ] ) && $data[ 'funcao' ] == 'buscar_pc' ) {
             LEFT JOIN users AS users_add ON $tabela.id_inclusao = users_add.id 
             LEFT JOIN users AS users_updt ON $tabela.id_atualizacao = users_updt.id 
             WHERE $tabela.id = ?";*/
-            $select_sql = "SELECT $tabela.*, CONCAT (secao.sigla, ' - ', secao.nome) AS op, users_add.fullname AS fullname_add, users_updt.fullname AS fullname_updt FROM $tabela 
+            $select_sql = "SELECT $tabela.*, DATE_FORMAT(computadores.data_atualizacao, '%d/%m/%Y às %H:%i') AS data_atualizacao, DATE_FORMAT(computadores.data_inclusao, '%d/%m/%Y às %H:%i') AS data_inclusao, CONCAT (secao.sigla, ' - ', secao.nome) AS op, users_add.fullname AS fullname_add, users_updt.fullname AS fullname_updt FROM $tabela 
             LEFT JOIN secao ON $tabela.id_operador = secao.id
             LEFT JOIN users AS users_add ON $tabela.id_inclusao = users_add.id 
             LEFT JOIN users AS users_updt ON $tabela.id_atualizacao = users_updt.id 

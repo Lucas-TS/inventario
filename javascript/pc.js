@@ -57,8 +57,8 @@ async function preencherProc(id) {
         }
         let data = await response.json(); // Converte a resposta para JSON
         //Preenche os campos do formulário com os dados retornados
-        let marca = data.marca;
-        let modelo = data.modelo;
+        let marca = data.marca ?? "";
+        let modelo = data.modelo ?? "";
         let memorias = data.memoria;
         let processador = marca + ' ' + modelo;
         document.getElementById('processador-desktop').value = processador;
@@ -450,14 +450,14 @@ async function preencherPC(id) {
             document.getElementById('user-win').value = data.usuario;
             document.getElementById('pw-win').value = data.senha;
             let serialSo = data.licenca_so
-            if (serialSo && serialSo != 1) {
-                document.getElementById('serial-rd-win').checked = true;
-                document.getElementById('serial-so').value = serialSo;
-                document.getElementById('serial-so').removeAttribute('disabled');
-            } else if (serialSo && serialSo == 1) {
+            if (serialSo && serialSo == 1) {
                 document.getElementById('digital-rd-win').checked = true;
-            } else {
+            } else if (serialSo && serialSo == 0 || serialSo == null || serialSo == '') {
                 document.getElementById('pirata-rd-win').checked = true;
+            } else {
+                document.getElementById('serial-rd-win').checked = true;
+                document.getElementById('serial-so').removeAttribute('disabled');
+                document.getElementById('serial-so').value = serialSo;
             }
         } else if (linux) {
             document.getElementById('user-linux').value = data.usuario;
@@ -469,14 +469,14 @@ async function preencherPC(id) {
         let office = document.querySelector('input[type="radio"][id="ms"]:checked');
         if (office) {
             let serialOffice = data.licenca_office
-            if (serialOffice && serialOffice != 1) {
+            if (serialOffice && serialOffice == 1) {
+                document.getElementById('digital-rd-office').checked = true;
+            } else if (serialOffice && serialOffice == 0 || serialOffice == null || serialOffice == '') {
+                document.getElementById('pirata-rd-office').checked = true;
+            } else {
                 document.getElementById('serial-rd-office').checked = true;
                 document.getElementById('serial-office').value = serialOffice;
                 document.getElementById('serial-office').removeAttribute('disabled');
-            } else if (serialOffice && serialOffice == 1) {
-                document.getElementById('digital-rd-office').checked = true;
-            } else {
-                document.getElementById('pirata-rd-office').checked = true;
             }
         }
 

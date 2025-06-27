@@ -79,7 +79,7 @@ if (isset($_SESSION['expires_by'])) {
                 </div>
                 <div id="h-spacer"></div>
                 <div id="b-line-edit-pc-2" class="b-line">
-                    <input type="checkbox" id="ativo-edit-pc" class="checkbox" value="1">
+                    <input type="checkbox" id="ativo-edit-pc" name="ativo-edit-pc" class="checkbox" value="1">
                     <label for="ativo-edit-pc"><span></span>Ativo</label>
                 </div>
                 <div id="h-spacer" style="flex-basis: 100%;"></div>
@@ -87,7 +87,7 @@ if (isset($_SESSION['expires_by'])) {
                     <span id="data-add-edit-pc"></span>
                 </div>
                 <div id="h-spacer"></div>
-                <div id="b-line-edit-pc-3" class="b-line"><span class="label">Ultima atualização:</span>
+                <div id="b-line-edit-pc-3" class="b-line"><span class="label">Última atualização em:</span>
                     <span id="data-updt-edit-pc"></span>
                 </div>
             </div>
@@ -273,7 +273,7 @@ if (isset($_SESSION['expires_by'])) {
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-fim-2" class="b-line" style="flex:1"><label class="label" for="input-obs">Observações:</label>
-                  <input id="input-obs" name="obs" type="text" class="input obs trim" placeholder="Opcional" style="width:100%">
+                  <input id="input-obs" name="obs" type="text" class="input obs" placeholder="Opcional" style="width:100%">
                </div>
             </div>
          </div>
@@ -308,6 +308,12 @@ if (isset($_SESSION['expires_by'])) {
 <script src="javascript/formulario.gpu.js"></script>
 <script src="javascript/processador.js"></script>
 <script src="javascript/placa.video.js"></script>
+<script src="javascript/so.js"></script>
+<script src="javascript/office.js"></script>
+<script src="javascript/ssd.js"></script>
+<script src="javascript/hd.js"></script>
+<script src="javascript/monitor.js"></script>
+<script src="javascript/secao.js"></script>
 <script src="javascript/placeholder.js"></script>
 <script src="javascript/masks.js"></script>
 <script src="javascript/events.js"></script>

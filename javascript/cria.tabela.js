@@ -7,7 +7,7 @@ let nomeTabela = '';
 const colunasNaoExibirPorPadrao = ['Geração', 'Socket', 'Seguimento', 'P-Cores', 'E-Cores', 'Turbo', 'Garantia', 'Antivirus', 'Rede', 'IP', 'Inclusão', 'Atualizado','Rede', 'Wi-Fi', 'MAC Wi-Fi'];
 let preferenciasAtuais = {
   colunas: [],
-  resultadosPorPagina: 10
+  resultadosPorPagina: 25
 };
 let paginaCarregada = false;
 const correspondenciaUnidades = {
@@ -21,7 +21,7 @@ let detalhes = {
   cor: "#000000"
 };
 
-async function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 10) {
+async function carregarTabela(nomeTabela, pagina = 1, resultadosPorPagina = 25) {
   try {
     if (nomeTabela === 'computadores') {
       colunasNaoExibirPorPadrao.push('Marca', 'Modelo', 'GPU');

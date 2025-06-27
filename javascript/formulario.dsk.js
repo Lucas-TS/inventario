@@ -4,13 +4,11 @@ let maxArmazenamentos = 4;
 
 function adicionarArmazenamento() {
     const scrollPos = window.scrollY;
-
-    if (contadorDsk >= maxArmazenamentos) {
-        document.getElementById('adicionarDsk').style.display = 'none';
-        return;
-    }
     contadorDsk++;
     contadorbDsk++;
+    if (contadorDsk >= maxArmazenamentos) {
+        document.getElementById('adicionarAmzt').style.display = 'none';
+    }
     let container = document.getElementById('armazenamentos-container');
     let novoArmazenamento = document.createElement('div');
     novoArmazenamento.id = `armazenamento-${contadorDsk}`;
@@ -29,7 +27,6 @@ function adicionarArmazenamento() {
         <div id="h-spacer"></div>
     `;
     container.appendChild(novoArmazenamento);
-    document.getElementById('adicionarDsk').style.display = 'none';
 
     requestAnimationFrame(() => {
         window.scrollTo(0, scrollPos);
@@ -63,7 +60,7 @@ function removerArmazenamento(id) {
 
     // Mostrar o botão de adicionar armazenamento se houver menos de 4 armazenamentos
     if (contadorDsk < maxArmazenamentos) {
-        document.getElementById('adicionarDsk').style.display = 'flex';
+        document.getElementById('adicionarAmzt').style.display = 'flex';
     }
 
     requestAnimationFrame(() => {
@@ -81,8 +78,9 @@ function gerarFormulario(contadorDsk, tipo) {
     const scrollPos = window.scrollY;
 
     if (contadorDsk < maxArmazenamentos) {
-        document.getElementById('adicionarDsk').style.display = 'flex';
+        document.getElementById('adicionarAmzt').style.display = 'flex';
     }
+    
     if (tipo === 'HD') {
         return `
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">
@@ -109,6 +107,7 @@ function gerarFormulario(contadorDsk, tipo) {
             <input id="hidden-tam-hd-${contadorDsk}" name="hidden-tam-hd-${contadorDsk}" type="hidden" value="">
             <input id="hidden-id-assoc-hd-${contadorDsk}" name="hidden-id-assoc-hd-${contadorDsk}" type="hidden" value="">
         `;
+        
     } else if (tipo === 'SSD') {
         return `
             <div id="b-line-dsk-${++contadorbDsk}" class="b-line">

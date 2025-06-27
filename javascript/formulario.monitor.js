@@ -4,13 +4,11 @@ let maxMonitores = 4;
 
 function adicionarMonitor() {
     const scrollPos = window.scrollY;
-
-    if (contadorMonitor >= maxMonitores) {
-        document.getElementById('adicionarMonitor').style.display = 'none';
-        return;
-    }
     contadorMonitor++;
     contadorbMonitor++;
+        if (contadorMonitor >= maxMonitores) {
+        document.getElementById('adicionarMonitor').style.display = 'none';
+    }
     let container = document.getElementById('monitores-container');
     let novoMonitor = document.createElement('div');
     novoMonitor.id = `monitor-${contadorMonitor}`;
@@ -58,10 +56,6 @@ function adicionarMonitor() {
     requestAnimationFrame(() => {
         window.scrollTo(0, scrollPos);
     });
-
-    if (contadorMonitor >= maxMonitores) {
-        document.getElementById('adicionarMonitor').style.display = 'none';
-    }
 }
 
 function removerMonitor(id) {

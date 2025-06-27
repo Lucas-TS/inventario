@@ -150,10 +150,10 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
             <div id="h-line-filtro-2" class="h-line">Resultados por página:</div>
             <div id="b-line-filtro-2" class="b-line">
                 <select id="resultadosPorPaginaOverlay" name="resultadosPorPagina" class="select">
-                    <option value="2" ${preferenciasAtuais.resultadosPorPagina == 2 ? 'selected' : ''}>2</option>
-                    <option value="5" ${preferenciasAtuais.resultadosPorPagina == 5 ? 'selected' : ''}>5</option>
                     <option value="10" ${preferenciasAtuais.resultadosPorPagina == 10 ? 'selected' : ''}>10</option>
+                    <option value="25" ${preferenciasAtuais.resultadosPorPagina == 25 ? 'selected' : ''}>25</option>
                     <option value="50" ${preferenciasAtuais.resultadosPorPagina == 50 ? 'selected' : ''}>50</option>
+                    <option value="100" ${preferenciasAtuais.resultadosPorPagina == 100 ? 'selected' : ''}>100</option>
                     <option value="todos" ${preferenciasAtuais.resultadosPorPagina == 'todos' ? 'selected' : ''}>Todos</option>
                 </select>
             </div>
@@ -176,9 +176,9 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
         <div id="linha-4" class="linha">
             <div id="h-line-filtro-4" class="h-line">Salvar Configuração:</div>
             <div id="b-line-filtro-4" class="b-line">
-                <input type="radio" id="salvar-sim" name="salvarConfiguracao" class="radio" value="sim" checked>
+                <input type="radio" id="salvar-sim" name="salvarConfiguracao" class="radio" value="sim">
                 <label for="salvar-sim"><span></span>Sim</label>
-                <input type="radio" id="salvar-nao" name="salvarConfiguracao" class="radio" value="nao">
+                <input type="radio" id="salvar-nao" name="salvarConfiguracao" class="radio" value="nao" checked>
                 <label for="salvar-nao"><span></span>Não</label>
             </div>
         </div>
@@ -248,4 +248,22 @@ function closeOverlay() {
     clearTimeout(closeTimeout);
     ShowObjectWithEffect('overlay', 0, 'fade', 200);
     atualizarTabela();
+}
+
+async function insertDsk(event) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+
+    // Verifica qual tipo foi selecionado (HD ou SSD)
+    const tipo = document.querySelector('input[name="tipo-add-dsk"]:checked')?.value;
+
+    if (!tipo) {
+        alert("Por favor, selecione um tipo de disco.");
+        return;
+    }
+
+    if (tipo === 'SSD') {
+        await insertSsd(event);
+    } else if (tipo === 'HD') {
+        await insertHd(event);
+    }
 }

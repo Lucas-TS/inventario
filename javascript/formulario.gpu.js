@@ -24,7 +24,7 @@ function formularioGPU(str1, str2 = 'Desktop') {
                     <div id="suggestions-mem-pv" class="suggestions-box mem-pv"></div>
                 </div>
                 <input id="hidden-mem-pv" name="hidden-mem-pv" type="hidden" value="">
-                <input id="hidden-id-assoc-gpu" name="hidden-id-assoc-gpu" type="hidden" value="">
+                <input id="hidden-id-assoc-pv" name="hidden-id-assoc-pv" type="hidden" value="">
                 `;
             } else if (str2 === 'Notebook') {
                 conteudo = `
@@ -38,7 +38,7 @@ function formularioGPU(str1, str2 = 'Desktop') {
                     <div id="suggestions-mem-pv-nb" class="suggestions-box mem-pv-nb"></div>
                 </div>
                 <input id="hidden-mem-pv-nb" name="hidden-mem-pv-nb" type="hidden" value="">
-                <input id="hidden-id-assoc-gpu" name="hidden-id-assoc-gpu" type="hidden" value="">
+                <input id="hidden-id-assoc-pv" name="hidden-id-assoc-pv" type="hidden" value="">
                 `;
             }
     } else if (str1 === 'on') {
