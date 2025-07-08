@@ -1,13 +1,4 @@
 <?php
-// Verifica se há dados no array $_POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Faz um loop através dos dados do POST e imprime cada chave e valor
-    foreach ($_POST as $key => $value) {
-        echo 'Chave: ' . htmlspecialchars($key) . ' - Valor: ' . htmlspecialchars($value) . '<br>';
-    }
-} else {
-    echo 'Não há dados recebidos via POST.';
-}
 include 'conecta_db.php';
 
 $id = isset($_POST['id-edit-pc']) ? $_POST['id-edit-pc'] : null; //Campo INT (id)
@@ -379,4 +370,22 @@ if ($stmt === false) {
 $stmt->bind_param("isi", $usuario, $data_atualizacao, $id);
 $stmt->execute();
 $stmt->close();
+
+$sql = "SELECT tipo FROM computadores WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$stmt->bind_result($tipo);
+$stmt->fetch();
+$stmt->close();
+
+if ($tipo == 1) {
+    header('Location: ../lista.php?tabela=notebooks');
+}
+elseif ($tipo == 0) {
+    header('Location: ../lista.php?tabela=computadores');
+}
+else {
+    header('Location: ../index.php');
+}
 ?>

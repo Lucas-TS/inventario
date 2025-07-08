@@ -40,11 +40,22 @@
                     <input type="file" id="avatar" name="avatar" accept="image/*" onchange="loadFile(event)" style="display: none;">
                 </div>
                 <div id="gallery" class="gallery">
-                    <img src="./images/avatar.png" onclick="selectImage(this)" class="gallery-item" id="avatar1">
-                    <img src="./images/avatar2.png" onclick="selectImage(this)" class="gallery-item" id="avatar2">
-                    <img src="./images/avatar3.png" onclick="selectImage(this)" class="gallery-item" id="avatar3">
-                    <img src="./images/avatar4.png" onclick="selectImage(this)" class="gallery-item" id="avatar4">
-                    <img src="./images/avatar5.png" onclick="selectImage(this)" class="gallery-item" id="avatar5">
+                    <div id="gallery-left" class="gallery-left" onclick="scrollGallery(-1)">
+                        <a class="gallery-arrow""><?php include '../images/seta.svg'; ?></a>
+                    </div>
+                    <div id="gallery-list" class="gallery-list">
+                    <?php
+                    $imagesDir = '../images/';
+                    $images = glob($imagesDir . 'avatar*.png'); // Filtra os arquivos seguindo o padrão avatar#.png
+                    foreach ($images as $index => $image) {
+                        echo '<img src="' . str_replace('../', './', $image) . '" onclick="selectImage(this)" class="gallery-item" id="avatar' . ($index + 1) . '">';
+                    }
+                    ?>
+                    </div>
+                    <div id="gallery-right" class="gallery-right" onclick="scrollGallery(1)">
+                        <a class="gallery-arrow"><?php include '../images/seta.svg'; ?></a>
+                    </div>
+                    <div style="width:17px"></div>
                     <img src="./images/add.avatar.svg" id="add-avatar-button" onclick="document.getElementById('avatar').click();" class="gallery-item">
                 </div>
                 <input type="hidden" id="selected-avatar" name="selected-avatar" value="">

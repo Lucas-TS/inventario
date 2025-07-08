@@ -302,7 +302,7 @@ async function editarUser(event) {
 
         if (!response.ok) {
             if (response.status === 409) {
-                throw new Error('Erro ao atualizar os dados do sistema operacional.');
+                throw new Error('Erro ao atualizar os dados do usuário.');
             }
         }
 
@@ -311,7 +311,7 @@ async function editarUser(event) {
         overlay.innerHTML = `
         <div id="edit_user" class="bloco-overlay">
             <div class="header">
-                <span>Editar Sistema Operacional</span>
+                <span>Editar Usuário</span>
                 <div id="botoes">
                     <div id="b-line-header-1" class="b-line">
                         <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon">
@@ -343,6 +343,24 @@ async function editarUser(event) {
     }
 }
 
+async function buscaSessaoPhp() {
+    fetch('includes/session_info.php')
+        .then(response => response.json())
+        .then(session => {
+        if (session && session.username) {
+            // Clona a sessão PHP no sessionStorage do navegador
+            for (let key in session) {
+                if (session[key] !== null) {
+                    sessionStorage.setItem(key, session[key]);
+                }
+            }
+        } else {
+            console.warn('Sessão PHP não encontrada ou expirou');
+        }
+    })
+    .catch(error => console.error('Erro ao obter a sessão:', error));
+}
+
 function atualizarSessao() {
     let dadosSessao = {
         email: sessionStorage.getItem('email'),
@@ -352,7 +370,6 @@ function atualizarSessao() {
         grupo: sessionStorage.getItem('grupo'),
         avatar: sessionStorage.getItem('avatar')
     };
-    console.log(dadosSessao);
     fetch('includes/atualiza_sessao.php', {
         method: 'POST',
         headers: {
@@ -366,7 +383,6 @@ function atualizarSessao() {
             // Recarregar a imagem do avatar com um timestamp para evitar cache
             let avatarSrc = sessionStorage.getItem('avatar') + '?' + new Date().getTime();
             document.getElementById('avatar').src = avatarSrc;
-            console.log('Dados da sessão atualizados com sucesso');
         } else {
             console.error('Erro ao atualizar a sessão:', data.message);
         }
@@ -410,9 +426,14 @@ function scrollGallery(direction) {
 }
 
 // 🔄 Inicializa corretamente ao carregar a página
-window.onload = function () {
-    scrollGallery(0);
-};
+const galleryObserver = new MutationObserver(() => {
+  const galleryList = document.getElementById("gallery-list");
+  if (galleryList) {
+    galleryObserver.disconnect(); // Para de observar depois que o elemento apareceu
+    scrollGallery(1); // ou -1
+  }
+});
 
+galleryObserver.observe(document.body, { childList: true, subtree: true });
 
-
+window.onload = buscaSessaoPhp();

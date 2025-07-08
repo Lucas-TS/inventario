@@ -253,7 +253,6 @@ function closeOverlay() {
 async function insertDsk(event) {
     event.preventDefault(); // Impede o envio padrão do formulário
 
-    // Verifica qual tipo foi selecionado (HD ou SSD)
     const tipo = document.querySelector('input[name="tipo-add-dsk"]:checked')?.value;
 
     if (!tipo) {
@@ -261,9 +260,27 @@ async function insertDsk(event) {
         return;
     }
 
-    if (tipo === 'SSD') {
-        await insertSsd(event);
-    } else if (tipo === 'HD') {
+    const campoTamanho = document.getElementById('tam-add-ssd');
+
+    // Atualiza o ID e name do campo de tamanho conforme o tipo
+    if (tipo === 'HD') {
+        campoTamanho.id = 'tam-add-hd';
+        campoTamanho.name = 'tam-add-hd';
+
+        // Atualiza os radio buttons de unidade
+        document.querySelectorAll('input[name="un-add-ssd"]').forEach(radio => {
+            radio.name = 'un-add-hd';
+        });
+
         await insertHd(event);
+    } else if (tipo === 'SSD') {
+        campoTamanho.id = 'tam-add-ssd';
+        campoTamanho.name = 'tam-add-ssd';
+
+        document.querySelectorAll('input[name="un-add-hd"]').forEach(radio => {
+            radio.name = 'un-add-ssd';
+        });
+
+        await insertSsd(event);
     }
 }

@@ -12,9 +12,9 @@
             <div id="h-line-add-dsk-1" class="h-line">Informações:</div>
             <div id="b-line-add-dsk-1" class="b-line" style="flex:1">
                 <span class="label">Tipo:</span>
-                <input type="radio" id="hd" name="tipo-add-dsk" class="radio" value="HD" required>
+                <input type="radio" id="hd" name="tipo-add-dsk" class="radio" value="HD">
                 <label for="hd"><span></span>HD</label>
-                <input type="radio" id="ssd" name="tipo-add-dsk" class="radio" value="SSD" required>
+                <input type="radio" id="ssd" name="tipo-add-dsk" class="radio" value="SSD">
                 <label for="ssd"><span></span>SSD</label>
             </div>
             <div id="h-spacer" style="flex-basis:100%"></div>

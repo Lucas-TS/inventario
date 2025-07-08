@@ -946,6 +946,15 @@ label {
 
 .rodape {
    padding: 10px 20px;
+   display: flex;
+   flex-direction: column;
+}
+
+.resultados {
+   color: #555555;
+   font-size: 15px;
+   text-align: center;
+   padding-bottom: 15px;
 }
 
 /* Classe para botões com ícones */

@@ -288,7 +288,7 @@ if ($result->num_rows > 0)
             }
             else
             {
-                echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . '); liberarCampo2(\'' . $row['id'] . '\')">' . $row['lista'] . "</p>";
+                echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ', \'' . $n . '\', ' . '\'\'' . '); liberarCampo2(\'' . $mm . '\')">' . $row['lista'] . "</p>";
             }
         }
         

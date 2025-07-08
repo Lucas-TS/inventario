@@ -88,8 +88,8 @@ if (isset($_SESSION['expires_by']))
             
             </div>
             <div id="rodape-bloco" class="flex-center rodape">
-                <div id="paginacao" class="flex-center paginacao">
-                </div>
+                <div id="resultados" class="flex-center resultados"></div>
+                <div id="paginacao" class="flex-center paginacao"></div>
             </div>
         </div>
     </div>

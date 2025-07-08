@@ -255,12 +255,15 @@ function criarTabela(dados, colunasSelecionadas = null, todasColunas) {
 
 function ordenarTabela(dados, coluna, ordem) {
   const dadosOrdenados = dados.sort((a, b) => {
+    const valA = isNaN(a[coluna]) ? a[coluna] : Number(a[coluna]);
+    const valB = isNaN(b[coluna]) ? b[coluna] : Number(b[coluna]);
     if (ordem === 'asc') {
-      return a[coluna] > b[coluna] ? 1 : -1;
+      return valA > valB ? 1 : -1;
     } else {
-      return a[coluna] < b[coluna] ? 1 : -1;
+      return valA < valB ? 1 : -1;
     }
   });
+
   // Renderizar a tabela
   renderizarTabela(dadosOrdenados, 1, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, todasColunas);
 
@@ -278,6 +281,7 @@ function ordenarTabela(dados, coluna, ordem) {
 
 function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
   const totalPaginas = resultadosPorPagina === 'todos' ? 1 : Math.ceil(total / resultadosPorPagina);
+  const fragment = document.createDocumentFragment();
 
   const criarLink = (svg, pagina, classe, title) => {
     const link = document.createElement('a');
@@ -298,8 +302,6 @@ function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
     div.appendChild(criarLink(svg, pagina, classeLink, title));
     return div;
   };
-
-  const fragment = document.createDocumentFragment();
 
   if (paginaAtual > 1) {
     if (paginaAtual > 2) {
@@ -327,6 +329,21 @@ function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
   }
 
   return fragment;
+}
+
+function criarMensagemPaginacao(total, paginaAtual, resultadosPorPagina) {
+  const info = document.createElement('div');
+  info.className = 'paginacao-info';
+
+  if (resultadosPorPagina === 'todos') {
+    info.textContent = `Exibindo todos os ${total} resultados.`;
+  } else {
+    const inicio = (paginaAtual - 1) * resultadosPorPagina + 1;
+    const fim = Math.min(paginaAtual * resultadosPorPagina, total);
+    info.textContent = `Exibindo resultados de ${inicio} a ${fim} de um total de ${total}.`;
+  }
+
+  return info;
 }
 
 function mudarResultadosPorPagina(resultadosPorPagina) {
@@ -376,6 +393,12 @@ function renderizarTabela(dados, pagina, resultadosPorPagina, colunasSelecionada
   const tabela = criarTabela(dadosComId, colunasSelecionadas, todasColunas);
   document.getElementById('tabela').innerHTML = '';
   document.getElementById('tabela').appendChild(tabela);
+
+  const resultadoContainer = document.getElementById('resultados');
+  resultadoContainer.innerHTML = '';
+
+  const textoResultado = criarMensagemPaginacao(total, pagina, resultadosPorPagina);
+  resultadoContainer.appendChild(textoResultado);
 
   const paginacaoContainer = document.getElementById('paginacao');
   paginacaoContainer.innerHTML = '';
