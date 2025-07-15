@@ -4,7 +4,7 @@
             <span>Adicionar Usuário</span>
             <div id="botoes">
                 <div id="b-line-header-1" class="b-line">
-                <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);"><?php include '../images/add.svg'; ?></a></div>
+                <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200); document.getElementById('overlay').innerHTML = '';"<?php include '../images/add.svg'; ?></a></div>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <div id="h-line-add-user-3" class="h-line">Avatar:</div>
             <div id="b-line-add-user-6" class="b-line" style="height:fit-content;align-items:center;">
                 <div>
-                    <img id="avatar-preview" class="avatar-preview" src="./images/avatar.png">
+                    <img id="avatar-preview" class="avatar-preview" src="./images/avatar01.png">
                     <input type="file" id="avatar" name="avatar" accept="image/*" onchange="loadFile(event)" style="display: none;">
                 </div>
                 <div id="gallery" class="gallery">

@@ -23,6 +23,10 @@ function exibirOverlayEditar(id, tabela) {
             arquivo += 'edit_user_overlay.php';
             editarUserOverlay(id, arquivo);
             break;
+        case 'avatar':
+            arquivo += 'edit_avatar_overlay.php';
+            editarAvatarOverlay(id, arquivo);
+            break;
         case 'lista_hd':
             arquivo += 'edit_hd_overlay.php';
             editarHdOverlay(id, arquivo);
@@ -246,9 +250,13 @@ function atualizarTabela() {
 function closeOverlay() {
     // Limpa o timeout caso o overlay seja fechado manualmente
     clearTimeout(closeTimeout);
+    
+    // Limpa o conteúdo da div #overlay
+    document.getElementById('overlay').innerHTML = "";
     ShowObjectWithEffect('overlay', 0, 'fade', 200);
     atualizarTabela();
 }
+
 
 async function insertDsk(event) {
     event.preventDefault(); // Impede o envio padrão do formulário

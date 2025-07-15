@@ -8,7 +8,7 @@
     <!-- INÍCIO DO MENU -->
     <div id="PanelMenu1_markup">
         <!-- AVATAR -->
-        <div id="PanelMenu1-logo"><img id="avatar" alt="" src="<?php echo $avatar; ?>"></div>
+        <div id="PanelMenu1-logo"><img id="avatar" alt="" src="<?php echo $avatar; ?>" onclick="exibirOverlayEditar(<?php echo $_SESSION['id']; ?>, 'avatar')" title="Editar perfil" alt="Avatar do perfil"></div>
         <ul role="menu" class="menu">
             <!-- Item HOME -->
             <li role="menuitem">

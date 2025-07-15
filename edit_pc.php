@@ -46,6 +46,7 @@ if (isset($_SESSION['expires_by'])) {
    <script src="javascript/load.effect.js"></script>
    <script src="javascript/overlay.js"></script>
    <script src="javascript/fichas.js"></script>
+   <script src="javascript/avatar.js"></script>
 </head>
 
 <body>
@@ -317,4 +318,5 @@ if (isset($_SESSION['expires_by'])) {
 <script src="javascript/placeholder.js"></script>
 <script src="javascript/masks.js"></script>
 <script src="javascript/events.js"></script>
+
 </html>

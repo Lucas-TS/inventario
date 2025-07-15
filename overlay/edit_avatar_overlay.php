@@ -1,7 +1,7 @@
 <div id="bloco-overlay" class="bloco-overlay" style="width:600px">
-    <form name="edit_user_form" method="post" accept-charset="UTF-8" id="edit_user_form" onsubmit="editarUser(event)">
+    <form name="edit_user_form" method="post" accept-charset="UTF-8" id="edit_user_form" onsubmit="editarAvatar(event)">
         <div class="header">
-            <span>Editar Usuário</span>
+            <span>Editar Perfil</span>
             <div id="botoes">
                 <div id="b-line-header-1" class="b-line">
                 <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200); document.getElementById('overlay').innerHTML = '';"<?php include '../images/add.svg'; ?></a></div>
@@ -15,7 +15,7 @@
             </div>
             <div id="h-spacer"></div>
             <div id="b-line-edit-user-2" class="b-line">
-                <input type="checkbox" id="ativo-edit-user" class="checkbox" value="1">
+                <input type="checkbox" id="ativo-edit-user" class="checkbox" value="1" disabled>
                 <label for="ativo-edit-user"><span></span>Ativo</label>
             </div>
         </div>
@@ -31,15 +31,11 @@
         </div>
         <div id="linha-3" class="linha">
             <div id="h-line-edit-user-3" class="h-line">Informações de acesso:</div>
-            <div id="b-line-edit-user-5" class="b-line"><label class="label" for="user-edit-user">Usuário:</label>
-                <input id="user-edit-user" name="user-edit-user" type="text" class="input" placeholder="Usuário" autocomplete="username" style="width:200px" required readonly title="Nome completo">
-            </div>
-            <div id="h-spacer" style="flex-basis:100%"></div>
-            <div id="b-line-edit-user-6" class="b-line"><label class="label" for="pw-edit-user">Nova senha:</label>
+            <div id="b-line-edit-user-5" class="b-line"><label class="label" for="pw-edit-user">Nova senha:</label>
                 <input id="pw-edit-user" name="pw-edit-user" type="password" class="input" placeholder="Nova senha" autocomplete="new-password" style="width:200px" title="Email">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-edit-user-7" class="b-line"><label class="label" for="pw2-edit-user">Confirmar nova senha:</label>
+            <div id="b-line-edit-user-6" class="b-line"><label class="label" for="pw2-edit-user">Confirmar nova senha:</label>
                 <input id="pw2-edit-user" name="pw2-edit-user" type="password" class="input" placeholder="Confirmar nova senha" autocomplete="new-password" style="width:200px" title="Email">
             </div>
         </div>
@@ -70,17 +66,6 @@
                     <img src="./images/add.avatar.svg" id="add-avatar-button" onclick="document.getElementById('avatar').click();" class="gallery-item">
                 </div>
                 <input type="hidden" id="selected-avatar" name="selected-avatar" value="">
-            </div>
-        </div>
-        <div id="linha-5" class="linha">
-            <div id="h-line-edit-user-5" class="h-line">Grupo:</div>
-            <div id="b-line-edit-user-9" class="b-line">
-                <input id="gp-edit-user" class="input openBox" type="text" name="gp-edit-user" placeholder="Escolha o grupo" required style="width:250px">
-                <div id="suggestions-gp-edit-user" class="suggestions-box gp-edit-user">
-                    <p id="p0" onclick="passarValor('0', 'gp-edit-user', '0')">Usuários</p>
-                    <p id="p1" onclick="passarValor('1', 'gp-edit-user', '1')">Administradores</p>
-                </div>
-                <input id="hidden-gp-edit-user" name="hidden-gp-edit-user" type="hidden" value="">
             </div>
         </div>
         <div id="linha-6" class="linha fim botoes">

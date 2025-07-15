@@ -34,7 +34,8 @@ if (isset($_SESSION['expires_by']))
       exit;
    }
 }
-?><!doctype html>
+?>
+<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
@@ -43,10 +44,17 @@ if (isset($_SESSION['expires_by']))
 <link href="css/inventario.css" rel="stylesheet">
 <script src="javascript/jquery.min.js"></script>
 <script src="javascript/jquery-ui.min.js"></script>
+<script src="javascript/jquery.mask.min.js"></script>
 <script src="javascript/panel.min.js"></script>
 <script src="javascript/wwb19.min.js"></script>
 <script src="javascript/load.effect.js"></script>
-<script src="javascript/overlay.js"></script>
+<script src="javascript/load.svg.js"></script>
+<script src="javascript/cookies.js"></script>
+<script src="javascript/cria.tabela.js"></script>
+<script src="javascript/avatar.js"></script>
+<script src="javascript/chart.js"></script>
+<script src="javascript/chart.labels.js"></script>
+
 </head>
 <body>
    <header id="FlexContainer1" style="visibility:hidden;">
@@ -55,7 +63,17 @@ if (isset($_SESSION['expires_by']))
       </div>
       <?php include 'includes/menu.php'; ?>
    </header>
-   <div id="content" style="visibility:hidden;">
+   <div id="content" style="visibility:hidden;" class="content-index">
+      <div id="cards-container" class="cards-container">
+        <div id="bloco-card-1" class="card">
+        </div>
+        <div id="bloco-card-2" class="card">
+        </div>
+        <div id="bloco-card-3" class="card">
+        </div>
+        <div id="bloco-card-4" class="card">
+        </div>
+      </div>
    </div>
    <div id="overlay" onclick="handleOverlayClick(event);clearTimeout(closeTimeout);">
    </div>
@@ -65,4 +83,11 @@ if (isset($_SESSION['expires_by']))
       </div>
    </footer>
 </body>
+<script src="javascript/cards.js"></script>
+<script src="javascript/apagar.item.js"></script>
+<script src="javascript/placeholder.js"></script>
+<script src="javascript/overlay.js"></script>
+<script src="javascript/masks.js"></script>
+<script src="javascript/more.less.js"></script>
+<script src="javascript/events.js"></script>
 </html>

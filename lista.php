@@ -52,6 +52,7 @@ if (isset($_SESSION['expires_by']))
 <script src="javascript/load.svg.js"></script>
 <script src="javascript/cookies.js"></script>
 <script src="javascript/cria.tabela.js"></script>
+<script src="javascript/avatar.js"></script>
 </head>
 <body>
     <header id="FlexContainer1" style="visibility:hidden;">
@@ -173,5 +174,6 @@ if (isset($_SESSION['expires_by']))
     <script src="javascript/masks.js"></script>
     <script src="javascript/more.less.js"></script>
     <script src="javascript/events.js"></script>
+    
 </body>
 </html>

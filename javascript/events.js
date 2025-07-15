@@ -39,7 +39,9 @@ $(document).ready(function () {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             nomeTabela = urlParams.get('tabela'); // Definindo nomeTabela aqui
-
+            if (!nomeTabela) {
+                return; // Para execução aqui se "tabela" não estiver presente
+            }
             // Chamando carregarTabela após SVGs carregados e apenas se não estiver carregada
             if (typeof carregarTabela === 'function' && typeof nomeTabela !== 'undefined' && !tabelaCarregada) {
                 carregarTabela(nomeTabela).catch(error => {
@@ -175,6 +177,9 @@ const observer = new MutationObserver(mutations => {
 
 // Configura o observador para monitorar mudanças no DOM
 observer.observe(document.body, { childList: true, subtree: true });
+galleryObserver.observe(document.body, { childList: true, subtree: true });
+
+window.onload = buscaSessaoPhp();
 
 const topoButton = document.getElementById('topo'); // Seleciona o botão com ID 'topo'
 const addButton = document.getElementById('adicionar'); // Seleciona o botão com ID 'adicionar'
@@ -199,3 +204,12 @@ document.addEventListener('input', function (event) {
     }
 });
 
+window.onload = () => {
+  const caminho = window.location.pathname;
+  const nomePagina = caminho.substring(caminho.lastIndexOf('/') + 1);
+
+  if (nomePagina === 'index.php') {
+    exibirGraficoSituacoes();
+    exibirGraficoComputadores();
+  }
+};

@@ -46,6 +46,7 @@ if (isset($_SESSION['expires_by'])) {
    <script src="javascript/load.effect.js"></script>
    <script src="javascript/overlay.js"></script>
    <script src="javascript/fichas.js"></script>
+   <script src="javascript/avatar.js"></script>
 </head>
 
 <body>
@@ -264,7 +265,7 @@ if (isset($_SESSION['expires_by'])) {
                      <p id="p6" onclick="passarValor('6', 'situacao', '6')">Descarregar</p>
                      <p id="p7" onclick="passarValor('7', 'situacao', '7')">Bloqueado</p>
                      <p id="p8" onclick="passarValor('8', 'situacao', '8')">Disponível</p>
-                     <p id="p9" onclick="passarValor('9', 'situacao', '9')">cautelado</p>
+                     <p id="p9" onclick="passarValor('9', 'situacao', '9')">Cautelado</p>
                   </div>
                   <input id="hidden-situacao" name="hidden-situacao" type="hidden" value="">
                </div>
@@ -308,4 +309,5 @@ if (isset($_SESSION['expires_by'])) {
 <script src="javascript/placeholder.js"></script>
 <script src="javascript/masks.js"></script>
 <script src="javascript/events.js"></script>
+
 </html>
