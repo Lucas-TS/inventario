@@ -59,14 +59,30 @@ $(document).ready(function () {
       }
 
       // Carrega gráficos sempre que estiver na index.php
-      const caminho = window.location.pathname;
-      const nomePagina = caminho.substring(caminho.lastIndexOf("/") + 1);
+      const pathname = window.location.pathname.replace(/\/+$/, ""); // remove barra(s) final(is)
+      const isIndex =
+        pathname === "" ||
+        pathname === "/" ||
+        pathname.endsWith("/index.php") ||
+        pathname.endsWith("/inventario") ||
+        pathname.endsWith("/inventario/") ||
+        pathname.endsWith("/inventario/index.php");
 
-      if (nomePagina === "index.php") {
-        exibirGraficoSituacoes();
-        exibirGraficoComputadores();
-        exibirGraficoSO();
-        exibirGraficoAntivirus();
+      if (isIndex) {
+        const prefs = buscarPersonalizacaoCards();
+        const cardsPadrao = [
+          { nome: prefs["bloco-card-1"] || "computadores", bloco: "bloco-card-1" },
+          { nome: prefs["bloco-card-2"] || "so", bloco: "bloco-card-2" },
+          { nome: prefs["bloco-card-3"] || "situacao", bloco: "bloco-card-3" },
+          { nome: prefs["bloco-card-4"] || "antivirus", bloco: "bloco-card-4" },
+        ];
+        Promise.all(
+          cardsPadrao.map((card) => carregarCard(card.nome, card.bloco))
+        ).then(() => {
+          ShowObjectWithEffect("FlexContainer1", 1, "dropup", 200);
+          ShowObjectWithEffect("content", 1, "dropright", 200);
+          ShowObjectWithEffect("FlexContainer2", 1, "dropdown", 200);
+        });
       }
     })
     .catch((error) => console.error("Erro ao carregar SVGs:", error));
@@ -212,7 +228,7 @@ const observer = new MutationObserver((mutations) => {
 observer.observe(document.body, { childList: true, subtree: true });
 galleryObserver.observe(document.body, { childList: true, subtree: true });
 
-window.onload = buscaSessaoPhp();
+window.onload = buscaSessaoPhp;
 
 const topoButton = document.getElementById("topo"); // Seleciona o botão com ID 'topo'
 const addButton = document.getElementById("adicionar"); // Seleciona o botão com ID 'adicionar'

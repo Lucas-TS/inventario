@@ -1,7 +1,7 @@
 <?php
 include '../includes/conecta_db.php';
 
-// Agrupa por nome formatado dinamicamente (ignora NULLs e versões irrelevantes)
+// Consulta agrupada por nome completo do SO
 $sql = "
     SELECT 
         TRIM(CONCAT_WS(' ', nome, distribuicao, versao)) AS nome,
@@ -14,22 +14,38 @@ $sql = "
 
 $resultado = $conn->query($sql);
 
-$sistemas = [];
+$labels = [];
+$valores = [];
 $total = 0;
 
+// Gera cores automáticas (HSL)
+function gerarCor($i, $total) {
+    $hue = ($i * 360 / max(1, $total));
+    return "hsl($hue, 70%, 50%)";
+}
+
 if ($resultado && $resultado->num_rows > 0) {
+    $i = 0;
+    $totalRows = $resultado->num_rows;
     while ($linha = $resultado->fetch_assoc()) {
-        $sistemas[] = [
-            'nome' => $linha['nome'],
-            'quantidade' => (int)$linha['quantidade']
-        ];
-        $total += $linha['quantidade'];
+        $labels[] = $linha['nome'];
+        $valores[] = intval($linha['quantidade']);
+        $total += intval($linha['quantidade']);
+        $cores[] = gerarCor($i, $totalRows);
+        $i++;
     }
 }
 
 $retorno = [
-    'total' => $total,
-    'sistemas' => $sistemas
+    'tipo' => 'grafico',
+    'titulo' => 'Distribuição por Sistema Operacional',
+    'grafico' => [
+        'tipo' => 'doughnut',
+        'labels' => $labels,
+        'valores' => $valores,
+        'cores' => $cores,
+        'total' => $total
+    ]
 ];
 
 header('Content-Type: application/json');

@@ -1,6 +1,13 @@
 <?php
 include '../includes/conecta_db.php';
 
+$mapa = [
+    'Sim' => ['cor' => '#008000', 'quantidade' => 0],
+    'Não' => ['cor' => '#FF0000', 'quantidade' => 0]
+];
+
+$total = 0;
+
 $sql = "
     SELECT antivirus, COUNT(*) AS quantidade
     FROM computadores
@@ -10,32 +17,33 @@ $sql = "
 
 $resultado = $conn->query($sql);
 
-$mapa = [
-    'Sim' => 0,
-    'Não' => 0
-];
-
-$total = 0;
-
 if ($resultado && $resultado->num_rows > 0) {
     while ($linha = $resultado->fetch_assoc()) {
         $texto = $linha['antivirus'] == 1 ? 'Sim' : 'Não';
-        $mapa[$texto] = (int)$linha['quantidade'];
-        $total += $linha['quantidade'];
+        $mapa[$texto]['quantidade'] = intval($linha['quantidade']);
+        $total += intval($linha['quantidade']);
     }
 }
 
-$sistemas = [];
-foreach ($mapa as $nome => $quantidade) {
-    $sistemas[] = [
-        'nome' => $nome,
-        'quantidade' => $quantidade
-    ];
+$labels = [];
+$valores = [];
+$cores = [];
+foreach ($mapa as $nome => $info) {
+    $labels[] = $nome;
+    $valores[] = $info['quantidade'];
+    $cores[] = $info['cor'];
 }
 
 $retorno = [
-    'total' => $total,
-    'sistemas' => $sistemas
+    'tipo' => 'grafico',
+    'titulo' => 'Antivírus Instalado',
+    'grafico' => [
+        'tipo' => 'doughnut',
+        'labels' => $labels,
+        'valores' => $valores,
+        'cores' => $cores,
+        'total' => $total
+    ]
 ];
 
 header('Content-Type: application/json');

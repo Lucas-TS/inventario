@@ -271,9 +271,10 @@ function criarTabela(dados, colunasSelecionadas = null, todasColunas) {
       }
       if (coluna === "Situação") {
         obterDetalhesSituacao(linha[coluna]);
+        const svgComCor = detalhes.svg.replace("<svg", `<svg fill="${detalhes.cor}"`);
         td.innerHTML = `
                   <div class="situacao">
-                  ${detalhes.svg} 
+                  ${svgComCor} 
                   <span class="span-situacao" style="color: ${detalhes.cor};">${detalhes.texto}</span>
                   </div>`;
       } else if (coluna === "Grupo") {
@@ -585,7 +586,7 @@ function obterDetalhesSituacao(situacao) {
       case "1":
         detalhes.svg = returnSVG;
         detalhes.texto = "Devolver";
-        detalhes.cor = "#0062cb";
+        detalhes.cor = "#0017CB";
         break;
       case "2":
         detalhes.svg = infoSVG;
@@ -595,12 +596,12 @@ function obterDetalhesSituacao(situacao) {
       case "3":
         detalhes.svg = manutSVG;
         detalhes.texto = "Manutenção";
-        detalhes.cor = "#02B3C0";
+        detalhes.cor = "#FF9800";
         break;
       case "4":
         detalhes.svg = esperaSVG;
         detalhes.texto = "Aguardando peças";
-        detalhes.cor = "#FF9800";
+        detalhes.cor = "#02B3C0";
         break;
       case "5":
         detalhes.svg = defeitoSVG;

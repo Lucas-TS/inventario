@@ -3,371 +3,136 @@ const centerTextPlugin = {
   afterDraw(chart) {
     const {
       ctx,
-      chartArea: { left, right, top, bottom, width, height },
+      chartArea: { left, top, width, height },
     } = chart;
     ctx.save();
-    ctx.font = "bold 50px Arial";
-    ctx.fillStyle = "#444";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    // O total pode ser passado por options ou calculado
-    const total = chart.config.options.plugins.centerText.total || "";
-    ctx.fillText(total, left + width / 2, top + height / 2);
+
+    // Só desenha o texto central se for doughnut ou pie
+    const tipo = chart.config.type;
+    if (tipo === "doughnut") {
+      ctx.font = "bold 50px Arial";
+      ctx.fillStyle = "#444";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      const total = chart.config.options.plugins.centerText.total || "";
+      ctx.fillText(total, left + width / 2, top + height / 2);
+    }
     ctx.restore();
   },
 };
 
-async function exibirGraficoComputadores() {
-  const tipoTexto = {
-    0: "Desktop",
-    1: "Notebook",
-    2: "Servidor",
-  };
+const tiposPermitidosGraficos = ["doughnut", "bar", "pie", "line"]; // Adicione/remova conforme desejar
+loadSVG("doughnut.svg");
+loadSVG("bar.svg");
+loadSVG("pie.svg");
+loadSVG("line.svg");
+const iconesPorTipo = {
+  doughnut: doughnutSVG, // pode ser um SVG, uma classe CSS ou um Unicode/emoji
+  bar: barSVG,
+  pie: pieSVG,
+  line: lineSVG,
+};
 
-  const tipoCor = {
-    0: "#3F51B5",
-    1: "#4CAF50",
-    2: "#FF9800",
-  };
+async function carregarCard(nomeArquivo, blocoId) {
+  let tipos = {};
+  try {
+    tipos = JSON.parse(localStorage.getItem("cardsGraficoTipo") || "{}");
+  } catch {}
 
-  const labels = [];
-  const valores = [];
-  const cores = [];
-
-  // Inicia todos com 0 para garantir legenda completa
-  for (const tipo in tipoTexto) {
-    labels.push(tipoTexto[tipo]);
-    valores.push(0);
-    cores.push(tipoCor[tipo] ?? "#999");
-  }
-
-  const res = await fetch("./cards/computadores.php");
+  const res = await fetch(`./cards/${nomeArquivo}.php`);
   const dados = await res.json();
-
-  // Preenche valores reais
-  dados.tipos.forEach((item) => {
-    valores[item.tipo] = item.quantidade;
-  });
-
-  const divBloco = document.getElementById("bloco-card-1");
+  const divBloco = document.getElementById(blocoId);
   if (!divBloco) return;
-
-  // Limpa conteúdo anterior
   divBloco.innerHTML = "";
 
-  // 1) Cria título externo
-  const tituloChart = document.createElement("p");
-  tituloChart.className = "texto-titulo";
-  tituloChart.textContent = "Distribuição por Tipo de Computador";
-  divBloco.appendChild(tituloChart);
+  // Título
+  if (dados.titulo) {
+    const titulo = document.createElement("div");
+    titulo.className = "texto-titulo";
+    titulo.style.display = "flex";
+    titulo.style.alignItems = "center";
+    titulo.style.justifyContent = "space-between";
 
-  // 2) Cria wrapper + canvas
-  const wrapper = document.createElement("div");
-  wrapper.className = "grafico-wrapper";
-  divBloco.appendChild(wrapper);
+    // Título do card
+    const tituloSpan = document.createElement("span");
+    tituloSpan.textContent = dados.titulo;
+    titulo.appendChild(tituloSpan);
 
-  const canvas = document.createElement("canvas");
-  canvas.id = "grafico-computadores";
-  const canvasHolder = document.createElement("div");
-  canvasHolder.className = "canvas-holder";
-  canvasHolder.appendChild(canvas);
-  wrapper.appendChild(canvasHolder);
-
-  // 4) Monta o gráfico
-  Chart.register(ChartDataLabels);
-  new Chart(canvas.getContext("2d"), {
-    type: "doughnut",
-    plugins: [ChartDataLabels, centerTextPlugin],
-    data: {
-      labels,
-      datasets: [
-        {
-          data: valores,
-          backgroundColor: cores,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        datalabels: {
-          formatter: (v) => (v > 0 ? v : ""),
-          color: "#fff",
-          font: { weight: "bold", size: 13 },
-        },
-        centerText: {
-          total: dados.total, // Passe o total aqui!
-        },
-      },
-    },
-  });
-
-  // Cria legenda customizada
-  const legenda = document.createElement("div");
-  legenda.className = "grafico-legenda";
-  labels.forEach((label, i) => {
-    const item = document.createElement("div");
-    item.className = "legenda-item";
-    item.innerHTML = `<span class="legenda-cor" style="background:${cores[i]}"></span>${label}`;
-    legenda.appendChild(item);
-  });
-  wrapper.appendChild(legenda); // Adiciona ao lado do canvas-holder
-}
-
-async function exibirGraficoSituacoes() {
-  const situacoesEsperadas = {
-    0: "Em uso",
-    1: "Devolver",
-    2: "Distribuir",
-    3: "Manutenção",
-    4: "Aguardando peças",
-    5: "Defeito",
-    6: "Descarregar",
-    7: "Bloqueado",
-    8: "Disponível",
-    9: "Cautelado",
-  };
-
-  // Inicia todas com quantidade zero
-  const mapaSituacoes = {};
-  for (const codigo in situacoesEsperadas) {
-    mapaSituacoes[codigo] = { situacao: codigo, quantidade: 0 };
-  }
-
-  const res = await fetch("./cards/situacao.php");
-  const dados = await res.json();
-
-  for (const item of dados.situacoes) {
-    mapaSituacoes[item.situacao] = item;
-  }
-
-  const labels = [];
-  const valores = [];
-  const cores = [];
-
-  for (const item of Object.values(mapaSituacoes)) {
-    const detalhes = await obterDetalhesSituacao(String(item.situacao));
-    labels.push(detalhes.texto);
-    valores.push(item.quantidade);
-    cores.push(detalhes.cor);
-  }
-
-  const divBloco = document.getElementById("bloco-card-3");
-  if (!divBloco) return;
-
-  divBloco.innerHTML = "";
-
-  // 1) Título externo
-  const tituloChart = document.createElement("p");
-  tituloChart.className = "texto-titulo";
-  tituloChart.textContent = "Distribuição por Situação";
-  divBloco.appendChild(tituloChart);
-
-  // 2) Wrapper + canvas
-  const wrapper = document.createElement("div");
-  wrapper.className = "grafico-wrapper";
-  divBloco.appendChild(wrapper);
-
-  const canvas = document.createElement("canvas");
-  canvas.id = "grafico-situacoes";
-  const canvasHolder = document.createElement("div");
-  canvasHolder.className = "canvas-holder";
-  canvasHolder.appendChild(canvas);
-  wrapper.appendChild(canvasHolder);
-
-  // 4) Monta o gráfico
-  Chart.register(ChartDataLabels);
-  new Chart(canvas.getContext("2d"), {
-    type: "doughnut",
-    plugins: [ChartDataLabels, centerTextPlugin],
-    data: {
-      labels,
-      datasets: [
-        {
-          data: valores,
-          backgroundColor: cores,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        datalabels: {
-          formatter: (v) => (v > 0 ? v : ""),
-          color: "#fff",
-          font: { weight: "bold", size: 13 },
-        },
-        centerText: {
-          total: dados.total, // Passe o total aqui!
-        },
-      },
-    },
-  });
-
-  // Cria legenda customizada
-  const legenda = document.createElement("div");
-  legenda.className = "grafico-legenda";
-  labels.forEach((label, i) => {
-    const item = document.createElement("div");
-    item.className = "legenda-item";
-    item.innerHTML = `<span class="legenda-cor" style="background:${cores[i]}"></span>${label}`;
-    legenda.appendChild(item);
-  });
-  wrapper.appendChild(legenda); // Adiciona ao lado do canvas-holder
-}
-
-async function exibirGraficoSO() {
-  // Gera cor baseada no nome (usando hash + HSL)
-  function gerarPaleta(total) {
-    const cores = [];
-
-    // Espaço entre tons — quanto menos itens, mais espaçamento
-    const hueStep = total > 12 ? 25 : 360 / total;
-
-    for (let i = 0; i < total; i++) {
-      const hue = Math.round((i * hueStep) % 360);
-      const saturation = 70;
-      const lightness = 50;
-
-      cores.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+    // Botão de gráfico (se for gráfico)
+    const tipoGraficoAtual = tipos[blocoId] || dados.grafico.tipo || "bar";
+    let btnGrafico = null;
+    if (dados.tipo === "grafico") {
+      btnGrafico = document.createElement("button");
+      btnGrafico.className = "btn-tipo-grafico";
+      btnGrafico.id = `btnGrafico-${blocoId}`;
+      btnGrafico.title = "Alterar tipo de gráfico";
+      btnGrafico.innerHTML = iconesPorTipo[tipoGraficoAtual];
+      btnGrafico.onclick = (e) => {
+        e.stopPropagation();
+        alternarTipoGrafico(blocoId, nomeArquivo, dados.grafico.tipo);
+      };
+      titulo.appendChild(btnGrafico);
     }
 
-    return cores;
+    // Botão de personalização
+    const btnSeta = document.createElement("button");
+    btnSeta.className = "btn-seta-card";
+    btnSeta.innerHTML = setaSVG;
+    btnSeta.title = "Personalizar este card";
+    btnSeta.onclick = (e) => {
+      e.stopPropagation();
+      abrirPersonalizacaoCard(blocoId, nomeArquivo);
+    };
+    titulo.appendChild(btnSeta);
+
+    divBloco.appendChild(titulo);
+    atualizarIconeBotaoGrafico(blocoId, tipoGraficoAtual);
   }
 
-  const res = await fetch("./cards/so.php");
-  const dados = await res.json();
-
-  const labels = [];
-  const valores = [];
-  const totalItens = dados.sistemas.length;
-  const cores = gerarPaleta(totalItens);
-
-  dados.sistemas.forEach((item, i) => {
-    labels.push(item.nome);
-    valores.push(item.quantidade);
-    // usa a cor gerada para o índice atual
-    cores[i] = cores[i];
-  });
-
-  const divBloco = document.getElementById("bloco-card-2");
-  if (!divBloco) return;
-  divBloco.innerHTML = "";
-
-  // 1) Título externo
-  const tituloChart = document.createElement("p");
-  tituloChart.className = "texto-titulo";
-  tituloChart.textContent = "Distribuição por Sistema Operacional";
-  divBloco.appendChild(tituloChart);
-
-  // 2) Wrapper + canvas
-  const wrapper = document.createElement("div");
-  wrapper.className = "grafico-wrapper";
-  divBloco.appendChild(wrapper);
-
-  const canvas = document.createElement("canvas");
-  canvas.id = "grafico-so";
-  const canvasHolder = document.createElement("div");
-  canvasHolder.className = "canvas-holder";
-  canvasHolder.appendChild(canvas);
-  wrapper.appendChild(canvasHolder);
-
-  // 4) Monta o gráfico
-  Chart.register(ChartDataLabels);
-  new Chart(canvas.getContext("2d"), {
-    type: "doughnut",
-    plugins: [ChartDataLabels, centerTextPlugin],
-    data: {
-      labels,
-      datasets: [
-        {
-          data: valores,
-          backgroundColor: cores,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        datalabels: {
-          formatter: (v) => (v > 0 ? v : ""),
-          color: "#fff",
-          font: { weight: "bold", size: 13 },
-        },
-        centerText: {
-          total: dados.total, // Passe o total aqui!
-        },
-      },
-    },
-  });
-
-  // 5) Legenda customizada
-  const legenda = document.createElement("div");
-  legenda.className = "grafico-legenda";
-  labels.forEach((label, i) => {
-    const item = document.createElement("div");
-    item.className = "legenda-item";
-    item.innerHTML = `<span class="legenda-cor" style="background:${cores[i]}"></span>${label}`;
-    legenda.appendChild(item);
-  });
-  wrapper.appendChild(legenda);
+  // Conteúdo dinâmico
+  switch (dados.tipo) {
+    case "grafico":
+      // Busca o tipo salvo ou usa o padrão do PHP/dados
+      const tipoGrafico = tipos[blocoId] || dados.grafico.tipo || "pie";
+      // Passa o tipo para a função
+      criarGraficoNoCard(divBloco, { ...dados.grafico, tipo: tipoGrafico });
+      break;
+    case "texto":
+      divBloco.innerHTML += `<div class="card-texto">${dados.texto}</div>`;
+      break;
+    case "tabela":
+      criarTabelaNoCard(divBloco, dados.colunas, dados.linhas);
+      break;
+    case "link":
+      divBloco.innerHTML += `<a href="${dados.url}" class="card-link">${dados.texto}</a>`;
+      break;
+    // Adicione outros tipos conforme necessário
+  }
 }
 
-async function exibirGraficoAntivirus() {
-  const res = await fetch("./cards/antivirus.php");
-  const dados = await res.json();
-
-  const labels = [];
-  const valores = [];
-  const cores = [];
-
-  const corMapeada = {
-    Sim: "#4CAF50", // Verde
-    Não: "#F44336", // Vermelho
-  };
-
-  dados.sistemas.forEach((item) => {
-    labels.push(item.nome);
-    valores.push(item.quantidade);
-    cores.push(corMapeada[item.nome] ?? "#999");
-  });
-
-  const divBloco = document.getElementById("bloco-card-4");
-  if (!divBloco) return;
-  divBloco.innerHTML = "";
-
-  const titulo = document.createElement("p");
-  titulo.className = "texto-titulo";
-  titulo.textContent = "Antivírus Instalado";
-  divBloco.appendChild(titulo);
-
+// Função auxiliar para gráfico
+function criarGraficoNoCard(divBloco, grafico) {
   const wrapper = document.createElement("div");
   wrapper.className = "grafico-wrapper";
   divBloco.appendChild(wrapper);
 
   const canvas = document.createElement("canvas");
-  canvas.id = "grafico-antivirus";
+  canvas.id = "grafico-" + Math.random().toString(36).substr(2, 5);
   const canvasHolder = document.createElement("div");
   canvasHolder.className = "canvas-holder";
   canvasHolder.appendChild(canvas);
   wrapper.appendChild(canvasHolder);
 
-  Chart.register(ChartDataLabels);
+  Chart.register(ChartDataLabels, centerTextPlugin);
   new Chart(canvas.getContext("2d"), {
-    type: "doughnut",
+    type: grafico.tipo,
     plugins: [ChartDataLabels, centerTextPlugin],
     data: {
-      labels,
+      labels: grafico.labels,
       datasets: [
         {
-          data: valores,
-          backgroundColor: cores,
+          data: grafico.valores,
+          backgroundColor: grafico.cores,
         },
       ],
     },
@@ -382,20 +147,180 @@ async function exibirGraficoAntivirus() {
           font: { weight: "bold", size: 13 },
         },
         centerText: {
-          total: dados.total, // Passe o total aqui!
+          total: grafico.total,
         },
       },
     },
   });
 
   // Legenda customizada
-  const legenda = document.createElement("div");
-  legenda.className = "grafico-legenda";
-  labels.forEach((label, i) => {
-    const item = document.createElement("div");
-    item.className = "legenda-item";
-    item.innerHTML = `<span class="legenda-cor" style="background:${cores[i]}"></span>${label}`;
-    legenda.appendChild(item);
+  if (grafico.labels && grafico.cores) {
+    const legenda = document.createElement("div");
+    legenda.className = "grafico-legenda";
+    grafico.labels.forEach((label, i) => {
+      const item = document.createElement("div");
+      item.className = "legenda-item";
+      item.innerHTML = `<span class="legenda-cor" style="background:${grafico.cores[i]}"></span>${label}`;
+      legenda.appendChild(item);
+    });
+    const totalDiv = document.createElement("div");
+    totalDiv.className = "legenda-item";
+    totalDiv.innerHTML = `<b>TOTAL: ${grafico.total}</b>`;
+    legenda.appendChild(totalDiv);
+
+    wrapper.appendChild(legenda);
+  }
+}
+
+// Função auxiliar para tabela
+function criarTabelaNoCard(divBloco, colunas, linhas) {
+  const table = document.createElement("table");
+  table.className = "card-tabela";
+  const thead = document.createElement("thead");
+  const trHead = document.createElement("tr");
+  colunas.forEach((col) => {
+    const th = document.createElement("th");
+    th.textContent = col;
+    trHead.appendChild(th);
   });
-  wrapper.appendChild(legenda);
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+  linhas.forEach((linha) => {
+    const tr = document.createElement("tr");
+    linha.forEach((cell) => {
+      const td = document.createElement("td");
+      td.textContent = cell;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  divBloco.appendChild(table);
+}
+
+function salvarPersonalizacaoCard(blocoId, nomeArquivo) {
+  let prefs = {};
+  try {
+    prefs = JSON.parse(localStorage.getItem("cardsPrefs") || "{}");
+  } catch {}
+  prefs[blocoId] = nomeArquivo;
+  localStorage.setItem("cardsPrefs", JSON.stringify(prefs));
+}
+
+function buscarPersonalizacaoCards() {
+  try {
+    return JSON.parse(localStorage.getItem("cardsPrefs") || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function abrirPersonalizacaoCard(blocoId, nomeAtual) {
+  const titulo = document
+    .getElementById(blocoId)
+    .querySelector(".texto-titulo");
+  const btnSeta = titulo.querySelector(".btn-seta-card");
+  const caixaAberta = titulo.querySelector(".personaliza-card-box");
+
+  // Se já está aberta, fecha e sai
+  if (caixaAberta) {
+    caixaAberta.remove();
+    if (btnSeta) btnSeta.classList.remove("ativo");
+    return;
+  }
+
+  // Remove caixa anterior se existir e remove classe 'ativo' de todos os botões
+  document.querySelectorAll(".personaliza-card-box").forEach((e) => e.remove());
+  document
+    .querySelectorAll(".btn-seta-card.ativo")
+    .forEach((e) => e.classList.remove("ativo"));
+
+  // Opções únicas para todos os cards
+  const opcoes = [
+    { nome: "computadores", label: "Tipo de Computador" },
+    { nome: "so", label: "Sistema Operacional" },
+    { nome: "antivirus", label: "Antivírus" },
+    { nome: "situacao", label: "Situação" },
+  ];
+
+  // Cria caixa suspensa
+  const box = document.createElement("div");
+  box.className = "personaliza-card-box visivel";
+
+  // Adiciona opções como <p>
+  opcoes.forEach((opt) => {
+    if (opt.nome === nomeAtual) return; // Não cria o <p> da opção já selecionada
+    const p = document.createElement("p");
+    p.textContent = opt.label;
+    p.onclick = () => {
+      salvarPersonalizacaoCard(blocoId, opt.nome);
+      box.remove();
+      btnSeta.classList.remove("ativo");
+      carregarCard(opt.nome, blocoId);
+    };
+    box.appendChild(p);
+  });
+
+  // Posiciona a caixa ao lado do botão
+  titulo.style.position = "relative";
+  titulo.appendChild(box);
+
+  // Adiciona classe 'ativo' ao botão da seta clicado
+  if (btnSeta) btnSeta.classList.add("ativo");
+
+  // Fecha ao clicar fora
+  setTimeout(() => {
+    document.addEventListener("click", function fecharBox(e) {
+      if (!box.contains(e.target)) {
+        box.remove();
+        if (btnSeta) btnSeta.classList.remove("ativo");
+        document.removeEventListener("click", fecharBox);
+      }
+    });
+  }, 10);
+}
+
+function alternarTipoGrafico(blocoId, nomeCardAtual, tipoAtualNaTela) {
+  // Pega o tipo atual
+  let tipos = {};
+  try {
+    tipos = JSON.parse(localStorage.getItem("cardsGraficoTipo") || "{}");
+  } catch {}
+
+  // Fallback: tipo atual exibido na tela
+  const atual = tipos[blocoId] || tipoAtualNaTela || tiposPermitidosGraficos[0];
+
+  // Descobre o próximo tipo
+  let idx = tiposPermitidosGraficos.indexOf(atual);
+  let novoTipo =
+    tiposPermitidosGraficos[(idx + 1) % tiposPermitidosGraficos.length];
+
+  // Salva e recarrega
+  tipos[blocoId] = novoTipo;
+  localStorage.setItem("cardsGraficoTipo", JSON.stringify(tipos));
+
+  // Nome do card salvo normalmente
+  let prefs = {};
+  try {
+    prefs = JSON.parse(localStorage.getItem("cardsPrefs") || "{}");
+  } catch {}
+  const nomeCard = nomeCardAtual || "computadores";
+
+  carregarCard(nomeCard, blocoId);
+}
+
+function atualizarIconeBotaoGrafico(blocoId, tipoAtualNaTela) {
+  const atual = tipoAtualNaTela || tiposPermitidosGraficos[0];
+  const idx = tiposPermitidosGraficos.indexOf(atual);
+  const proximo =
+    tiposPermitidosGraficos[(idx + 1) % tiposPermitidosGraficos.length];
+
+  const btn = document.querySelector(`#btnGrafico-${blocoId}`); // ajuste o seletor conforme seu HTML
+
+  if (btn) {
+    const icone = iconesPorTipo[proximo] || "";
+    btn.innerHTML = icone; // ou btn.className = ..., dependendo da forma que usa ícones
+  }
 }

@@ -1710,7 +1710,7 @@ input[type="checkbox"].checkbox:not(:checked) + label span {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-left: 0;
+  margin-left: 10px;
   align-items: flex-start;
   justify-content: center;
 }
@@ -1777,10 +1777,118 @@ input[type="checkbox"].checkbox:not(:checked) + label span {
 }
 
 .texto-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 20px;
   font-weight: bold;
   color: #555555;
   text-align: left;
   margin: 10px;
   text-transform: uppercase;
+  gap: 10px;
+}
+
+.texto-titulo span {
+   flex-basis: 100%;
+}
+
+.btn-seta-card {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 0 0 0px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  position: relative;
+  justify-content: center;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  transition: all 0.2s ease;
+}
+
+.btn-seta-card:hover {
+  background: #f7f7f7;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.30);
+}
+
+.btn-seta-card.ativo {
+  background: #ddd;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.30);
+}
+
+.btn-seta-card svg {
+  width: 20px;
+  height: 20px;
+  fill: #555555;
+  transition: transform 0.2s;
+  transform: rotate(180deg);
+}
+
+.btn-seta-card.ativo svg {
+  transform: rotate(0deg);
+}
+
+.btn-tipo-grafico {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  position: relative;
+  justify-content: center;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  transition: all 0.2s ease;
+}
+
+.btn-tipo-grafico:hover {
+  background: #f7f7f7;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.30);
+}
+
+.btn-tipo-grafico svg {
+  position: relative;
+  left: 1px;
+  width: 18px;
+  height: 18px;
+  fill: #158CBA;
+  stroke: #158CBA;
+}
+
+.personaliza-card-box {
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute;
+  background-color: #FFFFFF;
+  z-index: 1000;
+  display: block;
+  border-radius: 5px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.075), 1px 1px 3px rgba(0, 0, 0, 0.30);
+  right: 0px;
+  top: 32px;
+}
+
+.personaliza-card-box p {
+  font-size: 15px;
+  margin: 0;
+  cursor: pointer;
+  padding: 2px 5px 2px 5px;
+  margin: 5px;
+  background: none;
+  text-transform: none;
+  font-weight: normal;
+  transition: background 0.2s, color 0.2s;
+}
+
+.personaliza-card-box p:hover,
+.personaliza-card-box p:focus {
+  background-color: #158CBA;
+  color: #FFFFFF;
+  border-radius: 3px;
+  outline: none;
 }

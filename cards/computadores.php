@@ -1,41 +1,46 @@
 <?php
 include '../includes/conecta_db.php';
 
-// Tipos esperados
-$tiposEsperados = [
-    0 => 'Desktop',
-    1 => 'Notebook',
-    2 => 'Servidor'
+$tipos = [
+    0 => ['nome' => 'Desktop', 'cor' => '#0017CB'],
+    1 => ['nome' => 'Notebook', 'cor' => '#008000'],
+    2 => ['nome' => 'Servidor', 'cor' => '#FF9800']
 ];
 
 // Inicializa todos com zero
-$tipos = [];
-foreach ($tiposEsperados as $codigo => $nome) {
-    $tipos[$codigo] = ['tipo' => $codigo, 'quantidade' => 0];
-}
+$valores = [0, 0, 0];
+$total = 0;
 
-// Consulta agrupada apenas para ativos
 $sql = "SELECT tipo, COUNT(*) AS quantidade FROM computadores WHERE ativo = 1 GROUP BY tipo";
 $resultado = $conn->query($sql);
-
-$total = 0;
 
 if ($resultado && $resultado->num_rows > 0) {
     while ($linha = $resultado->fetch_assoc()) {
         $codigo = intval($linha['tipo']);
-        $quantidade = intval($linha['quantidade']);
-
-        if (array_key_exists($codigo, $tipos)) {
-            $tipos[$codigo]['quantidade'] = $quantidade;
-            $total += $quantidade;
+        if (isset($valores[$codigo])) {
+            $valores[$codigo] = intval($linha['quantidade']);
+            $total += intval($linha['quantidade']);
         }
     }
 }
 
-// Retorno JSON com total agregado
+$labels = [];
+$cores = [];
+foreach ($tipos as $codigo => $info) {
+    $labels[] = $info['nome'];
+    $cores[] = $info['cor'];
+}
+
 $retorno = [
-    'total' => $total,
-    'tipos' => array_values($tipos) // Reindexa como lista
+    'tipo' => 'grafico',
+    'titulo' => 'Distribuição por Tipo de Computador',
+    'grafico' => [
+        'tipo' => 'doughnut',
+        'labels' => $labels,
+        'valores' => $valores,
+        'cores' => $cores,
+        'total' => $total
+    ]
 ];
 
 header('Content-Type: application/json');

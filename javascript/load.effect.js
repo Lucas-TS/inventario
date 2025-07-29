@@ -3,14 +3,18 @@ document.addEventListener('DOMContentLoaded', function (event) {
 });
 
 $(document).ready(function () {
-   ShowObjectWithEffect('FlexContainer1', 1, 'dropup', 200);
    $("a[href*='#content']").click(function (event) {
       event.preventDefault();
       $('html, body').stop().animate({ scrollTop: $('#content').offset().top }, 600, 'easeOutSine');
    });
-   ShowObjectWithEffect('content', 1, 'dropright', 200);
    $("#PanelMenu1").panel({ animate: true, animationDuration: 200, animationEasing: 'linear', dismissible: false, display: 'push', position: 'left', toggle: true });
-   ShowObjectWithEffect('FlexContainer2', 1, 'dropdown', 200);
+   const caminho = window.location.pathname;
+   const nomePagina = caminho.substring(caminho.lastIndexOf("/") + 1);
+   if (nomePagina !== "index.php") {
+      ShowObjectWithEffect("FlexContainer1", 1, "dropup", 200);
+      ShowObjectWithEffect("content", 1, "dropright", 200);
+      ShowObjectWithEffect("FlexContainer2", 1, "dropdown", 200);
+   }
 });
 
 var wb_Timer1;
