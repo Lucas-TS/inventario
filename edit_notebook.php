@@ -61,7 +61,7 @@ if (isset($_SESSION['expires_by'])) {
          <div id="bloco" class="bloco">
             <div class="header">
                <div id="b-line-fim-1" class="b-line">
-                  <span>Editar Computador</span>
+                  <span>Editar Notebook</span>
                </div>
                <div id="botoes">
                   <div id="b-line-fim-2" class="b-line correcao-altura">
@@ -83,7 +83,7 @@ if (isset($_SESSION['expires_by'])) {
                     <input type="checkbox" id="ativo-edit-pc" name="ativo-edit-pc" class="checkbox" value="1">
                     <label for="ativo-edit-pc"><span></span>Ativo</label>
                 </div>
-                <input id="hidden-tipo" name="hidden-tipo" type="hidden" value="0">
+                <input id="hidden-tipo" name="hidden-tipo" type="hidden" value="1">
                 <div id="h-spacer" style="flex-basis: 100%;"></div>
                 <div id="b-line-edit-pc-3" class="b-line" style="flex-basis: 50%;"><span class="label">Incluído em:</span>
                     <span id="data-add-edit-pc"></span>
@@ -123,11 +123,11 @@ if (isset($_SESSION['expires_by'])) {
             <div id="linha-2" class="linha">
                <div id="h-line-2" class="h-line">Processador:<div id="adicionarProc" class="flex-center margin-left icon-button"><a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./overlay/add_proc_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
                </div>
-               <div id="b-line-proc-1" class="b-line"><label class="label" for="processador-desktop">Modelo:</label>
-                  <input id="processador-desktop" class="input box" type="text" name="processador-desktop" style="width:400px;" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
-                  <div id="suggestions-processador-desktop" class="suggestions-box processador-desktop"></div>
-                  <input id="hidden-processador-desktop" name="hidden-processador-desktop" type="hidden" value="">
-                  <input id="hidden-id-assoc-processador-desktop" name="hidden-id-assoc-processador-desktop" type="hidden" value="">
+               <div id="b-line-proc-1" class="b-line"><label class="label" for="processador-notebook">Modelo:</label>
+                  <input id="processador-notebook" class="input box" type="text" name="processador-notebook" style="width:400px;" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
+                  <div id="suggestions-processador-notebook" class="suggestions-box processador-notebook"></div>
+                  <input id="hidden-processador-notebook" name="hidden-processador-notebook" type="hidden" value="">
+                  <input id="hidden-id-assoc-processador-notebook" name="hidden-id-assoc-processador-notebook" type="hidden" value="">
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-proc-2" class="b-line">
@@ -175,7 +175,7 @@ if (isset($_SESSION['expires_by'])) {
                   <span class="label">Tipo:</span>
                   <input type="radio" id="pv-on" name="pv" class="radio pv-check" value="on" checked onclick="formularioGPU(this.value)">
                   <label for="pv-on"><span></span>Onboard</label>
-                  <input type="radio" id="pv-off" name="pv" class="radio pv-check" value="off" onclick="formularioGPU(this.value)">
+                  <input type="radio" id="pv-off" name="pv" class="radio pv-check" value="off" onclick="formularioGPU(this.value, 'Notebook')">
                   <label for="pv-off"><span></span>Offboard</label>
                </div>
                <div id="formulario-pv-1" class="formulario pv">

@@ -59,6 +59,10 @@ function exibirOverlayEditar(id, tabela) {
             arquivo = './edit_pc.php?id=' + id;
             window.location.href = arquivo; // Redirecionar para a página
             break;
+        case 'notebooks':
+            arquivo = './edit_notebook.php?id=' + id;
+            window.location.href = arquivo; // Redirecionar para a página
+            break;
         default:
             return;
     }

@@ -58,20 +58,12 @@ $(document).ready(function () {
         tabelaCarregada = true;
       }
 
-      // Carrega gráficos sempre que estiver na index.php
-      const pathname = window.location.pathname.replace(/\/+$/, ""); // remove barra(s) final(is)
-      const isIndex =
-        pathname === "" ||
-        pathname === "/" ||
-        pathname.endsWith("/index.php") ||
-        pathname.endsWith("/inventario") ||
-        pathname.endsWith("/inventario/") ||
-        pathname.endsWith("/inventario/index.php");
+      const cardsContainer = document.querySelector("#cards-container");
 
-      if (isIndex) {
+      if (cardsContainer) {
         const prefs = buscarPersonalizacaoCards();
         const cardsPadrao = [
-          { nome: prefs["bloco-card-1"] || "computadores", bloco: "bloco-card-1" },
+          { nome: prefs["bloco-card-1"] || "computadores",bloco: "bloco-card-1", },
           { nome: prefs["bloco-card-2"] || "so", bloco: "bloco-card-2" },
           { nome: prefs["bloco-card-3"] || "situacao", bloco: "bloco-card-3" },
           { nome: prefs["bloco-card-4"] || "antivirus", bloco: "bloco-card-4" },
@@ -83,6 +75,11 @@ $(document).ready(function () {
           ShowObjectWithEffect("content", 1, "dropright", 200);
           ShowObjectWithEffect("FlexContainer2", 1, "dropdown", 200);
         });
+      } else {
+        // Só os efeitos visuais
+        ShowObjectWithEffect("FlexContainer1", 1, "dropup", 200);
+        ShowObjectWithEffect("content", 1, "dropright", 200);
+        ShowObjectWithEffect("FlexContainer2", 1, "dropdown", 200);
       }
     })
     .catch((error) => console.error("Erro ao carregar SVGs:", error));

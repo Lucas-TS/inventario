@@ -52,7 +52,7 @@ $hn = isset($_POST['hn']) ? $_POST['hn'] : null; //Campo VARCHAR (hostname)
 $rede = isset($_POST['rede']) ? $_POST['rede'] : null; //Campo TINYINT (rede)
 $mac = isset($_POST['mac']) ? strtoupper(str_replace(':', '', $_POST['mac'])) : null;
 $wifi = isset($_POST['wifi']) ? $_POST['wifi'] : null; //Campo TINYINT (wifi)
-$macwifi = isset($_POST['mac_wifi']) ? strtoupper(str_replace(':', '', $_POST['mac_wifi'])) : null;
+$macwifi = isset($_POST['mac-wifi']) ? strtoupper(str_replace(':', '', $_POST['mac-wifi'])) : null;
 $observacao = isset($_POST['obs']) ? $_POST['obs'] : null;
 $situacao = isset($_POST['hidden-situacao']) ? str_replace(':', '', $_POST['hidden-situacao']) : null; //Campo INT (situacao)
 

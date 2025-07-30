@@ -122,7 +122,7 @@ function exibirTabela($conn, $nomeTabela, $tipo) {
         CONCAT(computadores.tela, '\"') AS Tela,
         COALESCE((SELECT GROUP_CONCAT(CONCAT(marca, ' ', modelo, ' (', conexao, ')') ORDER BY rn SEPARATOR '\n') FROM (SELECT lista_monitor.marca, lista_monitor.modelo, assoc_monitor.conexao, ROW_NUMBER() OVER (ORDER BY assoc_monitor.id) AS rn FROM assoc_monitor JOIN lista_monitor ON assoc_monitor.id_monitor = lista_monitor.id WHERE assoc_monitor.id_pc = computadores.id) t), '-') AS Monitor,
         CONCAT(lista_office.nome, ' ', lista_office.versao, ' ', lista_office.edicao) AS Office,
-        computadores.antivirus, computadores.rede, computadores.hostname, computadores.ip, computadores.mac, computadores.lacre, computadores.garantia, computadores.data_inclusao, computadores.data_atualizacao, computadores.situacao
+        computadores.antivirus, computadores.rede, computadores.hostname, computadores.ip, computadores.mac, computadores.wifi, computadores.mac_wifi, computadores.ip, computadores.lacre, computadores.garantia, computadores.data_inclusao, computadores.data_atualizacao, computadores.situacao
         FROM $nomeTabela
         LEFT JOIN secao ON computadores.id_operador=secao.id
         LEFT JOIN assoc_processador ON computadores.id=assoc_processador.id_pc
@@ -163,7 +163,7 @@ function exibirTabela($conn, $nomeTabela, $tipo) {
         COALESCE((SELECT GROUP_CONCAT(CONCAT(tamanho, ' (', saude, '%)') ORDER BY rn SEPARATOR '\n') FROM (SELECT lista_ssd.tamanho, assoc_ssd.saude, ROW_NUMBER() OVER (ORDER BY assoc_ssd.id) AS rn FROM assoc_ssd JOIN lista_ssd ON assoc_ssd.id_ssd = lista_ssd.id WHERE assoc_ssd.id_pc = computadores.id) t), '-') AS SSD,
         COALESCE((SELECT GROUP_CONCAT(CONCAT(tamanho, ' (', saude, '%)') ORDER BY rn SEPARATOR '\n') FROM (SELECT lista_hd.tamanho, assoc_hd.saude, ROW_NUMBER() OVER (ORDER BY assoc_hd.id) AS rn FROM assoc_hd JOIN lista_hd ON assoc_hd.id_hd = lista_hd.id WHERE assoc_hd.id_pc = computadores.id) t), '-') AS HD,
         COALESCE((SELECT GROUP_CONCAT(CONCAT(marca, ' ', modelo, ' (', conexao, ')') ORDER BY rn SEPARATOR '\n') FROM (SELECT lista_monitor.marca, lista_monitor.modelo, assoc_monitor.conexao, ROW_NUMBER() OVER (ORDER BY assoc_monitor.id) AS rn FROM assoc_monitor JOIN lista_monitor ON assoc_monitor.id_monitor = lista_monitor.id WHERE assoc_monitor.id_pc = computadores.id) t), '-') AS Monitor,
-        computadores.antivirus, computadores.rede, computadores.hostname, computadores.ip, computadores.mac, computadores.lacre, computadores.garantia, computadores.data_inclusao, computadores.data_atualizacao, computadores.situacao
+        computadores.antivirus, computadores.rede, computadores.hostname, computadores.ip, computadores.mac, computadores.wifi, computadores.mac_wifi, computadores.ip, computadores.lacre, computadores.garantia, computadores.data_inclusao, computadores.data_atualizacao, computadores.situacao
         FROM $nomeTabela
         LEFT JOIN secao ON computadores.id_operador=secao.id
         LEFT JOIN assoc_processador ON computadores.id=assoc_processador.id_pc
