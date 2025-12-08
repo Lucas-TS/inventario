@@ -3,12 +3,12 @@ function selecionaOutro() {
     let soEdit = document.getElementById('outro-edit-so');
 
     if (soAdd) {
-        soAdd.required = true;
-        soAdd.disabled = false;
+        //soAdd.required = true;
+        //soAdd.disabled = false;
         formularioAddSO('Outro');
     } else if (soEdit) {
-        soEdit.required = true;
-        soEdit.disabled = false;
+        //soEdit.required = true;
+        //soEdit.disabled = false;
         formularioEditSO('Outro');
     } else {
         console.log("Nenhum campo encontrado");
@@ -16,16 +16,16 @@ function selecionaOutro() {
 }
 
 function selecionaLinux() {
-    let soAdd = document.getElementById('outro-add-so');
-    let soEdit = document.getElementById('outro-edit-so');
+    let soAdd = document.getElementById('add-linux');
+    let soEdit = document.getElementById('edit-linux');
 
     if (soAdd) {
-        soAdd.required = false;
-        soAdd.disabled = true;
+        //soAdd.required = false;
+        //soAdd.disabled = true;
         formularioAddSO('Linux');
     } else if (soEdit) {
-        soEdit.required = false;
-        soEdit.disabled = true;
+        //soEdit.required = false;
+        //soEdit.disabled = true;
         formularioEditSO('Linux');
     } else {
         console.log("Nenhum campo encontrado");
@@ -33,16 +33,16 @@ function selecionaLinux() {
 }
 
 function selecionaWindows() {
-    let soAdd = document.getElementById('outro-add-so');
-    let soEdit = document.getElementById('outro-edit-so');
+    let soAdd = document.getElementById('add-windows');
+    let soEdit = document.getElementById('edit-windows');
 
     if (soAdd) {
-        soAdd.required = false;
-        soAdd.disabled = true;
+        //soAdd.required = false;
+        //soAdd.disabled = true;
         formularioAddSO('Windows');
     } else if (soEdit) {
-        soEdit.required = false;
-        soEdit.disabled = true;
+        //soEdit.required = false;
+        //soEdit.disabled = true;
         formularioEditSO('Windows');
     } else {
         console.log("Nenhum campo encontrado");
@@ -50,7 +50,6 @@ function selecionaWindows() {
 }
 
 function formularioAddSO(kernel) {
-
     let linha = document.getElementById("linha-2");
     let conteudo = '';
     if (kernel === 'Windows') {
@@ -351,10 +350,10 @@ async function editarSoOverlay(id, arquivo) {
 
         if (data.nome === 'Windows') {
             selecionaWindows();
-            document.getElementById('windows').checked = true;
+            document.getElementById('edit-windows').checked = true;
         } else if (data.nome === 'Linux') {
             selecionaLinux();
-            document.getElementById('linux').checked = true;
+            document.getElementById('edit-linux').checked = true;
             document.getElementById('dev-edit-so').value = data.dev
             document.getElementById('distro-edit-so').value = data.distribuicao
         } else {

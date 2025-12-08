@@ -1,41 +1,4 @@
-<?php
-session_start();
-if (isset($_SESSION['avatar'])) {
-    $avatar = $_SESSION['avatar'];
-} else {
-    $avatar = 'images\avatar1.png';
-}
-unset($_SESSION['url']);
-$url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-if (!isset($_SESSION['username']))
-{
-   $_SESSION['url'] = $url;
-   header('Location: ./login.php');
-   exit;
-}
-if (isset($_SESSION['expires_by']))
-{
-   $expires_by = intval($_SESSION['expires_by']);
-   if (time() < $expires_by)
-   {
-      $_SESSION['expires_by'] = time() + intval($_SESSION['expires_timeout']);
-   }
-   else
-   {
-      unset($_SESSION['email']);
-      unset($_SESSION['fullname']);
-      unset($_SESSION['username']);
-      unset($_SESSION['avatar']);
-      unset($_SESSION['grupo']);
-      unset($_SESSION['expires_by']);
-      unset($_SESSION['expires_timeout']);
-      $_SESSION['url'] = $url;
-      header('Location: ./login.php');
-      exit;
-   }
-}
-
-?>
+<?php require 'includes/valida_sessao.php'; ?>
 <!doctype html>
 <html lang="pt-BR">
 <head>

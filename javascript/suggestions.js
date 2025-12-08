@@ -1,12 +1,12 @@
 function suggestionsMem(valores, edit = 0) {
-
     var arrayValores = valores.split(',');
 
     var div = document.getElementById('suggestions-tipo-mem');
     div.innerHTML = '';
-    
-    if (edit === 0) {
-        var input = document.getElementById('tipo-mem');
+
+    var input = document.getElementById('tipo-mem'); // <-- declarado aqui
+
+    if (edit === 0 && input) {
         input.value = '';
     }
 
@@ -14,10 +14,11 @@ function suggestionsMem(valores, edit = 0) {
         var p = document.createElement('p');
         p.textContent = arrayValores[i];
         p.id = 'p' + i;
-        p.setAttribute('onclick', 'passarValor(' + i + ', "tipo-mem", "mem")');
+        p.setAttribute('onclick', 'passarValor(' + i + ', "tipo-mem", "mem");expandirItem("h-line-4")');
         div.appendChild(p);
     }
-    if (arrayValores.length === 1) {
+
+    if (arrayValores.length === 1 && input) {
         input.value = arrayValores[0];
     }
 }

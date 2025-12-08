@@ -75,7 +75,6 @@ async function preencherProc(id) {
       throw new Error("Erro ao buscar os dados.");
     }
     let data = await response.json(); // Converte a resposta para JSON
-
     //Preenche os campos do formulário com os dados retornados
     let marca = data.marca ?? "";
     let modelo = data.modelo ?? "";
@@ -220,7 +219,6 @@ async function preencherPv(id) {
       throw new Error("Erro ao buscar os dados.");
     }
     let data = await response.json(); // Converte a resposta para JSON
-    console.log(data);
     //Preenche os campos do formulário com os dados retornados
     if (data) {
       document.getElementById("pv-off").checked = true;
@@ -332,41 +330,41 @@ async function preencherSo(id) {
       document.getElementById("win").checked = true;
       formularioSO(nome);
       document.getElementById("ver-win").value = data.versao;
-      document.getElementById("b-line-so-3").classList.remove("oculto");
+      document.getElementById("b-line-so-3").classList.remove("display-none");
       document.getElementById("ed-win").value = data.edicao;
-      document.getElementById("b-line-so-5").classList.remove("oculto");
+      document.getElementById("b-line-so-5").classList.remove("display-none");
       let arq = data.arquitetura;
       if (arq == "x86") {
         document.getElementById("x86-win").checked = true;
-        document.getElementById("x64-win").classList.add("oculto");
-        document.querySelector('label[for="x64-win"]').classList.add("oculto");
+        document.getElementById("x64-win").classList.add("display-none");
+        document.querySelector('label[for="x64-win"]').classList.add("display-none");
       } else {
         document.getElementById("x64-win").checked = true;
-        document.getElementById("x86-win").classList.add("oculto");
-        document.querySelector('label[for="x86-win"]').classList.add("oculto");
+        document.getElementById("x86-win").classList.add("display-none");
+        document.querySelector('label[for="x86-win"]').classList.add("display-none");
       }
     } else if (nome == "Linux") {
       document.getElementById("linux").checked = true;
       formularioSO(nome);
       document.getElementById("distro-linux").value = data.distribuicao;
-      document.getElementById("b-line-so-3").classList.remove("oculto");
+      document.getElementById("b-line-so-3").classList.remove("display-none");
       document.getElementById("ver-linux").value = data.versao;
-      document.getElementById("b-line-so-4").classList.remove("oculto");
+      document.getElementById("b-line-so-4").classList.remove("display-none");
       document.getElementById("if-linux").value = data.edicao;
-      document.getElementById("b-line-so-5").classList.remove("oculto");
+      document.getElementById("b-line-so-5").classList.remove("display-none");
       let arq = data.arquitetura;
       if (arq == "x86") {
         document.getElementById("x86-linux").checked = true;
-        document.getElementById("x64-linux").classList.add("oculto");
+        document.getElementById("x64-linux").classList.add("display-none");
         document
           .querySelector('label[for="x64-linux"]')
-          .classList.add("oculto");
+          .classList.add("display-none");
       } else {
         document.getElementById("x64-linux").checked = true;
-        document.getElementById("x86-linux").classList.add("oculto");
+        document.getElementById("x86-linux").classList.add("display-none");
         document
           .querySelector('label[for="x86-linux"]')
-          .classList.add("oculto");
+          .classList.add("display-none");
       }
     }
     document.getElementById("hidden-so").value = data.id_so;
@@ -591,5 +589,98 @@ async function preencherPC(id) {
     document.getElementById("input-obs").value = data.observacao;
   } catch (error) {
     console.error(error.message);
+  }
+}
+
+function expandirItem(ref) {
+  // Se for string, busca o elemento pelo id
+  let hLine;
+  if (typeof ref === 'string') {
+    hLine = document.getElementById(ref);
+  } else if (ref instanceof HTMLElement) {
+    hLine = ref.closest('.h-line.expansivel');
+  }
+  if (!hLine || !hLine.classList.contains('expansivel')) return;
+
+  // Encontra a .linha que contém o h-line
+  const linhaAtual = hLine.closest('.linha');
+  if (!linhaAtual) return;
+
+  // Busca os elementos filhos da linha, entre o h-line clicado e o próximo h-line expansivel/fixo
+  let found = false;
+  const blocos = [];
+  linhaAtual.childNodes.forEach(el => {
+    if (el === hLine) {
+      found = true;
+      return;
+    }
+    // Se for h-line-sec, exibe junto
+    if (found && el.nodeType === 1 && el.classList.contains('h-line-sec')) {
+      blocos.push(el);
+    }
+    // Se for bloco comum, exibe normalmente
+    if (found && el.nodeType === 1 && !el.classList.contains('h-line')) {
+      blocos.push(el);
+    }
+    // Para se encontrar outro h-line expansivel/fixo dentro da mesma linha
+    if (found && el.nodeType === 1 && el.classList.contains('h-line') && (el.classList.contains('expansivel') || el.classList.contains('fixo'))) {
+      found = false;
+    }
+  });
+
+  if (!blocos.length) return;
+
+  // Recolhe todos os outros blocos expandidos e reseta rotação dos outros SVGs
+  document.querySelectorAll('.h-line.expansivel').forEach(outroHLine => {
+    if (outroHLine !== hLine) {
+      const outraLinha = outroHLine.closest('.linha');
+      if (!outraLinha) return;
+      let foundOutro = false;
+      const outrosBlocos = [];
+      outraLinha.childNodes.forEach(el => {
+        if (el === outroHLine) {
+          foundOutro = true;
+          return;
+        }
+        // Inclui h-line-sec nos blocos a serem recolhidos
+        if (foundOutro && el.nodeType === 1 && el.classList.contains('h-line-sec')) {
+          outrosBlocos.push(el);
+        }
+        if (foundOutro && el.nodeType === 1 && !el.classList.contains('h-line')) {
+          outrosBlocos.push(el);
+        }
+        if (foundOutro && el.nodeType === 1 && el.classList.contains('h-line') && (el.classList.contains('expansivel') || el.classList.contains('fixo'))) {
+          foundOutro = false;
+        }
+      });
+      if (outrosBlocos.length && !outrosBlocos[0].classList.contains('oculto')) {
+        outrosBlocos.forEach(b => b.classList.add('oculto'));
+      }
+      // Rotaciona o SVG para recolhido
+      const svgOutro = outroHLine.querySelector('svg');
+      if (svgOutro) svgOutro.classList.remove('rotacionado');
+    }
+  });
+
+  // Verifica se o primeiro bloco está oculto
+  const oculto = blocos[0].classList.contains('oculto');
+
+  // Alterna a classe 'oculto' em todos os blocos (incluindo h-line-sec)
+  blocos.forEach(b => {
+    if (oculto) {
+      b.classList.remove('oculto');
+    } else {
+      b.classList.add('oculto');
+    }
+  });
+
+  // Rotaciona o SVG dentro do h-line clicado
+  const svg = hLine.querySelector('svg');
+  if (svg) {
+    if (oculto) {
+      svg.classList.add('rotacionado');
+    } else {
+      svg.classList.remove('rotacionado');
+    }
   }
 }

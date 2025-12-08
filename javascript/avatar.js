@@ -117,6 +117,7 @@ async function editarAvatarOverlay(id, arquivo) {
         //Preenche os campos do formulário com os dados retornados
         document.getElementById('id-edit-user').value = data.id;
         document.getElementById('nc-edit-user').value = data.fullname;
+        document.getElementById('cpf-edit-user').value = data.cpf;
         document.getElementById('email-edit-user').value = data.email;
         if (data.ativo === 1) {
             document.getElementById('ativo-edit-user').checked = true;
@@ -168,6 +169,7 @@ async function buscaSessaoPhp() {
 function atualizarSessao() {
     let dadosSessao = {
         email: sessionStorage.getItem('email'),
+        cpf: sessionStorage.getItem('cpf'),
         fullname: sessionStorage.getItem('fullname'),
         username: sessionStorage.getItem('username'),
         id: sessionStorage.getItem('id'),
@@ -246,6 +248,7 @@ async function editarAvatar(event) {
     let user = sessionStorage.getItem('username') || 'defaultUser'; // Pega o usuário da sessão ou define um padrão
     let id = document.getElementById('id-edit-user').value;
     let nc = document.getElementById('nc-edit-user').value;
+    let cpf = document.getElementById('cpf-edit-user').value;
     let email = document.getElementById('email-edit-user').value;
     let pw = document.getElementById('pw-edit-user').value;
     let pw2 = document.getElementById('pw2-edit-user').value;
@@ -272,6 +275,7 @@ async function editarAvatar(event) {
         funcao: funcao,
         id: id,
         nc: nc,
+        cpf: cpf,
         email: email,
         pw: pw,
         avatar: avatarFileName,

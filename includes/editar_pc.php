@@ -1,17 +1,15 @@
 <?php
 include 'conecta_db.php';
 
-$id = isset($_POST['id-edit-pc']) ? $_POST['id-edit-pc'] : null; //Campo INT (id)
-if ($id === null) {
+$id_pc = isset($_POST['id-edit-pc']) ? $_POST['id-edit-pc'] : null; //Campo INT (id)
+if ($id_pc === null) {
     die("ID do computador não fornecido.");
 }
 $ativo = isset($_POST['ativo-edit-pc']) ? 1 : 0;
-echo "Ativo: " . $ativo; // Debugging line
-echo "<br>";
 
 $sql = "SELECT tipo FROM computadores WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
+$stmt->bind_param("i", $id_pc);
 $stmt->execute();
 $stmt->bind_result($tipo);
 $stmt->fetch();
@@ -61,7 +59,7 @@ $stmt = $conn->prepare($sql);
 if ($stmt === false) {
     die("Erro na preparação da declaração do computador: " . $conn->error);
 }
-$stmt->bind_param("iiissiississsssisissii", $ativo, $id_op, $lacre, $marca, $modelo, $garantia, $qtde_mem, $tipo_mem, $tela, $av, $user_so, $pw_so, $serial_so, $serial_office, $hn, $rede, $mac, $wifi, $macwifi, $observacao, $situacao, $id);
+$stmt->bind_param("iiissiississsssisissii", $ativo, $id_op, $lacre, $marca, $modelo, $garantia, $qtde_mem, $tipo_mem, $tela, $av, $user_so, $pw_so, $serial_so, $serial_office, $hn, $rede, $mac, $wifi, $macwifi, $observacao, $situacao, $id_pc);
 $stmt->execute();
 if ($stmt->error) {
     die("Erro ao atualizar o computador: " . $stmt->error);
@@ -69,27 +67,62 @@ if ($stmt->error) {
 $stmt->close();
 
 // Atualização do processador
-$id_processador = isset($_POST["hidden-processador-desktop"]) ? $_POST["hidden-processador-desktop"] : (isset($_POST["hidden-processador-note"]) ? $_POST["hidden-processador-note"] : (isset($_POST["hidden-processador-server"]) ? $_POST["hidden-processador-server"] : null));
-$id_assoc_processador = isset($_POST["hidden-id-assoc-processador-desktop"]) ? $_POST["hidden-id-assoc-processador-desktop"] : (isset($_POST["hidden-id-assoc-processador-note"]) ? $_POST["hidden-id-assoc-processador-note"] : (isset($_POST["hidden-id-assoc-processador-server"]) ? $_POST["hidden-id-assoc-processador-server"] : null));
+$id_processador = isset($_POST["hidden-processador-desktop"]) ? $_POST["hidden-processador-desktop"] :
+    (isset($_POST["hidden-processador-note"]) ? $_POST["hidden-processador-note"] :
+    (isset($_POST["hidden-processador-server"]) ? $_POST["hidden-processador-server"] : null));
 
-$sql_proc = "UPDATE assoc_processador SET id_processador = ? WHERE id = ?";
-$stmt_proc = $conn->prepare($sql_proc);
-if ($stmt_proc === false) {
-    die("Erro na preparação da declaração do processador: " . $conn->error);
+$id_assoc_processador = isset($_POST["hidden-id-assoc-processador-desktop"]) ? $_POST["hidden-id-assoc-processador-desktop"] :
+    (isset($_POST["hidden-id-assoc-processador-note"]) ? $_POST["hidden-id-assoc-processador-note"] :
+    (isset($_POST["hidden-id-assoc-processador-server"]) ? $_POST["hidden-id-assoc-processador-server"] : null));
+
+if ($id_assoc_processador) {
+    // Verifica se a associação realmente existe
+    $sql_check = "SELECT id FROM assoc_processador WHERE id = ?";
+    $stmt_check = $conn->prepare($sql_check);
+    $stmt_check->bind_param("i", $id_assoc_processador);
+    $stmt_check->execute();
+    $stmt_check->store_result();
+
+    if ($stmt_check->num_rows > 0) {
+        // Atualiza associação existente
+        $sql_proc = "UPDATE assoc_processador SET id_processador = ? WHERE id = ?";
+        $stmt_proc = $conn->prepare($sql_proc);
+        if ($stmt_proc === false) {
+            die("Erro na preparação do UPDATE: " . $conn->error);
+        }
+        $stmt_proc->bind_param("ii", $id_processador, $id_assoc_processador);
+        $stmt_proc->execute();
+        if ($stmt_proc->error) {
+            die("Erro ao atualizar o processador: " . $stmt_proc->error);
+        }
+        $stmt_proc->close();
+    } else {
+        // Se o ID foi passado mas não encontrado, faz uma nova associação
+        if ($id_pc !== null && $id_processador !== null) {
+            $sql_insert = "INSERT INTO assoc_processador (id_pc, id_processador) VALUES (?, ?)";
+            $stmt_insert = $conn->prepare($sql_insert);
+            $stmt_insert->bind_param("ii", $id_pc, $id_processador);
+            $stmt_insert->execute();
+            if ($stmt_insert->error) {
+                die("Erro ao inserir nova associação: " . $stmt_insert->error);
+            }
+            $stmt_insert->close();
+        }
+    }
+
+    $stmt_check->close();
+} elseif ($id_pc !== null && $id_processador !== null) {
+    // Se não foi passado nenhum ID de associação, cria uma nova
+    $sql_insert = "INSERT INTO assoc_processador (id_pc, id_processador) VALUES (?, ?)";
+    $stmt_insert = $conn->prepare($sql_insert);
+    $stmt_insert->bind_param("ii", $id_pc, $id_processador);
+    $stmt_insert->execute();
+    if ($stmt_insert->error) {
+        die("Erro ao inserir associação: " . $stmt_insert->error);
+    }
+    $stmt_insert->close();
 }
-$stmt_proc->bind_param("ii", $id_processador, $id_assoc_processador);
-$stmt_proc->execute();
-if ($stmt_proc->error) {
-    die("Erro ao atualizar o processador: " . $stmt_proc->error);
-}
-$stmt_proc->close();
 
-/*
-  Exemplo de lógica “upsert + delete missing”  
-  para assoc_hd e assoc_ssd.
-*/
-
-$id_pc = $id;  // id do PC vindo de outro ponto do sistema
 
 // 1) Carrega todas as associações existentes
 $existing = [
@@ -202,7 +235,7 @@ foreach (['HD','SSD'] as $tp) {
 $monitores_atual = [];
 $sql_get_monitores = "SELECT id, id_monitor FROM assoc_monitor WHERE id_pc = ?";
 $stmt_get_monitores = $conn->prepare($sql_get_monitores);
-$stmt_get_monitores->bind_param("i", $id);
+$stmt_get_monitores->bind_param("i", $id_pc);
 $stmt_get_monitores->execute();
 $result = $stmt_get_monitores->get_result();
 while ($row = $result->fetch_assoc()) {
@@ -234,7 +267,7 @@ foreach ($monitores_novos as $id_monitor => $con_monitor) {
         // Inserir novo monitor
         $sql_insert = "INSERT INTO assoc_monitor (id_pc, id_monitor, conexao) VALUES (?, ?, ?)";
         $stmt_insert = $conn->prepare($sql_insert);
-        $stmt_insert->bind_param("iis", $id, $id_monitor, $con_monitor);
+        $stmt_insert->bind_param("iis", $id_pc, $id_monitor, $con_monitor);
         $stmt_insert->execute();
         $stmt_insert->close();
     }
@@ -261,7 +294,7 @@ if ($pv_status === 'on') {
     if ($stmt_delete_all_pv === false) {
         die("Erro na preparação da exclusão de todas as placas de vídeo: " . $conn->error);
     }
-    $stmt_delete_all_pv->bind_param("i", $id);
+    $stmt_delete_all_pv->bind_param("i", $id_pc);
     $stmt_delete_all_pv->execute();
     $stmt_delete_all_pv->close();
 } elseif ($pv_status === 'off') {
@@ -276,7 +309,7 @@ if ($pv_status === 'on') {
         if ($stmt_chk_pv === false) {
             die("Erro na preparação da verificação da placa de vídeo: " . $conn->error);
         }
-        $stmt_chk_pv->bind_param("i", $id);
+        $stmt_chk_pv->bind_param("i", $id_pc);
         $stmt_chk_pv->execute();
         $stmt_chk_pv->bind_result($num_rows);
         $stmt_chk_pv->fetch();
@@ -289,7 +322,7 @@ if ($pv_status === 'on') {
             if ($stmt_delete_pv === false) {
                 die("Erro na preparação da exclusão da placa de vídeo: " . $conn->error);
             }
-            $stmt_delete_pv->bind_param("i", $id);
+            $stmt_delete_pv->bind_param("i", $id_pc);
             $stmt_delete_pv->execute();
             $stmt_delete_pv->close();
         }
@@ -302,7 +335,7 @@ if ($pv_status === 'on') {
                 if ($stmt_update === false) {
                     die("Erro na preparação do UPDATE da placa de vídeo: " . $conn->error);
                 }
-                $stmt_update->bind_param("iii", $id_pv, $id_assoc_pv, $id);
+                $stmt_update->bind_param("iii", $id_pv, $id_assoc_pv, $id_pc);
                 $stmt_update->execute();
                 $stmt_update->close();
             } else {
@@ -315,7 +348,7 @@ if ($pv_status === 'on') {
             if ($stmt_insert === false) {
                 die("Erro na preparação da inserção da placa de vídeo: " . $conn->error);
             }
-            $stmt_insert->bind_param("ii", $id, $id_pv);
+            $stmt_insert->bind_param("ii", $id_pc, $id_pv);
             $stmt_insert->execute();
             $stmt_insert->close();
         }
@@ -341,13 +374,23 @@ $stmt_so->close();
 // Atualização do Office
 $id_office = isset($_POST["hidden-office"]) ? $_POST["hidden-office"] : null;
 $id_assoc_office = isset($_POST["hidden-id-assoc-office"]) ? $_POST["hidden-id-assoc-office"] : null;
-$sql_office = "UPDATE assoc_office SET id_office = ? WHERE id = ?";
-$stmt_office = $conn->prepare($sql_office);
-if ($stmt_office === false) {
-    die("Erro na preparação da declaração do Oficce: " . $conn->error);
+if ($id_assoc_office === null || $id_assoc_office === '') {
+    $sql_office = "INSERT INTO assoc_office (id_pc, id_office) VALUES (?, ?)";
+    $stmt_office = $conn->prepare($sql_office);
+    if ($stmt_office === false) {
+        die("Erro na preparação da inserção do Office: " . $conn->error);
+    }
+    $stmt_office->bind_param("ii", $id_pc, $id_office);
+    $stmt_office->execute();
+} else {
+    $sql_office = "UPDATE assoc_office SET id_office = ? WHERE id = ?";
+    $stmt_office = $conn->prepare($sql_office);
+    if ($stmt_office === false) {
+        die("Erro na preparação da declaração do Oficce: " . $conn->error);
+    }
+    $stmt_office->bind_param("ii", $id_office, $id_assoc_office);
+    $stmt_office->execute();
 }
-$stmt_office->bind_param("ii", $id_office, $id_assoc_office);
-$stmt_office->execute();
 if ($stmt_office->error) {
     die("Erro ao atualizar o Office: " . $stmt_office->error);
 }
@@ -367,13 +410,13 @@ $stmt = $conn->prepare($sql);
 if ($stmt === false) {
     die("Erro na preparação da declaração: " . $conn->error);
 }
-$stmt->bind_param("isi", $usuario, $data_atualizacao, $id);
+$stmt->bind_param("isi", $usuario, $data_atualizacao, $id_pc);
 $stmt->execute();
 $stmt->close();
 
 $sql = "SELECT tipo FROM computadores WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
+$stmt->bind_param("i", $id_pc);
 $stmt->execute();
 $stmt->bind_result($tipo);
 $stmt->fetch();

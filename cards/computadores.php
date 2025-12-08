@@ -33,7 +33,7 @@ foreach ($tipos as $codigo => $info) {
 
 $retorno = [
     'tipo' => 'grafico',
-    'titulo' => 'Distribuição por Tipo de Computador',
+    'titulo' => 'Computadores por tipo',
     'grafico' => [
         'tipo' => 'doughnut',
         'labels' => $labels,

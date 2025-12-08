@@ -38,7 +38,7 @@ if ($resultado && $resultado->num_rows > 0) {
 
 $retorno = [
     'tipo' => 'grafico',
-    'titulo' => 'Distribuição por Sistema Operacional',
+    'titulo' => 'Computadores por Sistema Operacional',
     'grafico' => [
         'tipo' => 'doughnut',
         'labels' => $labels,

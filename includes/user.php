@@ -7,6 +7,7 @@ $tabela = 'users';
 // Função inserir
 if ($data['funcao'] === 'inserir') {
     $nc = isset($data['nc']) ? $data['nc'] : null;
+    $cpf = isset($data['cpf']) ? preg_replace('/\D/', '', $data['cpf']) : null;
     $email = isset($data['email']) ? $data['email'] : null;
     $user = isset($data['user']) ? $data['user'] : null;
     $pw = isset($data['pw']) ? $data['pw'] : null;
@@ -32,13 +33,13 @@ if ($data['funcao'] === 'inserir') {
         echo 'Registro já existe.';
     } else {
         // Preparar a consulta SQL para inserção
-        $sql = "INSERT INTO $tabela (username, fullname, `password`, email, grupo, avatar, ativo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO $tabela (username, fullname, cpf, `password`, email, grupo, avatar, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         if ($stmt === false) {
             die('Erro na preparação da declaração: ' . $conn->error);
         }
         // Vincular os parâmetros
-        $stmt->bind_param('ssssisi', $user, $nc, $crypt_pw, $email, $grupo, $avatar, $ativo);
+        $stmt->bind_param('sssssisi', $user, $nc, $cpf, $crypt_pw, $email, $grupo, $avatar, $ativo);
         // Executar a declaração
         if ($stmt->execute()) {
             echo 'Dados inseridos com sucesso!';
@@ -93,6 +94,7 @@ elseif ($data['funcao'] === 'buscar') {
 elseif ($data['funcao'] === 'editar') {
     $id = isset($data['id']) ? $data['id'] : null;
     $nc = isset($data['nc']) ? $data['nc'] : null;
+    $cpf = isset($data['cpf']) ? preg_replace('/\D/', '', $data['cpf']) : null;
     $email = isset($data['email']) ? $data['email'] : null;
     $user = isset($data['user']) ? $data['user'] : null;
     $pw = isset($data['pw']) ? $data['pw'] : null;
@@ -117,22 +119,22 @@ elseif ($data['funcao'] === 'editar') {
         if (!empty($pw)) {
             // Preparar a consulta SQL para atualização com senha
             $crypt_pw = password_hash($pw, PASSWORD_DEFAULT);
-            $sql = "UPDATE $tabela SET fullname = ?, email = ?, grupo = ?, avatar = ?, `password` = ?, ativo = ? WHERE id = ?";
+            $sql = "UPDATE $tabela SET fullname = ?, cpf = ?, email = ?, grupo = ?, avatar = ?, `password` = ?, ativo = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
             if ($stmt === false) {
                 die('Erro na preparação da declaração: ' . $conn->error);
             }
             // Vincular os parâmetros
-            $stmt->bind_param('ssissii', $nc, $email, $grupo, $avatar, $crypt_pw, $ativo, $id);
+            $stmt->bind_param('sssissii', $nc, $cpf, $email, $grupo, $avatar, $crypt_pw, $ativo, $id);
         } else {
             // Preparar a consulta SQL para atualização sem senha
-            $sql = "UPDATE $tabela SET fullname = ?, email = ?, grupo = ?, avatar = ?, ativo = ? WHERE id = ?";
+            $sql = "UPDATE $tabela SET fullname = ?, cpf = ?, email = ?, grupo = ?, avatar = ?, ativo = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
             if ($stmt === false) {
                 die('Erro na preparação da declaração: ' . $conn->error);
             }
             // Vincular os parâmetros
-            $stmt->bind_param('ssisii', $nc, $email, $grupo, $avatar, $ativo, $id);
+            $stmt->bind_param('sssisii', $nc, $cpf, $email, $grupo, $avatar, $ativo, $id);
         }
         // Executar a declaração
         if ($stmt->execute()) {

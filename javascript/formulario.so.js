@@ -7,11 +7,11 @@ function formularioSO(str1) {
             <div id="suggestions-ver-win" class="suggestions-box ver-so win">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-so-3" class="b-line oculto"><label class="label" for="ed-win">Edição:</label><input id="ed-win" class="input openBox" type="text" name="ed-so" placeholder="Escolha a versão" required style="width:190px"></div>
+            <div id="b-line-so-3" class="b-line display-none"><label class="label" for="ed-win">Edição:</label><input id="ed-win" class="input openBox" type="text" name="ed-so" placeholder="Escolha a versão" required style="width:190px"></div>
             <div id="suggestions-ed-win" class="suggestions-box ed-so win">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-so-5" class="b-line oculto">
+            <div id="b-line-so-5" class="b-line display-none">
                 <span class="label">Arquitetura:</span>
                 <input type="radio" id="x86-win" name="arq-so" class="radio" required value="x86">
                 <label for="x86-win"><span></span>32-bits</label>
@@ -41,15 +41,15 @@ function formularioSO(str1) {
             <div id="suggestions-distro-linux" class="suggestions-box distro-so linux">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-so-3" class="b-line oculto"><label class="label" for="ver-linux">Versão:</label><input id="ver-linux" class="input openBox" type="text" name="ver-so" placeholder="Escolha a distribuição" required style="width:190px"></div>
+            <div id="b-line-so-3" class="b-line display-none"><label class="label" for="ver-linux">Versão:</label><input id="ver-linux" class="input openBox" type="text" name="ver-so" placeholder="Escolha a distribuição" required style="width:190px"></div>
             <div id="suggestions-ver-linux" class="suggestions-box ver-so linux">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-so-4" class="b-line oculto"><label class="label" for="if-linux">Interface:</label><input id="if-linux" class="input openBox" type="text" name="if-so" placeholder="Escolha a distribuição" required style="width:190px"></div>
+            <div id="b-line-so-4" class="b-line display-none"><label class="label" for="if-linux">Interface:</label><input id="if-linux" class="input openBox" type="text" name="if-so" placeholder="Escolha a distribuição" required style="width:190px"></div>
             <div id="suggestions-if-linux" class="suggestions-box if-so linux">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-so-5" class="b-line oculto">
+            <div id="b-line-so-5" class="b-line display-none">
                 <span class="label">Arquitetura:</span>
                 <input type="radio" id="x86-linux" name="arq-so" class="radio" required value="x86">
                 <label for="x86-linux"><span></span>32-bits</label>
@@ -71,10 +71,10 @@ function mostrarCampo2(str1) {
     let campo2 = '';
 
     let versao = document.getElementById('b-line-so-3');
-    versao.classList.remove('oculto');
+    versao.classList.remove('display-none');
     document.querySelector('#b-line-so-3 input').value = '';
     let arq = document.getElementById('b-line-so-5');
-    arq.classList.add('oculto');
+    arq.classList.add('display-none');
     let x64 = document.querySelector('[id^="x64"]');
     x64.checked = false;
     let x86 = document.querySelector('[id^="x86"]');
@@ -84,7 +84,7 @@ function mostrarCampo2(str1) {
 
     if (str1.startsWith('Linux ')) {
         let interface = document.getElementById('b-line-so-4');
-        interface.classList.add('oculto');
+        interface.classList.add('display-none');
         document.querySelector('#b-line-so-4 input').value = '';
         document.querySelector('#b-line-so-3 input').placeholder = 'Escolha a versão';
         campo2 = 'ver-linux';
@@ -107,11 +107,11 @@ function mostrarCampo3(str1) {
         campo0.setAttribute('placeholder', 'Escolha a interface');
 
         let interface = document.getElementById(`b-line-so-4`);
-        interface.classList.remove('oculto');
+        interface.classList.remove('display-none');
         document.querySelector('#b-line-so-4 input').value = '';
 
         let arq = document.getElementById(`b-line-so-5`);
-        arq.classList.add('oculto');
+        arq.classList.add('display-none');
         let x64 = document.querySelector('[id^="x64"]');
         x64.checked = false;
         let x86 = document.querySelector('[id^="x86"]');
@@ -154,15 +154,15 @@ async function mostrarArq(so4) {
         let labelX86 = document.querySelector('label[for="' + x86.id + '"]');
 
         let div = document.getElementById(`b-line-so-5`);
-        div.classList.remove('oculto');
+        div.classList.remove('display-none');
 
         let hiddenSO = document.getElementById('hidden-so');
 
         if (hasX86 && hasX64) {
             x86.disabled = false;
             x86.checked = false;
-            x86.classList.remove('oculto');
-            labelX86.classList.remove('oculto');
+            x86.classList.remove('display-none');
+            labelX86.classList.remove('display-none');
 
             x86.onclick = function() {
                 passarIdSo(data['x86']);
@@ -170,8 +170,8 @@ async function mostrarArq(so4) {
 
             x64.disabled = false;
             x64.checked = false;
-            x64.classList.remove('oculto');
-            labelX64.classList.remove('oculto');
+            x64.classList.remove('display-none');
+            labelX64.classList.remove('display-none');
 
             x64.onclick = function() {
                 passarIdSo(data['x64']);
@@ -181,23 +181,23 @@ async function mostrarArq(so4) {
         } else if (hasX86) {
             x86.disabled = true;
             x86.checked = true;
-            x86.classList.remove('oculto');
-            labelX86.classList.remove('oculto');
+            x86.classList.remove('display-none');
+            labelX86.classList.remove('display-none');
 
             x64.disabled = true;
-            x64.classList.add('oculto');
-            labelX64.classList.add('oculto');
+            x64.classList.add('display-none');
+            labelX64.classList.add('display-none');
 
             passarIdSo(data['x86']);
         } else if (hasX64) {
             x86.disabled = true;
-            x86.classList.add('oculto');
-            labelX86.classList.add('oculto');
+            x86.classList.add('display-none');
+            labelX86.classList.add('display-none');
 
             x64.disabled = true;
             x64.checked = true;
-            x64.classList.remove('oculto');
-            labelX64.classList.remove('oculto');
+            x64.classList.remove('display-none');
+            labelX64.classList.remove('display-none');
 
             passarIdSo(data['x64']);
         } else {

@@ -47,6 +47,7 @@ if ( $data[ 'funcao' ] === 'buscar' ) {
 elseif ( $data[ 'funcao' ] === 'editar' ) {
     $id = isset( $data[ 'id' ] ) ? $data[ 'id' ] : null;
     $nc = isset( $data[ 'nc' ] ) ? $data[ 'nc' ] : null;
+    $cpf = isset($data['cpf']) ? preg_replace('/\D/', '', $data['cpf']) : null;
     $email = isset( $data[ 'email' ] ) ? $data[ 'email' ] : null;
     $pw = isset( $data[ 'pw' ] ) ? $data[ 'pw' ] : null;
     $avatar = isset( $data[ 'avatar' ] ) ? $data[ 'avatar' ] : null;
@@ -68,22 +69,22 @@ elseif ( $data[ 'funcao' ] === 'editar' ) {
         if ( !empty( $pw ) ) {
             // Preparar a consulta SQL para atualização com senha
             $crypt_pw = password_hash( $pw, PASSWORD_DEFAULT );
-            $sql = "UPDATE $tabela SET fullname = ?, email = ?, avatar = ?, `password` = ? WHERE id = ?";
+            $sql = "UPDATE $tabela SET fullname = ?, cpf = ?, email = ?, avatar = ?, `password` = ? WHERE id = ?";
             $stmt = $conn->prepare( $sql );
             if ( $stmt === false ) {
                 die( 'Erro na preparação da declaração: ' . $conn->error );
             }
             // Vincular os parâmetros
-            $stmt->bind_param( 'ssssi', $nc, $email, $avatar, $crypt_pw, $id );
+            $stmt->bind_param( 'sssssi', $nc, $cpf, $email, $avatar, $crypt_pw, $id );
         } else {
             // Preparar a consulta SQL para atualização sem senha
-            $sql = "UPDATE $tabela SET fullname = ?, email = ?, avatar = ? WHERE id = ?";
+            $sql = "UPDATE $tabela SET fullname = ?, cpf = ?, email = ?, avatar = ? WHERE id = ?";
             $stmt = $conn->prepare( $sql );
             if ( $stmt === false ) {
                 die( 'Erro na preparação da declaração: ' . $conn->error );
             }
             // Vincular os parâmetros
-            $stmt->bind_param( 'sssi', $nc, $email, $avatar, $id );
+            $stmt->bind_param( 'ssssi', $nc, $cpf, $email, $avatar, $id );
         }
         // Executar a declaração
         if ( $stmt->execute() ) {

@@ -315,9 +315,15 @@ function criarTabela(dados, colunasSelecionadas = null, todasColunas) {
       tdAcoes.innerHTML = `<a title="Ver detalhes" class="icone-acao" onclick="verItem(${linha.id_link}, '${nomeTabela}')">${viewSVG}</a>`;
     }
 
+    if (nomeTabela === "notebooks" || nomeTabela === "servidores") {
+      nomeTabelaAcao = "computadores";
+    } else {
+      nomeTabelaAcao = nomeTabela;
+    }
+
     tdAcoes.innerHTML += `
-              <a title="Editar" class="icone-acao" onclick="exibirOverlayEditar(${linha.id_link}, '${nomeTabela}')">${editSVG}</a>
-              <a title="Apagar" class="icone-acao apagar" onclick="confirmaApagar(${linha.id_link}, '${nomeTabela}')">${delSVG}</a>
+              <a title="Editar" class="icone-acao" onclick="exibirOverlayEditar(${linha.id_link}, '${nomeTabelaAcao}')">${editSVG}</a>
+              <a title="Apagar" class="icone-acao apagar" onclick="confirmaApagar(${linha.id_link}, '${nomeTabelaAcao}')">${delSVG}</a>
           `;
 
     tr.appendChild(tdAcoes);

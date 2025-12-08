@@ -41,7 +41,7 @@ foreach ($situacoes as $codigo => $info) {
 
 $retorno = [
     'tipo' => 'grafico',
-    'titulo' => 'Distribuição por Situação',
+    'titulo' => 'Computadores por situação',
     'grafico' => [
         'tipo' => 'doughnut',
         'labels' => $labels,

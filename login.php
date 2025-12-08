@@ -1,15 +1,15 @@
 <?php
-if (isset($_COOKIE['username']) && isset($_COOKIE['password']))
-{
-   $checked = "checked";
-}
-else
-{
-   $checked = "";
-}
-$username = isset($_COOKIE['username']) ? $_COOKIE['username'] : '';
-$password = isset($_COOKIE['password']) ? $_COOKIE['password'] : '';
 session_start();
+
+$error = null;
+if (!empty($_SESSION['flash_error'])) {
+    $error = $_SESSION['flash_error'];
+    unset($_SESSION['flash_error']);
+}
+
+$username = $_COOKIE['remember_username'] ?? '';
+$checked = $username ? 'checked' : '';
+
 if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
 {
    $expires_by = intval($_SESSION['expires_by']);
@@ -17,16 +17,14 @@ if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
    {
       $_SESSION['expires_by'] = time() + intval($_SESSION['expires_timeout']);
       header('Location: ./index.php');
+      exit;
    }
    else
    {
-      unset($_SESSION['email']);
-      unset($_SESSION['fullname']);
-      unset($_SESSION['username']);
-      unset($_SESSION['avatar']);
-      unset($_SESSION['grupo']);
-      unset($_SESSION['expires_by']);
-      unset($_SESSION['expires_timeout']);
+      session_unset();
+      session_destroy();
+      header('Location: ./login.php?error=locked');  
+      exit;
    }
 }
 ?>
@@ -56,15 +54,27 @@ if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
             <input type="hidden" name="form_name" value="loginform">
             <table id="Login1">
                <tr>
-                  <td colspan="2" class="row"><input class="input" name="username" autocomplete="on" type="text" autocomplete="username" id="username" value="<?php echo $username; ?>" placeholder="Usuário"></td>
+                  <td colspan="2" class="row"><input class="input" name="username" type="text" autocomplete="username" id="username" value="<?php echo htmlspecialchars($username); ?>" placeholder="Usuário"></td>
                </tr>
                <tr>
-                  <td colspan="2" class="row"><input class="input" name="password" type="password" autocomplete="current-password" id="password" value="<?php echo $password; ?>" placeholder="Senha"></td>
+                  <td colspan="2" class="row"><input class="input" name="password" type="password" autocomplete="current-password" id="password" value="" placeholder="Senha"></td>
                </tr>
-               <tr>
+               <?php if ($error): ?>
+               <tr class="erro">
+                  <td colspan="2" style="color:red;">
+                      <?php
+                        switch ($error):
+                           case 'system':     echo 'Erro no sistema. Contate o administrador.'; break;
+                           case 'credentials':echo 'Usuário ou senha incorretos.'; break;
+                           case 'locked':     echo 'Muitas tentativas. Tente novamente mais tarde.'; break;
+                        endswitch;
+                     ?>
+                  </td>
+               </tr>
+               <?php endif; ?>
                   <td class="row">
                      <div id="wb_FlipSwitch1">
-                     <input title="Lembrar login" type="checkbox" <?php echo $checked; ?> role="switch" name="rememberme" id="FlipSwitch1" value="">
+                     <input title="Lembrar usuário" type="checkbox" role="switch" name="rememberme" id="FlipSwitch1" value="" <?php echo $checked; ?>>
                         <label id="FlipSwitch1-label" for="FlipSwitch1">
                            <span id="FlipSwitch1-inner"></span>
                            <span id="FlipSwitch1-switch"></span>

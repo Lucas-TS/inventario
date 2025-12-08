@@ -253,3 +253,46 @@ document.addEventListener("input", function (event) {
     event.target.value = event.target.value.replace(/[^0-9,]/g, "");
   }
 });
+
+(function () {
+  const sessionTimeout = 900; // 15 minutos
+  let timeoutHandle = null;
+  let sessionExpired = false;
+
+  function redirectToLogin() {
+    if (sessionExpired) return; // evita múltiplos alerts
+    sessionExpired = true;
+    window.location.href = 'login.php?error=locked';
+  }
+
+  function renewSession() {
+    fetch('./includes/renova_sessao.php', { 
+        method: 'POST', 
+        keepalive: true // Adicione esta linha
+    })
+      .then(response => {
+        if (!response.ok) {
+            console.error('Sessão não renovada, status:', response.status);
+            throw new Error('Sessão não renovada');
+        }
+      })
+      .catch(() => {
+        redirectToLogin();
+      });
+  }
+
+  function resetSessionTimer() {
+    if (sessionExpired) return;
+    clearTimeout(timeoutHandle);
+    timeoutHandle = setTimeout(redirectToLogin, sessionTimeout * 1000);
+    renewSession();
+  }
+
+  // Eventos que indicam atividade
+  ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(event => {
+    document.addEventListener(event, resetSessionTimer);
+  });
+
+  // Inicia o timer ao carregar
+  resetSessionTimer();
+})();

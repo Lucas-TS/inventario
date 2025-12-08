@@ -22,10 +22,10 @@
         <div id="linha-2" class="linha">
             <div id="h-line-edit-so-2" class="h-line">Informações básicas:</div>
             <div id="b-line-edit-so-3" class="b-line" style="flex-basis:100%"><span class="label">Kernel:</span>
-                <input type="radio" id="windows" name="knl-edit-so" class="radio" value="Windows" required onclick="selecionaWindows()">
-                <label for="windows"><span></span>Windows</label>
-                <input type="radio" id="linux" name="knl-edit-so" class="radio" value="Linux" onclick="selecionaLinux()">
-                <label for="linux"><span></span>Linux</label>
+                <input type="radio" id="edit-windows" name="knl-edit-so" class="radio" value="Windows" required onclick="selecionaWindows()">
+                <label for="edit-windows"><span></span>Windows</label>
+                <input type="radio" id="edit-linux" name="knl-edit-so" class="radio" value="Linux" onclick="selecionaLinux()">
+                <label for="edit-linux"><span></span>Linux</label>
                 <!--<input type="radio" id="outro" name="knl-edit-so" class="radio" value="modelo" onclick="selecionaOutro()">
                 <label for="outro"><span></span>Outro:
                 <input id="outro-edit-so" class="input" type="text" name="outro-edit-so" disabled placeholder="Digite o nome do kernel" style="width:calc(100% - 12px)"></label>-->

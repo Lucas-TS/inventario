@@ -1,36 +1,4 @@
-<?php
-session_start();
-$params = [];
-if (isset($_SESSION['avatar'])) {
-   $avatar = $_SESSION['avatar'];
-} else {
-   $avatar = 'images\avatar1.png';
-}
-unset($_SESSION['url']);
-$url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$pagina = strtok($url, '?');
-$_SESSION['url'] = $url;
-if (!isset($_SESSION['username'])) {
-   header('Location: ./login.php');
-   exit;
-}
-if (isset($_SESSION['expires_by'])) {
-   $expires_by = intval($_SESSION['expires_by']);
-   if (time() < $expires_by) {
-      $_SESSION['expires_by'] = time() + intval($_SESSION['expires_timeout']);
-   } else {
-      unset($_SESSION['email']);
-      unset($_SESSION['fullname']);
-      unset($_SESSION['username']);
-      unset($_SESSION['avatar']);
-      unset($_SESSION['grupo']);
-      unset($_SESSION['expires_by']);
-      unset($_SESSION['expires_timeout']);
-      header('Location: ./login.php');
-      exit;
-   }
-}
-?>
+<?php require 'includes/valida_sessao.php'; ?>
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -179,6 +147,12 @@ if (isset($_SESSION['expires_by'])) {
                   <label for="pv-off"><span></span>Offboard</label>
                </div>
                <div id="formulario-pv-1" class="formulario pv">
+               </div>
+            </div>
+            <div id="linha-6a" class="linha">
+               <div id="h-line-7a" class="h-line">Tela:</div>
+               <div id="b-line-tela-1" class="b-line"><label class="label" for="tela">Tamanho:</label>
+                  <input id="tela" class="input box" type="text" name="tela" style="width:150px;" placeholder="Digite o tamanho" required onkeyup="verificarTecla(event)"><span style="color:#AAAAAA">&nbsp;polegadas</span>
                </div>
             </div>
             <div id="linha-6" class="linha">

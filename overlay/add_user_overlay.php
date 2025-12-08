@@ -14,27 +14,31 @@
                 <input id="nc-add-user" name="nc-add-user" type="text" class="input" placeholder="Digite o nome completo" autocomplete="fullname" style="width:100%" required title="Nome completo">
             </div>
             <div id="h-spacer" style="flex-basis:100%"></div>
-            <div id="b-line-add-user-2" class="b-line"><label class="label" for="email-add-user">Email:</label>
+            <div id="b-line-add-user-2" class="b-line"><label class="label" for="cpf-add-user">CPF:</label>
+                <input id="cpf-add-user" name="cpf-add-user" type="text" class="input" placeholder="Digite o CPF" autocomplete="cpf" style="width:400px" required title="CPF">
+            </div>
+            <div id="h-spacer" style="flex-basis:100%"></div>
+            <div id="b-line-add-user-3" class="b-line"><label class="label" for="email-add-user">Email:</label>
                 <input id="email-add-user" name="email-add-user" type="text" class="input" placeholder="Digite o email" autocomplete="email" style="width:400px" required title="Email">
             </div>
         </div>
         <div id="linha-2" class="linha">
             <div id="h-line-add-user-2" class="h-line">Informações de acesso:</div>
-            <div id="b-line-add-user-3" class="b-line"><label class="label" for="user-add-user">Usuário:</label>
-                <input id="user-add-user" name="user-add-user" type="text" class="input" placeholder="Usuário" autocomplete="username" style="width:200px" required title="Nome completo">
+            <div id="b-line-add-user-4" class="b-line"><label class="label" for="user-add-user">Usuário:</label>
+                <input id="user-add-user" name="user-add-user" type="text" class="input" placeholder="Usuário" autocomplete="username" style="width:200px" required title="Nome de usuário">
             </div>
             <div id="h-spacer" style="flex-basis:100%"></div>
-            <div id="b-line-add-user-4" class="b-line"><label class="label" for="pw-add-user">Senha:</label>
+            <div id="b-line-add-user-5" class="b-line"><label class="label" for="pw-add-user">Senha:</label>
                 <input id="pw-add-user" name="pw-add-user" type="password" class="input" placeholder="Senha" autocomplete="new-password" style="width:200px" required title="Email">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-add-user-5" class="b-line"><label class="label" for="pw2-add-user">Confirmar senha:</label>
+            <div id="b-line-add-user-6" class="b-line"><label class="label" for="pw2-add-user">Confirmar senha:</label>
                 <input id="pw2-add-user" name="pw2-add-user" type="password" class="input" placeholder="Confirmar senha" autocomplete="new-password" style="width:200px" required title="Email">
             </div>
         </div>
         <div id="linha-3" class="linha">
             <div id="h-line-add-user-3" class="h-line">Avatar:</div>
-            <div id="b-line-add-user-6" class="b-line" style="height:fit-content;align-items:center;">
+            <div id="b-line-add-user-7" class="b-line" style="max-height:fit-content;align-items:center;">
                 <div>
                     <img id="avatar-preview" class="avatar-preview" src="./images/avatar01.png">
                     <input type="file" id="avatar" name="avatar" accept="image/*" onchange="loadFile(event)" style="display: none;">
@@ -63,7 +67,7 @@
         </div>
         <div id="linha-4" class="linha">
             <div id="h-line-add-user-4" class="h-line">Grupo:</div>
-            <div id="b-line-add-user-7" class="b-line">
+            <div id="b-line-add-user-8" class="b-line">
                 <input id="gp-add-user" class="input openBox" type="text" name="gp-add-user" placeholder="Escolha o grupo" required style="width:250px">
                 <div id="suggestions-gp-add-user" class="suggestions-box gp-add-user">
                     <p id="p0" onclick="passarValor('0', 'gp-add-user', '0')">Usuários</p>

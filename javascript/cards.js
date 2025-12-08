@@ -22,18 +22,15 @@ const centerTextPlugin = {
 };
 
 const tiposPermitidosGraficos = ["doughnut", "bar", "pie", "line"]; // Adicione/remova conforme desejar
-loadSVG("doughnut.svg");
-loadSVG("bar.svg");
-loadSVG("pie.svg");
-loadSVG("line.svg");
-const iconesPorTipo = {
-  doughnut: doughnutSVG, // pode ser um SVG, uma classe CSS ou um Unicode/emoji
-  bar: barSVG,
-  pie: pieSVG,
-  line: lineSVG,
-};
 
 async function carregarCard(nomeArquivo, blocoId) {
+  window.iconesPorTipo = {
+    doughnut: doughnutSVG, // pode ser um SVG, uma classe CSS ou um Unicode/emoji
+    bar: barSVG,
+    pie: pieSVG,
+    line: lineSVG,
+  };
+
   let tipos = {};
   try {
     tipos = JSON.parse(localStorage.getItem("cardsGraficoTipo") || "{}");
@@ -59,9 +56,10 @@ async function carregarCard(nomeArquivo, blocoId) {
     titulo.appendChild(tituloSpan);
 
     // Botão de gráfico (se for gráfico)
-    const tipoGraficoAtual = tipos[blocoId] || dados.grafico.tipo || "bar";
+    let tipoGraficoAtual = null;
     let btnGrafico = null;
     if (dados.tipo === "grafico") {
+      tipoGraficoAtual = tipos[blocoId] || dados.grafico.tipo || "bar";
       btnGrafico = document.createElement("button");
       btnGrafico.className = "btn-tipo-grafico";
       btnGrafico.id = `btnGrafico-${blocoId}`;
@@ -101,7 +99,13 @@ async function carregarCard(nomeArquivo, blocoId) {
       divBloco.innerHTML += `<div class="card-texto">${dados.texto}</div>`;
       break;
     case "tabela":
-      criarTabelaNoCard(divBloco, dados.colunas, dados.linhas);
+      criarTabelaNoCard(
+        divBloco,
+        dados.colunas,
+        dados.linhas,
+        dados.nome_tabela,
+        dados.acoes
+      );
       break;
     case "link":
       divBloco.innerHTML += `<a href="${dados.url}" class="card-link">${dados.texto}</a>`;
@@ -173,29 +177,65 @@ function criarGraficoNoCard(divBloco, grafico) {
 }
 
 // Função auxiliar para tabela
-function criarTabelaNoCard(divBloco, colunas, linhas) {
+function criarTabelaNoCard(
+  divBloco,
+  colunas,
+  linhas,
+  nomeTabela,
+  acoes = false
+) {
   const table = document.createElement("table");
-  table.className = "card-tabela";
+  table.className = "card-tabela tabela-lista";
+
   const thead = document.createElement("thead");
   const trHead = document.createElement("tr");
+
+  // Cabeçalhos padrão
   colunas.forEach((col) => {
     const th = document.createElement("th");
     th.textContent = col;
     trHead.appendChild(th);
   });
+
+  // Cabeçalho da coluna de ações
+  if (acoes) {
+    // Se não quiser ações, sai aqui
+    const thAcoes = document.createElement("th");
+    thAcoes.textContent = "Ações";
+    trHead.appendChild(thAcoes);
+  }
+
   thead.appendChild(trHead);
   table.appendChild(thead);
 
   const tbody = document.createElement("tbody");
   linhas.forEach((linha) => {
     const tr = document.createElement("tr");
+
+    // Preenche células com os dados
     linha.forEach((cell) => {
       const td = document.createElement("td");
       td.textContent = cell;
       tr.appendChild(td);
     });
+
+    // Coluna de ações
+    if (acoes) {
+      const tdAcoes = document.createElement("td");
+      tdAcoes.classList = "acoes";
+      const id = linha[0]; // Primeiro item da linha é o ID
+
+      tdAcoes.innerHTML = `
+      <a title="Ver detalhes" class="icone-acao" onclick="verItem(${id}, '${nomeTabela}')">${viewSVG}</a>
+      <a title="Editar" class="icone-acao" onclick="exibirOverlayEditar(${id}, '${nomeTabela}')">${editSVG}</a>
+      <a title="Apagar" class="icone-acao apagar" onclick="confirmaApagar(${id}, '${nomeTabela}')">${delSVG}</a>
+    `;
+      tr.appendChild(tdAcoes);
+    }
+
     tbody.appendChild(tr);
   });
+
   table.appendChild(tbody);
   divBloco.appendChild(table);
 }
@@ -239,10 +279,17 @@ function abrirPersonalizacaoCard(blocoId, nomeAtual) {
 
   // Opções únicas para todos os cards
   const opcoes = [
+    //Graficos
     { nome: "computadores", label: "Tipo de Computador" },
     { nome: "so", label: "Sistema Operacional" },
     { nome: "antivirus", label: "Antivírus" },
     { nome: "situacao", label: "Situação" },
+    { nome: "armazenamento", label: "Tipo de armazenamento" },
+    // Tabelas
+    { nome: "ultimas_inclusoes", label: "Últimos computadores incluídos" },
+    { nome: "ultimas_modificacoes", label: "Últimos computadores atualizados" },
+    { nome: "processadores", label: "Processadores em uso" },
+    
   ];
 
   // Cria caixa suspensa
@@ -251,15 +298,26 @@ function abrirPersonalizacaoCard(blocoId, nomeAtual) {
 
   // Adiciona opções como <p>
   opcoes.forEach((opt) => {
-    if (opt.nome === nomeAtual) return; // Não cria o <p> da opção já selecionada
+    if (opt.nome === nomeAtual) return;
+
     const p = document.createElement("p");
-    p.textContent = opt.label;
+
+    // Decide qual SVG usar
+    const svgIcon = ["computadores", "so", "antivirus", "situacao", "armazenamento"].includes(
+      opt.nome
+    )
+      ? doughnutSVG
+      : tabelaSVG;
+
+    // Adiciona SVG + texto ao elemento
+    p.innerHTML = `${svgIcon} ${opt.label}`;
     p.onclick = () => {
       salvarPersonalizacaoCard(blocoId, opt.nome);
       box.remove();
       btnSeta.classList.remove("ativo");
       carregarCard(opt.nome, blocoId);
     };
+
     box.appendChild(p);
   });
 
@@ -324,3 +382,24 @@ function atualizarIconeBotaoGrafico(blocoId, tipoAtualNaTela) {
     btn.innerHTML = icone; // ou btn.className = ..., dependendo da forma que usa ícones
   }
 }
+
+async function preencherMiniCard(categoria, spanId) {
+  try {
+    const resposta = await fetch(`./cards/mini_cards.php?card=${categoria}`);
+    const dados = await resposta.json();
+    const span = document.getElementById(spanId);
+    if (span) {
+      span.textContent = dados.quantidade;
+    }
+  } catch (erro) {
+    console.error(`Erro ao carregar ${categoria}:`, erro);
+  }
+}
+
+// Chamada automática ao carregar a página
+window.addEventListener("DOMContentLoaded", () => {
+  preencherMiniCard("computadores", "span-computadores");
+  preencherMiniCard("perifericos", "span-perifericos");
+  preencherMiniCard("hardwares", "span-hardwares");
+  preencherMiniCard("softwares", "span-softwares");
+});

@@ -16,7 +16,7 @@ $db_fullname = isset($data['fullname']) ? $data['fullname'] : null;
 $db_email = isset($data['email']) ? $data['email'] : null;
 $db_id = isset($data['id']) ? $data['id'] : null;
 
-$session_timeout = 3600;
+$session_timeout = 900;
 $db = new mysqli($servername, $username, $password, $dbname);
 
 if ($db->connect_error) {
@@ -34,6 +34,7 @@ if ($banco = $result->fetch_array(MYSQLI_ASSOC)) {
     $found = true;
     $db_email = $banco['email'];
     $db_fullname = $banco['fullname'];
+    $db_cpf = $banco['cpf'];
     $db_username = $banco['username'];
     $db_grupo = $banco['grupo'];
     $db_id = $banco['id'];
@@ -51,6 +52,7 @@ session_regenerate_id(true); // Regenera o ID da sessão
 
 $_SESSION['email'] = $db_email;
 $_SESSION['fullname'] = $db_fullname;
+$_SESSION['cpf'] = $db_cpf;
 $_SESSION['username'] = $db_username;
 $_SESSION['id'] = $db_id;
 $_SESSION['grupo'] = $db_grupo;

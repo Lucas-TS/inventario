@@ -5,6 +5,7 @@ async function insertUser(event) {
 
     let funcao = 'inserir';
     let nc = document.getElementById('nc-add-user').value;
+    let cpf = document.getElementById('cpf-add-user').value;
     let email = document.getElementById('email-add-user').value;
     let user = document.getElementById('user-add-user').value;
     let pw = document.getElementById('pw-add-user').value;
@@ -32,6 +33,7 @@ async function insertUser(event) {
     let formData = {
         funcao: funcao,
         nc: nc,
+        cpf: cpf,
         email: email,
         user: user,
         pw: pw,
@@ -132,6 +134,7 @@ async function editarUserOverlay(id, arquivo) {
         document.getElementById('id-edit-user').value = data.id;
         document.getElementById('nc-edit-user').value = data.fullname;
         document.getElementById('email-edit-user').value = data.email;
+        document.getElementById('cpf-edit-user').value = data.cpf;
         document.getElementById('user-edit-user').value = data.username;
         document.getElementById('hidden-gp-edit-user').value = data.grupo;
         if (data.grupo === 1) {
@@ -163,6 +166,7 @@ async function editarUser(event) {
     let ativo = document.getElementById('ativo-edit-user').checked ? '1' : '0';
     let nc = document.getElementById('nc-edit-user').value;
     let email = document.getElementById('email-edit-user').value;
+    let cpf = document.getElementById('cpf-edit-user').value;
     let user = document.getElementById('user-edit-user').value;
     let pw = document.getElementById('pw-edit-user').value;
     let pw2 = document.getElementById('pw2-edit-user').value;
@@ -191,6 +195,7 @@ async function editarUser(event) {
         id: id,
         ativo: ativo,
         nc: nc,
+        cpf: cpf,
         email: email,
         user: user,
         pw: pw,

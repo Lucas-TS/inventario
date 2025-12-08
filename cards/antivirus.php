@@ -36,7 +36,7 @@ foreach ($mapa as $nome => $info) {
 
 $retorno = [
     'tipo' => 'grafico',
-    'titulo' => 'Antivírus Instalado',
+    'titulo' => 'Computadores com Antivírus Instalado',
     'grafico' => [
         'tipo' => 'doughnut',
         'labels' => $labels,

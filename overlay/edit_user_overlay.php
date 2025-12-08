@@ -25,27 +25,31 @@
                 <input id="nc-edit-user" name="nc-edit-user" type="text" class="input" placeholder="Digite o nome completo" autocomplete="fullname" style="width:100%" required title="Nome completo">
             </div>
             <div id="h-spacer" style="flex-basis:100%"></div>
-            <div id="b-line-edit-user-4" class="b-line"><label class="label" for="email-edit-user">Email:</label>
+            <div id="b-line-edit-user-4" class="b-line"><label class="label" for="cpf-edit-user">CPF:</label>
+                <input id="cpf-edit-user" name="cpf-edit-user" type="text" class="input" placeholder="Digite o CPF" autocomplete="cpf" style="width:400px" required title="CPF">
+            </div>
+            <div id="h-spacer" style="flex-basis:100%"></div>
+            <div id="b-line-edit-user-5" class="b-line"><label class="label" for="email-edit-user">Email:</label>
                 <input id="email-edit-user" name="email-edit-user" type="text" class="input" placeholder="Digite o email" autocomplete="email" style="width:400px" required title="Email">
             </div>
         </div>
         <div id="linha-3" class="linha">
             <div id="h-line-edit-user-3" class="h-line">Informações de acesso:</div>
-            <div id="b-line-edit-user-5" class="b-line"><label class="label" for="user-edit-user">Usuário:</label>
-                <input id="user-edit-user" name="user-edit-user" type="text" class="input" placeholder="Usuário" autocomplete="username" style="width:200px" required readonly title="Nome completo">
+            <div id="b-line-edit-user-6" class="b-line"><label class="label" for="user-edit-user">Usuário:</label>
+                <input id="user-edit-user" name="user-edit-user" type="text" class="input" placeholder="Usuário" autocomplete="username" style="width:200px" required readonly title="Nome de usuário">
             </div>
             <div id="h-spacer" style="flex-basis:100%"></div>
-            <div id="b-line-edit-user-6" class="b-line"><label class="label" for="pw-edit-user">Nova senha:</label>
+            <div id="b-line-edit-user-7" class="b-line"><label class="label" for="pw-edit-user">Nova senha:</label>
                 <input id="pw-edit-user" name="pw-edit-user" type="password" class="input" placeholder="Nova senha" autocomplete="new-password" style="width:200px" title="Email">
             </div>
             <div id="h-spacer"></div>
-            <div id="b-line-edit-user-7" class="b-line"><label class="label" for="pw2-edit-user">Confirmar nova senha:</label>
+            <div id="b-line-edit-user-8" class="b-line"><label class="label" for="pw2-edit-user">Confirmar nova senha:</label>
                 <input id="pw2-edit-user" name="pw2-edit-user" type="password" class="input" placeholder="Confirmar nova senha" autocomplete="new-password" style="width:200px" title="Email">
             </div>
         </div>
         <div id="linha-4" class="linha">
             <div id="h-line-edit-user-4" class="h-line">Avatar:</div>
-            <div id="b-line-edit-user-8" class="b-line" style="height:fit-content;align-items:center;">
+            <div id="b-line-edit-user-9" class="b-line" style="max-height:fit-content;align-items:center;">
                 <div>
                     <img id="avatar-preview" class="avatar-preview" src="./images/avatar01.png">
                     <input type="file" id="avatar" name="avatar" accept="image/*" onchange="loadFile(event)" style="display: none;">
@@ -74,7 +78,7 @@
         </div>
         <div id="linha-5" class="linha">
             <div id="h-line-edit-user-5" class="h-line">Grupo:</div>
-            <div id="b-line-edit-user-9" class="b-line">
+            <div id="b-line-edit-user-10" class="b-line">
                 <input id="gp-edit-user" class="input openBox" type="text" name="gp-edit-user" placeholder="Escolha o grupo" required style="width:250px">
                 <div id="suggestions-gp-edit-user" class="suggestions-box gp-edit-user">
                     <p id="p0" onclick="passarValor('0', 'gp-edit-user', '0')">Usuários</p>

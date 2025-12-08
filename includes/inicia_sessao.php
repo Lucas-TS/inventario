@@ -1,83 +1,110 @@
 <?php
 session_start();
 
-if (isset($_POST['form_name']) && $_POST['form_name'] === 'loginform') {
-    $success_page = isset($_SESSION['url']) ? $_SESSION['url'] : '../index.php';
-    $error_page = '../login.php';
-    include 'conecta_db.php'; // Inclui configurações de conexão
-    $mysql_table = 'users';
-    $entered_password = $_POST['password'];
-    $found = false;
-    $db_email = '';
-    $db_fullname = '';
-    $db_username = '';
-    $session_timeout = 3600;
+define('MAX_LOGIN_ATTEMPTS', 5);
+define('LOCKOUT_TIME', 300); // 5 minutos
 
-    // Conexão com o banco de dados
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts']     = 0;
+    $_SESSION['first_attempt_time'] = time();
+}
+
+if ($_SESSION['login_attempts'] >= MAX_LOGIN_ATTEMPTS
+    && (time() - $_SESSION['first_attempt_time']) < LOCKOUT_TIME) {
+    header('Location: ../login.php?error=locked');
+    exit;
+}
+
+if (time() - $_SESSION['first_attempt_time'] >= LOCKOUT_TIME) {
+    unset($_SESSION['login_attempts'], $_SESSION['first_attempt_time']);
+}
+
+if (isset($_POST['form_name']) && $_POST['form_name'] === 'loginform') {
+
+    $success_page = isset($_SESSION['url']) ? $_SESSION['url'] : '../index.php';
+    $error_page   = '../login.php';
+    include 'conecta_db.php';
+
+    $username_input   = trim($_POST['username']);
+    $entered_password = $_POST['password'];
+    $session_timeout  = 900;
+
+    // Função de erro
+    function redirectError($type) {
+        // Armazena o tipo de erro na sessão (flash)
+        $_SESSION['flash_error'] = $type;
+        // Redireciona sem parâmetro na URL
+        header('Location: ../login.php');
+        exit;
+    }
+
+
+    // Conexão
     $db = new mysqli($servername, $username, $password, $dbname);
     if ($db->connect_error) {
-        die('Falha ao conectar ao banco de dados: ' . $db->connect_error);
+        error_log('Conexão falhou: ' . $db->connect_error);
+        redirectError('system');
     }
 
-    $sql = "SELECT * FROM $mysql_table WHERE username = ?";
-    $stmt = $db->prepare($sql);
-    if ($stmt === false) {
-        die('Erro na preparação da declaração: ' . $db->error);
+    $stmt = $db->prepare("SELECT id, username, password, email, fullname, cpf, grupo, ativo, avatar
+                          FROM users WHERE username = ? OR email = ? OR cpf = ?");
+    if (!$stmt) {
+        error_log('Erro prepare: ' . $db->error);
+        redirectError('system');
     }
 
-    $stmt->bind_param('s', $_POST['username']);
+    $stmt->bind_param('sss', $username_input, $username_input, $username_input);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($data = $result->fetch_assoc()) {
-        $db_password_hash = $data['password'];
-        if (password_verify($entered_password, $db_password_hash) && $data['ativo'] !== 0) {
-            $found = true;
-            $db_email = $data['email'];
-            $db_fullname = $data['fullname'];
-            $db_username = $data['username'];
-            $db_grupo = $data['grupo'];
-            $db_id = $data['id'];
-            $avatar = $data['avatar'] != NULL ? "images/avatares/{$data['avatar']}" : 'images/avatar.png';
-        }
-    }
+        if (password_verify($entered_password, $data['password'])
+            && $data['ativo'] != 0) {
+            
+            // Sucesso: limpa tentativas
+            unset($_SESSION['login_attempts'], $_SESSION['first_attempt_time']);
+            
+            session_regenerate_id(true);
+            $_SESSION['id']            = $data['id'];
+            $_SESSION['username']      = $data['username'];
+            $_SESSION['email']         = $data['email'];
+            $_SESSION['fullname']      = $data['fullname'];
+            $_SESSION['cpf']           = $data['cpf'];
+            $_SESSION['grupo']         = $data['grupo'];
+            $_SESSION['avatar']        = $data['avatar']
+                                         ? "images/avatares/{$data['avatar']}"
+                                         : 'images/avatar.png';
+            $_SESSION['expires_by']    = time() + $session_timeout;
+            $_SESSION['expires_timeout'] = $session_timeout;
 
-    $stmt->close();
-    $db->close();
+            // Proteção de sessão
+            $_SESSION['ip']           = $_SERVER['REMOTE_ADDR'];
+            $_SESSION['user_agent']   = $_SERVER['HTTP_USER_AGENT'];
 
-    if ($found === false) {
-        header('Location: ' . $error_page);
-        exit;
-    } else {
-        session_regenerate_id(true);
-        $_SESSION['email'] = $db_email;
-        $_SESSION['fullname'] = $db_fullname;
-        $_SESSION['username'] = $db_username;
-        $_SESSION['id'] = $db_id;
-        $_SESSION['grupo'] = $db_grupo;
-        $_SESSION['avatar'] = $avatar;
-        $_SESSION['expires_by'] = time() + $session_timeout;
-        $_SESSION['expires_timeout'] = $session_timeout;
-
-        if (isset($_POST['rememberme'])) {
-            $token = bin2hex(random_bytes(16));
-            setcookie('auth_token', $token, time() + 3600 * 24 * 30, '/');
-
-            // Armazene o token no banco de dados
-            $db = new mysqli($servername, $username, $password, $dbname);
-            $sql = "UPDATE $mysql_table SET auth_token = ? WHERE id = ?";
-            $stmt = $db->prepare($sql);
-            if ($stmt === false) {
-                die('Erro na preparação da declaração: ' . $db->error);
+            // Lembre-se do usuário
+            $rememberme = isset($_POST['rememberme']) ? 1 : 0;
+            if (isset($_POST['rememberme'])) {
+                setcookie('remember_username', $username_input, [
+                'expires' => time() + 3600 * 24 * 30, // 30 dias
+                'path' => '/',
+                'httponly' => true,
+                'samesite' => 'Strict'
+                ]);
+            } else {
+                // Se o usuário desmarcar a opção, remove o cookie
+                setcookie('remember_username', '', time() - 3600, '/');
             }
-            $stmt->bind_param('si', $token, $db_id);
-            $stmt->execute();
-            $stmt->close();
-            $db->close();
-        }
 
-        header('Location: ' . $success_page);
-        exit;
+            header('Location: ' . $success_page);
+            exit;
+        }
     }
+
+    // Falha de credenciais
+    $_SESSION['login_attempts']++;
+    if (!isset($_SESSION['first_attempt_time'])) {
+        $_SESSION['first_attempt_time'] = time();
+    }
+    redirectError('credentials');
 }
 ?>

@@ -246,7 +246,7 @@ if ($result->num_rows > 0)
         if ($n == 'processador-desktop' || $n == 'processador-note')
         {
             $memoria = $row['memoria'];
-            echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ',\'' . $n . '\',' . $row['id'] . '); suggestionsMem(\'' . $memoria . '\'); fichaProcessador(\'' . $row['lista'] . '\');">' . $row['lista'] . "</p>";
+            echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ',\'' . $n . '\',' . $row['id'] . '); suggestionsMem(\'' . $memoria . '\'); fichaProcessador(\'' . $row['lista'] . '\'); expandirItem(\'h-line-3\')">' . $row['lista'] . "</p>";
         }
 
         //Sugestões para marca do monitor

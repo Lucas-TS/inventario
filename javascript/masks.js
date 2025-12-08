@@ -20,6 +20,7 @@ $(document).ready(function () {
         applyMask('#serial-so, #serial-office', 'BBBBB-BBBBB-BBBBB-BBBBB-BBBBB');
         applyMask('#clock-proc, #turbo-proc, #clock-edit-proc, #turbo-edit-proc', '00.00');
         applyMask('#tam-add-mon, #tam-edit-mon, #tela', '00.0');
+        applyMask('#cpf-add-user, #cpf-edit-user', '000.000.000-00');
     }
 
     $('#input-hn').on('input', function () {
