@@ -89,7 +89,19 @@
                </div>
             </div>
             <div id="linha-2" class="linha">
-               <div id="h-line-2" class="h-line">Processador:<div id="adicionarProc" class="flex-center margin-left icon-button"><a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./overlay/add_proc_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
+               <div id="h-line-2" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php
+                        $svg = file_get_contents('./images/acima.svg');
+                        // Adiciona a classe rotacionado na tag SVG
+                        $svg = str_replace('<svg', '<svg class="rotacionado"', $svg);
+                        echo $svg;
+                     ?>
+                     Processador:
+                  </a>
+                  <div id="adicionarProc" class="flex-center margin-left icon-button">
+                     <a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./overlay/add_proc_overlay.php')"><?php include './images/novo.svg'; ?></a>
+                  </div>
                </div>
                <div id="b-line-proc-1" class="b-line"><label class="label" for="processador-notebook">Modelo:</label>
                   <input id="processador-notebook" class="input box" type="text" name="processador-notebook" style="width:400px;" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
@@ -110,100 +122,136 @@
                </div>
             </div>
             <div id="linha-3" class="linha">
-               <div id="h-line-3" class="h-line">Memória RAM:</div>
-               <div id="b-line-mem-1" class="b-line"><span class="label">Quantidade:</span>
+               <div id="h-line-3" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php include './images/acima.svg'; ?>
+                     Memória RAM:
+                  </a>
+               </div>
+               <div id="b-line-mem-1" class="b-line oculto"><span class="label">Quantidade:</span>
                   <button title="Diminuir" type="button" id="menos" class="menos icon-button margin-bottom" disabled onclick="less(this, 'mem')"><?php include './images/menos.svg'; ?></button>
                   <input id="qtde-mem" type="number" title="Quantidade" name="qtde-mem" data-tipo="mem" class="qtde-mem input" placeholder='Quantidade' value="1" style="width:59px;text-align:center;"><span style="color:#AAAAAA">&nbsp;GB</span>
                   <button title="Aumentar" type="button" id="mais" class="mais icon-button margin-bottom" onclick="more(this, 'mem')"><?php include './images/add.svg'; ?></button>
                </div>
-               <div id="h-spacer"></div>
-               <div id="b-line-mem-2" class="b-line"><label class="label" for="tipo-mem">Tipo:</label>
+               <div id="h-spacer" class="oculto"></div>
+               <div id="b-line-mem-2" class="b-line oculto"><label class="label" for="tipo-mem">Tipo:</label>
                   <input id="tipo-mem" class="input openBox" type="text" name="tipo-mem" placeholder="Escolha o tipo" required readonly style="width:190px">
                   <div id="suggestions-tipo-mem" class="suggestions-box tipo-mem">
                   </div>
                </div>
             </div>
             <div id="linha-4" class="linha">
-               <div id="h-line-4" class="h-line">Armazenamento:
-                  <div id="adicionarDsk" class="flex-center margin-left icon-button">
+               <div id="h-line-4" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php include './images/acima.svg'; ?>
+                     Armazenamento:
+                  </a>
+                  <div id="adicionarDsk" class="flex-center margin-left icon-button oculto">
                      <a title="Adicionar novo tamanho de armazenamento" href="#" onclick="exibirOverlay('./overlay/add_dsk_overlay.php')"><?php include './images/novo.svg'; ?></a>
                   </div>
                </div>
-               <div id="armazenamentos-container">
+               <div id="armazenamentos-container" class="oculto">
                   <!-- Armazenamentos serão adicionados aqui -->
                </div>
-               <div id="h-line-5" class="h-line">
+               <div id="h-line-5" class="h-line h-line-sec oculto">
                   <div id="adicionarAmzt" class="flex-center icon-button"><a title="Adicionar armazenamento" href="#" onclick="adicionarArmazenamento()"><?php include './images/list.add.svg'; ?></a></div>
                </div>
             </div>
             <div id="linha-5" class="linha">
-               <div id="h-line-6" class="h-line">Placa de vídeo:<div id="adicionarGpu" class="flex-center margin-left icon-button"><a title="Adicionar nova placa de vídeo" href="#" onclick="exibirOverlay('./overlay/add_pv_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
+               <div id="h-line-6" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php include './images/acima.svg'; ?>
+                     Placa de vídeo:
+                  </a>
+                  <div id="adicionarGpu" class="flex-center margin-left icon-button"><a title="Adicionar nova placa de vídeo" href="#" onclick="exibirOverlay('./overlay/add_pv_overlay.php')"><?php include './images/novo.svg'; ?></a></div>
                </div>
-               <div id="b-line-pv-1" class="b-line">
+               <div id="b-line-pv-1" class="b-line oculto">
                   <span class="label">Tipo:</span>
                   <input type="radio" id="pv-on" name="pv" class="radio pv-check" value="on" checked onclick="formularioGPU(this.value)">
                   <label for="pv-on"><span></span>Onboard</label>
                   <input type="radio" id="pv-off" name="pv" class="radio pv-check" value="off" onclick="formularioGPU(this.value, 'Notebook')">
                   <label for="pv-off"><span></span>Offboard</label>
                </div>
-               <div id="formulario-pv-1" class="formulario pv">
+               <div id="formulario-pv-1" class="formulario pv oculto">
                </div>
             </div>
             <div id="linha-6a" class="linha">
-               <div id="h-line-7a" class="h-line">Tela:</div>
-               <div id="b-line-tela-1" class="b-line"><label class="label" for="tela">Tamanho:</label>
+               <div id="h-line-7a" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php include './images/acima.svg'; ?>
+                     Tela:
+                  </a>
+               </div>
+               <div id="b-line-tela-1" class="b-line oculto"><label class="label" for="tela">Tamanho:</label>
                   <input id="tela" class="input box" type="text" name="tela" style="width:150px;" placeholder="Digite o tamanho" required onkeyup="verificarTecla(event)"><span style="color:#AAAAAA">&nbsp;polegadas</span>
                </div>
             </div>
             <div id="linha-6" class="linha">
-               <div id="h-line-7" class="h-line">Monitor:
-                  <div id="adicionarMon" class="flex-center margin-left icon-button">
+               <div id="h-line-7" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php include './images/acima.svg'; ?>
+                     Monitor:
+                  </a>
+                  <div id="adicionarMon" class="flex-center margin-left icon-button oculto">
                      <a title="Adicionar novo monitor" href="#" onclick="exibirOverlay('./overlay/add_mon_overlay.php')"><?php include './images/novo.svg'; ?></a>
                   </div>
                </div>
-               <div id="monitores-container">
+               <div id="monitores-container" class="oculto">
                   <!-- Monitores serão adicionados aqui -->
                </div>
-               <div id="h-line-8" class="h-line">
+               <div id="h-line-8" class="h-line h-line-sec oculto">
                   <div id="adicionarMonitor" class="flex-center icon-button"><a title="Adicionar monitor" href="#" onclick="adicionarMonitor()"><?php include './images/list.add.svg'; ?></a></div>
                </div>
             </div>
             <div id="linha-7" class="linha">
-               <div id="h-line-9" class="h-line">Sistema Operacional:
+               <div id="h-line-9" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php include './images/acima.svg'; ?>
+                     Sistema Operacional:
+                  </a>
                   <div id="adicionarSO" class="flex-center margin-left icon-button">
                      <a title="Adicionar novo SO" href="#" onclick="exibirOverlay('./overlay/add_so_overlay.php')"><?php include './images/novo.svg'; ?></a>
                   </div>
                </div>
-               <div id="b-line-so-1" class="b-line">
+               <div id="b-line-so-1" class="b-line oculto">
                   <span class="label">Família:</span>
                   <input type="radio" id="win" name="so" class="radio so-check" value="Windows" onclick="formularioSO(this.value)">
                   <label for="win"><span></span>Windows</label>
                   <input type="radio" id="linux" name="so" class="radio so-check" value="Linux" onclick="formularioSO(this.value)">
                   <label for="linux"><span></span>Linux</label>
                </div>
-               <div id="formulario-so-1" class="formulario so">
+               <div id="formulario-so-1" class="formulario so oculto">
                </div>
-               <div id="h-spacer"></div>
+               <div id="h-spacer" class="oculto"></div>
             </div>
             <div id="linha-8" class="linha">
-               <div id="h-line10" class="h-line">Pacote Office:
+               <div id="h-line10" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php include './images/acima.svg'; ?>
+                     Pacote Office:
+                  </a>
                   <div id="adicionarOffice" class="flex-center margin-left icon-button">
                      <a title="Adicionar novo pacote office" href="#" onclick="exibirOverlay('./overlay/add_office_overlay.php')"><?php include './images/novo.svg'; ?></a>
                   </div>
                </div>
-               <div id="b-line-office-1" class="b-line">
+               <div id="b-line-office-1" class="b-line oculto">
                   <span class="label">Pacote:</span>
                   <input type="radio" id="ms" name="office" class="radio" value="Office" onclick="formularioOffice(this.value)">
                   <label for="ms"><span></span>Microsoft Office</label>
                   <input type="radio" id="free" name="office" class="radio" value="Free" onclick="formularioOffice(this.value)">
                   <label for="free"><span></span>Gratuito</label>
                </div>
-               <div id="formulario-office-1" class="formulario office">
+               <div id="formulario-office-1" class="formulario office oculto">
                </div>
             </div>
             <div id="linha-9" class="linha">
-               <div id="h-line-11" class="h-line">Antivírus:</div>
-               <div id="b-line-av-1" class="b-line">
+               <div id="h-line-11" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php include './images/acima.svg'; ?>
+                     Antivírus:
+                  </a>
+               </div>
+               <div id="b-line-av-1" class="b-line oculto">
                   <span class="label">Kaspersky Endpoint Security (KES):</span>
                   <input type="radio" id="av-sim" name="av" class="radio" value="1">
                   <label for="av-sim"><span></span>Sim</label>
@@ -212,42 +260,52 @@
                </div>
             </div>
             <div id="linha-10" class="linha">
-               <div id="h-line-12" class="h-line">Rede:</div>
-               <div id="b-line-rede-1" class="b-line"><label class="label" for="input-hn">Hostname:</label>
+               <div id="h-line-12" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php include './images/acima.svg'; ?>
+                     Rede:
+                  </a>
+               </div>
+               <div id="b-line-rede-1" class="b-line oculto"><label class="label" for="input-hn">Hostname:</label>
                   <input id="input-hn" name="hn" type="text" class="input trim" placeholder="Digite o nome" required style="width:250px">
                </div>
-               <div id="h-spacer" style="flex-basis:100%"></div>
-               <div id="b-line-rede-2" class="b-line">
+               <div id="h-spacer" class="oculto" style="flex-basis:100%"></div>
+               <div id="b-line-rede-2" class="b-line oculto">
                   <span class="label">Placa de rede:</span>
                   <input type="radio" id="rede-on" name="rede" class="radio" value="0">
                   <label for="rede-on"><span></span>Onboard</label>
                   <input type="radio" id="rede-off" name="rede" class="radio" value="1">
                   <label for="rede-off"><span></span>Offboard</label>
                </div>
-               <div id="h-spacer"></div>
-               <div id="b-line-rede-3" class="b-line"><label class="label" for="input-mac">MAC:</label>
+               <div id="h-spacer" class="oculto"></div>
+               <div id="b-line-rede-3" class="b-line oculto"><label class="label" for="input-mac">MAC:</label>
                   <input id="input-mac" name="mac" type="text" class="input mac trim" placeholder="Digite o MAC" required style="width:250px" title="Digite apenas os caracteres">
                </div>
                <div id="h-spacer" style="flex-basis:100%"></div>
-               <div id="b-line-rede-4" class="b-line">
+               <div id="b-line-rede-4" class="b-line oculto">
                   <span class="label">Wi-Fi:</span>
                   <input type="radio" id="wifi-nao" name="wifi" class="radio" value="0" required checked onclick="bloquearMacWifi()">
                   <label for="wifi-nao"><span></span>Não</label>
                   <input type="radio" id="wifi-sim" name="wifi" class="radio" value="1" onclick="liberarMacWifi()">
                   <label for="wifi-sim"><span></span>Sim</label>
                </div>
-               <div id="h-spacer"></div>
-               <div id="b-line-rede-5" class="b-line"><label class="label" for="input-mac-wifi">MAC:</label>
+               <div id="h-spacer" class="oculto"></div>
+               <div id="b-line-rede-5" class="b-line oculto"><label class="label" for="input-mac-wifi">MAC:</label>
                   <input id="input-mac-wifi" name="mac-wifi" type="text" class="input mac trim" placeholder="Digite o MAC" required disabled style="width:250px" title="Digite apenas os caracteres">
                </div>
                <div id="h-spacer" style="flex-basis:100%"></div>
-               <div id="b-line-rede-6" class="b-line" style="display:none"><label class="label" for="ip">IP:</label>
+               <div id="b-line-rede-6" class="b-line oculto" style="display:none"><label class="label" for="ip">IP:</label>
                   <input id="ip" name="ip" type="text" class="input" placeholder="Digite o IP" disabled style="width:250px">
                </div>
             </div>
             <div id="linha-11" class="linha fim">
-               <div id="h-line-13" class="h-line">Informações complementares:</div>
-               <div id="b-line-fim-1" class="b-line"><label class="label" for="situacao">Situação:</label>
+               <div id="h-line-13" class="h-line expansivel">
+                  <a onclick="expandirItem(this)">
+                     <?php include './images/acima.svg'; ?>
+                     Informações complementares:
+                  </a>
+               </div>
+               <div id="b-line-fim-1" class="b-line oculto"><label class="label" for="situacao">Situação:</label>
                   <input id="situacao" class="input openBox" type="text" name="situacao" placeholder="Escolha a situação" required style="width:290px">
                   <div id="suggestions-situacao" class="suggestions-box situacao">
                      <p id="p0" onclick="passarValor('0', 'situacao', '0')">Em uso</p>
@@ -263,8 +321,8 @@
                   </div>
                   <input id="hidden-situacao" name="hidden-situacao" type="hidden" value="">
                </div>
-               <div id="h-spacer"></div>
-               <div id="b-line-fim-2" class="b-line" style="flex:1"><label class="label" for="input-obs">Observações:</label>
+               <div id="h-spacer" class="oculto"></div>
+               <div id="b-line-fim-2" class="b-line oculto" style="flex:1"><label class="label" for="input-obs">Observações:</label>
                   <input id="input-obs" name="obs" type="text" class="input obs" placeholder="Opcional" style="width:100%">
                </div>
             </div>

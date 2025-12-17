@@ -84,10 +84,10 @@
                      <a title="Adicionar novo processador" href="#" onclick="exibirOverlay('./overlay/add_proc_overlay.php')"><?php include './images/novo.svg'; ?></a>
                   </div>
                </div>
-               <div id="b-line-proc-1" class="b-line"><label class="label" for="processador-note">Modelo:</label>
-                  <input id="processador-note" class="input box" type="text" name="processador-note" style="width:400px;" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
-                  <div id="suggestions-processador-note" class="suggestions-box processador-note"></div>
-                  <input id="hidden-processador-note" name="hidden-processador-note" type="hidden" value="">
+               <div id="b-line-proc-1" class="b-line"><label class="label" for="processador-notebook">Modelo:</label>
+                  <input id="processador-notebook" class="input box" type="text" name="processador-notebook" style="width:400px;" placeholder="Escolha o modelo" required onkeyup="verificarTecla(event)">
+                  <div id="suggestions-processador-notebook" class="suggestions-box processador-notebook"></div>
+                  <input id="hidden-processador-notebook" name="hidden-processador-notebook" type="hidden" value="">
                </div>
                <div id="h-spacer"></div>
                <div id="b-line-proc-2" class="b-line">

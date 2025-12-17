@@ -13,7 +13,7 @@ if (isset($_GET['n']) && $_GET['n'] == 'processador-desktop')
 {
     $sql = "SELECT id, memoria, CONCAT(marca, ' ', modelo) AS lista FROM lista_processador WHERE seguimento LIKE 'Desktop' AND ativo = '1' AND CONCAT(marca, ' ', modelo) LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
 }
-if (isset($_GET['n']) && $_GET['n'] == 'processador-note')
+if (isset($_GET['n']) && $_GET['n'] == 'processador-notebook')
 {
     $sql = "SELECT id, memoria, CONCAT(marca, ' ', modelo) AS lista FROM lista_processador WHERE seguimento LIKE 'Notebook' AND ativo = '1' AND CONCAT(marca, ' ', modelo) LIKE '%$q%' ORDER BY lista ASC LIMIT 5";
 }
@@ -243,7 +243,7 @@ if ($result->num_rows > 0)
     while($row = $result->fetch_assoc())
     {
         //Sugestões para processador
-        if ($n == 'processador-desktop' || $n == 'processador-note')
+        if ($n == 'processador-desktop' || $n == 'processador-notebook')
         {
             $memoria = $row['memoria'];
             echo '<p id="p' . $i . '" onclick="passarValor(' . $i . ',\'' . $n . '\',' . $row['id'] . '); suggestionsMem(\'' . $memoria . '\'); fichaProcessador(\'' . $row['lista'] . '\'); expandirItem(\'h-line-3\')">' . $row['lista'] . "</p>";

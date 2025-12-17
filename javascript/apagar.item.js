@@ -1,14 +1,14 @@
-function confirmaApagar(id, local) {
+function confirmaDesativar(id, local) {
     let overlayApagar = document.getElementById('overlay')
     overlayApagar.innerHTML = `
     <div id="bloco-overlay" class="bloco-overlay" style="width:450px">
         <div class="header">
-            <span>Remover</span>
+            <span>Desativar Item</span>
             <div id="b-line-header-1" class="b-line">
             </div>
         </div>
     <div id="linha-1" class="linha fim">
-        <div id="b-line-del-1" class="b-line centralizado" style="width:100%">Tem certeza que deja remover este registro?</div>
+        <div id="b-line-del-1" class="b-line centralizado" style="width:100%">Tem certeza que deja desativar este registro?</div>
         <div id="b-line-del-2" class="b-line centralizado" style="width:100%;font-weight:bold">» ID ${id} da tabela ${local}</div>
     </div>
     <div id="linha-2" class="linha fim centralizado">
@@ -17,21 +17,21 @@ function confirmaApagar(id, local) {
         </div>
         <div id="h-spacer"></div>
         <div id="b-line-del-4" class="b-line">
-            <div id="okOverlay" class="large-button adjust-position flex-center"><a title="Ok" href="#" onclick="apagarItem(${id}, '${local}')">${okSVG}</a></div>
+            <div id="okOverlay" class="large-button adjust-position flex-center"><a title="Ok" href="#" onclick="desativarItem(${id}, '${local}')">${okSVG}</a></div>
         </div>
     </div>
     `;
     ShowObjectWithEffect('overlay', 1, 'fade', 200);
 }
 
-async function apagarItem(id, local) {
+async function desativarItem(id, local) {
     let formData = {
         id: id,
         tabela: local,
     };
 
     try {
-        let response = await fetch('./includes/apagar_item.php', {
+        let response = await fetch('./includes/desativar_item.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8'
@@ -53,7 +53,7 @@ async function apagarItem(id, local) {
         overlayApagar.innerHTML = `
         <div id="bloco-overlay" class="bloco-overlay">
             <div class="header">
-                <span>Remover</span>
+                <span>Desativar Item</span>
                 <div id="botoes">
                     <div id="b-line-header-1" class="b-line">
                         <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon">
@@ -63,7 +63,7 @@ async function apagarItem(id, local) {
                 </div>
             </div>
             <div id="linha-1" class="linha fim">
-                <div id="b-line-1" class="b-line centralizado">${data.message || 'Item removido com sucesso!'}</div>
+                <div id="b-line-1" class="b-line centralizado">${data.message || 'Item destivado com sucesso!'}</div>
             </div>
             <div id="linha-2" class="linha fim centralizado">
                 <div id="b-line-2" class="b-line">

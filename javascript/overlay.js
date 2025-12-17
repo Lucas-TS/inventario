@@ -103,8 +103,12 @@ function mensagemOverlay(text) {
         });
 }
 
-function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultadosPorPaginaSelecionado = 10) {
+let colunasExibindoPorPadrao = []; // Armazenar colunas padrão
+let houveMudanca = false; // Rastrear se houve mudança
+
+function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultadosPorPaginaSelecionado = 25) {
     ShowObjectWithEffect('overlay', 1, 'fade', 200);
+    houveMudanca = false; // Reseta a flag de mudança
   
     const colunasPorColuna = Math.ceil(colunas.length / 3);
     const colunasOrganizadas = [[], [], []];
@@ -120,7 +124,7 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
         <span>Opções de visualização</span>
         <div id="botoes">
           <div id="b-line-header-1" class="b-line">
-            <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="ShowObjectWithEffect('overlay', 0, 'fade', 200);">${addSVG}</a></div>
+            <div id="fecharOverlay" class="flex-center icon-button margin-bottom rotated-icon"><a title="Fechar" href="#" onclick="closeOverlay();">${addSVG}</a></div>
           </div>
         </div>
       </div>
@@ -134,6 +138,8 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
             <a id="toggleAll" onclick="toggleMarcarTudo()">Marcar Tudo</a>
             <span> | </span>
             <a onclick="inverterSelecao()">Inverter Seleção</a>
+            <span> | </span>
+            <a onclick="redefinirExibicao()">Redefinir Exibição</a>
           </div>
         </div>
         <div class="checkbox-container">
@@ -144,7 +150,7 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
         const checked = colunasSelecionadas.includes(coluna) ? 'checked' : '';
         overlayContent += `
           <div class="b-line">
-            <input type="checkbox" id="${coluna}" name="colunas" class="checkbox" value="${coluna}" ${checked}>
+            <input type="checkbox" id="${coluna}" name="colunas" class="checkbox" value="${coluna}" ${checked} onchange="marcarMudanca()">
             <label for="${coluna}"><span></span>${coluna}</label>
           </div>
         `;
@@ -157,7 +163,7 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
         <div id="linha-2" class="linha">
             <div id="h-line-filtro-2" class="h-line">Resultados por página:</div>
             <div id="b-line-filtro-2" class="b-line">
-                <select id="resultadosPorPaginaOverlay" name="resultadosPorPagina" class="select">
+                <select id="resultadosPorPaginaOverlay" name="resultadosPorPagina" class="select" onchange="marcarMudanca()">
                     <option value="10" ${preferenciasAtuais.resultadosPorPagina == 10 ? 'selected' : ''}>10</option>
                     <option value="25" ${preferenciasAtuais.resultadosPorPagina == 25 ? 'selected' : ''}>25</option>
                     <option value="50" ${preferenciasAtuais.resultadosPorPagina == 50 ? 'selected' : ''}>50</option>
@@ -172,9 +178,9 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
         <div id="linha-3" class="linha">
             <div id="h-line-filtro-3" class="h-line">Filtrar por status:</div>
             <div id="b-line-filtro-3" class="b-line">
-                <input type="checkbox" id="filtro-ativo" name="filtroAtivo" class="checkbox" value="1" ${preferenciasAtuais.filtroAtivo ? 'checked' : ''}>
+                <input type="checkbox" id="filtro-ativo" name="filtroAtivo" class="checkbox" value="1" ${preferenciasAtuais.filtroAtivo ? 'checked' : ''} onchange="marcarMudanca()">
                 <label for="filtro-ativo"><span></span>Ativo</label>
-                <input type="checkbox" id="filtro-inativo" name="filtroInativo" class="checkbox" value="0" ${preferenciasAtuais.filtroInativo ? 'checked' : ''}>
+                <input type="checkbox" id="filtro-inativo" name="filtroInativo" class="checkbox" value="0" ${preferenciasAtuais.filtroInativo ? 'checked' : ''} onchange="marcarMudanca()">
                 <label for="filtro-inativo"><span></span>Inativo</label>
             </div>
         </div>
@@ -184,9 +190,9 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
         <div id="linha-4" class="linha">
             <div id="h-line-filtro-4" class="h-line">Salvar Configuração:</div>
             <div id="b-line-filtro-4" class="b-line">
-                <input type="radio" id="salvar-sim" name="salvarConfiguracao" class="radio" value="sim">
+                <input type="radio" id="salvar-sim" name="salvarConfiguracao" class="radio" value="sim" disabled>
                 <label for="salvar-sim"><span></span>Sim</label>
-                <input type="radio" id="salvar-nao" name="salvarConfiguracao" class="radio" value="nao" checked>
+                <input type="radio" id="salvar-nao" name="salvarConfiguracao" class="radio" value="nao" checked disabled>
                 <label for="salvar-nao"><span></span>Não</label>
             </div>
         </div>
@@ -214,13 +220,62 @@ function exibirOverlayComCheckboxes(colunas, colunasSelecionadas = [], resultado
     atualizarBotaoMarcarTudo();
 }
 
+// Função para marcar que houve mudança
+function marcarMudanca() {
+    houveMudanca = true;
+    atualizarEstadoRadios();
+}
 
+// Função para atualizar o estado dos radios de salvar configuração
+function atualizarEstadoRadios() {
+    const radioSim = document.getElementById('salvar-sim');
+    const radioNao = document.getElementById('salvar-nao');
+    
+    if (houveMudanca) {
+        radioSim.disabled = false;
+        radioNao.disabled = false;
+    } else {
+        radioSim.disabled = true;
+        radioNao.disabled = true;
+    }
+}
+
+
+// Função para redefinir a exibição
+function redefinirExibicao() {
+    // Define as colunas padrão (excluindo as que não devem ser exibidas por padrão)
+    colunasExibindoPorPadrao = Object.keys(dadosTabela[0]).filter(
+        (coluna) => !colunasNaoExibirPorPadrao.includes(coluna)
+    );
+    
+    // Marca/desmarca os checkboxes conforme o padrão
+    const checkboxes = document.querySelectorAll('#formCheckboxes input[name="colunas"]');
+    checkboxes.forEach(checkbox => {
+        // Marca se estiver na lista de colunas padrão, desmarca senão
+        checkbox.checked = colunasExibindoPorPadrao.includes(checkbox.value);
+    });
+    
+    // Reseta o select de resultados por página
+    document.getElementById('resultadosPorPaginaOverlay').value = 25;
+    
+    // Reseta os filtros (Ativo = true, Inativo = false)
+    document.getElementById('filtro-ativo').checked = true;
+    document.getElementById('filtro-inativo').checked = false;
+    
+    // Reseta a opção de salvar para desabilitado
+    houveMudanca = false;
+    atualizarEstadoRadios();
+    document.getElementById('salvar-nao').checked = true;
+    
+    atualizarBotaoMarcarTudo();
+}
 
 function toggleMarcarTudo() {
     const checkboxes = document.querySelectorAll('#formCheckboxes input[name="colunas"]');
     const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
 
     checkboxes.forEach(checkbox => checkbox.checked = !allChecked);
+    marcarMudanca(); // Marca como mudança
     atualizarBotaoMarcarTudo();
 }
 
@@ -239,6 +294,7 @@ function atualizarBotaoMarcarTudo() {
 function inverterSelecao() {
     const checkboxes = document.querySelectorAll('#formCheckboxes input[name="colunas"]');
     checkboxes.forEach(checkbox => checkbox.checked = !checkbox.checked);
+    marcarMudanca(); // Marca como mudança
     atualizarBotaoMarcarTudo();
 }
 
@@ -260,7 +316,6 @@ function closeOverlay() {
     ShowObjectWithEffect('overlay', 0, 'fade', 200);
     atualizarTabela();
 }
-
 
 async function insertDsk(event) {
     event.preventDefault(); // Impede o envio padrão do formulário

@@ -2,7 +2,7 @@ let dadosTabela = [];
 let colunasSelecionadas = [];
 let todasColunas = [];
 let totalComId = [];
-
+let termoBuscaAtivo = "";
 let nomeTabela = "";
 const colunasNaoExibirPorPadrao = [
   "Geração",
@@ -172,7 +172,7 @@ function carregarPreferencias(nomeTabela) {
   }
   preferenciasAtuais = {
     colunas: [],
-    resultadosPorPagina: 10,
+    resultadosPorPagina: 25,
     filtroAtivo: true,
     filtroInativo: false, // Por padrão, não exibir inativos
   };
@@ -311,9 +311,7 @@ function criarTabela(dados, colunasSelecionadas = null, todasColunas) {
     tdAcoes.classList = "acoes";
 
     // Condicionar a inclusão do link "Ver detalhes"
-    if (!todasColunasExibidas) {
-      tdAcoes.innerHTML = `<a title="Ver detalhes" class="icone-acao" onclick="verItem(${linha.id_link}, '${nomeTabela}')">${viewSVG}</a>`;
-    }
+    tdAcoes.innerHTML = `<a title="Ver detalhes" class="icone-acao" onclick="verItem(${linha.id_link}, '${nomeTabela}')">${viewSVG}</a>`;
 
     if (nomeTabela === "notebooks" || nomeTabela === "servidores") {
       nomeTabelaAcao = "computadores";
@@ -322,8 +320,8 @@ function criarTabela(dados, colunasSelecionadas = null, todasColunas) {
     }
 
     tdAcoes.innerHTML += `
-              <a title="Editar" class="icone-acao" onclick="exibirOverlayEditar(${linha.id_link}, '${nomeTabelaAcao}')">${editSVG}</a>
-              <a title="Apagar" class="icone-acao apagar" onclick="confirmaApagar(${linha.id_link}, '${nomeTabelaAcao}')">${delSVG}</a>
+              <a title="Editar" class="icone-acao" onclick="exibirOverlayEditar(${linha.id_link}, '${nomeTabela}')">${editSVG}</a>
+              <a title="Desativar" class="icone-acao apagar" onclick="confirmaDesativar(${linha.id_link}, '${nomeTabelaAcao}')">${desativarSVG}</a>
           `;
 
     tr.appendChild(tdAcoes);
@@ -369,25 +367,12 @@ function ordenarTabela(dados, coluna, ordem) {
   }, 0);
 }
 
-function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
+function criarPaginacao(total, paginaAtual, resultadosPorPagina, dadosFiltrados = null) {
   const totalPaginas =
     resultadosPorPagina === "todos"
       ? 1
       : Math.ceil(total / resultadosPorPagina);
   const fragment = document.createDocumentFragment();
-
-  const criarLink = (svg, pagina, classe, title) => {
-    const link = document.createElement("a");
-    link.href = "#";
-    link.innerHTML = svg;
-    link.className = classe;
-    link.title = title;
-    link.onclick = () => {
-      carregarTabela(nomeTabela, pagina, resultadosPorPagina);
-      return false;
-    };
-    return link;
-  };
 
   const criarDivComLink = (svg, pagina, classeDiv, classeLink, title) => {
     const div = document.createElement("div");
@@ -399,11 +384,11 @@ function criarPaginacao(total, paginaAtual, resultadosPorPagina) {
     link.className = classeLink;
     link.title = title;
     link.onclick = () => {
-      carregarTabela(nomeTabela, pagina, resultadosPorPagina);
+      renderizarTabela(dadosFiltrados || dadosTabela, pagina, resultadosPorPagina, preferenciasAtuais.colunas, todasColunas);
       return false;
     };
 
-    link.appendChild(div); // Agora o link envolve a div
+    link.appendChild(div);
     return link;
   };
 
@@ -507,13 +492,13 @@ function renderizarTabela(
 ) {
   const dadosFiltrados = dados.filter((item) => {
     if (preferenciasAtuais.filtroAtivo && preferenciasAtuais.filtroInativo) {
-      return true; // Exibir todos
+      return true;
     } else if (preferenciasAtuais.filtroAtivo) {
       return item.Ativo === "1";
     } else if (preferenciasAtuais.filtroInativo) {
       return item.Ativo === "0";
     }
-    return false; // Não exibir nada se nenhum filtro estiver selecionado
+    return false;
   });
 
   const total = dadosFiltrados.length;
@@ -524,7 +509,6 @@ function renderizarTabela(
     resultadosPorPagina === "todos" ? total : startIndex + resultadosPorPagina;
   const dadosPagina = dadosFiltrados.slice(startIndex, endIndex);
 
-  // Garantir que 'id' esteja sempre presente nos dados passados para criarTabela
   const dadosComId = dadosPagina.map((item) => {
     const itemComId = { id_link: item.ID };
     colunasSelecionadas.forEach((coluna) => {
@@ -559,17 +543,18 @@ function renderizarTabela(
   paginacaoContainer.innerHTML = "";
 
   if (resultadosPorPagina !== "todos") {
-    const paginacao = criarPaginacao(total, pagina, resultadosPorPagina);
+    // Passe os dados filtrados para criarPaginacao
+    const paginacao = criarPaginacao(total, pagina, resultadosPorPagina, dados);
     paginacaoContainer.appendChild(paginacao);
   }
 }
 
 function buscarTabela() {
-  const termoBusca = document.getElementById("input-busca").value.toLowerCase();
+  termoBuscaAtivo = document.getElementById("input-busca").value.toLowerCase();
   const dadosFiltrados = dadosTabela.filter((item) => {
     return Object.values(item).some(
       (valor) =>
-        valor != null && valor.toString().toLowerCase().includes(termoBusca)
+        valor != null && valor.toString().toLowerCase().includes(termoBuscaAtivo)
     );
   });
   renderizarTabela(
@@ -644,53 +629,61 @@ function obterDetalhesSituacao(situacao) {
 }
 
 function aplicarFiltros() {
-  const checkboxes = document.querySelectorAll(
-    '#formCheckboxes input[name="colunas"]'
-  );
-  colunasSelecionadas = Array.from(checkboxes)
-    .filter((checkbox) => checkbox.checked)
-    .map((checkbox) => checkbox.value);
+    const checkboxes = document.querySelectorAll('#formCheckboxes input[name="colunas"]:checked');
+    const colunasSelecionadas = Array.from(checkboxes).map(cb => cb.value);
+    const resultadosPorPagina = document.getElementById('resultadosPorPaginaOverlay').value;
+    const filtroAtivo = document.getElementById('filtro-ativo').checked;
+    const filtroInativo = document.getElementById('filtro-inativo').checked;
+    const salvarConfiguracao = document.querySelector('input[name="salvarConfiguracao"]:checked')?.value;
 
-  const salvarConfiguracao =
-    document.querySelector('input[name="salvarConfiguracao"]:checked').value ===
-    "sim";
-  const resultadosPorPagina =
-    document.getElementById("resultadosPorPaginaOverlay").value === "todos"
-      ? "todos"
-      : parseInt(
-          document.getElementById("resultadosPorPaginaOverlay").value,
-          10
-        );
-  const filtroAtivo = document.getElementById("filtro-ativo").checked;
-  const filtroInativo = document.getElementById("filtro-inativo").checked;
-
-  preferenciasAtuais = {
-    colunas: colunasSelecionadas,
-    resultadosPorPagina: resultadosPorPagina,
-    filtroAtivo: filtroAtivo,
-    filtroInativo: filtroInativo,
-  };
-
-  if (salvarConfiguracao) {
-    salvarPreferencias(
-      nomeTabela,
-      colunasSelecionadas,
-      resultadosPorPagina,
-      filtroAtivo,
-      filtroInativo
+    // Define as colunas padrão
+    const colunasExibindoPorPadrao = Object.keys(dadosTabela[0]).filter(
+        (coluna) => !colunasNaoExibirPorPadrao.includes(coluna)
     );
-  }
 
-  document.getElementById("input-busca").value = "";
+    // Verifica se as configurações são idênticas às originais
+    const saoIdenticas = 
+        JSON.stringify(colunasSelecionadas.sort()) === JSON.stringify(colunasExibindoPorPadrao.sort()) &&
+        resultadosPorPagina == 25 &&
+        filtroAtivo === true &&
+        filtroInativo === false;
 
-  renderizarTabela(
-    dadosTabela,
-    1,
-    resultadosPorPagina,
-    colunasSelecionadas,
-    todasColunas
-  );
-  ShowObjectWithEffect("overlay", 0, "fade", 200);
+    // Se forem idênticas, apaga a preferência salva
+    if (saoIdenticas) {
+        const params = new URLSearchParams(window.location.search);
+        const tabela = params.get('tabela');
+        if (tabela) {
+            localStorage.removeItem(`preferencias_${tabela}`);
+            sessionStorage.removeItem(`preferencias_${tabela}`);
+        }
+    } else {
+        // Caso contrário, salva se o usuário marcou "Sim"
+        if (salvarConfiguracao === 'sim') {
+            const preferencias = {
+                colunas: colunasSelecionadas,
+                resultadosPorPagina: resultadosPorPagina,
+                filtroAtivo: filtroAtivo,
+                filtroInativo: filtroInativo
+            };
+
+            const params = new URLSearchParams(window.location.search);
+            const tabela = params.get('tabela');
+            if (tabela) {
+                localStorage.setItem(`preferencias_${tabela}`, JSON.stringify(preferencias));
+            }
+        }
+    }
+
+    // Atualiza as preferências atuais
+    preferenciasAtuais = {
+        colunas: colunasSelecionadas,
+        resultadosPorPagina: resultadosPorPagina,
+        filtroAtivo: filtroAtivo,
+        filtroInativo: filtroInativo
+    };
+
+    // Recarrega a tabela e fecha o overlay
+    closeOverlay();
 }
 
 let tabelaCarregada = false;

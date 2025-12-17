@@ -68,11 +68,11 @@ $stmt->close();
 
 // Atualização do processador
 $id_processador = isset($_POST["hidden-processador-desktop"]) ? $_POST["hidden-processador-desktop"] :
-    (isset($_POST["hidden-processador-note"]) ? $_POST["hidden-processador-note"] :
+    (isset($_POST["hidden-processador-notebook"]) ? $_POST["hidden-processador-notebook"] :
     (isset($_POST["hidden-processador-server"]) ? $_POST["hidden-processador-server"] : null));
 
 $id_assoc_processador = isset($_POST["hidden-id-assoc-processador-desktop"]) ? $_POST["hidden-id-assoc-processador-desktop"] :
-    (isset($_POST["hidden-id-assoc-processador-note"]) ? $_POST["hidden-id-assoc-processador-note"] :
+    (isset($_POST["hidden-id-assoc-processador-notebook"]) ? $_POST["hidden-id-assoc-processador-notebook"] :
     (isset($_POST["hidden-id-assoc-processador-server"]) ? $_POST["hidden-id-assoc-processador-server"] : null));
 
 if ($id_assoc_processador) {

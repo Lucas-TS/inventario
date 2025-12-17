@@ -7,6 +7,7 @@
   --primary-color: #158cba;
   --primary-color-hover: #117095;
   --secondary-color: #58b0e0;
+  --critical-link-color: #ffafaf;
   --error-color: #d50000;
   --success-color: #008000;
   --table-hover: #ebf6fd;
@@ -573,7 +574,7 @@ svg {
   width: 16px;
   height: 16px;
   cursor: pointer;
-  fill: var(--primary-color);
+  fill: var(--inactive-color);
 }
 
 .icone-acao:hover svg {
@@ -591,7 +592,7 @@ svg {
 }
 
 .icone-acao.apagar svg {
-  fill: var(--error-color);
+  fill: var(--critical-link-color);
 }
 
 .acoes {
@@ -1141,7 +1142,7 @@ label {
 }
 
 .suggestions-box.processador-desktop,
-.suggestions-box.processador-note {
+.suggestions-box.processador-notebook {
   width: 395px;
   margin-left: 68px;
   margin-top: 30px;
@@ -2123,4 +2124,38 @@ svg.link-icon {
   padding: 10px 20px;
   background-color: transparent;
   color: var(--white);
+}
+
+/* ...código existente... */
+
+/* Estilo para os botões de rádio DESABILITADOS */
+input[type="radio"].radio:disabled + label {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--inactive-color);
+}
+
+input[type="radio"].radio:disabled + label span {
+  border-color: var(--inactive-color);
+  background-color: var(--background-color);
+}
+
+input[type="radio"].radio:disabled + label span::before {
+  background-color: var(--background-color);
+}
+
+/* Estilo para os checkbox DESABILITADOS */
+input[type="checkbox"].checkbox:disabled + label {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--inactive-color);
+}
+
+input[type="checkbox"].checkbox:disabled + label span {
+  border-color: var(--inactive-color);
+  background-color: var(--background-color);
+}
+
+input[type="checkbox"].checkbox:disabled + label span::before {
+  background-color: var(--background-color);
 }

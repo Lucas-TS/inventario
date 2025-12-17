@@ -495,6 +495,10 @@ async function preencherPC(id) {
     toggleButtons(document.getElementById("qtde-mem"), "mem");
     document.getElementById("tipo-mem").value = data.tipo_mem;
 
+    if (document.getElementById("tela")) {
+      document.getElementById("tela").value = data.tela;
+    }
+
     await preencherSsd(id);
     await preencherHd(id);
     await preencherPv(id);

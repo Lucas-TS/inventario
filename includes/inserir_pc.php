@@ -51,7 +51,7 @@ $id_pc = $conn->insert_id;
 $stmt->close();
 
 // Associação do processador
-$id_processador = isset($_POST["hidden-processador-desktop"]) ? $_POST["hidden-processador-desktop"] : (isset($_POST["hidden-processador-note"]) ? $_POST["hidden-processador-note"] : (isset($_POST["hidden-processador-server"]) ? $_POST["hidden-processador-server"] : null));
+$id_processador = isset($_POST["hidden-processador-desktop"]) ? $_POST["hidden-processador-desktop"] : (isset($_POST["hidden-processador-notebook"]) ? $_POST["hidden-processador-notebook"] : (isset($_POST["hidden-processador-server"]) ? $_POST["hidden-processador-server"] : null));
 
 $stmt2 = $conn->prepare("INSERT INTO assoc_processador (id_pc, id_processador) VALUES (?, ?)");
 $stmt2->bind_param("ii", $id_pc, $id_processador);
