@@ -1351,7 +1351,7 @@ label {
   padding: 2px 5px 2px 5px;
 }
 
-.suggestions-box p:hover {
+.suggestions-box p:hover, .suggestions-box p.selected {
   background-color: var(--primary-color);
   color: var(--white);
   border-radius: 3px;

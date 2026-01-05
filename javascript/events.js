@@ -7,6 +7,11 @@ function handleOverlayClick(event) {
 }
 
 function handleEvent(event) {
+  // Ignora keyup de navegação para não sobrescrever a seleção feita via teclado
+  if (event.type === 'keyup' && ['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(event.key)) {
+    return;
+  }
+
   const isBoxWithValue =
     event.target.classList.contains("box") && event.target.value;
   const isOpenBox = event.target.classList.contains("openBox");
@@ -296,3 +301,113 @@ document.addEventListener("input", function (event) {
   // Inicia o timer ao carregar
   resetSessionTimer();
 })();
+
+// Estado das seleções por input
+const _suggestionState = new Map();
+
+document.addEventListener('keydown', function (e) {
+  // apenas quando estamos em um input e pressionando as teclas relevantes
+  const keys = ['ArrowDown', 'ArrowUp', 'Enter', 'Escape'];
+  if (!keys.includes(e.key)) return;
+
+  const active = document.activeElement;
+  if (!active || !active.id) return;
+
+  const inputId = active.id;
+  const suggestionsEl = document.getElementById(`suggestions-${inputId}`);
+  if (!suggestionsEl || !suggestionsEl.classList.contains('visivel')) return;
+
+  const items = Array.from(suggestionsEl.querySelectorAll('p'));
+  if (!items.length) return;
+
+  e.preventDefault();
+
+  let idx = _suggestionState.get(inputId) ?? -1;
+
+  if (e.key === 'ArrowDown') {
+    idx = (idx + 1) % items.length;
+    _suggestionState.set(inputId, idx);
+  } else if (e.key === 'ArrowUp') {
+    idx = (idx - 1 + items.length) % items.length;
+    _suggestionState.set(inputId, idx);
+  } else if (e.key === 'Escape') {
+    suggestionsEl.classList.remove('visivel');
+    _suggestionState.delete(inputId);
+    return;
+  } else if (e.key === 'Enter') {
+    // se nenhum item estiver selecionado, escolhe o primeiro
+    if (idx < 0) {
+      items[0].click();
+    } else {
+      items[idx].click();
+    }
+    // limpa estado após escolher
+    _suggestionState.delete(inputId);
+    return;
+  }
+
+  // atualiza classe visual "selected"
+  items.forEach((el, i) => {
+    if (i === idx) {
+      el.classList.add('selected');
+      // garante que esteja visível no scroll do container
+      el.scrollIntoView({ block: 'nearest' });
+    } else {
+      el.classList.remove('selected');
+    }
+  });
+});
+
+// Quando as sugestões são escondidas por clique fora, limpa o estado
+$(document).click(function (event) {
+  if (
+    !$('[id^="suggestions"]').is(event.target) &&
+    $('[id^="suggestions"]').has(event.target).length === 0
+  ) {
+    $('[id^="suggestions"]').removeClass('visivel');
+    _suggestionState.clear();
+  }
+});
+
+// controla se o último foco veio do teclado (Tab) ou do mouse
+let lastInteractionWasKeyboard = false;
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab') lastInteractionWasKeyboard = true;
+});
+document.addEventListener('mousedown', () => {
+  lastInteractionWasKeyboard = false;
+});
+
+// Abre sugestões também ao focar por TAB (não quando foco por clique)
+$(document).on('focusin', 'input', function (event) {
+  // só abre quando o foco veio do teclado (Tab)
+  if (!lastInteractionWasKeyboard) return;
+
+  event.stopPropagation();
+  const $this = $(this);
+  const valor = $this.val();
+  const campoId = $this.attr('id');
+  const $suggestions = $('#suggestions-' + campoId);
+
+  // fecha outras caixas
+  $('[id^="suggestions"]').removeClass('visivel');
+
+  const valorExiste = $suggestions
+    .find('p')
+    .toArray()
+    .some((p) => $(p).text() === valor);
+  const pExiste = $suggestions.find('p').length;
+
+  if (
+    campoId === 'tipo-mem' ||
+    ['situacao'].includes(campoId) ||
+    campoId === 'gp-add-user' ||
+    campoId === 'gp-edit-user'
+  ) {
+    if (pExiste > 1) {
+      $suggestions.addClass('visivel');
+    }
+  } else if (!valorExiste && (valor !== '' || ['marca-proc'].includes(campoId))) {
+    $suggestions.addClass('visivel');
+  }
+});
