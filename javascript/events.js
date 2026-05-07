@@ -411,3 +411,67 @@ $(document).on('focusin', 'input', function (event) {
     $suggestions.addClass('visivel');
   }
 });
+
+function ajustarFonte(container, span) {
+  container.style.fontSize = '10px';
+
+  const altura = container.clientHeight;
+  let tamanho = altura * 0.9; // 90% da altura
+
+  container.style.fontSize = tamanho + 'px';
+
+  while (
+    (span.scrollWidth > container.clientWidth ||
+     span.scrollHeight > container.clientHeight) &&
+    tamanho > 0
+  ) {
+    tamanho--;
+    container.style.fontSize = tamanho + 'px';
+  }
+
+  return tamanho;
+}
+
+function atualizarGrupos() {
+  const spans = document.querySelectorAll('.fit-text');
+  const grupos = {};
+
+  spans.forEach(span => {
+    const container = span.parentElement;
+    if (!container) return;
+
+    const classe = container.classList[0];
+    if (!grupos[classe]) grupos[classe] = [];
+    grupos[classe].push({ container, span });
+  });
+
+  Object.keys(grupos).forEach(classe => {
+    const elementos = grupos[classe];
+    const tamanhos = [];
+
+    elementos.forEach(({ container, span }) => {
+      const tamanho = ajustarFonte(container, span);
+      tamanhos.push(tamanho);
+    });
+
+    const menor = Math.min(...tamanhos);
+
+    elementos.forEach(({ container }) => {
+      container.style.fontSize = menor + 'px';
+    });
+  });
+}
+
+// OBSERVADOR QUE REAGE A QUALQUER MUDANÇA REAL DE TAMANHO
+const fontObserver = new ResizeObserver(() => {
+  atualizarGrupos();
+});
+
+// OBSERVA TODOS OS CONTAINERS
+document.querySelectorAll('.fit-text').forEach(span => {
+  const container = span.parentElement;
+  if (container) fontObserver.observe(container);
+});
+
+// roda uma vez no início
+window.addEventListener('load', atualizarGrupos);

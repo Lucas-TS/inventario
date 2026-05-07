@@ -20,6 +20,7 @@ const colunasNaoExibirPorPadrao = [
   "Rede",
   "Wi-Fi",
   "MAC Wi-Fi",
+  "Office",
 ];
 let preferenciasAtuais = {
   colunas: [],
@@ -159,16 +160,11 @@ window.addEventListener("load", function () {
 });
 
 function carregarPreferencias(nomeTabela) {
-  const cookies = document.cookie.split(";");
-  for (let i = 0; i < cookies.length; i++) {
-    const cookie = cookies[i].trim();
-    if (cookie.trim().startsWith(`preferencias_${nomeTabela}=`)) {
-      const preferencias = JSON.parse(
-        cookie.replace(`preferencias_${nomeTabela}=`, "")
-      );
-      preferenciasAtuais = preferencias;
-      return preferenciasAtuais; // Retorna as preferências carregadas
-    }
+  const preferenciasSalvas = localStorage.getItem(`preferencias_${nomeTabela}`);
+  if (preferenciasSalvas) {
+    const preferencias = JSON.parse(preferenciasSalvas);
+    preferenciasAtuais = preferencias;
+    return preferenciasAtuais; // Retorna as preferências carregadas
   }
   preferenciasAtuais = {
     colunas: [],
@@ -321,7 +317,7 @@ function criarTabela(dados, colunasSelecionadas = null, todasColunas) {
 
     tdAcoes.innerHTML += `
               <a title="Editar" class="icone-acao" onclick="exibirOverlayEditar(${linha.id_link}, '${nomeTabela}')">${editSVG}</a>
-              <a title="Desativar" class="icone-acao apagar" onclick="confirmaDesativar(${linha.id_link}, '${nomeTabelaAcao}')">${desativarSVG}</a>
+              <a title="Apagar" class="icone-acao apagar" onclick="confirmaApagar(${linha.id_link}, '${nomeTabelaAcao}')">${delSVG}</a>
           `;
 
     tr.appendChild(tdAcoes);
@@ -575,49 +571,34 @@ function obterDetalhesSituacao(situacao) {
         detalhes.cor = "#008000";
         break;
       case "1":
-        detalhes.svg = returnSVG;
-        detalhes.texto = "Devolver";
-        detalhes.cor = "#0017CB";
-        break;
-      case "2":
         detalhes.svg = infoSVG;
         detalhes.texto = "Distribuir";
         detalhes.cor = "#2196F3";
         break;
-      case "3":
-        detalhes.svg = manutSVG;
-        detalhes.texto = "Manutenção";
-        detalhes.cor = "#FF9800";
-        break;
-      case "4":
+      case "2":
         detalhes.svg = esperaSVG;
         detalhes.texto = "Aguardando peças";
-        detalhes.cor = "#02B3C0";
+        detalhes.cor = "#FF9800";
         break;
-      case "5":
-        detalhes.svg = defeitoSVG;
-        detalhes.texto = "Defeito";
-        detalhes.cor = "#D50000";
-        break;
-      case "6":
+      case "3":
         detalhes.svg = binSVG;
         detalhes.texto = "Descarregar";
         detalhes.cor = "#7E57C2";
         break;
-      case "7":
+      case "4":
         detalhes.svg = bloqueadoSVG;
         detalhes.texto = "Bloqueado";
         detalhes.cor = "#FF0000";
         break;
-      case "8":
-        detalhes.svg = cauteladoSVG;
-        detalhes.texto = "Cautelado";
-        detalhes.cor = "#888888";
-        break;
-      case "9":
+      case "5":
         detalhes.svg = disponivelSVG;
         detalhes.texto = "Disponivel";
         detalhes.cor = "#01CF73";
+        break;
+      case "6":
+        detalhes.svg = cauteladoSVG;
+        detalhes.texto = "Cautelado";
+        detalhes.cor = "#888888";
         break;
       default:
         detalhes.svg = "";
@@ -654,7 +635,6 @@ function aplicarFiltros() {
         const tabela = params.get('tabela');
         if (tabela) {
             localStorage.removeItem(`preferencias_${tabela}`);
-            sessionStorage.removeItem(`preferencias_${tabela}`);
         }
     } else {
         // Caso contrário, salva se o usuário marcou "Sim"
@@ -682,8 +662,11 @@ function aplicarFiltros() {
         filtroInativo: filtroInativo
     };
 
-    // Recarrega a tabela e fecha o overlay
-    closeOverlay();
+    // Renderiza a tabela com as novas preferências
+    renderizarTabela(dadosTabela, 1, preferenciasAtuais.resultadosPorPagina, preferenciasAtuais.colunas, todasColunas);
+
+    // Fecha o overlay sem recarregar
+    closeOverlay(true);
 }
 
 let tabelaCarregada = false;

@@ -57,11 +57,11 @@ function exibirOverlayEditar(id, tabela) {
             break;
         case 'computadores':
             arquivo = './edit_pc.php?id=' + id;
-            window.location.href = arquivo; // Redirecionar para a página
+            window.open(arquivo, '_blank'); // Abre em nova guia
             break;
         case 'notebooks':
             arquivo = './edit_notebook.php?id=' + id;
-            window.location.href = arquivo; // Redirecionar para a página
+            window.open(arquivo, '_blank'); // Abre em nova guia
             break;
         default:
             return;
@@ -307,14 +307,16 @@ function atualizarTabela() {
     }
 }
 
-function closeOverlay() {
+function closeOverlay(skipUpdate = false) {
     // Limpa o timeout caso o overlay seja fechado manualmente
     clearTimeout(closeTimeout);
     
     // Limpa o conteúdo da div #overlay
     document.getElementById('overlay').innerHTML = "";
     ShowObjectWithEffect('overlay', 0, 'fade', 200);
-    atualizarTabela();
+    if (!skipUpdate) {
+        atualizarTabela();
+    }
 }
 
 async function insertDsk(event) {

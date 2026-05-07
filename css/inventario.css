@@ -1811,6 +1811,7 @@ input[type="checkbox"].checkbox:not(:checked) + label span {
 }
 
 .grafico-legenda {
+  height: 100%;
   flex: 0 0 35%;
   max-width: 35%;
   min-width: 120px;
@@ -1917,18 +1918,32 @@ input[type="checkbox"].checkbox:not(:checked) + label span {
 }
 
 .texto-titulo {
-  font-size: 18px;
+  font-size: 0.95vw;
   text-align: left;
 }
 
 .titulo-card-pequeno {
-  font-size: 18px;
+  font-size: 0.95vw;
   text-align: center;
+  height: 14%;
 }
 
 .texto-card-pequeno {
-  font-size: 90px;
+  white-space: nowrap;
+  line-height: 1;
+  font-size: 90px; /* valor inicial, será sobrescrito via JS */
   text-align: center;
+  height: 86%;
+  width: calc(100% - 20px);      /* importante ter uma largura definida */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fit-text {
+  display: inline-block;
+  line-height: 1;
+  white-space: wrap; /* se quiser tudo em uma linha */
 }
 
 .titulo-card-pequeno svg {

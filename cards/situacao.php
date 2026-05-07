@@ -4,15 +4,12 @@ include '../includes/conecta_db.php';
 // Situações e cores (ajuste conforme seu sistema)
 $situacoes = [
     0 => ['texto' => 'Em uso', 'cor' => '#008000'],
-    1 => ['texto' => 'Devolver', 'cor' => '#0017CB'],
-    2 => ['texto' => 'Distribuir', 'cor' => '#2196F3'],
-    3 => ['texto' => 'Manutenção', 'cor' => '#FF9800'],
-    4 => ['texto' => 'Aguardando peças', 'cor' => '#02B3C0'],
-    5 => ['texto' => 'Defeito', 'cor' => '#D50000'],
-    6 => ['texto' => 'Descarregar', 'cor' => '#7E57C2'],
-    7 => ['texto' => 'Bloqueado', 'cor' => '#FF0000'],
-    8 => ['texto' => 'Cautelado', 'cor' => '#888888'],
-    9 => ['texto' => 'Disponivel', 'cor' => '#01CF73'],
+    1 => ['texto' => 'Distribuir', 'cor' => '#2196F3'],
+    2 => ['texto' => 'Aguardando peças', 'cor' => '#FF9800'],
+    3 => ['texto' => 'Descarregar', 'cor' => '#7E57C2'],
+    4 => ['texto' => 'Bloqueado', 'cor' => '#FF0000'],
+    5 => ['texto' => 'Disponivel', 'cor' => '#01CF73'],
+    6 => ['texto' => 'Cautelado', 'cor' => '#888888'],
 ];
 
 // Inicializa todas as situações com zero

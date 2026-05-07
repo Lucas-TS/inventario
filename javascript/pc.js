@@ -421,25 +421,22 @@ function preencherSituacao(situacao) {
       texto = "Em uso";
       break;
     case 1:
-      texto = "Devolver";
-      break;
-    case 2:
       texto = "Distribuir";
       break;
-    case 3:
-      texto = "Manutenção";
-      break;
-    case 4:
+    case 2:
       texto = "Aguardando peças";
       break;
-    case 5:
-      texto = "Defeito";
-      break;
-    case 6:
+    case 3:
       texto = "Descarregar";
       break;
-    case 7:
+    case 4:
       texto = "Bloqueado";
+      break;
+    case 5:
+      texto = "Disponível";
+      break;
+    case 6:
+      texto = "Cautelado";
       break;
     default:
       texto = "";

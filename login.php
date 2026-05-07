@@ -97,7 +97,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['expires_by']))
    </div>
    <footer id="FlexContainer2" style="visibility:hidden;">
       <div id="wb_Text1">
-         <p>Desenvolvido por Lucas Trindade Silveira © 2024 - v1.0</p>
+         <p>Desenvolvido por Lucas Trindade Silveira © 2026 - v1.0</p>
       </div>
    </footer>
 </body>

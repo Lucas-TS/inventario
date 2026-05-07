@@ -8,6 +8,8 @@ $sql = "
         COUNT(*) AS quantidade
     FROM assoc_so
     INNER JOIN lista_so ON assoc_so.id_so = lista_so.id
+    INNER JOIN computadores ON assoc_so.id_pc = computadores.id
+    WHERE computadores.ativo = 1
     GROUP BY TRIM(CONCAT_WS(' ', nome, distribuicao, versao))
     ORDER BY quantidade DESC
 ";

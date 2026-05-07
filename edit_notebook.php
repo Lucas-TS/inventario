@@ -183,7 +183,7 @@
                   </a>
                </div>
                <div id="b-line-tela-1" class="b-line oculto"><label class="label" for="tela">Tamanho:</label>
-                  <input id="tela" class="input box" type="text" name="tela" style="width:150px;" placeholder="Digite o tamanho" required onkeyup="verificarTecla(event)"><span style="color:#AAAAAA">&nbsp;polegadas</span>
+                  <input id="tela" class="input" type="text" name="tela" style="width:150px;" placeholder="Digite o tamanho" required><span style="color:#AAAAAA">&nbsp;polegadas</span>
                </div>
             </div>
             <div id="linha-6" class="linha">
@@ -309,15 +309,12 @@
                   <input id="situacao" class="input openBox" type="text" name="situacao" placeholder="Escolha a situação" required style="width:290px">
                   <div id="suggestions-situacao" class="suggestions-box situacao">
                      <p id="p0" onclick="passarValor('0', 'situacao', '0')">Em uso</p>
-                     <p id="p1" onclick="passarValor('1', 'situacao', '1')">Devolver</p>
-                     <p id="p2" onclick="passarValor('2', 'situacao', '2')">Distribuir</p>
-                     <p id="p3" onclick="passarValor('3', 'situacao', '3')">Manutenção</p>
-                     <p id="p4" onclick="passarValor('4', 'situacao', '4')">Aguardando Peças</p>
-                     <p id="p5" onclick="passarValor('5', 'situacao', '5')">Defeito</p>
-                     <p id="p6" onclick="passarValor('6', 'situacao', '6')">Descarregar</p>
-                     <p id="p7" onclick="passarValor('7', 'situacao', '7')">Bloqueado</p>
-                     <p id="p8" onclick="passarValor('8', 'situacao', '8')">Disponível</p>
-                     <p id="p9" onclick="passarValor('9', 'situacao', '9')">Cautelado</p>
+                     <p id="p1" onclick="passarValor('1', 'situacao', '1')">Distribuir</p>
+                     <p id="p2" onclick="passarValor('2', 'situacao', '2')">Aguardando Peças</p>
+                     <p id="p3" onclick="passarValor('3', 'situacao', '3')">Descarregar</p>
+                     <p id="p4" onclick="passarValor('4', 'situacao', '4')">Bloqueado</p>
+                     <p id="p5" onclick="passarValor('5', 'situacao', '5')">Disponível</p>
+                     <p id="p6" onclick="passarValor('6', 'situacao', '6')">Cautelado</p>
                   </div>
                   <input id="hidden-situacao" name="hidden-situacao" type="hidden" value="">
                </div>
@@ -336,7 +333,7 @@
    </div>
    <footer id="FlexContainer2" style="visibility:hidden;">
       <div id="wb_Text1">
-         <p>Desenvolvido por Lucas Trindade Silveira © 2024 - v1.0</p>
+         <p>Desenvolvido por Lucas Trindade Silveira © 2026 - v1.0</p>
       </div>
    </footer>
 </body>

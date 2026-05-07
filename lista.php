@@ -126,7 +126,7 @@
     </div>
     <footer id="FlexContainer2" style="visibility:hidden;">
         <div id="wb_Text1">
-            <p>Desenvolvido por Lucas Trindade Silveira © 2024 - v1.0</p>
+            <p>Desenvolvido por Lucas Trindade Silveira © 2026 - v1.0</p>
         </div>
     </footer>
     <script src="javascript/suggestions.js"></script>

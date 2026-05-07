@@ -53,7 +53,9 @@ async function carregarCard(nomeArquivo, blocoId) {
     // Título do card
     const tituloSpan = document.createElement("span");
     tituloSpan.textContent = dados.titulo;
+    tituloSpan.classList.add("fit-text");
     titulo.appendChild(tituloSpan);
+    fontObserver.observe(titulo);
 
     // Botão de gráfico (se for gráfico)
     let tipoGraficoAtual = null;
@@ -164,9 +166,10 @@ function criarGraficoNoCard(divBloco, grafico) {
     grafico.labels.forEach((label, i) => {
       const item = document.createElement("div");
       item.className = "legenda-item";
-      item.innerHTML = `<span class="legenda-cor" style="background:${grafico.cores[i]}"></span>${label}`;
+      item.innerHTML = `<span class="legenda-cor fit-text" style="background:${grafico.cores[i]}"></span>${label}`;
       legenda.appendChild(item);
     });
+    fontObserver.observe(legenda);
     const totalDiv = document.createElement("div");
     totalDiv.className = "legenda-item";
     totalDiv.innerHTML = `<b>TOTAL: ${grafico.total}</b>`;
